@@ -3,18 +3,56 @@ name: Slatewave for Logseq
 shortName: Logseq
 slug: logseq
 category: notes
-tagline: Slatewave as a custom CSS theme for Logseq.
+tagline: A Slatewave-tuned Logseq outliner, dark-only with the full palette.
 summary: >-
-  Planned — a Slatewave `custom.css` for Logseq, tuning block references,
-  tags, outliner indents, and graph view to the Slatewave palette.
-status: planned
-order: 300
-accent: '#b388ff'
+  A dark Logseq theme written against the `--ls-*` CSS variable API —
+  headings, bullets, block refs, tags, task markers, and code blocks all
+  mapped to the Slatewave palette for continuity with the editor and
+  terminal.
+status: beta
+order: 60
+accent: '#38bdf8'
 repo:
   owner: kevinlangleyjr
   name: logseq-slatewave
-  url: https://logseq.com
-tags: [notes, planned]
+  url: https://github.com/kevinlangleyjr/logseq-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: markdown
+  sample: |
+    - TODO Ship Slatewave site Phase 5
+    - DOING Wire the Logseq theme preview
+    - DONE  Publish ghostty-slatewave
+    - WAITING on feedback for iTerm2 cursor-guide
+
+    ## Headings are teal
+
+    - Bullets render in pink `#fb7185`
+      - Nested items hold the rose marker
+    - External links sit in [sky](https://example.com)
+    - Block refs use ((dashed-sky-underline))
+    - Tags travel inline: #slatewave #theme
+
+    ```ts
+    const accent = "#5eead4"; // teal-300, the primary signal
+    ```
+install:
+  - label: From a local clone
+    description: Logseq doesn't auto-load Marketplace themes until they're published, so clone the repo and load it as an unpacked plugin for now.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/logseq-slatewave ~/logseq-plugins/logseq-slatewave
+      - In Logseq, open ⋯ → Plugins → Load unpacked plugin and select the cloned folder
+      - Open Settings → Themes and pick **Slatewave Dark**
+  - label: Marketplace
+    description: Coming soon — not yet published to the Logseq theme marketplace.
+tags: [notes, outliner, logseq]
 ---
 
-Planned — not yet available.
+Slatewave for Logseq is built on the `--ls-*` variable API rather than
+overriding upstream theme rules, so upgrades stay clean. The theme
+maps headings in a teal cascade (H1–H3 teal-300, H4 teal-200, H5
+sky-300, H6 purple), uses rose markers for bullets, and tunes task
+markers (`TODO`, `DOING`, `DONE`, `WAITING`) to their semantic colors.
+
+Dark mode only — same convention as every other Slatewave theme.
