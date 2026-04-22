@@ -269,11 +269,13 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     list-style: none;
     padding: 0;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
     margin-top: var(--space-5);
   }
 
   .install-item {
+    min-width: 0;
     padding: var(--space-5);
     background: var(--bg-raised);
     border: 1px solid var(--border);
@@ -304,7 +306,12 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     overflow-x: auto;
+    max-width: 100%;
     font-size: var(--fs-sm);
+  }
+
+  .install-cmd code {
+    white-space: pre;
   }
 
   .install-item ol {
