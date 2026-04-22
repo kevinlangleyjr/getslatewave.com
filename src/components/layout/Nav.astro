@@ -1,0 +1,117 @@
+---
+import ThemeToggle from '~/components/ui/ThemeToggle.astro';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/') || pathname.startsWith(href);
+
+const links = [
+  { href: '/themes/', label: 'Themes' },
+];
+---
+
+<header class="site-nav">
+  <div class="container nav-inner">
+    <a class="brand" href="/" aria-label="Slatewave home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Slatewave</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul>
+        {links.map(({ href, label }) => (
+          <li>
+            <a href={href} class:list={['nav-link', { active: isActive(href) }]}>{label}</a>
+          </li>
+        ))}
+        <li>
+          <a
+            class="nav-link"
+            href="https://github.com/kevinlangleyjr?tab=repositories&q=slatewave"
+            rel="me noopener"
+            target="_blank"
+          >
+            GitHub
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: saturate(160%) blur(12px);
+    background: color-mix(in oklab, var(--bg-base) 80%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    min-height: 64px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .brand:hover {
+    color: var(--fg-default);
+  }
+
+  .brand-mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background:
+      linear-gradient(135deg, var(--sw-wave-400), var(--sw-accent)),
+      var(--bg-raised);
+    box-shadow: 0 0 0 1px var(--border) inset;
+  }
+
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav-link {
+    display: inline-block;
+    padding: var(--space-2) var(--space-3);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    border-radius: var(--radius-md);
+  }
+
+  .nav-link:hover {
+    color: var(--fg-default);
+    background: var(--bg-raised);
+  }
+
+  .nav-link.active {
+    color: var(--fg-default);
+    background: var(--accent-soft);
+  }
+
+  @media (max-width: 640px) {
+    .nav-link {
+      padding: var(--space-2);
+    }
+    .brand-name {
+      display: none;
+    }
+  }
+</style>

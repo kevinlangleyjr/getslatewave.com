@@ -1,0 +1,56 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string | URL;
+  ogImage?: string;
+}
+
+const { title, description, canonical, ogImage } = Astro.props;
+
+const site = Astro.site?.toString() ?? 'https://slatewave.dev/';
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site).toString();
+const ogImageUrl = new URL(ogImage ?? '/og/default.png', site).toString();
+
+const fullTitle = title === 'Slatewave' ? title : `${title} — Slatewave`;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Slatewave" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#1a1b26" />
+
+<script is:inline>
+  (() => {
+    try {
+      const stored = localStorage.getItem('slatewave-theme');
+      const theme = stored === 'light' || stored === 'dark'
+        ? stored
+        : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.dataset.theme = theme;
+    } catch {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  })();
+</script>

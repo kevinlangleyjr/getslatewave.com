@@ -1,0 +1,327 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '~/layouts/Base.astro';
+import Badge from '~/components/ui/Badge.astro';
+
+export async function getStaticPaths() {
+  const themes = await getCollection('themes', ({ data }) => data.status !== 'planned');
+  return themes.map((theme) => ({
+    params: { slug: theme.data.slug },
+    props: { theme },
+  }));
+}
+
+interface Props {
+  theme: CollectionEntry<'themes'>;
+}
+
+const { theme } = Astro.props;
+const { data } = theme;
+const { Content } = await render(theme);
+
+const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
+---
+
+<Base title={data.name} description={data.summary}>
+  <article class="theme-page" style={accentStyle}>
+    <header class="hero">
+      <div class="container">
+        <p class="eyebrow">{data.category}</p>
+        <h1>{data.name}</h1>
+        <p class="tagline">{data.tagline}</p>
+        <div class="meta">
+          <Badge tone={data.status}>{data.status}</Badge>
+          <a href={data.repo.url} rel="noopener" target="_blank" class="repo-link">
+            {data.repo.owner}/{data.repo.name} ↗
+          </a>
+          {data.links.marketplace && (
+            <a href={data.links.marketplace} rel="noopener" target="_blank" class="repo-link">
+              Marketplace ↗
+            </a>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container narrow">
+        <div class="preview sw-frame">
+          {data.preview.kind === 'code' && (
+            <div class="preview-code">
+              <div class="preview-chrome" aria-hidden="true">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+                <span class="preview-lang">{data.preview.language}</span>
+              </div>
+              <pre><code>{data.preview.sample}</code></pre>
+            </div>
+          )}
+
+          {data.preview.kind === 'terminal' && (
+            <div class="preview-terminal">
+              <div class="preview-chrome" aria-hidden="true">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+              </div>
+              <div class="terminal-body">
+                {data.preview.lines.map((line, i) => (
+                  <div class="line">
+                    <span class="prompt">{i === 0 ? '' : data.preview.prompt}</span>
+                    <span>{line}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {data.preview.kind === 'image' && (
+            <img src={data.preview.image.src} alt={data.preview.alt} loading="eager" />
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container narrow prose">
+        <h2>About this theme</h2>
+        <p class="summary">{data.summary}</p>
+        <Content />
+      </div>
+    </section>
+
+    <section class="section install-section">
+      <div class="container narrow">
+        <h2>Install</h2>
+        <ul class="install-list">
+          {data.install.map((method) => (
+            <li class="install-item">
+              <header>
+                <h3>{method.label}</h3>
+                {method.link && (
+                  <a href={method.link} rel="noopener" target="_blank">Open ↗</a>
+                )}
+              </header>
+              {method.description && <p class="muted">{method.description}</p>}
+              {method.command && (
+                <pre class="install-cmd"><code>{method.command}</code></pre>
+              )}
+              {method.steps && (
+                <ol>
+                  {method.steps.map((step) => <li>{step}</li>)}
+                </ol>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .theme-page {
+    --page-accent: var(--accent);
+  }
+
+  .hero {
+    padding-block: var(--space-16) var(--space-10);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: -20% 40% 0 -10%;
+    background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--page-accent) 20%, transparent), transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .hero .container {
+    position: relative;
+  }
+
+  .hero h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .tagline {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+    max-width: 42rem;
+  }
+
+  .meta {
+    margin-top: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .repo-link {
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+  }
+
+  .repo-link:hover {
+    color: var(--page-accent);
+  }
+
+  .section {
+    padding-block: var(--space-8);
+  }
+
+  .install-section {
+    padding-bottom: var(--space-16);
+  }
+
+  .narrow {
+    max-width: 48rem;
+  }
+
+  .preview {
+    background: var(--bg-inset);
+  }
+
+  .preview-chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border-strong);
+  }
+
+  .dot-r { background: #f7768e; }
+  .dot-y { background: #e0af68; }
+  .dot-g { background: #9ece6a; }
+
+  .preview-lang {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .preview-code pre {
+    margin: 0;
+    padding: var(--space-5);
+    overflow-x: auto;
+    color: var(--fg-default);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-normal);
+  }
+
+  .preview-terminal .terminal-body {
+    padding: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+  }
+
+  .preview-terminal .line {
+    display: flex;
+    gap: var(--space-2);
+    white-space: pre;
+  }
+
+  .preview-terminal .prompt {
+    color: var(--page-accent);
+    min-width: 1ch;
+  }
+
+  .prose h2 {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+  }
+
+  .prose p {
+    color: var(--fg-muted);
+    margin-top: var(--space-3);
+  }
+
+  .prose .summary {
+    font-size: var(--fs-md);
+    color: var(--fg-default);
+  }
+
+  .install-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  .install-item {
+    padding: var(--space-5);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .install-item header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+  }
+
+  .install-item h3 {
+    font-size: var(--fs-md);
+    font-weight: 600;
+  }
+
+  .install-item header a {
+    font-size: var(--fs-sm);
+    color: var(--page-accent);
+  }
+
+  .install-cmd {
+    margin-top: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    font-size: var(--fs-sm);
+  }
+
+  .install-item ol {
+    margin-top: var(--space-3);
+    padding-left: var(--space-5);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .muted {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  h2 {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+  }
+</style>

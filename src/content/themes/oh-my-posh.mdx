@@ -1,0 +1,41 @@
+---
+name: Slatewave for Oh My Posh
+shortName: Oh My Posh
+slug: oh-my-posh
+category: terminal
+tagline: A prompt theme that carries the Slatewave palette to your terminal.
+summary: >-
+  An Oh My Posh configuration that mirrors Slatewave's editor palette so your
+  terminal and editor feel like two views of the same environment.
+status: beta
+featured: true
+order: 20
+accent: '#9ece6a'
+repo:
+  owner: kevinlangleyjr
+  name: slatewave-omp
+  url: https://github.com/kevinlangleyjr/slatewave-omp
+preview:
+  kind: terminal
+  prompt: '❯'
+  lines:
+    - '~/Development/getslatewave  main '
+    - 'astro build'
+    - '▲ building client for production...'
+    - '✓ 42 modules transformed.'
+install:
+  - label: CLI
+    description: Pull the theme directly with curl.
+    command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/slatewave-omp/main/slatewave.omp.json -o ~/.config/oh-my-posh/slatewave.omp.json
+  - label: Activate
+    description: Point Oh My Posh at the theme in your shell config.
+    steps:
+      - Install Oh My Posh (https://ohmyposh.dev)
+      - Add `eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/slatewave.omp.json)"` to your shell rc
+      - Restart your shell
+tags: [terminal, prompt, zsh, bash, pwsh]
+---
+
+Slatewave for Oh My Posh matches the editor theme's accent colors so the
+transition between editor and terminal feels continuous. Works in zsh,
+bash, fish, and PowerShell.

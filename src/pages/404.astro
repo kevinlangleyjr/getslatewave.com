@@ -1,0 +1,36 @@
+---
+import Base from '~/layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page isn't part of Slatewave.">
+  <section class="container not-found">
+    <p class="eyebrow">404</p>
+    <h1>This route isn't themed.</h1>
+    <p>The page you're looking for doesn't exist.</p>
+    <p>
+      <a class="link" href="/">Back to home →</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    padding-block: var(--space-20) var(--space-24);
+  }
+
+  h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+  }
+
+  .link {
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+import '~/styles/global.css';
+import Head from '~/components/layout/Head.astro';
+import Nav from '~/components/layout/Nav.astro';
+import Footer from '~/components/layout/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+}
+
+const { title, description, canonical, ogImage } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Head title={title} description={description} canonical={canonical} ogImage={ogImage} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style is:global>
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+      }
+      .skip-link:focus {
+        left: var(--space-4);
+        top: var(--space-4);
+        padding: var(--space-2) var(--space-3);
+        background: var(--bg-raised);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-md);
+        z-index: 100;
+      }
+    </style>
+  </body>
+</html>

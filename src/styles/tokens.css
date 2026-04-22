@@ -1,0 +1,96 @@
+/*
+ * Slatewave design tokens.
+ * Raw palette values are a placeholder until synced from vscode-slatewave's
+ * color theme JSON. Semantic roles below are the stable API consumed by
+ * component styles — change the raw values, not the role names.
+ */
+
+:root {
+  /* raw palette — placeholder, sync with vscode-slatewave */
+  --sw-slate-50: #e6e9ef;
+  --sw-slate-100: #c0caf5;
+  --sw-slate-200: #a9b1d6;
+  --sw-slate-400: #7982a9;
+  --sw-slate-500: #565f89;
+  --sw-slate-700: #2e3349;
+  --sw-slate-800: #24283b;
+  --sw-slate-900: #1a1b26;
+  --sw-slate-950: #16161e;
+
+  --sw-wave-300: #9ece6a;
+  --sw-wave-400: #7aa2f7;
+  --sw-wave-500: #5680d6;
+  --sw-wave-600: #3d59a1;
+
+  --sw-accent: #bb9af7;
+  --sw-warn: #e0af68;
+  --sw-error: #f7768e;
+  --sw-ok: #9ece6a;
+
+  /* semantic roles (dark, default) */
+  --bg-base: var(--sw-slate-900);
+  --bg-raised: var(--sw-slate-800);
+  --bg-inset: var(--sw-slate-950);
+  --fg-default: var(--sw-slate-50);
+  --fg-muted: var(--sw-slate-200);
+  --fg-subtle: var(--sw-slate-400);
+  --accent: var(--sw-wave-400);
+  --accent-soft: color-mix(in oklab, var(--accent) 18%, transparent);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px rgba(0, 0, 0, 0.35);
+
+  /* type */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.5rem;
+  --fs-xl: 2rem;
+  --fs-2xl: 3rem;
+  --fs-3xl: 4rem;
+
+  --lh-tight: 1.1;
+  --lh-snug: 1.3;
+  --lh-normal: 1.6;
+
+  /* space (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* layout */
+  --container-max: 72rem;
+  --content-max: 64ch;
+}
+
+:root[data-theme='light'] {
+  --bg-base: #f7f8fb;
+  --bg-raised: #ffffff;
+  --bg-inset: #edeff5;
+  --fg-default: #1a1b26;
+  --fg-muted: #565f89;
+  --fg-subtle: #7982a9;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.16);
+  --accent: var(--sw-wave-600);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 6px 20px rgba(15, 23, 42, 0.08);
+}

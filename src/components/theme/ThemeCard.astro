@@ -1,0 +1,122 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Badge from '~/components/ui/Badge.astro';
+
+interface Props {
+  theme: CollectionEntry<'themes'>;
+}
+
+const { theme } = Astro.props;
+const { data } = theme;
+
+const categoryLabel: Record<typeof data.category, string> = {
+  editor: 'Editor',
+  terminal: 'Terminal',
+  notes: 'Notes',
+  browser: 'Browser',
+  chat: 'Chat',
+  other: 'Other',
+};
+
+const accentStyle = data.accent ? `--card-accent: ${data.accent}` : undefined;
+const isPlanned = data.status === 'planned';
+const href = isPlanned ? data.repo.url : `/themes/${data.slug}/`;
+---
+
+<a class="card" href={href} style={accentStyle}>
+  <header class="card-head">
+    <span class="category">{categoryLabel[data.category]}</span>
+    <Badge tone={data.status}>{data.status}</Badge>
+  </header>
+
+  <div class="card-body">
+    <h3>{data.shortName}</h3>
+    <p class="tagline">{data.tagline}</p>
+  </div>
+
+  <footer class="card-foot">
+    <span class="cta">
+      {isPlanned ? 'View repo' : 'Explore theme'}
+      <span aria-hidden="true">→</span>
+    </span>
+  </footer>
+</a>
+
+<style>
+  .card {
+    --card-accent: var(--accent);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-height: 200px;
+    padding: var(--space-5);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--fg-default);
+    transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 100% at 0% 0%, color-mix(in oklab, var(--card-accent) 18%, transparent), transparent 60%);
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+  }
+
+  .card:hover {
+    border-color: color-mix(in oklab, var(--card-accent) 40%, var(--border));
+    transform: translateY(-2px);
+    color: var(--fg-default);
+  }
+
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .category {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 600;
+  }
+
+  .card-body h3 {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .tagline {
+    margin-top: var(--space-2);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-snug);
+  }
+
+  .card-foot {
+    margin-top: auto;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-sm);
+    color: var(--card-accent);
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+interface Swatch {
+  name: string;
+  value: string;
+  role?: string;
+}
+
+interface Props {
+  swatches?: Swatch[];
+}
+
+const defaultSwatches: Swatch[] = [
+  { name: 'Slate 950', value: '#16161e', role: 'bg.inset' },
+  { name: 'Slate 900', value: '#1a1b26', role: 'bg.base' },
+  { name: 'Slate 800', value: '#24283b', role: 'bg.raised' },
+  { name: 'Slate 500', value: '#565f89', role: 'fg.muted' },
+  { name: 'Slate 50', value: '#e6e9ef', role: 'fg.default' },
+  { name: 'Wave 400', value: '#7aa2f7', role: 'accent' },
+  { name: 'Accent', value: '#bb9af7', role: 'syntax.keyword' },
+  { name: 'Ok', value: '#9ece6a', role: 'syntax.string' },
+  { name: 'Warn', value: '#e0af68', role: 'syntax.number' },
+  { name: 'Error', value: '#f7768e', role: 'syntax.error' },
+];
+
+const { swatches = defaultSwatches } = Astro.props;
+---
+
+<ul class="palette" aria-label="Slatewave palette">
+  {
+    swatches.map((s) => (
+      <li>
+        <span class="chip" style={`background: ${s.value}`} aria-hidden="true" />
+        <span class="meta">
+          <span class="name">{s.name}</span>
+          {s.role && <span class="role">{s.role}</span>}
+          <span class="value">{s.value}</span>
+        </span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-3);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .chip {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  .meta {
+    display: grid;
+    gap: 2px;
+    font-size: var(--fs-xs);
+  }
+
+  .name {
+    font-weight: 600;
+    color: var(--fg-default);
+    font-size: var(--fs-sm);
+  }
+
+  .role {
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+  }
+
+  .value {
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+  }
+</style>
