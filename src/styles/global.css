@@ -60,11 +60,16 @@ samp {
   }
 }
 
+/*
+ * Slatewave preview frame — always renders the dark theme even when the
+ * site is in light mode, because every surface using this class is
+ * previewing Slatewave (dark-only by design).
+ */
 .sw-frame {
-  background: var(--bg-raised);
-  border: 1px solid var(--border);
+  background: var(--sw-slate-chrome);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 
