@@ -3,18 +3,64 @@ name: Slatewave for Alacritty
 shortName: Alacritty
 slug: alacritty
 category: terminal
-tagline: The Slatewave palette for Alacritty's GPU-accelerated terminal.
+tagline: Slatewave for Alacritty — palette-only or full typography bundle.
 summary: >-
-  Planned — a Slatewave `alacritty.toml` color config covering ANSI, cursor,
-  selection, and primary UI slots.
-status: planned
-order: 110
+  Two TOML files for Alacritty 0.13+ — `slatewave.toml` (palette only,
+  composes with your existing font/window config) or `slatewave-full.toml`
+  (adds Hack Nerd Font Mono at 14pt, block cursor, opaque window).
+  Covers the full color schema: cursor, vi-mode, selection, search,
+  hints, and footer bar.
+status: beta
+order: 80
 accent: '#5eead4'
 repo:
   owner: kevinlangleyjr
   name: alacritty-slatewave
-  url: https://alacritty.org
-tags: [terminal, planned]
+  url: https://github.com/kevinlangleyjr/alacritty-slatewave
+  defaultBranch: main
+links:
+  download: https://raw.githubusercontent.com/kevinlangleyjr/alacritty-slatewave/main/slatewave.toml
+preview:
+  kind: code
+  language: toml
+  sample: |
+    # ~/.config/alacritty/alacritty.toml
+    [general]
+    import = ["~/.config/alacritty/themes/slatewave.toml"]
+
+    [font]
+    normal = { family = "Hack Nerd Font Mono" }
+    size = 14
+
+    [cursor]
+    style = { shape = "Block", blinking = "Off" }
+install:
+  - label: Palette only
+    description: Download slatewave.toml into Alacritty's themes directory, then import it from your main config.
+    command: mkdir -p ~/.config/alacritty/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/alacritty-slatewave/main/slatewave.toml -o ~/.config/alacritty/themes/slatewave.toml
+  - label: Activate
+    description: Add the import to ~/.config/alacritty/alacritty.toml. Alacritty hot-reloads on save — no restart needed.
+    steps:
+      - 'Add `import = ["~/.config/alacritty/themes/slatewave.toml"]` under the `[general]` table'
+      - Save — Alacritty reloads and applies the theme live
+  - label: Palette + typography
+    description: The full bundle imports slatewave.toml then adds Hack Nerd Font Mono, block cursor, and an opaque window. Requires Hack Nerd Font installed.
+    command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/alacritty-slatewave/main/slatewave-full.toml -o ~/.config/alacritty/themes/slatewave-full.toml
+  - label: From a local clone
+    description: Clone and copy both theme files at once.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/alacritty-slatewave
+      - cp alacritty-slatewave/slatewave.toml      ~/.config/alacritty/themes/
+      - cp alacritty-slatewave/slatewave-full.toml ~/.config/alacritty/themes/
+tags: [terminal, alacritty]
 ---
 
-Planned — not yet available.
+Slatewave for Alacritty tunes the full color schema, not just the 16
+ANSI colors: cursor, vi-mode cursor, selection, focused/unfocused
+search matches, keyboard hints, and the footer bar each get a
+semantically-matched Slatewave color. ANSI mapping mirrors the VSCode
+Slatewave terminal block for cross-tool continuity.
+
+The split between `slatewave.toml` (palette) and `slatewave-full.toml`
+(palette + typography) means you can pick up the colors without
+inheriting the font/cursor/window opinions.
