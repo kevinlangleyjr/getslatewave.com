@@ -47,23 +47,25 @@ const themes = defineCollection({
           }),
         )
         .default([]),
-      preview: z.discriminatedUnion('kind', [
-        z.object({
-          kind: z.literal('code'),
-          language: z.string(),
-          sample: z.string(),
-        }),
-        z.object({
-          kind: z.literal('terminal'),
-          prompt: z.string(),
-          lines: z.array(z.string()),
-        }),
-        z.object({
-          kind: z.literal('image'),
-          image: image(),
-          alt: z.string(),
-        }),
-      ]),
+      preview: z
+        .discriminatedUnion('kind', [
+          z.object({
+            kind: z.literal('code'),
+            language: z.string(),
+            sample: z.string(),
+          }),
+          z.object({
+            kind: z.literal('terminal'),
+            prompt: z.string(),
+            lines: z.array(z.string()),
+          }),
+          z.object({
+            kind: z.literal('image'),
+            image: image(),
+            alt: z.string(),
+          }),
+        ])
+        .optional(),
       install: z
         .array(
           z.object({
@@ -74,7 +76,8 @@ const themes = defineCollection({
             link: z.string().url().optional(),
           }),
         )
-        .min(1),
+        .min(1)
+        .optional(),
       tags: z.array(z.string()).default([]),
       related: z.array(reference('themes')).default([]),
     }),
