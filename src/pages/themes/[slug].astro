@@ -4,6 +4,8 @@ import Base from '~/layouts/Base.astro';
 import Badge from '~/components/ui/Badge.astro';
 import CodePreview from '~/components/previews/CodePreview.astro';
 import TerminalPreview from '~/components/previews/TerminalPreview.astro';
+import { fetchRepoMeta } from '~/lib/github';
+import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
 
 export async function getStaticPaths() {
   const themes = await getCollection('themes', ({ data }) => data.status !== 'planned');
@@ -22,6 +24,8 @@ const { data } = theme;
 const { Content } = await render(theme);
 
 const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
+
+const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 ---
 
 <Base title={data.name} description={data.summary}>
@@ -42,6 +46,39 @@ const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
             </a>
           )}
         </div>
+
+        {meta && (meta.stars > 0 || meta.latestRelease || meta.pushedAt) && (
+          <dl class="stats" aria-label="Repository activity">
+            {meta.stars > 0 && (
+              <div class="stat">
+                <dt>Stars</dt>
+                <dd>★ {formatStars(meta.stars)}</dd>
+              </div>
+            )}
+            {meta.latestRelease && (
+              <div class="stat">
+                <dt>Latest release</dt>
+                <dd>
+                  <a
+                    href={meta.latestRelease.url}
+                    rel="noopener"
+                    target="_blank"
+                    title={absoluteDate(meta.latestRelease.publishedAt)}
+                  >
+                    {meta.latestRelease.tag}
+                  </a>
+                  <span class="muted"> · {relativeTime(meta.latestRelease.publishedAt)}</span>
+                </dd>
+              </div>
+            )}
+            {meta.pushedAt && (
+              <div class="stat">
+                <dt>Last commit</dt>
+                <dd>{relativeTime(meta.pushedAt)}</dd>
+              </div>
+            )}
+          </dl>
+        )}
       </div>
     </header>
 
@@ -152,6 +189,46 @@ const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
 
   .repo-link:hover {
     color: var(--page-accent);
+  }
+
+  .stats {
+    margin-top: var(--space-6);
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+    padding: var(--space-4) var(--space-5);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-sm);
+  }
+
+  .stat {
+    display: grid;
+    gap: 2px;
+  }
+
+  .stat dt {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 600;
+  }
+
+  .stat dd {
+    margin: 0;
+    color: var(--fg-default);
+    font-family: var(--font-mono);
+  }
+
+  .stat dd a {
+    color: var(--page-accent);
+  }
+
+  .stat .muted {
+    color: var(--fg-subtle);
+    font-family: var(--font-sans);
   }
 
   .section {
