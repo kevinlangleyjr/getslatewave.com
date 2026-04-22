@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Badge from '~/components/ui/Badge.astro';
+import { fetchRepoMeta } from '~/lib/github';
+import { relativeTime, formatStars } from '~/lib/format';
 
 interface Props {
   theme: CollectionEntry<'themes'>;
@@ -21,9 +23,19 @@ const categoryLabel: Record<typeof data.category, string> = {
 const accentStyle = data.accent ? `--card-accent: ${data.accent}` : undefined;
 const isPlanned = data.status === 'planned';
 const href = isPlanned ? data.repo.url : `/themes/${data.slug}/`;
+
+const meta = isPlanned ? null : await fetchRepoMeta(data.repo.owner, data.repo.name);
+const version = meta?.latestRelease?.tag ?? null;
+const pushedRel = meta?.pushedAt ? relativeTime(meta.pushedAt) : null;
 ---
 
-<a class="card" href={href} style={accentStyle}>
+<a
+  class="card"
+  href={href}
+  style={accentStyle}
+  data-category={data.category}
+  data-status={data.status}
+>
   <header class="card-head">
     <span class="category">{categoryLabel[data.category]}</span>
     <Badge tone={data.status}>{data.status}</Badge>
@@ -35,6 +47,28 @@ const href = isPlanned ? data.repo.url : `/themes/${data.slug}/`;
   </div>
 
   <footer class="card-foot">
+    {meta && (meta.stars > 0 || version || pushedRel) && (
+      <dl class="stats" aria-label="Repository stats">
+        {meta.stars > 0 && (
+          <div class="stat">
+            <dt aria-label="Stars">★</dt>
+            <dd>{formatStars(meta.stars)}</dd>
+          </div>
+        )}
+        {version && (
+          <div class="stat">
+            <dt>Version</dt>
+            <dd class="mono">{version}</dd>
+          </div>
+        )}
+        {pushedRel && (
+          <div class="stat">
+            <dt>Updated</dt>
+            <dd>{pushedRel}</dd>
+          </div>
+        )}
+      </dl>
+    )}
     <span class="cta">
       {isPlanned ? 'View repo' : 'Explore theme'}
       <span aria-hidden="true">→</span>
@@ -48,7 +82,7 @@ const href = isPlanned ? data.repo.url : `/themes/${data.slug}/`;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-    min-height: 200px;
+    min-height: 220px;
     padding: var(--space-5);
     background: var(--bg-raised);
     border: 1px solid var(--border);
@@ -109,6 +143,38 @@ const href = isPlanned ? data.repo.url : `/themes/${data.slug}/`;
 
   .card-foot {
     margin-top: auto;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .stats {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin: 0;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border);
+    font-size: var(--fs-xs);
+  }
+
+  .stat {
+    display: inline-flex;
+    gap: 4px;
+    align-items: baseline;
+    color: var(--fg-subtle);
+  }
+
+  .stat dt {
+    font-weight: 500;
+  }
+
+  .stat dd {
+    color: var(--fg-muted);
+    margin: 0;
+  }
+
+  .stat .mono {
+    font-family: var(--font-mono);
   }
 
   .cta {
