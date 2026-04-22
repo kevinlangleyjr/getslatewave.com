@@ -10,16 +10,19 @@ interface Props {
 }
 
 const defaultSwatches: Swatch[] = [
-  { name: 'Slate 950', value: '#16161e', role: 'bg.inset' },
-  { name: 'Slate 900', value: '#1a1b26', role: 'bg.base' },
-  { name: 'Slate 800', value: '#24283b', role: 'bg.raised' },
-  { name: 'Slate 500', value: '#565f89', role: 'fg.muted' },
-  { name: 'Slate 50', value: '#e6e9ef', role: 'fg.default' },
-  { name: 'Wave 400', value: '#7aa2f7', role: 'accent' },
-  { name: 'Accent', value: '#bb9af7', role: 'syntax.keyword' },
-  { name: 'Ok', value: '#9ece6a', role: 'syntax.string' },
-  { name: 'Warn', value: '#e0af68', role: 'syntax.number' },
-  { name: 'Error', value: '#f7768e', role: 'syntax.error' },
+  { name: 'Slate 900', value: '#0f172a', role: 'bg.inset' },
+  { name: 'Slate 800', value: '#1e293b', role: 'bg.elevated' },
+  { name: 'Slate Chrome', value: '#21252b', role: 'bg.raised' },
+  { name: 'Slate Editor', value: '#282c34', role: 'bg.base' },
+  { name: 'Slate 500', value: '#64748b', role: 'fg.faint' },
+  { name: 'Slate 300', value: '#cbd5e1', role: 'fg.muted' },
+  { name: 'Slate 200', value: '#e2e8f0', role: 'fg.default' },
+  { name: 'Teal 300', value: '#5eead4', role: 'accent — signature' },
+  { name: 'Teal 200', value: '#99f6e4', role: 'syntax.string' },
+  { name: 'Sky 400', value: '#38bdf8', role: 'syntax.keyword' },
+  { name: 'Rose 400', value: '#fb7185', role: 'syntax.constant' },
+  { name: 'Purple', value: '#b388ff', role: 'syntax.language' },
+  { name: 'Amber 400', value: '#fbbf24', role: 'syntax.escape' },
 ];
 
 const { swatches = defaultSwatches } = Astro.props;

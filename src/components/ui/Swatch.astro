@@ -1,0 +1,142 @@
+---
+interface Props {
+  name: string;
+  value: string;
+  role?: string;
+  description?: string;
+  size?: 'md' | 'lg';
+}
+
+const { name, value, role, description, size = 'md' } = Astro.props;
+---
+
+<article class:list={['swatch', size]} data-hex={value}>
+  <div class="chip" style={`background: ${value}`} aria-hidden="true"></div>
+  <div class="meta">
+    <div class="row">
+      <span class="name">{name}</span>
+      <button
+        type="button"
+        class="copy"
+        data-hex={value}
+        aria-label={`Copy ${value}`}
+        title="Copy hex"
+      >
+        <span class="hex">{value}</span>
+        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </button>
+    </div>
+    {role && <p class="role">{role}</p>}
+    {description && <p class="description">{description}</p>}
+  </div>
+</article>
+
+<script>
+  document.addEventListener('click', async (event) => {
+    const target = event.target as HTMLElement | null;
+    const btn = target?.closest<HTMLButtonElement>('.swatch .copy');
+    if (!btn) return;
+    const hex = btn.dataset.hex;
+    if (!hex) return;
+    try {
+      await navigator.clipboard.writeText(hex);
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1200);
+    } catch {
+      /* clipboard unavailable, no-op */
+    }
+  });
+</script>
+
+<style>
+  .swatch {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .swatch.lg {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .chip {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+  }
+
+  .swatch.lg .chip {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+  }
+
+  .meta {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .name {
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    color: var(--fg-default);
+  }
+
+  .copy {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+    color: var(--fg-subtle);
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    transition: color 120ms ease, border-color 120ms ease;
+  }
+
+  .copy:hover {
+    color: var(--fg-default);
+    border-color: var(--border-strong);
+  }
+
+  .copy.copied {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .copy.copied .hex::after {
+    content: ' ✓';
+  }
+
+  .role,
+  .description {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    font-family: var(--font-mono);
+  }
+
+  .description {
+    font-family: var(--font-sans);
+  }
+</style>
