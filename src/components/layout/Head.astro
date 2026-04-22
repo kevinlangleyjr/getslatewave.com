@@ -10,7 +10,15 @@ const { title, description, canonical, ogImage } = Astro.props;
 
 const site = Astro.site?.toString() ?? 'https://slatewave.dev/';
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site).toString();
-const ogImageUrl = new URL(ogImage ?? '/og/default.png', site).toString();
+
+function resolveOg(pathname: string, override?: string): string {
+  if (override) return override;
+  const clean = pathname.replace(/^\/|\/$/g, '');
+  if (!clean) return '/og/default.png';
+  return `/og/${clean}.png`;
+}
+
+const ogImageUrl = new URL(resolveOg(Astro.url.pathname, ogImage), site).toString();
 
 const fullTitle = title === 'Slatewave' ? title : `${title} — Slatewave`;
 ---
