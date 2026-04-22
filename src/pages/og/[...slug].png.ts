@@ -107,6 +107,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
         },
       },
     },
+    {
+      params: { slug: 'playground' },
+      props: {
+        input: {
+          eyebrow: 'Playground',
+          title: 'Try the theme, live.',
+          description:
+            'A real Monaco editor loaded with the exact Slatewave TextMate theme — paste your own code and see how it feels.',
+          footer: 'slatewave.dev/playground',
+          accent: '#b388ff',
+        },
+      },
+    },
   ];
 
   return [...staticRoutes, ...themeRoutes, ...docRoutes];
