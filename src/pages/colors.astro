@@ -1,0 +1,172 @@
+---
+import Base from '~/layouts/Base.astro';
+import Swatch from '~/components/ui/Swatch.astro';
+
+const palette = {
+  slate: [
+    { name: 'Slate 200', value: '#e2e8f0', role: 'fg.default' },
+    { name: 'Slate 300', value: '#cbd5e1', role: 'fg.muted' },
+    { name: 'Slate 400', value: '#94a3b8', role: 'fg.subtle' },
+    { name: 'Slate 500', value: '#64748b', role: 'fg.faint' },
+    { name: 'Slate 600', value: '#475569' },
+    { name: 'Slate 700', value: '#334155' },
+    { name: 'Slate Editor', value: '#282c34', role: 'bg.base' },
+    { name: 'Slate Chrome', value: '#21252b', role: 'bg.raised' },
+    { name: 'Slate 800', value: '#1e293b', role: 'bg.elevated' },
+    { name: 'Slate 900', value: '#0f172a', role: 'bg.inset' },
+  ],
+  teal: [
+    { name: 'Teal 200', value: '#99f6e4', role: 'syntax.string' },
+    { name: 'Teal 300', value: '#5eead4', role: 'accent — signature' },
+    { name: 'Teal 400', value: '#2dd4bf' },
+    { name: 'Teal 700', value: '#0f766e', role: 'button.bg' },
+  ],
+  accents: [
+    { name: 'Sky 300', value: '#7dd3fc', role: 'syntax.function' },
+    { name: 'Sky 400', value: '#38bdf8', role: 'syntax.keyword' },
+    { name: 'Rose 400', value: '#fb7185', role: 'syntax.constant / error' },
+    { name: 'Purple', value: '#b388ff', role: 'syntax.language' },
+    { name: 'Amber 400', value: '#fbbf24', role: 'syntax.escape / warn' },
+    { name: 'Amber 700', value: '#b45309' },
+  ],
+};
+
+const semanticRoles = [
+  { name: 'bg.base', value: '#282c34', description: 'Primary surface — editor and page body.' },
+  { name: 'bg.raised', value: '#21252b', description: 'Cards, sidebars, elevated chrome.' },
+  { name: 'bg.elevated', value: '#1e293b', description: 'Status bar, input backgrounds.' },
+  { name: 'bg.inset', value: '#0f172a', description: 'Deepest surfaces — inlaid panels.' },
+  { name: 'fg.default', value: '#e2e8f0', description: 'Body text and primary foreground.' },
+  { name: 'fg.muted', value: '#cbd5e1', description: 'Secondary text, labels.' },
+  { name: 'fg.subtle', value: '#94a3b8', description: 'Descriptions, placeholders.' },
+  { name: 'fg.faint', value: '#64748b', description: 'Comments, disabled states.' },
+  { name: 'accent', value: '#5eead4', description: 'Slatewave signature — focus, selection, CTAs.' },
+];
+---
+
+<Base
+  title="Colors"
+  description="The Slatewave palette — semantic roles, raw values, and how syntax tokens map to each accent."
+>
+  <section class="section">
+    <div class="container">
+      <header class="head">
+        <p class="eyebrow">Palette</p>
+        <h1>The Slatewave palette.</h1>
+        <p class="lede">
+          A slate foundation with a teal signature and sky, rose, purple,
+          and amber accents. Click any value to copy it.
+        </p>
+      </header>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container">
+      <header class="section-head">
+        <h2>Semantic roles</h2>
+        <p>The stable API consumed by the site's component styles. Prefer these over raw colors.</p>
+      </header>
+      <div class="grid">
+        {semanticRoles.map((r) => (
+          <Swatch name={r.name} value={r.value} description={r.description} size="lg" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container">
+      <header class="section-head">
+        <h2>Slate foundation</h2>
+        <p>The base scale. Every Slatewave surface is built from these.</p>
+      </header>
+      <div class="grid compact">
+        {palette.slate.map((s) => (
+          <Swatch name={s.name} value={s.value} role={s.role} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container">
+      <header class="section-head">
+        <h2>Teal signature</h2>
+        <p>The Slatewave accent — used for focus, selection, buttons, and the primary signal.</p>
+      </header>
+      <div class="grid compact">
+        {palette.teal.map((s) => (
+          <Swatch name={s.name} value={s.value} role={s.role} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="container">
+      <header class="section-head">
+        <h2>Accents</h2>
+        <p>Sky, rose, purple, and amber — carrying semantic meaning in syntax highlighting.</p>
+      </header>
+      <div class="grid compact">
+        {palette.accents.map((s) => (
+          <Swatch name={s.name} value={s.value} role={s.role} />
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section {
+    padding-block: var(--space-12);
+  }
+
+  .section.tight {
+    padding-block: var(--space-6) var(--space-10);
+  }
+
+  .head {
+    max-width: 48rem;
+    padding-block: var(--space-8);
+  }
+
+  .head h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+  }
+
+  .section-head {
+    margin-bottom: var(--space-5);
+  }
+
+  .section-head h2 {
+    font-size: var(--fs-lg);
+    font-weight: 600;
+  }
+
+  .section-head p {
+    margin-top: var(--space-2);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .grid.compact {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+</style>
