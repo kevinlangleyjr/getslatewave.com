@@ -1,0 +1,86 @@
+---
+import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import type { BundledLanguage } from 'shiki';
+
+interface Props {
+  code: string;
+  language: string;
+  label?: string;
+  showChrome?: boolean;
+}
+
+const { code, language, label, showChrome = true } = Astro.props;
+
+const highlighter = await getHighlighter();
+const loadedLangs = highlighter.getLoadedLanguages();
+const lang = (loadedLangs.includes(language as BundledLanguage) ? language : 'text') as BundledLanguage | 'text';
+
+if (lang !== 'text' && !loadedLangs.includes(lang)) {
+  await highlighter.loadLanguage(lang as BundledLanguage);
+}
+
+const html = highlighter.codeToHtml(code.trimEnd(), {
+  lang,
+  theme: slatewaveThemeName,
+});
+---
+
+<figure class="code-preview sw-frame">
+  {showChrome && (
+    <header class="chrome" aria-hidden="true">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+      {(label || language) && <span class="label">{label ?? language}</span>}
+    </header>
+  )}
+  <div class="code-body" set:html={html} />
+</figure>
+
+<style>
+  .code-preview {
+    background: var(--bg-base);
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border-strong);
+  }
+
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .label {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .code-body :global(pre) {
+    margin: 0;
+    padding: var(--space-5);
+    overflow-x: auto;
+    font-size: var(--fs-sm);
+    line-height: var(--lh-normal);
+    background: transparent !important;
+  }
+
+  .code-body :global(code) {
+    font-family: var(--font-mono);
+  }
+</style>
