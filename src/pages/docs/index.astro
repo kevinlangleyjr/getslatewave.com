@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '~/layouts/Base.astro';
+
+const docs = (await getCollection('docs', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Docs"
+  description="Documentation for the Slatewave palette, design principles, and contributing guide."
+>
+  <section class="section container">
+    <header class="head">
+      <p class="eyebrow">Docs</p>
+      <h1>Design the palette, document the rest.</h1>
+      <p class="lede">
+        Reference material for the Slatewave color system — the palette itself,
+        its design tenets, and how to contribute a new theme.
+      </p>
+    </header>
+
+    <ul class="doc-grid">
+      {docs.map((doc) => (
+        <li>
+          <a class="doc-card" href={`/docs/${doc.id}/`}>
+            <h2>{doc.data.title}</h2>
+            <p>{doc.data.description}</p>
+            <span class="cta">Read <span aria-hidden="true">→</span></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .section {
+    padding-block: var(--space-12) var(--space-16);
+  }
+
+  .head {
+    max-width: 44rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .head h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+  }
+
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+  }
+
+  .doc-card {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+
+  .doc-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    color: var(--fg-default);
+  }
+
+  .doc-card h2 {
+    font-size: var(--fs-md);
+    font-weight: 600;
+    color: var(--fg-default);
+  }
+
+  .doc-card p {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--accent);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,113 @@
+---
+import Base from '~/layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+}
+
+const { title, description, slug } = Astro.props;
+
+const docs = (await getCollection('docs', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title={title} description={description}>
+  <div class="doc-shell container">
+    <aside class="sidebar" aria-label="Docs navigation">
+      <p class="eyebrow">Docs</p>
+      <nav>
+        <ul>
+          {docs.map((doc) => (
+            <li>
+              <a
+                href={`/docs/${doc.id}/`}
+                class:list={['doc-link', { active: doc.id === slug }]}
+              >
+                {doc.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+
+    <article class="doc-content prose">
+      <header class="doc-header">
+        <h1>{title}</h1>
+        <p class="doc-description">{description}</p>
+      </header>
+      <slot />
+    </article>
+  </div>
+</Base>
+
+<style>
+  .doc-shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-10);
+    padding-block: var(--space-10) var(--space-16);
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .doc-shell {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 88px;
+  }
+
+  .sidebar nav ul {
+    margin-top: var(--space-3);
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .doc-link {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .doc-link:hover {
+    background: var(--bg-raised);
+    color: var(--fg-default);
+  }
+
+  .doc-link.active {
+    background: var(--accent-soft);
+    color: var(--fg-default);
+  }
+
+  .doc-content {
+    min-width: 0;
+    max-width: none;
+  }
+
+  .doc-header {
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--space-6);
+  }
+
+  .doc-header h1 {
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+  }
+
+  .doc-description {
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+    margin-top: var(--space-3);
+  }
+</style>
