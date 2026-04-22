@@ -26,15 +26,15 @@ const { tone = 'default' } = Astro.props;
   }
 
   .stable {
-    color: var(--sw-ok);
-    border-color: color-mix(in oklab, var(--sw-ok) 30%, transparent);
-    background: color-mix(in oklab, var(--sw-ok) 10%, transparent);
+    color: var(--status-ok);
+    border-color: color-mix(in oklab, var(--status-ok) 30%, transparent);
+    background: color-mix(in oklab, var(--status-ok) 10%, transparent);
   }
 
   .beta {
-    color: var(--sw-warn);
-    border-color: color-mix(in oklab, var(--sw-warn) 30%, transparent);
-    background: color-mix(in oklab, var(--sw-warn) 10%, transparent);
+    color: var(--status-warn);
+    border-color: color-mix(in oklab, var(--status-warn) 30%, transparent);
+    background: color-mix(in oklab, var(--status-warn) 10%, transparent);
   }
 
   .planned {

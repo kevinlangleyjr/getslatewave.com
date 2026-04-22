@@ -1,44 +1,75 @@
 /*
  * Slatewave design tokens.
- * Raw palette values are a placeholder until synced from vscode-slatewave's
- * color theme JSON. Semantic roles below are the stable API consumed by
- * component styles — change the raw values, not the role names.
+ *
+ * Raw values mirror the authoritative palette defined in
+ * vscode-slatewave/themes/slatewave-color-theme.json. When the theme
+ * there changes, update the raw palette here to match.
+ *
+ * Semantic role tokens are the stable API consumed by component styles —
+ * change raw values, not role names.
  */
 
 :root {
-  /* raw palette — placeholder, sync with vscode-slatewave */
-  --sw-slate-50: #e6e9ef;
-  --sw-slate-100: #c0caf5;
-  --sw-slate-200: #a9b1d6;
-  --sw-slate-400: #7982a9;
-  --sw-slate-500: #565f89;
-  --sw-slate-700: #2e3349;
-  --sw-slate-800: #24283b;
-  --sw-slate-900: #1a1b26;
-  --sw-slate-950: #16161e;
+  /* raw palette — Tailwind slate + accents, mirrored from Slatewave */
+  --sw-slate-200: #e2e8f0;
+  --sw-slate-300: #cbd5e1;
+  --sw-slate-400: #94a3b8;
+  --sw-slate-500: #64748b;
+  --sw-slate-600: #475569;
+  --sw-slate-700: #334155;
+  --sw-slate-800: #1e293b;
+  --sw-slate-900: #0f172a;
+  --sw-slate-editor: #282c34;  /* editor bg — one shade above slate-800 */
+  --sw-slate-chrome: #21252b;  /* sidebar/activity chrome — deeper still */
 
-  --sw-wave-300: #9ece6a;
-  --sw-wave-400: #7aa2f7;
-  --sw-wave-500: #5680d6;
-  --sw-wave-600: #3d59a1;
+  /* signature */
+  --sw-teal-200: #99f6e4;
+  --sw-teal-300: #5eead4;
+  --sw-teal-400: #2dd4bf;
+  --sw-teal-700: #0f766e;
 
-  --sw-accent: #bb9af7;
-  --sw-warn: #e0af68;
-  --sw-error: #f7768e;
-  --sw-ok: #9ece6a;
+  /* accents */
+  --sw-sky-300: #7dd3fc;
+  --sw-sky-400: #38bdf8;
+  --sw-rose-400: #fb7185;
+  --sw-purple: #b388ff;
+  --sw-amber-400: #fbbf24;
+  --sw-amber-700: #b45309;
 
   /* semantic roles (dark, default) */
-  --bg-base: var(--sw-slate-900);
-  --bg-raised: var(--sw-slate-800);
-  --bg-inset: var(--sw-slate-950);
-  --fg-default: var(--sw-slate-50);
-  --fg-muted: var(--sw-slate-200);
+  --bg-base: var(--sw-slate-editor);
+  --bg-raised: var(--sw-slate-chrome);
+  --bg-inset: var(--sw-slate-900);
+  --bg-elevated: var(--sw-slate-800);
+
+  --fg-default: var(--sw-slate-200);
+  --fg-muted: var(--sw-slate-300);
   --fg-subtle: var(--sw-slate-400);
-  --accent: var(--sw-wave-400);
-  --accent-soft: color-mix(in oklab, var(--accent) 18%, transparent);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  --fg-faint: var(--sw-slate-500);
+
+  --accent: var(--sw-teal-300);
+  --accent-hover: var(--sw-teal-200);
+  --accent-soft: color-mix(in oklab, var(--sw-teal-300) 20%, transparent);
+  --accent-ink: var(--sw-slate-900);
+
+  --border: color-mix(in oklab, var(--sw-slate-200) 8%, transparent);
+  --border-strong: color-mix(in oklab, var(--sw-slate-200) 16%, transparent);
   --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px rgba(0, 0, 0, 0.35);
+
+  /* syntax roles — used for mini previews outside Shiki */
+  --syntax-comment: var(--sw-slate-500);
+  --syntax-string: var(--sw-teal-200);
+  --syntax-keyword: var(--sw-sky-400);
+  --syntax-constant: var(--sw-rose-400);
+  --syntax-number: var(--sw-rose-400);
+  --syntax-language: var(--sw-purple);
+  --syntax-function: var(--sw-sky-300);
+  --syntax-escape: var(--sw-amber-400);
+
+  /* status */
+  --status-ok: var(--sw-teal-300);
+  --status-warn: var(--sw-amber-400);
+  --status-error: var(--sw-rose-400);
 
   /* type */
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -83,14 +114,22 @@
 }
 
 :root[data-theme='light'] {
-  --bg-base: #f7f8fb;
+  --bg-base: #f8fafc;           /* slate-50 */
   --bg-raised: #ffffff;
-  --bg-inset: #edeff5;
-  --fg-default: #1a1b26;
-  --fg-muted: #565f89;
-  --fg-subtle: #7982a9;
-  --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.16);
-  --accent: var(--sw-wave-600);
-  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 6px 20px rgba(15, 23, 42, 0.08);
+  --bg-inset: #f1f5f9;           /* slate-100 */
+  --bg-elevated: #e2e8f0;        /* slate-200 */
+
+  --fg-default: var(--sw-slate-900);
+  --fg-muted: var(--sw-slate-700);
+  --fg-subtle: var(--sw-slate-500);
+  --fg-faint: var(--sw-slate-400);
+
+  --accent: var(--sw-teal-700);
+  --accent-hover: var(--sw-teal-400);
+  --accent-soft: color-mix(in oklab, var(--sw-teal-300) 28%, transparent);
+  --accent-ink: #ffffff;
+
+  --border: color-mix(in oklab, var(--sw-slate-900) 10%, transparent);
+  --border-strong: color-mix(in oklab, var(--sw-slate-900) 20%, transparent);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 6px 20px rgba(15, 23, 42, 0.08);
 }
