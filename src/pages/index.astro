@@ -3,11 +3,25 @@ import { getCollection } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 import ThemeCard from '~/components/theme/ThemeCard.astro';
 import PaletteStrip from '~/components/ui/PaletteStrip.astro';
+import CodePreview from '~/components/previews/CodePreview.astro';
 
 const themes = (await getCollection('themes'))
   .sort((a, b) => a.data.order - b.data.order);
 
 const featured = themes.filter((t) => t.data.featured);
+
+const heroSample = `// slatewave/palette.ts
+export const accent = '#5eead4';
+
+export interface Theme {
+  name: string;
+  surface: 'editor' | 'terminal' | 'notes';
+}
+
+export function apply(theme: Theme): string {
+  return \`\${theme.name} on \${theme.surface}\`;
+}
+`;
 ---
 
 <Base
@@ -33,6 +47,10 @@ const featured = themes.filter((t) => t.data.featured);
         >
           View on GitHub
         </a>
+      </div>
+
+      <div class="hero-preview">
+        <CodePreview code={heroSample} language="typescript" label="palette.ts" />
       </div>
     </div>
   </section>
@@ -80,7 +98,7 @@ const featured = themes.filter((t) => t.data.featured);
         </li>
         <li>
           <h3>Open</h3>
-          <p>Every theme lives in its own public repo under a permissive license.</p>
+          <p>Every theme lives in its own public repo under the WTFPL — do what you want with it.</p>
         </li>
       </ul>
     </div>
@@ -138,6 +156,11 @@ const featured = themes.filter((t) => t.data.featured);
     flex-wrap: wrap;
   }
 
+  .hero-preview {
+    margin-top: var(--space-12);
+    max-width: 46rem;
+  }
+
   .btn {
     display: inline-flex;
     align-items: center;
@@ -151,12 +174,12 @@ const featured = themes.filter((t) => t.data.featured);
 
   .btn-primary {
     background: var(--accent);
-    color: var(--sw-slate-950);
+    color: var(--accent-ink);
   }
 
   .btn-primary:hover {
     background: color-mix(in oklab, var(--accent) 85%, white);
-    color: var(--sw-slate-950);
+    color: var(--accent-ink);
   }
 
   .btn-ghost {
