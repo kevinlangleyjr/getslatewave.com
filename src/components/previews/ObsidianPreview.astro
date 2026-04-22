@@ -1,0 +1,415 @@
+---
+/**
+ * Pure HTML/CSS rendering of Obsidian with the Slatewave theme —
+ * left file tree, center note, right outline. Colors mirror the
+ * Obsidian Slatewave CSS so this previews the actual theme surface
+ * rather than a generic "notes app" abstraction.
+ */
+---
+
+<figure class="obs-preview sw-frame" aria-label="Slatewave Obsidian theme preview">
+  <header class="chrome" aria-hidden="true">
+    <span class="dot dot-r"></span>
+    <span class="dot dot-y"></span>
+    <span class="dot dot-g"></span>
+    <span class="title-bar">Slatewave Preview</span>
+  </header>
+
+  <div class="shell">
+    <!-- Left: file tree -->
+    <aside class="pane pane-left">
+      <div class="pane-icons" aria-hidden="true">
+        <span class="pane-icon active"></span>
+        <span class="pane-icon"></span>
+        <span class="pane-icon"></span>
+        <span class="pane-icon"></span>
+        <span class="pane-icon"></span>
+        <span class="pane-icon"></span>
+        <span class="pane-icon"></span>
+      </div>
+      <div class="file-tree">
+        <div class="file-item collapsed">
+          <span class="caret">›</span>
+          <span class="file-name">Excalidraw</span>
+        </div>
+        <div class="file-item collapsed">
+          <span class="caret">›</span>
+          <span class="file-name">Personal</span>
+        </div>
+        <div class="file-item collapsed">
+          <span class="caret">›</span>
+          <span class="file-name">Work</span>
+        </div>
+        <div class="file-item active">
+          <span class="file-name">Slatewave Preview</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: note -->
+    <article class="pane pane-note">
+      <div class="line"><h1>Slatewave Preview</h1></div>
+      <div class="line"></div>
+      <div class="line"><h2>Headings</h2></div>
+      <div class="line"></div>
+      <div class="line">
+        <p>
+          Plain body text sits at <code>#e2e8f0</code> over the slate editor.
+          <strong>Bold brightens toward <code>#f1f5f9</code></strong> so
+          emphasis reads clearly. <em>Italics shift muted toward</em>
+          <code>#cbd5e1</code>.
+        </p>
+      </div>
+      <div class="line"></div>
+      <div class="line"><h3>Links and tags</h3></div>
+      <div class="line"></div>
+      <div class="line">
+        <ul class="tight-list">
+          <li>Internal link: <a class="internal-link" href="#">Slatewave Preview</a></li>
+          <li>External: <a class="external-link" href="#">slatewave on GitHub<span class="ext-marker">↗</span></a></li>
+        </ul>
+      </div>
+      <div class="line"></div>
+      <div class="line">
+        <p>
+          Tags travel inline —
+          <span class="tag">#slatewave</span>
+          <span class="tag">#theme/preview</span>
+          <span class="tag">#demo</span>
+        </p>
+      </div>
+      <div class="line"></div>
+      <div class="line"><h3>Lists</h3></div>
+      <div class="line"></div>
+      <div class="line">
+        <ul class="nested-list">
+          <li>First item with a pink marker</li>
+          <li>Second item</li>
+          <li>
+            Nested item (indentation guide on the left)
+            <ul>
+              <li>Deeper still</li>
+            </ul>
+          </li>
+          <li>Back to the root</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- Right: outline -->
+    <aside class="pane pane-right">
+      <p class="pane-title">Outline</p>
+      <ul class="outline">
+        <li class="lvl-1">Slatewave Preview</li>
+        <li class="lvl-2">Headings</li>
+        <li class="lvl-2">Links and tags</li>
+        <li class="lvl-2">Lists</li>
+        <li class="lvl-3">Bulleted</li>
+        <li class="lvl-3">Numbered</li>
+      </ul>
+    </aside>
+  </div>
+</figure>
+
+<style>
+  .obs-preview {
+    background: #1a1d23;
+    font-size: 12px;
+    --teal: #5eead4;
+    --teal-pill: #14b8a6;
+    --teal-pill-fg: #99f6e4;
+    --rose: #fb7185;
+    --purple: #b388ff;
+    --amber: #fbbf24;
+    --sky: #7dd3fc;
+    --slate-fg: #e2e8f0;
+    --slate-muted: #94a3b8;
+    --slate-faint: #64748b;
+    --slate-bg: #1e2127;
+    --slate-bg-raised: #282c34;
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .title-bar {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--slate-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 168px 1fr 168px;
+    min-height: 420px;
+  }
+
+  .pane {
+    padding: 14px;
+    font-family: var(--font-sans);
+    color: var(--slate-fg);
+  }
+
+  .pane-left,
+  .pane-right {
+    background: #16181d;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .pane-right {
+    border-right: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .pane-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .pane-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: rgba(203, 213, 225, 0.12);
+  }
+
+  .pane-icon.active {
+    background: var(--teal);
+  }
+
+  .file-tree {
+    display: grid;
+    gap: 2px;
+    font-size: 11px;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: var(--slate-muted);
+    white-space: nowrap;
+  }
+
+  .file-item .caret {
+    color: var(--slate-faint);
+    display: inline-block;
+    width: 10px;
+  }
+
+  .file-item.active {
+    background: rgba(94, 234, 212, 0.14);
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  /* Note pane */
+  .pane-note {
+    padding: 18px 22px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+
+  .line {
+    position: relative;
+    padding-left: 28px;
+    min-height: 18px;
+  }
+
+  .line::before {
+    content: counter(line-counter);
+    counter-increment: line-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--slate-faint);
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  .pane-note {
+    counter-reset: line-counter;
+  }
+
+  .pane-note h1 {
+    color: var(--teal);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-decoration: underline;
+    text-decoration-color: rgba(94, 234, 212, 0.3);
+    text-underline-offset: 4px;
+  }
+
+  .pane-note h2 {
+    color: var(--teal);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .pane-note h3 {
+    color: var(--teal);
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .pane-note p {
+    font-size: 11.5px;
+    color: var(--slate-fg);
+  }
+
+  .pane-note code {
+    display: inline;
+    padding: 0 4px;
+    background: rgba(94, 234, 212, 0.08);
+    border: 1px solid rgba(94, 234, 212, 0.16);
+    border-radius: 3px;
+    color: var(--teal);
+    font-size: 10.5px;
+    font-family: var(--font-mono);
+  }
+
+  .pane-note strong {
+    color: #f1f5f9;
+    font-weight: 700;
+  }
+
+  .pane-note em {
+    color: #cbd5e1;
+  }
+
+  .tight-list,
+  .nested-list {
+    padding-left: 14px;
+    margin: 0;
+    list-style: none;
+    font-size: 11.5px;
+  }
+
+  .tight-list li,
+  .nested-list li {
+    position: relative;
+  }
+
+  .tight-list li::before,
+  .nested-list li::before {
+    content: '•';
+    color: var(--rose);
+    position: absolute;
+    left: -12px;
+    font-weight: 700;
+  }
+
+  .nested-list ul {
+    padding-left: 16px;
+    list-style: none;
+    border-left: 1px dashed rgba(148, 163, 184, 0.2);
+    margin-left: -4px;
+  }
+
+  .nested-list ul li::before {
+    color: var(--teal);
+  }
+
+  .internal-link {
+    color: var(--teal);
+    text-decoration: underline;
+    text-decoration-color: rgba(94, 234, 212, 0.35);
+    text-underline-offset: 2px;
+  }
+
+  .external-link {
+    color: var(--sky);
+    text-decoration: underline;
+    text-decoration-color: rgba(125, 211, 252, 0.35);
+    text-underline-offset: 2px;
+  }
+
+  .ext-marker {
+    color: var(--slate-faint);
+    margin-left: 2px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    margin: 0 2px;
+    background: rgba(94, 234, 212, 0.14);
+    color: var(--teal);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+  }
+
+  /* Right outline */
+  .pane-title {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate-faint);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .outline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--slate-muted);
+  }
+
+  .outline .lvl-1 {
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  .outline .lvl-2 {
+    padding-left: 10px;
+    color: var(--slate-fg);
+  }
+
+  .outline .lvl-3 {
+    padding-left: 20px;
+    color: var(--slate-muted);
+  }
+
+  @media (max-width: 640px) {
+    .shell {
+      grid-template-columns: 132px 1fr;
+    }
+    .pane-right {
+      display: none;
+    }
+  }
+</style>
