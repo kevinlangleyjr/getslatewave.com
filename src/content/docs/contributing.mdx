@@ -1,0 +1,65 @@
+---
+title: Contributing
+description: How to add a new theme or propose changes to the Slatewave palette.
+order: 30
+---
+
+Slatewave is a small system; contribution should feel small too. There
+are three kinds of contributions:
+
+## 1. Fix or extend an existing theme
+
+Each theme lives in its own repo. Open an issue or PR there:
+
+- [`vscode-slatewave`](https://github.com/kevinlangleyjr/vscode-slatewave)
+- [`slatewave-omp`](https://github.com/kevinlangleyjr/slatewave-omp)
+- [`obsidian-slatewave`](https://github.com/kevinlangleyjr/obsidian-slatewave)
+
+Keep changes aligned with the [palette spec](/docs/palette-spec/). A PR
+that uses teal for something that isn't a signal (focus, selection, CTA)
+is unlikely to land.
+
+## 2. Port Slatewave to a new tool
+
+Before you start:
+
+1. Read the [design principles](/docs/design-principles/)
+2. Read the [palette spec](/docs/palette-spec/) and understand the
+   semantic role and syntax token maps
+3. Make sure the target tool has a theme extension model — Slatewave
+   should work without patching the app itself
+
+Then:
+
+1. Create a new public repo named `<tool>-slatewave` or
+   `slatewave-<tool>`
+2. Mirror the palette via the role mapping, not raw values
+3. Add a `src/content/themes/<slug>.mdx` entry here via PR
+
+## 3. Propose a palette change
+
+The palette itself rarely changes. When it does, the change is proposed
+and applied in [`vscode-slatewave`](https://github.com/kevinlangleyjr/vscode-slatewave)
+first — that's the source of truth. Once merged there, downstream themes
+and this site update to match.
+
+Palette PRs need to articulate:
+
+- What role is changing and why
+- The before/after contrast ratio against the relevant backgrounds
+- How the change propagates to each existing theme
+
+## Website changes
+
+This site lives at
+[`github.com/kevinlangleyjr/getslatewave`](https://github.com/kevinlangleyjr).
+Run locally:
+
+```sh
+pnpm install
+pnpm dev
+```
+
+New themes are added by creating
+`src/content/themes/<slug>.mdx`. The schema is defined in
+`src/content.config.ts` — follow an existing theme as a template.

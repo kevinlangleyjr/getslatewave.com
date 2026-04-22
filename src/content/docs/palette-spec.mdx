@@ -1,0 +1,94 @@
+---
+title: Palette spec
+description: The canonical Slatewave palette — raw values, semantic roles, and syntax token mappings.
+order: 20
+---
+
+The Slatewave palette is a Tailwind-slate foundation with a teal signature
+and sky, rose, purple, and amber accents. Values listed here are the
+source of truth; downstream themes mirror them.
+
+See the [colors page](/colors/) for a visual reference with copy-on-click.
+
+## Raw palette
+
+### Slate foundation
+
+| Name            | Value       | Purpose                              |
+| --------------- | ----------- | ------------------------------------ |
+| Slate 200       | `#e2e8f0`   | Default foreground                   |
+| Slate 300       | `#cbd5e1`   | Muted text, parameters, properties   |
+| Slate 400       | `#94a3b8`   | Descriptions, placeholders           |
+| Slate 500       | `#64748b`   | Comments, line numbers               |
+| Slate 600       | `#475569`   | Secondary buttons hover              |
+| Slate 700       | `#334155`   | Borders, secondary button bg         |
+| Slate Editor    | `#282c34`   | Editor background                    |
+| Slate Chrome    | `#21252b`   | Sidebar, activity bar                |
+| Slate 800       | `#1e293b`   | Status bar, inputs                   |
+| Slate 900       | `#0f172a`   | Deepest surfaces                     |
+
+### Teal (signature)
+
+| Name      | Value      | Purpose                          |
+| --------- | ---------- | -------------------------------- |
+| Teal 200  | `#99f6e4`  | Strings                          |
+| Teal 300  | `#5eead4`  | Accent — focus, selection, CTAs  |
+| Teal 400  | `#2dd4bf`  | Accent hover (light mode)        |
+| Teal 700  | `#0f766e`  | Button background                |
+
+### Accents
+
+| Name        | Value      | Purpose                              |
+| ----------- | ---------- | ------------------------------------ |
+| Sky 300     | `#7dd3fc`  | Function names                       |
+| Sky 400     | `#38bdf8`  | Keywords, control flow, info         |
+| Rose 400    | `#fb7185`  | Constants, numbers, booleans, errors |
+| Purple      | `#b388ff`  | Language built-ins (`this`, `self`)  |
+| Amber 400   | `#fbbf24`  | Escape chars, warnings               |
+| Amber 700   | `#b45309`  | Secondary warning surfaces           |
+
+## Semantic roles
+
+Component styles should consume semantic roles, never raw palette values.
+This keeps theme variants (dark/light) interchangeable.
+
+| Role            | Dark value  | Consumed by                           |
+| --------------- | ----------- | ------------------------------------- |
+| `bg.base`       | `#282c34`   | Page body, editor                     |
+| `bg.raised`     | `#21252b`   | Cards, sidebars                       |
+| `bg.elevated`   | `#1e293b`   | Status bar, inputs                    |
+| `bg.inset`      | `#0f172a`   | Inlaid panels                         |
+| `fg.default`    | `#e2e8f0`   | Body text                             |
+| `fg.muted`      | `#cbd5e1`   | Secondary text                        |
+| `fg.subtle`     | `#94a3b8`   | Descriptions, placeholders            |
+| `fg.faint`      | `#64748b`   | Comments, disabled                    |
+| `accent`        | `#5eead4`   | Focus, selection, primary CTAs        |
+
+## Syntax token map
+
+Each accent carries specific meaning. Breaking this map breaks Slatewave's
+cross-tool coherence.
+
+| Token kind           | Color       | Example                          |
+| -------------------- | ----------- | -------------------------------- |
+| Comment              | Slate 500   | `// a comment`                   |
+| String               | Teal 200    | `"hello"`                        |
+| Number / boolean     | Rose 400    | `42`, `true`, `null`             |
+| Keyword              | Sky 400     | `export`, `return`, `if`         |
+| Function name        | Sky 300     | `greet()`                        |
+| Type / class         | Teal 300    | `interface Theme`                |
+| Constant             | Rose 400    | `MAX_VALUE`                      |
+| Language built-in    | Purple      | `this`, `self`, `super`          |
+| Escape / entity      | Amber 400   | `\n`, `\\`                       |
+
+## Mirroring into a new theme
+
+When adding a new theme (Ghostty, iTerm, Slack, tmux, etc.):
+
+1. Start from `vscode-slatewave/themes/slatewave-color-theme.json`
+2. Map **semantic roles** to the target tool's own role system — not raw
+   colors. If the target only exposes a single `accent` slot, use Teal 300.
+3. Ensure the syntax token map is preserved where the tool supports
+   syntax highlighting.
+4. Open a PR on [this site's repo](https://github.com/kevinlangleyjr)
+   adding a `src/content/themes/<slug>.mdx` entry pointing at the new repo.

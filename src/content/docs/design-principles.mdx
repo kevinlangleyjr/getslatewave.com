@@ -1,0 +1,49 @@
+---
+title: Design principles
+description: The tenets every Slatewave theme is measured against.
+order: 10
+---
+
+Slatewave is small enough that a handful of principles can keep every theme
+aligned. These are the rules we apply when resolving ambiguity.
+
+## 1. Coherent over distinctive
+
+Every Slatewave theme is generated from the same palette. If a decision
+trades theme-to-theme consistency for a locally clever choice, the
+consistent option wins. A user moving from editor to terminal should
+experience continuity, not variety.
+
+## 2. Calm over contrast
+
+Slatewave is tuned for long sessions. Legibility matters more than pop.
+Saturated colors are used sparingly, always with purpose, and never
+layered on top of each other. The slate foundation carries most of the
+surface area; accents are incidents, not decoration.
+
+## 3. Semantic over decorative
+
+Each accent color means something:
+
+- **Teal** — the signature. Focus, selection, and primary CTAs.
+- **Sky** — keywords and control flow.
+- **Rose** — constants, numbers, and errors.
+- **Purple** — language built-ins (`this`, `self`, `super`).
+- **Amber** — escape sequences, warnings, deprecations.
+
+A theme that uses teal for errors breaks the palette.
+
+## 4. One source of truth
+
+The canonical palette lives in
+[`vscode-slatewave/themes/slatewave-color-theme.json`](https://github.com/kevinlangleyjr/vscode-slatewave/blob/main/themes/slatewave-color-theme.json).
+Every other theme — Obsidian, Oh My Posh, this website — mirrors from
+there. When the palette changes, the VSCode theme is the source, and
+everything downstream updates.
+
+## 5. Open and portable
+
+Every Slatewave theme is published in a public repo under the
+[WTFPL](http://www.wtfpl.net/) — Do What The Fuck You Want To Public
+License, Version 2. Themes should work offline and be installable
+without accounts, subscriptions, or telemetry.
