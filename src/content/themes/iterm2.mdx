@@ -3,18 +3,53 @@ name: Slatewave for iTerm2
 shortName: iTerm2
 slug: iterm2
 category: terminal
-tagline: The Slatewave palette as an .itermcolors profile.
+tagline: A Slatewave .itermcolors preset with every semantic slot tuned.
 summary: >-
-  Planned — a Slatewave `.itermcolors` profile for iTerm2 covering ANSI,
-  badge, link, and cursor-guide slots.
-status: planned
-order: 130
+  A single `.itermcolors` preset covering the 16 ANSI colors plus cursor,
+  selection, link, badge, tab, cursor-guide, match-background, and
+  underline — so every semantic surface in iTerm2 reads in the Slatewave
+  palette, not just the terminal background.
+status: beta
+order: 50
 accent: '#5eead4'
 repo:
   owner: kevinlangleyjr
   name: iterm2-slatewave
-  url: https://iterm2.com
-tags: [terminal, macos, planned]
+  url: https://github.com/kevinlangleyjr/iterm2-slatewave
+  defaultBranch: main
+links:
+  download: https://raw.githubusercontent.com/kevinlangleyjr/iterm2-slatewave/main/slatewave.itermcolors
+preview:
+  kind: code
+  language: shell
+  sample: |
+    # iTerm2 → Settings → Profiles → Colors → Color Presets
+    $ git status
+    On branch main
+    Your branch is up to date with 'origin/main'.
+
+    Changes to be committed:
+      (use "git restore --staged <file>..." to unstage)
+            modified:   src/slatewave.ts
+            new file:   README.md
+install:
+  - label: Import the preset
+    description: Grab the preset file and import it via iTerm2's GUI.
+    steps:
+      - Download `slatewave.itermcolors` from the repo
+      - Open iTerm2 → Settings → Profiles → Colors
+      - Click Color Presets… → Import… and pick the file
+      - Click Color Presets… again and select "slatewave"
+    link: https://raw.githubusercontent.com/kevinlangleyjr/iterm2-slatewave/main/slatewave.itermcolors
+  - label: From a local clone
+    description: Clone and open — iTerm2 offers to import .itermcolors files automatically.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/iterm2-slatewave
+      - open iterm2-slatewave/slatewave.itermcolors
+tags: [terminal, iterm2, macos]
 ---
 
-Planned — not yet available.
+Slatewave for iTerm2 tunes every exposed color slot, not just the
+background — including badge, link, cursor-guide, and match-background —
+so even power-user features stay on palette. ANSI mapping mirrors the
+VSCode Slatewave terminal block for continuity across editor and shell.

@@ -3,18 +3,56 @@ name: Slatewave for Ghostty
 shortName: Ghostty
 slug: ghostty
 category: terminal
-tagline: A Slatewave palette for Ghostty's fast-native terminal.
+tagline: The Slatewave palette tuned to Ghostty's native color keys.
 summary: >-
-  Planned — a Slatewave theme file for Ghostty, mapping the 16 ANSI colors
-  and UI slots so the editor and terminal feel like one surface.
-status: planned
-order: 100
+  A single theme file for Ghostty covering the 16 ANSI colors plus
+  background, foreground, cursor, and selection — tuned to match the
+  VSCode Slatewave terminal block so editor and terminal share one
+  color vocabulary.
+status: beta
+order: 40
 accent: '#5eead4'
 repo:
   owner: kevinlangleyjr
   name: ghostty-slatewave
-  url: https://ghostty.org
-tags: [terminal, planned]
+  url: https://github.com/kevinlangleyjr/ghostty-slatewave
+  defaultBranch: main
+links:
+  download: https://raw.githubusercontent.com/kevinlangleyjr/ghostty-slatewave/main/Slatewave
+preview:
+  kind: code
+  language: bash
+  sample: |
+    # ~/.config/ghostty/config
+    theme = Slatewave
+
+    font-family = "JetBrainsMono Nerd Font"
+    font-size = 14
+
+    cursor-style = block
+    cursor-style-blink = false
+
+    background-opacity = 1.0
+    shell-integration = detect
+install:
+  - label: CLI
+    description: Download the theme file into Ghostty's themes directory, then enable it in your config.
+    command: mkdir -p ~/.config/ghostty/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/ghostty-slatewave/main/Slatewave -o ~/.config/ghostty/themes/Slatewave
+  - label: Activate
+    description: Add a single line to ~/.config/ghostty/config — or paste the theme file contents inline at the top level of that same config.
+    steps:
+      - Open `~/.config/ghostty/config`
+      - Add `theme = Slatewave`
+      - Reload with ⌘⇧, (macOS) or restart Ghostty
+  - label: From a local clone
+    description: Clone the repo and copy the theme file into Ghostty's themes directory.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/ghostty-slatewave
+      - cp ghostty-slatewave/Slatewave ~/.config/ghostty/themes/Slatewave
+tags: [terminal, ghostty]
 ---
 
-Planned — not yet available.
+Slatewave for Ghostty mirrors the `terminal.ansi*` block from the VSCode
+Slatewave theme, so `ls --color`, `git diff`, and any 256-color TUI read
+identically whether you're in the editor or the terminal. Works
+cleanly with the `slatewave-omp` prompt on top.
