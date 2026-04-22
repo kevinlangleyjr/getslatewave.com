@@ -12,6 +12,7 @@ const CATEGORY_LABEL: Record<string, string> = {
   notes: 'Notes theme',
   browser: 'Browser theme',
   chat: 'Chat theme',
+  productivity: 'Productivity theme',
   other: 'Theme',
 };
 
