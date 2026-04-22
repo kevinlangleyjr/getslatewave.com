@@ -2,6 +2,8 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 import Badge from '~/components/ui/Badge.astro';
+import CodePreview from '~/components/previews/CodePreview.astro';
+import TerminalPreview from '~/components/previews/TerminalPreview.astro';
 
 export async function getStaticPaths() {
   const themes = await getCollection('themes', ({ data }) => data.status !== 'planned');
@@ -45,41 +47,17 @@ const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
 
     <section class="section">
       <div class="container narrow">
-        <div class="preview sw-frame">
-          {data.preview.kind === 'code' && (
-            <div class="preview-code">
-              <div class="preview-chrome" aria-hidden="true">
-                <span class="dot dot-r"></span>
-                <span class="dot dot-y"></span>
-                <span class="dot dot-g"></span>
-                <span class="preview-lang">{data.preview.language}</span>
-              </div>
-              <pre><code>{data.preview.sample}</code></pre>
-            </div>
-          )}
-
-          {data.preview.kind === 'terminal' && (
-            <div class="preview-terminal">
-              <div class="preview-chrome" aria-hidden="true">
-                <span class="dot dot-r"></span>
-                <span class="dot dot-y"></span>
-                <span class="dot dot-g"></span>
-              </div>
-              <div class="terminal-body">
-                {data.preview.lines.map((line, i) => (
-                  <div class="line">
-                    <span class="prompt">{i === 0 ? '' : data.preview.prompt}</span>
-                    <span>{line}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {data.preview.kind === 'image' && (
+        {data.preview.kind === 'code' && (
+          <CodePreview code={data.preview.sample} language={data.preview.language} />
+        )}
+        {data.preview.kind === 'terminal' && (
+          <TerminalPreview prompt={data.preview.prompt} lines={data.preview.lines} />
+        )}
+        {data.preview.kind === 'image' && (
+          <figure class="sw-frame image-preview">
             <img src={data.preview.image.src} alt={data.preview.alt} loading="eager" />
-          )}
-        </div>
+          </figure>
+        )}
       </div>
     </section>
 
@@ -188,64 +166,10 @@ const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
     max-width: 48rem;
   }
 
-  .preview {
-    background: var(--bg-inset);
-  }
-
-  .preview-chrome {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-raised);
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--border-strong);
-  }
-
-  .dot-r { background: #f7768e; }
-  .dot-y { background: #e0af68; }
-  .dot-g { background: #9ece6a; }
-
-  .preview-lang {
-    margin-left: auto;
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    color: var(--fg-subtle);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .preview-code pre {
-    margin: 0;
-    padding: var(--space-5);
-    overflow-x: auto;
-    color: var(--fg-default);
-    font-size: var(--fs-sm);
-    line-height: var(--lh-normal);
-  }
-
-  .preview-terminal .terminal-body {
-    padding: var(--space-5);
-    font-family: var(--font-mono);
-    font-size: var(--fs-sm);
-    color: var(--fg-muted);
-  }
-
-  .preview-terminal .line {
-    display: flex;
-    gap: var(--space-2);
-    white-space: pre;
-  }
-
-  .preview-terminal .prompt {
-    color: var(--page-accent);
-    min-width: 1ch;
+  .image-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .prose h2 {
