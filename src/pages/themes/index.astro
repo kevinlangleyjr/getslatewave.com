@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '~/layouts/Base.astro';
+import ThemeCard from '~/components/theme/ThemeCard.astro';
+
+const themes = (await getCollection('themes'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Themes"
+  description="All Slatewave themes — every surface where the Slatewave palette lives."
+>
+  <section class="section">
+    <div class="container">
+      <header class="head">
+        <p class="eyebrow">Themes</p>
+        <h1>Every surface, one palette.</h1>
+        <p class="lede">
+          Pick the tool you live in. Every theme below is generated from the
+          same Slatewave palette, tuned for that surface.
+        </p>
+      </header>
+
+      <ul class="grid">
+        {themes.map((theme) => (
+          <li>
+            <ThemeCard theme={theme} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section {
+    padding-block: var(--space-12) var(--space-16);
+  }
+
+  .head {
+    margin-bottom: var(--space-10);
+    max-width: 44rem;
+  }
+
+  .head h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+</style>

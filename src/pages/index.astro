@@ -1,0 +1,221 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '~/layouts/Base.astro';
+import ThemeCard from '~/components/theme/ThemeCard.astro';
+import PaletteStrip from '~/components/ui/PaletteStrip.astro';
+
+const themes = (await getCollection('themes'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const featured = themes.filter((t) => t.data.featured);
+---
+
+<Base
+  title="Slatewave"
+  description="A unified color system for the tools developers use every day — editor, terminal, and notes speaking the same visual language."
+>
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">A cohesive theme system</p>
+      <h1>One palette.<br />Every tool.</h1>
+      <p class="lede">
+        Slatewave is a family of themes that share a single, carefully-tuned
+        color system — so your editor, terminal, and notes all speak the
+        same visual language.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="/themes/">Browse themes</a>
+        <a
+          class="btn btn-ghost"
+          href="https://github.com/kevinlangleyjr?tab=repositories&q=slatewave"
+          rel="noopener"
+          target="_blank"
+        >
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">Themes</p>
+        <h2>Pick your surface.</h2>
+      </header>
+      <ul class="theme-grid">
+        {featured.map((theme) => (
+          <li>
+            <ThemeCard theme={theme} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">The palette</p>
+        <h2>A single source of truth.</h2>
+        <p class="section-lede">
+          Every Slatewave theme is generated from this palette. Change a
+          role here, and the same role shifts everywhere else.
+        </p>
+      </header>
+      <PaletteStrip />
+    </div>
+  </section>
+
+  <section class="section tenets">
+    <div class="container">
+      <ul class="tenet-grid">
+        <li>
+          <h3>Coherent</h3>
+          <p>Every theme is generated from the same palette, not ported by eye.</p>
+        </li>
+        <li>
+          <h3>Calm</h3>
+          <p>Tuned for long sessions: high legibility, low chromatic fatigue.</p>
+        </li>
+        <li>
+          <h3>Open</h3>
+          <p>Every theme lives in its own public repo under a permissive license.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-20) var(--space-16);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: -40% 50% 20% -20%;
+    background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--sw-wave-400) 22%, transparent), transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 20% -20% -40% 50%;
+    background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--sw-accent) 18%, transparent), transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .hero .container {
+    position: relative;
+  }
+
+  .hero h1 {
+    margin-top: var(--space-4);
+    font-size: clamp(2.5rem, 6vw, var(--fs-3xl));
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: var(--lh-tight);
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+    max-width: 40rem;
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+  }
+
+  .hero-cta {
+    margin-top: var(--space-8);
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--sw-slate-950);
+  }
+
+  .btn-primary:hover {
+    background: color-mix(in oklab, var(--accent) 85%, white);
+    color: var(--sw-slate-950);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--fg-default);
+    border-color: var(--border-strong);
+  }
+
+  .btn-ghost:hover {
+    background: var(--bg-raised);
+    color: var(--fg-default);
+  }
+
+  .section {
+    padding-block: var(--space-16);
+  }
+
+  .section-head {
+    margin-bottom: var(--space-8);
+    max-width: 40rem;
+  }
+
+  .section-head h2 {
+    margin-top: var(--space-2);
+    font-size: clamp(1.75rem, 3vw, var(--fs-xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .section-lede {
+    margin-top: var(--space-3);
+    color: var(--fg-muted);
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+
+  .tenet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-6);
+    list-style: none;
+    padding: 0;
+  }
+
+  .tenet-grid li h3 {
+    font-size: var(--fs-md);
+    font-weight: 600;
+    color: var(--fg-default);
+  }
+
+  .tenet-grid li p {
+    margin-top: var(--space-2);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+</style>

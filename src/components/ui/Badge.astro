@@ -1,0 +1,44 @@
+---
+interface Props {
+  tone?: 'default' | 'stable' | 'beta' | 'planned';
+}
+
+const { tone = 'default' } = Astro.props;
+---
+
+<span class:list={['badge', tone]}>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 2px var(--space-2);
+    border-radius: 999px;
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    background: var(--bg-raised);
+  }
+
+  .stable {
+    color: var(--sw-ok);
+    border-color: color-mix(in oklab, var(--sw-ok) 30%, transparent);
+    background: color-mix(in oklab, var(--sw-ok) 10%, transparent);
+  }
+
+  .beta {
+    color: var(--sw-warn);
+    border-color: color-mix(in oklab, var(--sw-warn) 30%, transparent);
+    background: color-mix(in oklab, var(--sw-warn) 10%, transparent);
+  }
+
+  .planned {
+    color: var(--fg-subtle);
+    border-color: var(--border);
+  }
+</style>

@@ -1,0 +1,45 @@
+---
+name: Slatewave for VSCode
+shortName: VSCode
+slug: vscode
+category: editor
+tagline: Calm, high-contrast syntax colors tuned for long coding sessions.
+summary: >-
+  A Slatewave palette applied to VSCode and Cursor, with carefully weighted
+  token colors and balanced UI chrome.
+status: beta
+featured: true
+order: 10
+accent: '#7aa2f7'
+repo:
+  owner: kevinlangleyjr
+  name: vscode-slatewave
+  url: https://github.com/kevinlangleyjr/vscode-slatewave
+preview:
+  kind: code
+  language: typescript
+  sample: |
+    export interface Theme {
+      name: string;
+      platform: 'vscode' | 'oh-my-posh' | 'obsidian';
+    }
+
+    export function describe(theme: Theme): string {
+      return `${theme.name} for ${theme.platform}`;
+    }
+install:
+  - label: CLI
+    description: Install from an existing VSCode or Cursor instance.
+    command: code --install-extension kevinlangleyjr.slatewave
+  - label: Manual
+    description: Clone the repo and symlink into your VSCode extensions directory.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/vscode-slatewave
+      - Copy the folder into `~/.vscode/extensions/`
+      - Restart VSCode and pick Slatewave from the command palette
+tags: [editor, dark, high-contrast]
+---
+
+Slatewave for VSCode applies the canonical Slatewave palette to editor
+syntax, workbench chrome, and diff views. Designed to stay legible during
+long sessions without flattening out semantic color meaning.

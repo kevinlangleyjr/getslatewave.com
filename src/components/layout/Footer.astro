@@ -1,0 +1,76 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="grid">
+      <div>
+        <p class="brand">Slatewave</p>
+        <p class="muted">One palette. Every tool.</p>
+      </div>
+
+      <div>
+        <p class="eyebrow">Explore</p>
+        <ul>
+          <li><a href="/themes/">All themes</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="eyebrow">Themes</p>
+        <ul>
+          <li><a href="https://github.com/kevinlangleyjr/vscode-slatewave" target="_blank" rel="noopener">VSCode</a></li>
+          <li><a href="https://github.com/kevinlangleyjr/slatewave-omp" target="_blank" rel="noopener">Oh My Posh</a></li>
+          <li><a href="https://github.com/kevinlangleyjr/obsidian-slatewave" target="_blank" rel="noopener">Obsidian</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="small muted">&copy; {year} Slatewave. Open source under MIT.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-24);
+    padding-block: var(--space-12);
+    border-top: 1px solid var(--border);
+    font-size: var(--fs-sm);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .brand {
+    font-weight: 600;
+    color: var(--fg-default);
+  }
+
+  .muted {
+    color: var(--fg-subtle);
+  }
+
+  .small {
+    font-size: var(--fs-xs);
+  }
+</style>
