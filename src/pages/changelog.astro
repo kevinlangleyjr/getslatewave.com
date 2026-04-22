@@ -1,0 +1,236 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '~/layouts/Base.astro';
+import Badge from '~/components/ui/Badge.astro';
+import { fetchReleases } from '~/lib/github';
+import { absoluteDate, relativeTime } from '~/lib/format';
+
+const themes = (await getCollection('themes', ({ data }) => data.status !== 'planned'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const entries = (
+  await Promise.all(
+    themes.map(async (theme) => {
+      const releases = await fetchReleases(theme.data.repo.owner, theme.data.repo.name, 15);
+      return releases.map((release) => ({ theme, release }));
+    }),
+  )
+)
+  .flat()
+  .sort((a, b) => {
+    const dateA = new Date(a.release.publishedAt).getTime();
+    const dateB = new Date(b.release.publishedAt).getTime();
+    return dateB - dateA;
+  });
+
+const grouped = entries.reduce<Map<string, typeof entries>>((acc, entry) => {
+  const d = new Date(entry.release.publishedAt);
+  const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+  const existing = acc.get(key);
+  if (existing) existing.push(entry);
+  else acc.set(key, [entry]);
+  return acc;
+}, new Map());
+
+const monthLabel = (key: string): string => {
+  const [year, month] = key.split('-').map(Number);
+  return new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' }).format(
+    new Date(year, month - 1, 1),
+  );
+};
+---
+
+<Base
+  title="Changelog"
+  description="Every Slatewave release across every theme, in one place."
+>
+  <section class="section">
+    <div class="container">
+      <header class="head">
+        <p class="eyebrow">Changelog</p>
+        <h1>Every release, everywhere.</h1>
+        <p class="lede">
+          A combined feed of releases across every Slatewave theme. Click any
+          version to view the full notes on GitHub.
+        </p>
+      </header>
+
+      {entries.length === 0 ? (
+        <p class="empty">No releases have been published yet.</p>
+      ) : (
+        <ol class="log" aria-label="Releases">
+          {[...grouped.entries()].map(([month, items]) => (
+            <li class="month">
+              <h2 class="month-label">{monthLabel(month)}</h2>
+              <ul class="month-items">
+                {items.map(({ theme, release }) => (
+                  <li class="entry">
+                    <div class="entry-head">
+                      <a href={`/themes/${theme.data.slug}/`} class="theme-name">
+                        {theme.data.shortName}
+                      </a>
+                      <a
+                        class="tag"
+                        href={release.url}
+                        rel="noopener"
+                        target="_blank"
+                      >
+                        {release.tag}
+                      </a>
+                      {release.isPrerelease && <Badge tone="beta">pre-release</Badge>}
+                    </div>
+                    {release.name && release.name !== release.tag && (
+                      <p class="release-name">{release.name}</p>
+                    )}
+                    {release.body && (
+                      <pre class="notes">{release.body.trim()}</pre>
+                    )}
+                    <p class="when">
+                      <time datetime={release.publishedAt} title={absoluteDate(release.publishedAt)}>
+                        {absoluteDate(release.publishedAt)}
+                      </time>
+                      <span class="sep">·</span>
+                      <span class="muted">{relativeTime(release.publishedAt)}</span>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section {
+    padding-block: var(--space-12) var(--space-16);
+  }
+
+  .head {
+    max-width: 44rem;
+    margin-bottom: var(--space-10);
+  }
+
+  .head h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+  }
+
+  .empty {
+    padding: var(--space-10);
+    text-align: center;
+    color: var(--fg-subtle);
+    background: var(--bg-raised);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .log {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-12);
+  }
+
+  .month {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .month-label {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 600;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .month-items {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .entry {
+    padding: var(--space-5) var(--space-6);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .entry-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .theme-name {
+    font-weight: 600;
+    color: var(--fg-default);
+    font-size: var(--fs-md);
+  }
+
+  .theme-name:hover {
+    color: var(--accent);
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--accent);
+    padding: 2px var(--space-2);
+    background: var(--accent-soft);
+    border-radius: var(--radius-sm);
+  }
+
+  .release-name {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .notes {
+    margin: 0;
+    padding: var(--space-4);
+    background: var(--bg-inset);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+    white-space: pre-wrap;
+    overflow-x: auto;
+    max-height: 20rem;
+  }
+
+  .when {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+
+  .sep {
+    opacity: 0.5;
+  }
+
+  .muted {
+    color: var(--fg-subtle);
+  }
+</style>
