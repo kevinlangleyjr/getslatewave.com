@@ -1,0 +1,173 @@
+---
+import Base from '~/layouts/Base.astro';
+import Playground from '~/components/playground/Playground';
+---
+
+<Base
+  title="Playground"
+  description="Try the Slatewave theme live — edit arbitrary code and see how it renders with the actual Slatewave token colors."
+>
+  <section class="section">
+    <div class="container">
+      <header class="head">
+        <p class="eyebrow">Playground</p>
+        <h1>Try the theme, live.</h1>
+        <p class="lede">
+          A real editor loaded with the exact Slatewave TextMate theme you'd
+          install. Switch languages, paste your own code, see how it feels.
+        </p>
+      </header>
+    </div>
+
+    <div class="container pg-wrap">
+      <Playground client:only="react" />
+      <noscript>
+        <div class="pg-noscript">
+          The Slatewave playground needs JavaScript to load the editor.
+          Browse the <a href="/themes/vscode/">VSCode theme page</a> for static
+          previews instead.
+        </div>
+      </noscript>
+    </div>
+
+    <div class="container aside">
+      <p>
+        Editor powered by Monaco (the same engine VSCode uses). The theme is
+        loaded from the authoritative
+        <a href="https://github.com/kevinlangleyjr/vscode-slatewave/blob/main/themes/slatewave-color-theme.json" rel="noopener" target="_blank">
+          slatewave-color-theme.json</a> — no re-coloring, no approximation.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .pg-root {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .pg-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pg-tabs {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    background: var(--bg-inset);
+    border-radius: var(--radius-md);
+  }
+
+  .pg-tab {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    font-family: inherit;
+    font-weight: 500;
+    transition: color 120ms ease, background 120ms ease;
+  }
+
+  .pg-tab:hover {
+    color: var(--fg-default);
+  }
+
+  .pg-tab-active {
+    background: var(--bg-raised);
+    color: var(--fg-default);
+    box-shadow: 0 0 0 1px var(--border-strong);
+  }
+
+  .pg-reset {
+    appearance: none;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--fg-muted);
+    font-family: inherit;
+    font-size: var(--fs-sm);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+  }
+
+  .pg-reset:hover {
+    color: var(--fg-default);
+    border-color: var(--accent);
+  }
+
+  .pg-editor {
+    background: #282c34;
+  }
+
+  .pg-loading {
+    padding: var(--space-10);
+    color: var(--fg-subtle);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+  }
+
+  .pg-noscript {
+    padding: var(--space-8);
+    background: var(--bg-raised);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--fg-muted);
+    text-align: center;
+  }
+
+  .pg-noscript a {
+    color: var(--accent);
+  }
+</style>
+
+<style>
+  .section {
+    padding-block: var(--space-12) var(--space-16);
+  }
+
+  .head {
+    max-width: 44rem;
+    margin-bottom: var(--space-8);
+  }
+
+  .head h1 {
+    margin-top: var(--space-3);
+    font-size: clamp(2rem, 4vw, var(--fs-2xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+    font-size: var(--fs-md);
+  }
+
+  .pg-wrap {
+    margin-bottom: var(--space-6);
+  }
+
+  .aside {
+    color: var(--fg-subtle);
+    font-size: var(--fs-sm);
+    max-width: 44rem;
+  }
+
+  .aside a {
+    color: var(--accent);
+  }
+</style>
