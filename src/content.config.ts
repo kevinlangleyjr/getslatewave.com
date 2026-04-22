@@ -8,7 +8,7 @@ const themes = defineCollection({
       name: z.string(),
       shortName: z.string(),
       slug: z.string(),
-      category: z.enum(['editor', 'terminal', 'notes', 'browser', 'chat', 'other']),
+      category: z.enum(['editor', 'terminal', 'notes', 'browser', 'chat', 'productivity', 'other']),
       tagline: z.string().max(140),
       summary: z.string().max(320),
       status: z.enum(['stable', 'beta', 'planned']).default('stable'),
