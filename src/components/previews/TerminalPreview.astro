@@ -1,0 +1,163 @@
+---
+interface Line {
+  prompt?: boolean;
+  text: string;
+  kind?: 'input' | 'output' | 'info' | 'ok' | 'warn' | 'error';
+}
+
+interface Props {
+  prompt?: string;
+  lines: string[] | Line[];
+  directory?: string;
+  branch?: string;
+}
+
+const { prompt = '❯', lines, directory = '~/Development/slatewave', branch = 'main' } = Astro.props;
+
+function normalize(line: string | Line, index: number): Line {
+  if (typeof line === 'string') {
+    return { text: line, kind: index === 0 ? 'output' : 'input', prompt: index !== 0 };
+  }
+  return line;
+}
+
+const normalized = lines.map(normalize);
+---
+
+<figure class="terminal-preview sw-frame">
+  <header class="chrome" aria-hidden="true">
+    <span class="dot dot-r"></span>
+    <span class="dot dot-y"></span>
+    <span class="dot dot-g"></span>
+    <span class="title">zsh — slatewave</span>
+  </header>
+  <div class="body">
+    <div class="segment-row" aria-hidden="true">
+      <span class="segment segment-dir">{directory}</span>
+      <span class="segment segment-git">  {branch}</span>
+    </div>
+    {normalized.map((line) => (
+      <div class:list={['line', `kind-${line.kind ?? 'output'}`]}>
+        {line.prompt && <span class="prompt" aria-hidden="true">{prompt}</span>}
+        <span>{line.text}</span>
+      </div>
+    ))}
+    <div class="cursor-row" aria-hidden="true">
+      <span class="prompt">{prompt}</span>
+      <span class="cursor" />
+    </div>
+  </div>
+</figure>
+
+<style>
+  .terminal-preview {
+    background: var(--bg-base);
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .title {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+    letter-spacing: 0.04em;
+  }
+
+  .body {
+    padding: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--fg-default);
+    line-height: 1.7;
+  }
+
+  .segment-row {
+    display: inline-flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: var(--space-2);
+  }
+
+  .segment {
+    padding: 2px var(--space-3);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    position: relative;
+  }
+
+  .segment-dir {
+    background: var(--sw-teal-700);
+    color: #ecfeff;
+    border-radius: 4px 0 0 4px;
+  }
+
+  .segment-git {
+    background: var(--sw-slate-700);
+    color: var(--sw-teal-200);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .line {
+    display: flex;
+    gap: var(--space-2);
+    white-space: pre-wrap;
+  }
+
+  .prompt {
+    color: var(--sw-teal-300);
+    font-weight: 600;
+    min-width: 1ch;
+  }
+
+  .kind-input span:last-child { color: var(--fg-default); }
+  .kind-output span { color: var(--fg-muted); }
+  .kind-info span { color: var(--sw-sky-400); }
+  .kind-ok span { color: var(--sw-teal-300); }
+  .kind-warn span { color: var(--sw-amber-400); }
+  .kind-error span { color: var(--sw-rose-400); }
+
+  .cursor-row {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 9px;
+    height: 1.25em;
+    background: var(--sw-teal-300);
+    border-radius: 1px;
+    animation: blink 1.1s steps(2, start) infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      animation: none;
+    }
+  }
+</style>
