@@ -4,6 +4,8 @@ import Base from '~/layouts/Base.astro';
 import ThemeCard from '~/components/theme/ThemeCard.astro';
 import PaletteStrip from '~/components/ui/PaletteStrip.astro';
 import CodePreview from '~/components/previews/CodePreview.astro';
+import OhMyPoshPreview from '~/components/previews/OhMyPoshPreview.astro';
+import ObsidianPreview from '~/components/previews/ObsidianPreview.astro';
 
 const themes = (await getCollection('themes'))
   .sort((a, b) => a.data.order - b.data.order);
@@ -49,8 +51,45 @@ export function apply(theme: Theme): string {
         </a>
       </div>
 
-      <div class="hero-preview">
-        <CodePreview code={heroSample} language="typescript" label="palette.ts" />
+    </div>
+  </section>
+
+  <section class="section surfaces">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">The same palette, everywhere</p>
+        <h2>Three surfaces. One visual language.</h2>
+        <p class="section-lede">
+          Editor, terminal, and notes — each rendered with the authoritative
+          Slatewave palette. These previews aren't screenshots; they're
+          rendered with the same colors you'd install.
+        </p>
+      </header>
+
+      <div class="surface-stack">
+        <article class="surface" style="--surface-accent: #5eead4;">
+          <header class="surface-head">
+            <p class="eyebrow">Editor · VSCode</p>
+            <a class="surface-link" href="/themes/vscode/">View theme →</a>
+          </header>
+          <CodePreview code={heroSample} language="typescript" label="palette.ts" />
+        </article>
+
+        <article class="surface" style="--surface-accent: #38bdf8;">
+          <header class="surface-head">
+            <p class="eyebrow">Terminal · Oh My Posh</p>
+            <a class="surface-link" href="/themes/oh-my-posh/">View theme →</a>
+          </header>
+          <OhMyPoshPreview />
+        </article>
+
+        <article class="surface" style="--surface-accent: #b388ff;">
+          <header class="surface-head">
+            <p class="eyebrow">Notes · Obsidian</p>
+            <a class="surface-link" href="/themes/obsidian/">View theme →</a>
+          </header>
+          <ObsidianPreview />
+        </article>
       </div>
     </div>
   </section>
@@ -156,9 +195,68 @@ export function apply(theme: Theme): string {
     flex-wrap: wrap;
   }
 
-  .hero-preview {
-    margin-top: var(--space-12);
-    max-width: 46rem;
+  .surfaces {
+    padding-block: var(--space-16);
+  }
+
+  .surface-stack {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  .surface {
+    --surface-accent: var(--accent);
+    max-width: 52rem;
+    margin-inline: auto;
+    width: 100%;
+    position: relative;
+  }
+
+  .surface::before {
+    content: '';
+    position: absolute;
+    inset: -40px -60px;
+    background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--surface-accent) 14%, transparent), transparent 70%);
+    filter: blur(50px);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .surface:nth-child(even) {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .surface:nth-child(odd) {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  @media (max-width: 720px) {
+    .surface {
+      margin-inline: 0 !important;
+    }
+  }
+
+  .surface-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  .surface-head .eyebrow {
+    color: var(--surface-accent);
+  }
+
+  .surface-link {
+    font-size: var(--fs-sm);
+    color: var(--fg-muted);
+  }
+
+  .surface-link:hover {
+    color: var(--surface-accent);
   }
 
   .btn {
