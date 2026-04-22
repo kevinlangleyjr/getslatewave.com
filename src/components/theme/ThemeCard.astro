@@ -30,11 +30,13 @@ const pushedRel = meta?.pushedAt ? relativeTime(meta.pushedAt) : null;
 ---
 
 <a
-  class="card"
+  class:list={['card', { 'card-planned': isPlanned }]}
   href={href}
   style={accentStyle}
   data-category={data.category}
   data-status={data.status}
+  target={isPlanned ? '_blank' : undefined}
+  rel={isPlanned ? 'noopener' : undefined}
 >
   <header class="card-head">
     <span class="category">{categoryLabel[data.category]}</span>
@@ -70,8 +72,8 @@ const pushedRel = meta?.pushedAt ? relativeTime(meta.pushedAt) : null;
       </dl>
     )}
     <span class="cta">
-      {isPlanned ? 'View repo' : 'Explore theme'}
-      <span aria-hidden="true">→</span>
+      {isPlanned ? 'Learn more' : 'Explore theme'}
+      <span aria-hidden="true">{isPlanned ? '↗' : '→'}</span>
     </span>
   </footer>
 </a>
@@ -110,6 +112,14 @@ const pushedRel = meta?.pushedAt ? relativeTime(meta.pushedAt) : null;
   }
 
   .card:hover::before {
+    opacity: 1;
+  }
+
+  .card-planned {
+    opacity: 0.7;
+  }
+
+  .card-planned:hover {
     opacity: 1;
   }
 
