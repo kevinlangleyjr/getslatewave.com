@@ -3,18 +3,60 @@ name: Slatewave for Sublime Text
 shortName: Sublime Text
 slug: sublime-text
 category: editor
-tagline: The Slatewave palette as a Sublime color scheme.
+tagline: A full Sublime color scheme plus UI theme, with a one-shot activation command.
 summary: >-
-  Planned — a Slatewave `.sublime-color-scheme` JSON for Sublime Text,
-  mapping TextMate scopes from the VSCode port.
-status: planned
-order: 220
+  Both halves of a Sublime Text theme — `Slatewave.sublime-color-scheme`
+  for syntax, and `Slatewave.sublime-theme` for sidebar, tabs, status
+  bar, quick panel, and auto-complete chrome — activated together via a
+  single command palette entry.
+status: beta
+order: 70
 accent: '#38bdf8'
 repo:
   owner: kevinlangleyjr
-  name: sublime-slatewave
-  url: https://www.sublimetext.com
-tags: [editor, planned]
+  name: sublime-text-slatewave
+  url: https://github.com/kevinlangleyjr/sublime-text-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: typescript
+  sample: |
+    // slatewave/palette.ts
+    export const accent = '#5eead4';
+
+    export type Surface = 'editor' | 'terminal' | 'notes' | 'chat';
+
+    export function apply(name: string, surface: Surface): string {
+      return `${name} on ${surface}`.padEnd(32, '·') + accent;
+    }
+
+    const editor = apply('Slatewave', 'editor');
+    console.log(editor);
+install:
+  - label: Package Control
+    description: Once the package is listed, install it directly from Sublime.
+    steps:
+      - ⌘⇧P / Ctrl+Shift+P → Package Control — Install Package
+      - Pick Slatewave
+      - ⌘⇧P / Ctrl+Shift+P → Slatewave — Activate Color Scheme & Theme
+  - label: Manual — macOS
+    description: Clone into Sublime's Packages directory.
+    command: git clone https://github.com/kevinlangleyjr/sublime-text-slatewave.git "$HOME/Library/Application Support/Sublime Text/Packages/Slatewave"
+  - label: Manual — Linux
+    command: git clone https://github.com/kevinlangleyjr/sublime-text-slatewave.git "$HOME/.config/sublime-text/Packages/Slatewave"
+  - label: Activate
+    description: Once installed, pick the theme from Sublime's settings (or use the bundled command palette entry).
+    steps:
+      - Preferences → Select Color Scheme… → Slatewave
+      - Preferences → Select Theme… → Slatewave
+      - Or run "Slatewave — Activate Color Scheme & Theme" from the palette
+tags: [editor, sublime-text]
 ---
 
-Planned — not yet available.
+Slatewave for Sublime Text ships both a color scheme and a UI theme so
+every pixel — from editor tokens to the status bar, quick panel, and
+auto-complete kind labels — reads in the Slatewave palette. The color
+scheme works standalone if you want to keep a different UI theme.
+
+A bundled `Slatewave: Activate Color Scheme & Theme` palette command
+flips both at once, so you don't have to set them separately.

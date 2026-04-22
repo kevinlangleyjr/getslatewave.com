@@ -1,0 +1,55 @@
+---
+name: Slatewave for Slack
+shortName: Slack
+slug: slack
+category: productivity
+tagline: An eight-color Slack sidebar theme — just paste and go.
+summary: >-
+  Slack's custom-theme input accepts eight comma-separated hex colors.
+  Slatewave maps them to the sidebar column, workspace menu, active
+  channel, presence dots, and mention badge — so the chat column speaks
+  the same slate-and-teal vocabulary as the editor and terminal.
+status: beta
+order: 90
+accent: '#fb7185'
+repo:
+  owner: kevinlangleyjr
+  name: slack-slatewave
+  url: https://github.com/kevinlangleyjr/slack-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: text
+  sample: |
+    #1E293B,#282C34,#334155,#5EEAD4,#282C34,#E2E8F0,#5EEAD4,#FB7185
+
+    # Column BG · Menu BG · Active Item · Active Item Text
+    # Hover Item · Text Color · Active Presence · Mention Badge
+install:
+  - label: Paste the theme
+    description: Slack doesn't expose a theme file — themes are pasted into Preferences as a comma-separated hex string.
+    steps:
+      - "Copy: #1E293B,#282C34,#334155,#5EEAD4,#282C34,#E2E8F0,#5EEAD4,#FB7185"
+      - In Slack, open Preferences → Themes
+      - Scroll to Colors → Create a custom theme
+      - Paste into the single-line input at the bottom of the dialog
+      - Slack applies immediately; close the dialog to keep it
+  - label: Pair with dark base
+    description: The custom theme composes over Slack's base appearance.
+    steps:
+      - Preferences → Themes → set base to Dark
+      - Paste the Slatewave string as the custom theme
+  - label: Share with workspace
+    description: Once pasted, click "Share this theme with your workspace" to post the string into any channel — teammates can apply it in one tap.
+  - label: From a local clone
+    description: Clone and copy the string straight to your clipboard.
+    command: git clone https://github.com/kevinlangleyjr/slack-slatewave && pbcopy < slack-slatewave/slatewave.txt
+tags: [productivity, slack, chat]
+---
+
+Slack only gives you eight slots, so Slatewave picks the ones that
+actually matter in day-to-day use: slate-800 for the column, `#282C34`
+(the VSCode editor background) for the workspace menu, slate-700 for
+the selected channel, teal-300 for active text and presence dots, and
+rose-400 for mention badges — which means unread pings actually pop
+against the slate column rather than blending in.
