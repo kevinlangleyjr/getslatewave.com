@@ -3,7 +3,45 @@
 One palette. Every tool.
 
 The Slatewave site — a unified hub for the Slatewave theme family across
-VSCode, Oh My Posh, Obsidian, and more. Built with Astro.
+editors, terminals, note apps, and productivity tools. Built with Astro.
+
+## Themes
+
+Status legend: **beta** — shipping and installable; **planned** — not yet
+available.
+
+### Editors
+
+- [Slatewave for VSCode](src/content/themes/vscode.mdx) — beta
+- [Slatewave for JetBrains](src/content/themes/jetbrains.mdx) — beta
+- [Slatewave for Neovim](src/content/themes/neovim.mdx) — beta
+- [Slatewave for Sublime Text](src/content/themes/sublime-text.mdx) — beta
+- [Slatewave for Helix](src/content/themes/helix.mdx) — beta
+- [Slatewave for Zed](src/content/themes/zed.mdx) — beta
+
+### Terminals
+
+- [Slatewave for Oh My Posh](src/content/themes/oh-my-posh.mdx) — beta
+- [Slatewave for Starship](src/content/themes/starship.mdx) — beta
+- [Slatewave for Ghostty](src/content/themes/ghostty.mdx) — beta
+- [Slatewave for iTerm2](src/content/themes/iterm2.mdx) — beta
+- [Slatewave for Alacritty](src/content/themes/alacritty.mdx) — beta
+- [Slatewave for WezTerm](src/content/themes/wezterm.mdx) — beta
+- [Slatewave for Windows Terminal](src/content/themes/windows-terminal.mdx) — beta
+- [Slatewave for tmux](src/content/themes/tmux.mdx) — beta
+- [Slatewave for Kitty](src/content/themes/kitty.mdx) — planned
+
+### Notes
+
+- [Slatewave for Obsidian](src/content/themes/obsidian.mdx) — beta
+- [Slatewave for Logseq](src/content/themes/logseq.mdx) — beta
+- [Slatewave for Anytype](src/content/themes/anytype.mdx) — planned
+
+### Productivity
+
+- [Slatewave for Alfred](src/content/themes/alfred.mdx) — beta
+- [Slatewave for Raycast](src/content/themes/raycast.mdx) — beta
+- [Slatewave for Slack](src/content/themes/slack.mdx) — beta
 
 ## Develop
 
