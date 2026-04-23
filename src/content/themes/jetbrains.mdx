@@ -1,21 +1,76 @@
 ---
-name: Slatewave for JetBrains IDEs
+name: Slatewave for JetBrains
 shortName: JetBrains
 slug: jetbrains
 category: editor
-tagline: Slatewave for IntelliJ, WebStorm, and every other JetBrains IDE.
+tagline: A full UI theme plus editor scheme for every IntelliJ-based IDE.
 summary: >-
-  Planned — a Slatewave color scheme + UI theme plugin for the full
-  JetBrains IDE family (IntelliJ, WebStorm, PyCharm, GoLand, RubyMine,
-  PhpStorm, CLion, DataGrip, RustRover).
-status: planned
-order: 230
+  Both halves of a JetBrains theme — `slatewave.theme.json` for UI
+  chrome and `Slatewave.xml` for the editor scheme — bundled as one
+  plugin. Works across GoLand, WebStorm, IntelliJ IDEA, PyCharm,
+  RubyMine, PhpStorm, CLion, RustRover, DataGrip, Rider, and Android
+  Studio.
+status: beta
+order: 100
 accent: '#38bdf8'
 repo:
   owner: kevinlangleyjr
   name: jetbrains-slatewave
-  url: https://www.jetbrains.com
-tags: [editor, ide, planned]
+  url: https://github.com/kevinlangleyjr/jetbrains-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: go
+  sample: |
+    // slatewave/palette.go
+    package palette
+
+    import "fmt"
+
+    type Surface string
+
+    const (
+        Editor   Surface = "editor"
+        Terminal Surface = "terminal"
+        Notes    Surface = "notes"
+    )
+
+    type Theme struct {
+        Name    string  `json:"name"`
+        Surface Surface `json:"surface"`
+        Accent  string  `json:"accent"`
+    }
+
+    func (t Theme) Describe() string {
+        return fmt.Sprintf("%s on %s (%s)", t.Name, t.Surface, t.Accent)
+    }
+install:
+  - label: Marketplace
+    description: Coming soon — not yet published to the JetBrains Marketplace.
+    steps:
+      - Settings → Plugins → Marketplace
+      - Search "Slatewave"
+      - Install, then Settings → Appearance & Behavior → Appearance → Theme → Slatewave
+  - label: Install from disk
+    description: Build a local .zip and install it into any JetBrains IDE. Gradle needs JDK ≥ 17 — the JBR bundled with any JetBrains IDE works.
+    steps:
+      - 'JAVA_HOME=/Applications/GoLand.app/Contents/jbr/Contents/Home ./gradlew buildPlugin'
+      - Locate build/distributions/slatewave-0.0.1.zip
+      - Settings → Plugins → ⚙ → Install Plugin from Disk… → pick the .zip
+  - label: Run live (for contributors)
+    description: Spin up a sandbox IDE with the plugin preloaded — edits to theme.json or Slatewave.xml apply on next sandbox launch.
+    command: JAVA_HOME=/Applications/GoLand.app/Contents/jbr/Contents/Home ./gradlew runIde
+tags: [editor, ide, jetbrains, intellij]
 ---
 
-Planned — not yet available.
+Slatewave for JetBrains ships the UI theme and editor scheme as a
+single plugin — selecting **Slatewave** as the theme auto-switches the
+editor scheme too. The terminal ANSI palette is wired to the
+oh-my-posh prompt's segment colors, so the integrated terminal and any
+outside terminal render identically.
+
+Syntax coverage includes Go, TypeScript/JavaScript, JSX/TSX, CSS /
+SCSS / LESS, HTML / XML, JSON, YAML, Markdown, Python, Bash, Docker,
+and SQL, with tuned Go-specific accents (struct tags in amber, package
+and imports in teal, receivers in purple) and semantic token support
+across every other language.
