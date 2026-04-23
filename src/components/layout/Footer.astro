@@ -26,9 +26,9 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
         </ul>
       </div>
 
-      <div>
+      <div class="themes-col">
         <p class="eyebrow">Themes</p>
-        <ul>
+        <ul class="themes-list">
           {themes.map((theme) => (
             <li><a href={`/themes/${theme.data.slug}/`}>{theme.data.shortName}</a></li>
           ))}
@@ -36,7 +36,10 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
       </div>
     </div>
 
-    <p class="small muted">&copy; {year} Slatewave. Open source under the <a href="http://www.wtfpl.net/" rel="noopener" target="_blank">WTFPL</a>.</p>
+    <p class="small muted">
+      Designed and built by <a href="https://kevinlangleyjr.dev" rel="noopener" target="_blank">Kevin Langley Jr.</a>
+      &middot; &copy; {year} Slatewave &middot; Open source under the <a href="http://www.wtfpl.net/" rel="noopener" target="_blank">WTFPL</a>
+    </p>
   </div>
 </footer>
 
@@ -50,7 +53,7 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
 
   .grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 2fr;
     gap: var(--space-8);
     margin-bottom: var(--space-8);
   }
@@ -68,6 +71,27 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
+  }
+
+  .themes-list {
+    display: block;
+    columns: 2 8rem;
+    column-gap: var(--space-6);
+  }
+
+  .themes-list li {
+    break-inside: avoid;
+    margin-top: var(--space-1);
+  }
+
+  .themes-list li:first-child {
+    margin-top: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .themes-list {
+      columns: 3 8rem;
+    }
   }
 
   .brand {

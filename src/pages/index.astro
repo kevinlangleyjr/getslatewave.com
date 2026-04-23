@@ -10,8 +10,22 @@ import ObsidianPreview from '~/components/previews/ObsidianPreview.astro';
 const themes = (await getCollection('themes'))
   .sort((a, b) => a.data.order - b.data.order);
 
-const featured = themes.filter((t) => t.data.featured);
-const shippedCount = themes.filter((t) => t.data.status !== 'planned').length;
+const shipped = themes.filter((t) => t.data.status !== 'planned');
+const shippedCount = shipped.length;
+
+// Pool grouped by category for the "Pick your surface" shuffle. Soft
+// category = notes + productivity (the third slot pulls from either).
+const editors = shipped.filter((t) => t.data.category === 'editor');
+const terminals = shipped.filter((t) => t.data.category === 'terminal');
+const softCats = shipped.filter(
+  (t) => t.data.category === 'notes' || t.data.category === 'productivity',
+);
+
+// SSR defaults (stable across builds, used as no-JS fallback and as the
+// first paint before the client shuffle runs).
+const defaultEditor = editors[0];
+const defaultTerminal = terminals[0];
+const defaultSoft = softCats[0];
 
 const heroSample = `// slatewave/palette.ts
 export const accent = '#5eead4';
@@ -102,15 +116,51 @@ export function apply(theme: Theme): string {
         <p class="eyebrow">Themes</p>
         <h2>Pick your surface.</h2>
       </header>
-      <ul class="theme-grid">
-        {featured.map((theme) => (
-          <li>
+      <ul class="theme-grid" id="surface-grid">
+        <li data-category={defaultEditor.data.category}>
+          <ThemeCard theme={defaultEditor} />
+        </li>
+        <li data-category={defaultTerminal.data.category}>
+          <ThemeCard theme={defaultTerminal} />
+        </li>
+        <li data-category={defaultSoft.data.category}>
+          <ThemeCard theme={defaultSoft} />
+        </li>
+      </ul>
+
+      <template id="surface-pool">
+        {shipped.map((theme) => (
+          <li data-category={theme.data.category}>
             <ThemeCard theme={theme} />
           </li>
         ))}
-      </ul>
+      </template>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const grid = document.getElementById('surface-grid');
+      const pool = document.getElementById('surface-pool');
+      if (!grid || !(pool instanceof HTMLTemplateElement)) return;
+      const items = Array.from(pool.content.querySelectorAll('li[data-category]'));
+      const byCat = {};
+      for (const el of items) {
+        const c = el.dataset.category;
+        if (!c) continue;
+        (byCat[c] ||= []).push(el);
+      }
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+      const editor = byCat.editor && byCat.editor.length ? pick(byCat.editor) : null;
+      const terminal = byCat.terminal && byCat.terminal.length ? pick(byCat.terminal) : null;
+      const soft = [...(byCat.notes || []), ...(byCat.productivity || [])];
+      const third = soft.length ? pick(soft) : null;
+      const picks = [editor, terminal, third].filter(Boolean);
+      if (picks.length === 3) {
+        grid.replaceChildren(...picks.map((el) => el.cloneNode(true)));
+      }
+    })();
+  </script>
 
   <section class="section">
     <div class="container">
