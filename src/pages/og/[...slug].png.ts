@@ -55,7 +55,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
           eyebrow: 'A cohesive theme system',
           title: 'One palette. Every tool.',
           description:
-            'Slatewave is a family of themes that share a single, carefully-tuned color system — editor, terminal, and notes speaking the same visual language.',
+            'A family of themes that share a single, carefully-tuned color system — editor, terminal, notes, launcher, and chat, all speaking the same visual language.',
         },
       },
     },
