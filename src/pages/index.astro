@@ -11,6 +11,7 @@ const themes = (await getCollection('themes'))
   .sort((a, b) => a.data.order - b.data.order);
 
 const featured = themes.filter((t) => t.data.featured);
+const shippedCount = themes.filter((t) => t.data.status !== 'planned').length;
 
 const heroSample = `// slatewave/palette.ts
 export const accent = '#5eead4';
@@ -36,7 +37,7 @@ export function apply(theme: Theme): string {
       <h1>One palette.<br />Every tool.</h1>
       <p class="lede">
         Slatewave is a family of themes that share a single, carefully-tuned
-        color system — so your editor, terminal, and notes all speak the
+        color system — {shippedCount} tools and counting, all speaking the
         same visual language.
       </p>
       <div class="hero-cta">
@@ -58,11 +59,12 @@ export function apply(theme: Theme): string {
     <div class="container">
       <header class="section-head">
         <p class="eyebrow">The same palette, everywhere</p>
-        <h2>Three surfaces. One visual language.</h2>
+        <h2>A few surfaces. One visual language.</h2>
         <p class="section-lede">
-          Editor, terminal, and notes — each rendered with the authoritative
-          Slatewave palette. These previews aren't screenshots; they're
-          rendered with the same colors you'd install.
+          Editor, terminal, notes — three of the {shippedCount} shipping
+          themes, rendered with the authoritative Slatewave palette. These
+          previews aren't screenshots; they use the same colors you'd install.
+          <a href="/themes/" class="inline-link">See all {shippedCount} themes →</a>
         </p>
       </header>
 
@@ -310,6 +312,11 @@ export function apply(theme: Theme): string {
   .section-lede {
     margin-top: var(--space-3);
     color: var(--fg-muted);
+  }
+
+  .inline-link {
+    color: var(--accent);
+    white-space: nowrap;
   }
 
   .theme-grid {
