@@ -7,16 +7,40 @@ Slatewave is a Tailwind-slate foundation with a teal signature
 (`#5eead4`) and sky, rose, purple, and amber accents. See
 [palette spec](/docs/palette-spec/) for the canonical definition.
 
+---
+
+## Shipped
+
+| Target | Category | Status | Repo |
+|---|---|---|---|
+| **VSCode** (canonical source) | Editor | Beta | [vscode-slatewave](https://github.com/kevinlangleyjr/vscode-slatewave) |
+| **Oh My Posh** | Terminal | Beta | [slatewave-omp](https://github.com/kevinlangleyjr/slatewave-omp) |
+| **Obsidian** | Notes | Beta | [obsidian-slatewave](https://github.com/kevinlangleyjr/obsidian-slatewave) |
+| **Ghostty** | Terminal | Beta | [ghostty-slatewave](https://github.com/kevinlangleyjr/ghostty-slatewave) |
+| **iTerm2** | Terminal | Beta | [iterm2-slatewave](https://github.com/kevinlangleyjr/iterm2-slatewave) |
+| **Logseq** | Notes | Beta | [logseq-slatewave](https://github.com/kevinlangleyjr/logseq-slatewave) |
+| **Sublime Text** | Editor | Beta | [sublime-text-slatewave](https://github.com/kevinlangleyjr/sublime-text-slatewave) |
+| **Alacritty** | Terminal | Beta | [alacritty-slatewave](https://github.com/kevinlangleyjr/alacritty-slatewave) |
+| **Slack** | Productivity | Beta | [slack-slatewave](https://github.com/kevinlangleyjr/slack-slatewave) |
+| **JetBrains IDEs** | Editor | Beta | [jetbrains-slatewave](https://github.com/kevinlangleyjr/jetbrains-slatewave) |
+| **Raycast** | Productivity | Beta | [raycast-slatewave](https://github.com/kevinlangleyjr/raycast-slatewave) |
+| **Alfred** | Productivity | Beta | [alfred-slatewave](https://github.com/kevinlangleyjr/alfred-slatewave) |
+
+Candidates below are marked **✅ Shipped** inline when the original
+research entry now corresponds to a live theme.
+
+---
+
 ## Terminals / Shells
 
-### 1. Ghostty — quick-win
+### 1. Ghostty — ✅ Shipped
 
 - **Mechanism**: Plain-text config file at `~/.config/ghostty/themes/` with key-value `palette`, `background`, `foreground`, `selection-*`, `cursor-color` entries. [docs](https://ghostty.org/docs/config/reference#theme)
 - **Effort**: Low — 16 ANSI colors + ~6 UI slots. Maps directly from VSCode palette.
 - **Blockers**: None. Ghostty ships a curated theme list — submitting upstream is a viable distribution path.
 - **Priority**: Quick-win.
 
-### 2. Alacritty — quick-win
+### 2. Alacritty — ✅ Shipped
 
 - **Mechanism**: TOML config (`~/.config/alacritty/alacritty.toml`) with `[colors.primary|cursor|normal|bright|selection]` blocks. [docs](https://alacritty.org/config-alacritty.html)
 - **Effort**: Low — same 16+UI slot model as Ghostty.
@@ -30,7 +54,7 @@ Slatewave is a Tailwind-slate foundation with a teal signature
 - **Blockers**: None. Upstream accepts theme contributions to `wezterm/termwiz`.
 - **Priority**: Quick-win.
 
-### 4. iTerm2 — quick-win
+### 4. iTerm2 — ✅ Shipped
 
 - **Mechanism**: `.itermcolors` XML plist. GUI importer. [docs](https://iterm2.com/documentation-preferences-profiles-colors.html)
 - **Effort**: Low — 16 ANSI + ~10 UI slots (badge, link, cursor guide). Generator scripts exist.
@@ -88,13 +112,13 @@ Slatewave is a Tailwind-slate foundation with a teal signature
 - **Effort**: Medium — many highlight groups, plus plugin integrations (Telescope, lualine, gitsigns).
 - **Priority**: Quick-win (huge dev audience).
 
-### 3. Sublime Text — medium
+### 3. Sublime Text — ✅ Shipped
 
 - **Mechanism**: `.sublime-color-scheme` JSON. [docs](https://www.sublimetext.com/docs/color_schemes.html)
 - **Effort**: Low-medium. Scopes are TextMate-style, adaptable from VSCode tmLanguage grammars.
 - **Priority**: Medium.
 
-### 4. JetBrains IDEs — medium
+### 4. JetBrains IDEs — ✅ Shipped
 
 - **Mechanism**: `.icls` XML color scheme + optional `*.theme.json` for UI. Distributed as plugin. [docs](https://plugins.jetbrains.com/docs/intellij/themes-getting-started.html)
 - **Effort**: Medium-high — UI theme is separate from editor colors; plugin packaging + JetBrains Marketplace review required.
@@ -113,7 +137,7 @@ Slatewave is a Tailwind-slate foundation with a teal signature
 
 ## Notes
 
-### 1. Logseq — quick-win
+### 1. Logseq — ✅ Shipped
 
 - **Mechanism**: Custom CSS via `custom.css` or theme plugin. [docs](https://docs.logseq.com/#/page/custom%20theme)
 - **Effort**: Medium — CSS variables exposed, but many components need tuning.
@@ -148,7 +172,7 @@ Only per-space gradient "themes"; no CSS or structured theme API. Also Arc is su
 
 ## Chat
 
-### 1. Slack — quick-win
+### 1. Slack — ✅ Shipped (under Productivity)
 
 - **Mechanism**: 8-color sidebar string (`#aaa,#bbb,...`) pasted into Preferences > Themes.
 - **Effort**: Very low. Share as a README snippet in the repo.
@@ -168,7 +192,7 @@ Only per-space gradient "themes"; no CSS or structured theme API. Also Arc is su
 
 ## Productivity
 
-### 1. Raycast — quick-win
+### 1. Raycast — ✅ Shipped
 
 - **Mechanism**: JSON theme file imported via `raycast://themes/...` deep link. [docs](https://manual.raycast.com/themes)
 - **Effort**: Very low — ~10 color slots.
@@ -180,7 +204,7 @@ Only per-space gradient "themes"; no CSS or structured theme API. Also Arc is su
 - **Effort**: Medium — many components; maintenance cost as GitHub ships redesigns.
 - **Priority**: Quick-win for visibility; medium maintenance.
 
-### 3. Alfred — medium
+### 3. Alfred — ✅ Shipped
 
 - **Mechanism**: `.alfredappearance` file (plist). Exported from Alfred Preferences > Appearance.
 - **Effort**: Low. Small audience relative to Raycast.
@@ -196,8 +220,16 @@ No theming support.
 
 ## Top 5 Recommended Next Targets
 
+_Ghostty and Raycast from the original top 5 have shipped. Remaining
+priorities, re-ranked:_
+
 1. **Starship** — Directly parallels the existing OMP port; trivially reuses the palette and reaches a massive shell-prompt audience.
-2. **Ghostty** — Fastest-growing terminal, trivial config format, and a curated upstream theme gallery for distribution.
-3. **Zed** — Modern, rapidly-adopted editor with a clean JSON theme spec and a real extension marketplace — highest ROI among editors.
-4. **Raycast** — Ten-color import link; ships in under an hour and gets shared organically via the Raycast theme community.
-5. **Neovim** — Largest dev audience on this list; Lua colorscheme is more work than Starship but pays back via broad visibility and ties nicely to the VSCode port's token scopes.
+2. **Zed** — Modern, rapidly-adopted editor with a clean JSON theme spec and a real extension marketplace — highest ROI among remaining editors.
+3. **Neovim** — Largest dev audience on this list; Lua colorscheme is more work than Starship but pays back via broad visibility and ties nicely to the VSCode port's token scopes.
+4. **WezTerm** — Rounds out the terminal trio alongside Ghostty / iTerm2 / Alacritty; straightforward TOML/Lua theme file and upstream contribution path.
+5. **Firefox** — Browser chrome is a surface we haven't touched yet; WebExtension theme API is simple enough to ship quickly and publishes through AMO.
+
+### Shipped from the original research
+
+Ghostty, Alacritty, iTerm2, Sublime Text, JetBrains, Logseq, Slack
+(under Productivity), Raycast, Alfred — all live.
