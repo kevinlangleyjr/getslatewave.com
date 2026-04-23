@@ -1,5 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
+
 const year = new Date().getFullYear();
+
+const themes = (await getCollection('themes', ({ data }) => data.status !== 'planned'))
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <footer class="site-footer">
@@ -23,9 +28,9 @@ const year = new Date().getFullYear();
       <div>
         <p class="eyebrow">Themes</p>
         <ul>
-          <li><a href="https://github.com/kevinlangleyjr/vscode-slatewave" target="_blank" rel="noopener">VSCode</a></li>
-          <li><a href="https://github.com/kevinlangleyjr/slatewave-omp" target="_blank" rel="noopener">Oh My Posh</a></li>
-          <li><a href="https://github.com/kevinlangleyjr/obsidian-slatewave" target="_blank" rel="noopener">Obsidian</a></li>
+          {themes.map((theme) => (
+            <li><a href={`/themes/${theme.data.slug}/`}>{theme.data.shortName}</a></li>
+          ))}
         </ul>
       </div>
     </div>
