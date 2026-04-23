@@ -3,18 +3,58 @@ name: Slatewave for Raycast
 shortName: Raycast
 slug: raycast
 category: productivity
-tagline: A ten-color Slatewave theme for Raycast.
+tagline: A twelve-slot Raycast theme — slate foundation, teal selection.
 summary: >-
-  Planned — a Slatewave JSON theme for Raycast, installable via the
-  `raycast://themes/...` deep link.
-status: planned
-order: 400
+  A Slatewave JSON theme mapping the full twelve-slot Raycast theme
+  schema: background layers, selection, loader, and the seven accent
+  tokens. Requires a Raycast Pro subscription, since Raycast gates
+  custom themes behind it.
+status: beta
+order: 110
 accent: '#fbbf24'
 repo:
   owner: kevinlangleyjr
   name: raycast-slatewave
-  url: https://raycast.com
-tags: [productivity, launcher, planned]
+  url: https://github.com/kevinlangleyjr/raycast-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: json
+  sample: |
+    {
+      "background": "#282c34",
+      "backgroundSecondary": "#1e293b",
+      "text": "#e2e8f0",
+      "selection": "#5eead4",
+      "loader": "#5eead4",
+      "red": "#fb7185",
+      "orange": "#ff4500",
+      "yellow": "#fbbf24",
+      "green": "#5eead4",
+      "blue": "#38bdf8",
+      "purple": "#b388ff",
+      "magenta": "#f472b6"
+    }
+install:
+  - label: Import via Theme Studio
+    description: Raycast Pro required — custom themes are a Pro-only feature.
+    steps:
+      - Open Raycast and search for "Theme Studio" (or run Manage Themes → Create New Theme)
+      - Copy the contents of slatewave.json from the repo
+      - In Theme Studio, choose Import Theme and paste the JSON
+      - Set Slatewave as your active theme in Raycast Settings → Appearance
+  - label: From a local clone
+    description: Clone the repo before running the import steps above.
+    command: git clone https://github.com/kevinlangleyjr/raycast-slatewave ~/Development/raycast-slatewave
+tags: [productivity, launcher, raycast]
 ---
 
-Planned — not yet available.
+Slatewave for Raycast maps onto the full twelve-slot theme schema, so
+every accent role — red/orange/yellow/green/blue/purple/magenta — ends
+up on a semantically-correct Slatewave color. Teal drives both the
+selection bar and the loader spinner, keeping the signature visible on
+any view.
+
+Custom themes require a Raycast Pro subscription; the theme itself is
+a plain JSON blob under the WTFPL, so forks and local overrides stay
+trivial.

@@ -3,18 +3,72 @@ name: Slatewave for Alfred
 shortName: Alfred
 slug: alfred
 category: productivity
-tagline: The Slatewave palette as an Alfred appearance file.
+tagline: A full .alfredappearance preset — selected teal, slate everything else.
 summary: >-
-  Planned — a Slatewave `.alfredappearance` plist for Alfred's
-  result list, query field, and selection highlighting.
-status: planned
-order: 410
+  A Slatewave `.alfredappearance` preset tuned against Alfred 5's full
+  appearance schema — window, border, search field, selected and
+  unselected result rows, subtext, shortcut hints, and scrollbar — so
+  the launcher reads like a frosted pane of the VSCode editor.
+status: beta
+order: 120
 accent: '#fbbf24'
 repo:
   owner: kevinlangleyjr
   name: alfred-slatewave
-  url: https://alfredapp.com
-tags: [productivity, launcher, macos, planned]
+  url: https://github.com/kevinlangleyjr/alfred-slatewave
+  defaultBranch: main
+links:
+  download: https://raw.githubusercontent.com/kevinlangleyjr/alfred-slatewave/main/Slatewave.alfredappearance
+preview:
+  kind: code
+  language: json
+  sample: |
+    {
+      "alfredtheme": {
+        "window": {
+          "color": "#282c34E6",
+          "borderColor": "#1e293bFF",
+          "blur": 20,
+          "borderPadding": 0,
+          "paddingVertical": 2,
+          "borderSize": 1
+        },
+        "search": {
+          "text": { "color": "#e2e8f0FF", "size": 36 }
+        },
+        "result": {
+          "text": { "color": "#cbd5e1FF" },
+          "textSelected": { "color": "#5eead4FF" },
+          "backgroundSelected": "#334155B3",
+          "subtext": { "color": "#64748bFF" },
+          "shortcut": { "colorSelected": "#5eead4FF" }
+        }
+      }
+    }
+install:
+  - label: Import the preset
+    description: macOS knows how to hand .alfredappearance files to Alfred directly.
+    steps:
+      - Download Slatewave.alfredappearance from the repo
+      - Double-click the file — Alfred opens Settings → Appearance with Slatewave pre-selected
+      - Click Import to confirm; Slatewave appears in your theme list
+    link: https://raw.githubusercontent.com/kevinlangleyjr/alfred-slatewave/main/Slatewave.alfredappearance
+  - label: From a local clone
+    description: Clone and open — Alfred auto-offers to import it.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/alfred-slatewave
+      - open alfred-slatewave/Slatewave.alfredappearance
+tags: [productivity, launcher, alfred, macos]
 ---
 
-Planned — not yet available.
+Slatewave for Alfred is a single `.alfredappearance` preset — every
+slot in Alfred 5's schema gets a semantically-matched Slatewave color,
+not just the window background. The selected result title picks up the
+teal signature, while unselected titles sit in slate-300 with
+slate-500 subtext so nothing competes for attention.
+
+The window uses slate at 90% opacity with a 20pt blur, so Alfred feels
+like a frosted pane of the Slatewave editor hovering above your
+desktop. ARGB color values map directly to VSCode's `list.*` / `editor.*`
+analogues, keeping Alfred's row states aligned with the editor's
+file-tree states.
