@@ -3,18 +3,80 @@ name: Slatewave for Starship
 shortName: Starship
 slug: starship
 category: terminal
-tagline: The Slatewave prompt, ported to Starship's TOML config.
+tagline: A Slatewave prompt for Starship, twin of the Oh My Posh port.
 summary: >-
-  Planned — a Slatewave `starship.toml` palette and module styles mirroring
-  the Oh My Posh segments, for the `starship` prompt.
-status: planned
-order: 160
+  Two-line Starship config with palette, path, git, and language runtime
+  segments on the left, and execution time, battery, memory, and clock
+  on the right — mirroring the Slatewave Oh My Posh prompt so switching
+  between the two feels identical.
+status: beta
+order: 130
 accent: '#38bdf8'
 repo:
   owner: kevinlangleyjr
   name: starship-slatewave
-  url: https://starship.rs
-tags: [terminal, prompt, planned]
+  url: https://github.com/kevinlangleyjr/starship-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: toml
+  sample: |
+    # ~/.config/starship.toml — slatewave palette (abridged)
+    add_newline = false
+    palette = 'slatewave'
+    format = """
+    $os$directory$git_branch$git_status$fill\
+    $cmd_duration$battery$memory_usage$time
+    $character"""
+
+    [palettes.slatewave]
+    teal_300    = '#5eead4'
+    sky_400     = '#38bdf8'
+    rose_400    = '#fb7185'
+    amber_400   = '#fbbf24'
+    purple      = '#b388ff'
+    bg_base     = '#282c34'
+    fg_default  = '#e2e8f0'
+
+    [character]
+    success_symbol = '[╰─❯](bold fg:teal_300)'
+    error_symbol   = '[╰─❯](bold fg:rose_400)'
+install:
+  - label: Clone + point Starship at it
+    description: Clone the repo and set STARSHIP_CONFIG in your shell init. Requires Starship ≥ 1.16.
+    command: git clone https://github.com/kevinlangleyjr/starship-slatewave.git ~/.config/starship-slatewave
+  - label: Activate — zsh
+    description: Add to ~/.zshrc.
+    steps:
+      - 'export STARSHIP_CONFIG=~/.config/starship-slatewave/slatewave.toml'
+      - 'eval "$(starship init zsh)"'
+      - 'exec zsh'
+  - label: Activate — bash
+    description: Add to ~/.bashrc.
+    steps:
+      - 'export STARSHIP_CONFIG=~/.config/starship-slatewave/slatewave.toml'
+      - 'eval "$(starship init bash)"'
+  - label: Activate — fish
+    description: Add to ~/.config/fish/config.fish.
+    steps:
+      - 'set -gx STARSHIP_CONFIG ~/.config/starship-slatewave/slatewave.toml'
+      - 'starship init fish | source'
+  - label: Install as default config
+    description: If STARSHIP_CONFIG is unset, Starship reads ~/.config/starship.toml. Drop the theme there to make it the default for every shell.
+    command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/starship-slatewave/main/slatewave.toml -o ~/.config/starship.toml
+  - label: Import the palette only
+    description: Keep your existing prompt layout but adopt Slatewave colors — copy the [palettes.slatewave] table into your existing starship.toml and reference its color names from your module styles.
+tags: [terminal, prompt, starship]
 ---
 
-Planned — not yet available.
+Slatewave for Starship is a two-line prompt tuned to twin the Oh My
+Posh companion: left-side segments run `os → path → git → runtime
+versions` and the right side runs `timing → battery → memory → clock`,
+with a `╰─❯` caret on line two that's teal on success and rose on
+non-zero exit.
+
+Every color resolves to a semantic palette name (`teal_300`,
+`rose_400`, `bg_base`, etc.), so overrides compose cleanly — override a
+slot in your own config without forking. Nerd Font required for the
+powerline glyphs and segment icons; tested with MesloLGS NF and Hack
+Nerd Font.

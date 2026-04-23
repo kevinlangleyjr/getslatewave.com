@@ -3,18 +3,75 @@ name: Slatewave for Neovim
 shortName: Neovim
 slug: neovim
 category: editor
-tagline: A Slatewave Lua colorscheme with Treesitter and LSP groups.
+tagline: A Lua colorscheme covering TreeSitter, LSP semantic tokens, and a lualine theme.
 summary: >-
-  Planned — a Slatewave Lua colorscheme for Neovim with Treesitter, LSP,
-  and common plugin integrations (Telescope, lualine, gitsigns).
-status: planned
-order: 210
+  A Neovim colorscheme built as a Lua plugin — TreeSitter `@*` groups,
+  LSP `@lsp.*` semantic tokens, and a matching lualine theme. Syntax
+  mapping mirrors the VSCode port so the same code reads the same way
+  in both editors.
+status: beta
+order: 140
 accent: '#38bdf8'
 repo:
   owner: kevinlangleyjr
   name: neovim-slatewave
-  url: https://neovim.io
-tags: [editor, vim, planned]
+  url: https://github.com/kevinlangleyjr/neovim-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: typescript
+  sample: |
+    // slatewave/palette.ts
+    export const accent = '#5eead4';
+
+    export interface Theme {
+      name: string;
+      surface: 'editor' | 'terminal' | 'notes';
+    }
+
+    export function apply<T extends Theme>(theme: T): string {
+      return `${theme.name} on ${theme.surface} (${accent})`;
+    }
+
+    const theme: Theme = {
+      name: 'Slatewave',
+      surface: 'editor',
+    };
+
+    console.log(apply(theme));
+install:
+  - label: lazy.nvim
+    description: Requires Neovim 0.9+ and termguicolors. Call setup() before colorscheme.
+    steps:
+      - 'Add the plugin spec — `{ "kevinlangleyjr/neovim-slatewave", name = "slatewave", priority = 1000, lazy = false, opts = {}, config = function(_, opts) require("slatewave").setup(opts); vim.cmd.colorscheme("slatewave") end }`'
+      - Run :Lazy sync
+  - label: packer.nvim
+    steps:
+      - 'use({ "kevinlangleyjr/neovim-slatewave", as = "slatewave", config = function() require("slatewave").setup({}); vim.cmd.colorscheme("slatewave") end })'
+      - Run :PackerSync
+  - label: vim-plug
+    steps:
+      - "Plug 'kevinlangleyjr/neovim-slatewave', { 'as': 'slatewave' }"
+      - 'Then in init.lua — `require("slatewave").setup({}); vim.cmd.colorscheme("slatewave")`'
+      - Run :PlugInstall
+  - label: Configure
+    description: All options shown with defaults — pass into setup() before loading the colorscheme.
+    steps:
+      - 'transparent = false · sets Normal bg to NONE'
+      - 'italic_comments = true'
+      - 'italic_keywords = true · storage, self/this/super'
+      - 'dim_inactive = false'
+      - 'terminal_colors = true · sets g:terminal_color_0..15'
+tags: [editor, neovim, vim]
 ---
 
-Planned — not yet available.
+Slatewave for Neovim is a proper Lua plugin, not a dropped-in colors
+file — palette, editor groups, syntax groups, TreeSitter captures, and
+LSP semantic tokens each live in their own module under
+`lua/slatewave/`, with a single `setup()` entry point for overrides.
+
+Covers core UI (Normal, Pmenu, StatusLine, Visual, Diff, Diagnostics,
+LSP references, spell), the full `:syntax` group set, TreeSitter `@*`
+captures, LSP `@lsp.*` semantic tokens, and a matching lualine theme.
+Terminal ANSI palette mirrors the VSCode theme's block so embedded
+terminals stay on palette.
