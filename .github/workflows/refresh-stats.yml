@@ -1,0 +1,13 @@
+name: Refresh GitHub stats
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST Netlify build hook
+        run: curl -fsSL -X POST -d {} "${{ secrets.NETLIFY_BUILD_HOOK_URL }}"
