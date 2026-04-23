@@ -3,18 +3,62 @@ name: Slatewave for tmux
 shortName: tmux
 slug: tmux
 category: terminal
-tagline: A Slatewave status bar and pane styling for tmux.
+tagline: A status bar and pane styling for tmux, with powerline pill transitions.
 summary: >-
-  Planned — a Slatewave `.tmux.conf` snippet (or TPM plugin) covering the
-  status bar, window list, and pane-border styles.
-status: planned
-order: 170
+  A complete tmux theme — status bar, window list, pane borders, copy
+  mode, command prompt, menus, popups, and the built-in clock — all
+  tuned to the Slatewave palette. Works as a drop-in config or a TPM
+  plugin.
+status: beta
+order: 150
 accent: '#5eead4'
 repo:
   owner: kevinlangleyjr
   name: tmux-slatewave
-  url: https://github.com/tmux/tmux
-tags: [terminal, multiplexer, planned]
+  url: https://github.com/kevinlangleyjr/tmux-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: bash
+  sample: |
+    # ~/.tmux.conf
+    source-file ~/.config/tmux/slatewave/slatewave.tmux.conf
+
+    # Layout: [session]  1:editor  2:server  [3:logs]    PREFIX  Wed Apr 22  3:04 PM
+    # - Session pill: teal on slate
+    # - Active window: teal text on chrome-light
+    # - Prefix indicator: rose, only while prefix key is held
+    # - Right side: prefix → date → 12-hour clock
+
+    set -g @plugin 'tmux-plugins/tmux-sensible'
+    set -g prefix C-a
+    bind-key r source-file ~/.tmux.conf \; display-message "reloaded"
+install:
+  - label: source-file in ~/.tmux.conf
+    description: Clone the repo then source the theme from your main tmux config. Requires tmux ≥ 3.2 and a Nerd Font for the powerline pill transitions.
+    command: git clone https://github.com/kevinlangleyjr/tmux-slatewave.git ~/.config/tmux/slatewave
+  - label: Activate
+    description: Add the source-file line, then reload.
+    steps:
+      - 'Add to ~/.tmux.conf — `source-file ~/.config/tmux/slatewave/slatewave.tmux.conf`'
+      - 'Reload — `tmux source-file ~/.tmux.conf` (or prefix + r if bound)'
+  - label: TPM (tmux plugin manager)
+    description: If you use TPM, add the plugin and fetch with prefix + I.
+    steps:
+      - "Add to ~/.tmux.conf — `set -g @plugin 'kevinlangleyjr/tmux-slatewave'`"
+      - Reload tmux, then press prefix + I to install
+  - label: Copy into existing config
+    description: slatewave.tmux.conf is a plain set of `set -g` lines. Every section is commented with the palette values it uses, so partial adoption is safe — copy only the blocks you want.
+tags: [terminal, multiplexer, tmux]
 ---
 
-Planned — not yet available.
+Slatewave for tmux covers every surface the multiplexer exposes —
+status bar, window list pills, pane borders, copy mode, the command
+prompt, menus, popups, and even the built-in clock. Session name and
+active window get the teal signature; inactive windows sit in muted
+slate; the prefix indicator lights up rose while the key is held.
+
+Works on top of any Slatewave terminal (Ghostty, iTerm2, Alacritty,
+Kitty, WezTerm) for an edge-to-edge palette match — or standalone on
+any truecolor terminal. Requires tmux 3.2+ for `copy-mode-match-style`,
+`popup-style`, and modern `#{?}` formatting.

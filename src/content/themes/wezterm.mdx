@@ -3,18 +3,76 @@ name: Slatewave for WezTerm
 shortName: WezTerm
 slug: wezterm
 category: terminal
-tagline: Slatewave in WezTerm, with full tab-bar and pane theming.
+tagline: Three install shapes — TOML color scheme, inline Lua, or full typography bundle.
 summary: >-
-  Planned — a Slatewave colors file for WezTerm covering ANSI, brights,
-  tab-bar, and pane split chrome.
-status: planned
-order: 120
+  A WezTerm theme covering the full color schema — ANSI, cursor,
+  compose cursor, selection, copy mode, quick-select hints, tab bar,
+  and scrollbar. Ships as a TOML color scheme, an inline Lua table, or
+  a palette + typography bundle.
+status: beta
+order: 170
 accent: '#5eead4'
 repo:
   owner: kevinlangleyjr
   name: wezterm-slatewave
-  url: https://wezfurlong.org/wezterm/
-tags: [terminal, planned]
+  url: https://github.com/kevinlangleyjr/wezterm-slatewave
+  defaultBranch: main
+links:
+  download: https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.toml
+preview:
+  kind: code
+  language: lua
+  sample: |
+    -- ~/.config/wezterm/wezterm.lua
+    local wezterm = require 'wezterm'
+    local config  = wezterm.config_builder()
+
+    -- Palette only (slatewave.toml in colors/)
+    config.color_scheme = 'Slatewave'
+
+    -- Or: palette + typography in one require
+    require('slatewave-full').apply_to_config(config)
+
+    return config
+install:
+  - label: Color scheme (TOML)
+    description: WezTerm auto-loads any TOML in ~/.config/wezterm/colors/ as a named scheme.
+    command: mkdir -p ~/.config/wezterm/colors && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.toml -o ~/.config/wezterm/colors/slatewave.toml
+  - label: Activate
+    description: Reference the scheme by name in your WezTerm config.
+    steps:
+      - 'Open ~/.config/wezterm/wezterm.lua'
+      - 'Set `config.color_scheme = "Slatewave"`'
+      - WezTerm reloads on save — no restart needed
+  - label: Inline Lua
+    description: Prefer a Lua table to a separate TOML? Drop slatewave.lua next to wezterm.lua and register the scheme inline.
+    steps:
+      - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.lua -o ~/.config/wezterm/slatewave.lua
+      - 'In wezterm.lua — `config.color_schemes = { Slatewave = require("slatewave") }`'
+      - 'Then — `config.color_scheme = "Slatewave"`'
+  - label: Palette + typography
+    description: Full bundle — palette plus Hack Nerd Font Mono at 14pt, block cursor, opaque window. Requires Hack Nerd Font Mono installed.
+    steps:
+      - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave-full.lua -o ~/.config/wezterm/slatewave-full.lua
+      - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.lua -o ~/.config/wezterm/slatewave.lua
+      - 'In wezterm.lua — `require("slatewave-full").apply_to_config(config)`'
+  - label: From a local clone
+    description: Clone once and copy all three files at your own pace.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/wezterm-slatewave
+      - cp wezterm-slatewave/slatewave.toml ~/.config/wezterm/colors/
+      - cp wezterm-slatewave/slatewave.lua wezterm-slatewave/slatewave-full.lua ~/.config/wezterm/
+tags: [terminal, wezterm]
 ---
 
-Planned — not yet available.
+Slatewave for WezTerm tunes every slot WezTerm exposes — not just the
+16 ANSI colors. Compose cursor amber, copy-mode active/inactive
+match pair mirrors VSCode's `findMatch`/`findMatchHighlight`, and the
+tab-bar chrome matches the VSCode activity bar so the window edges
+read as one continuous surface.
+
+The three install shapes (TOML, inline Lua, or full bundle) let you
+pick up the palette without inheriting the font/cursor/window
+opinions. The full bundle can be composed — call `apply_to_config`
+then override individual settings after, and the later assignments
+win.

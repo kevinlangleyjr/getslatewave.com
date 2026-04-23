@@ -3,18 +3,78 @@ name: Slatewave for Zed
 shortName: Zed
 slug: zed
 category: editor
-tagline: Slatewave as a Zed extension, with full token-scope coverage.
+tagline: A dark Zed theme with 1:1 syntax parity with the VSCode and Neovim ports.
 summary: >-
-  Planned — a Slatewave Zed theme family JSON, distributed via the Zed
-  extensions repo.
-status: planned
-order: 200
+  A complete Zed theme covering editor, sidebar, tabs, terminal, status
+  bar, and all syntax scopes — tuned so the same code reads the same
+  way here as in the VSCode, Neovim, and Sublime Text ports.
+status: beta
+order: 160
 accent: '#38bdf8'
 repo:
   owner: kevinlangleyjr
   name: zed-slatewave
-  url: https://zed.dev
-tags: [editor, planned]
+  url: https://github.com/kevinlangleyjr/zed-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: typescript
+  sample: |
+    // slatewave/palette.ts
+    import type { ThemeRole } from './roles';
+
+    export const accent = '#5eead4';
+
+    export interface Theme {
+      name: string;
+      surface: 'editor' | 'terminal' | 'notes';
+      accent: string;
+    }
+
+    export function apply<T extends Theme>(theme: T): ThemeRole[] {
+      const roles: ThemeRole[] = [
+        { role: 'accent', value: theme.accent },
+        { role: 'surface', value: theme.surface },
+      ];
+      return roles;
+    }
+install:
+  - label: Dev extension (from clone)
+    description: Install the cloned repo as a dev extension while the registry entry is pending.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/zed-slatewave.git
+      - In Zed, open the command palette (⌘⇧P / Ctrl+Shift+P)
+      - Run "zed extensions install dev extension"
+      - Select the cloned `zed-slatewave` directory
+      - Pick the theme with ⌘K ⌘T / Ctrl+K Ctrl+T → Slatewave
+  - label: Extension registry
+    description: Coming soon — pending publish to the Zed extensions registry.
+    steps:
+      - Open the command palette
+      - Run "zed extensions"
+      - Search "Slatewave" and click Install
+  - label: Customize
+    description: Override specific colors without forking by editing Zed's settings.json.
+    command: |-
+      {
+        "theme": "Slatewave",
+        "experimental.theme_overrides": {
+          "editor.background": "#0a0f1e",
+          "syntax": {
+            "comment": { "color": "#475569", "font_style": "italic" }
+          }
+        }
+      }
+tags: [editor, zed]
 ---
 
-Planned — not yet available.
+Slatewave for Zed maps every semantic slot Zed exposes — editor,
+sidebar, tabs, terminal, status bar, search match highlights, git
+gutter — to the Slatewave palette. Syntax scopes match the VSCode and
+Neovim ports 1:1 so the same code lights up the same way whichever
+editor you're in.
+
+The companion terminal ANSI palette matches the `terminal.ansi*` block
+from the VSCode theme, so an embedded `zed: terminal` reads identically
+to an external iTerm2 / Ghostty / Alacritty session running any of the
+Slatewave terminal themes.
