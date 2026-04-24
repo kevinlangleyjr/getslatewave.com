@@ -1,0 +1,59 @@
+---
+name: Slatewave for MarkEdit
+shortName: MarkEdit
+slug: markedit
+category: notes
+tagline: A Slatewave palette overlay for MarkEdit, macOS's native markdown editor.
+summary: >-
+  A MarkEdit theme script built on MarkEdit-theming — applies the Slatewave
+  palette to editor chrome, markdown syntax, and code blocks, with matching
+  light and dark variants that follow the system appearance.
+status: beta
+order: 45
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: markedit-slatewave
+  url: https://github.com/kevinlangleyjr/markedit-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: markdown
+  sample: |
+    # Slatewave for MarkEdit
+
+    > Slate below, teal above.
+
+    - **Bold** reads in sky `#38bdf8`
+    - *Italic* travels in purple `#b388ff`
+    - [Links](https://getslatewave.com) in sky, resolved
+
+    ```ts
+    const accent = "#5eead4"; // teal-300, the primary signal
+    ```
+install:
+  - label: Prebuilt script
+    description: Drop the built bundle into MarkEdit's scripts folder and relaunch.
+    steps:
+      - Download `dist/markedit-theme-slatewave.js` from the repo
+      - Copy it to `~/Library/Containers/app.cyan.markedit/Data/Documents/scripts/`
+      - Quit and relaunch MarkEdit
+  - label: Build from source
+    description: Requires Node/Yarn. The build auto-deploys into MarkEdit's scripts folder.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/markedit-slatewave
+      - cd markedit-slatewave && yarn install && yarn build
+      - yarn reload
+tags: [notes, markdown, markedit, macos]
+---
+
+Slatewave for MarkEdit is a TypeScript theme script built on
+[MarkEdit-theming](https://github.com/MarkEdit-app/MarkEdit-theming). It
+overrides editor chrome (background, gutter, caret, selection) and
+markdown syntax highlighting with the Slatewave palette — no upstream
+CodeMirror theme dependency, so the colors stay pure.
+
+Both dark and light variants ship in a single script; MarkEdit follows
+the system appearance. Scope it to one mode via
+`extension.markeditThemeSlatewave.enabledMode` in MarkEdit's
+`settings.json`.
