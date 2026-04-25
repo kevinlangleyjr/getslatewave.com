@@ -16,8 +16,21 @@ const links = [
 <header class="site-nav">
   <div class="container nav-inner">
     <a class="brand" href="/" aria-label="Slatewave home">
-      <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-name">Slatewave</span>
+      <img class="brand-mark" src="/brand/icon.png" alt="" width="56" height="56" />
+      <img
+        class="brand-wordmark brand-wordmark-dark"
+        src="/brand/wordmark.png"
+        alt="Slatewave"
+        width="1000"
+        height="154"
+      />
+      <img
+        class="brand-wordmark brand-wordmark-light"
+        src="/brand/wordmark-light.png"
+        alt=""
+        width="1000"
+        height="154"
+      />
     </a>
 
     <nav aria-label="Primary">
@@ -54,6 +67,18 @@ const links = [
     border-bottom: 1px solid var(--border);
   }
 
+  :global([data-theme='dark']) .site-nav {
+    background: color-mix(
+      in oklab,
+      color-mix(in oklab, var(--bg-base), white 8%) 85%,
+      transparent
+    );
+  }
+
+  :global([data-theme='light']) .site-nav {
+    background: color-mix(in oklab, var(--bg-raised) 85%, transparent);
+  }
+
   .nav-inner {
     display: flex;
     align-items: center;
@@ -75,13 +100,20 @@ const links = [
   }
 
   .brand-mark {
-    width: 22px;
+    width: 28px;
+    height: 28px;
+    display: block;
+  }
+
+  .brand-wordmark {
     height: 22px;
-    border-radius: 6px;
-    background:
-      linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400)),
-      var(--bg-raised);
-    box-shadow: 0 0 0 1px var(--border) inset;
+    width: auto;
+    display: none;
+  }
+
+  :global([data-theme='light']) .brand-wordmark-dark,
+  :global([data-theme='dark']) .brand-wordmark-light {
+    display: block;
   }
 
   nav ul {
@@ -114,7 +146,8 @@ const links = [
     .nav-link {
       padding: var(--space-2);
     }
-    .brand-name {
+    :global([data-theme='light']) .brand-wordmark-dark,
+    :global([data-theme='dark']) .brand-wordmark-light {
       display: none;
     }
   }
