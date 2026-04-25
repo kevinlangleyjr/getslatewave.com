@@ -126,6 +126,12 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
     display: block;
   }
 
+  @media (max-width: 640px) {
+    .footer-wordmark {
+      height: 28px;
+    }
+  }
+
   .muted {
     color: var(--fg-subtle);
   }

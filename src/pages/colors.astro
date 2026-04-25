@@ -169,4 +169,12 @@ const semanticRoles = [
   .grid.compact {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
+
+  @media (max-width: 640px) {
+    .grid,
+    .grid.compact {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-2);
+    }
+  }
 </style>
