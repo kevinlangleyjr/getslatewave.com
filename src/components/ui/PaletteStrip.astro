@@ -46,16 +46,28 @@ const { swatches = defaultSwatches } = Astro.props;
 <style>
   .palette {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: var(--space-3);
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
+  @media (max-width: 880px) {
+    .palette {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+  }
+
+  @media (max-width: 657px) {
+    .palette {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
   @media (max-width: 480px) {
     .palette {
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-2);
     }
 
@@ -68,6 +80,12 @@ const { swatches = defaultSwatches } = Astro.props;
     .chip {
       width: 36px;
       height: 36px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .palette {
+      grid-template-columns: 1fr;
     }
   }
 
