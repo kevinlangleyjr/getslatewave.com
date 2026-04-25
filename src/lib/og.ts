@@ -13,6 +13,7 @@ import { html } from 'satori-html';
 import { Resvg } from '@resvg/resvg-js';
 
 const FONT_ROOT = join(process.cwd(), 'src', 'lib', 'fonts');
+const BRAND_ROOT = join(process.cwd(), 'public', 'brand');
 
 let fontsPromise: Promise<{ name: string; data: Buffer; weight: 400 | 600 | 700; style: 'normal' }[]> | null = null;
 
@@ -34,6 +35,24 @@ function loadFonts() {
     );
   }
   return fontsPromise;
+}
+
+let brandPromise: Promise<{ icon: string; wordmark: string }> | null = null;
+
+function loadBrand() {
+  if (!brandPromise) {
+    brandPromise = (async () => {
+      const [icon, wordmark] = await Promise.all([
+        readFile(join(BRAND_ROOT, 'icon.png')),
+        readFile(join(BRAND_ROOT, 'wordmark-light.png')),
+      ]);
+      return {
+        icon: `data:image/png;base64,${icon.toString('base64')}`,
+        wordmark: `data:image/png;base64,${wordmark.toString('base64')}`,
+      };
+    })();
+  }
+  return brandPromise;
 }
 
 interface BaseInput {
@@ -58,7 +77,14 @@ const PALETTE = {
   purple: '#b388ff',
 };
 
-function template({ eyebrow, title, description, accent = PALETTE.accent, footer = 'slatewave.dev' }: OgInput): string {
+interface TemplateOptions {
+  brand: { icon: string; wordmark: string };
+}
+
+function template(
+  { eyebrow, title, description, accent = PALETTE.accent, footer = 'slatewave.dev' }: OgInput,
+  { brand }: TemplateOptions,
+): string {
   return `
     <div style="
       width: 1200px;
@@ -91,15 +117,9 @@ function template({ eyebrow, title, description, accent = PALETTE.accent, footer
         display: flex;
       "></div>
 
-      <div style="display: flex; align-items: center; gap: 16px; color: ${PALETTE.fgSubtle}; font-size: 24px; font-weight: 600; letter-spacing: 6px;">
-        <div style="
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
-          background: linear-gradient(135deg, ${accent}, ${PALETTE.sky});
-          display: flex;
-        "></div>
-        <div style="display: flex;">SLATEWAVE</div>
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <img src="${brand.icon}" style="width: 56px; height: 56px; display: block;" />
+        <img src="${brand.wordmark}" style="width: 234px; height: 36px; display: block;" />
       </div>
 
       <div style="margin-top: 64px; display: flex; flex-direction: column; gap: 32px; max-width: 960px;">
@@ -148,8 +168,8 @@ function escapeText(value: string): string {
 }
 
 export async function renderOgPng(input: OgInput): Promise<Buffer> {
-  const fonts = await loadFonts();
-  const markup = html(template(input));
+  const [fonts, brand] = await Promise.all([loadFonts(), loadBrand()]);
+  const markup = html(template(input, { brand }));
   const svg = await satori(markup, {
     width: 1200,
     height: 630,
