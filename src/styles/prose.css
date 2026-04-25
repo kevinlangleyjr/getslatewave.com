@@ -107,6 +107,8 @@
   width: 100%;
   border-collapse: collapse;
   font-size: var(--fs-sm);
+  display: block;
+  overflow-x: auto;
 }
 
 .prose th,
