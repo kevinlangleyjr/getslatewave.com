@@ -10,8 +10,23 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
 <footer class="site-footer">
   <div class="container">
     <div class="grid">
-      <div>
-        <p class="brand">Slatewave</p>
+      <div class="brand-col">
+        <a class="brand" href="/" aria-label="Slatewave home">
+          <img
+            class="footer-wordmark footer-wordmark-dark"
+            src="/brand/wordmark.png"
+            alt="Slatewave"
+            width="1000"
+            height="154"
+          />
+          <img
+            class="footer-wordmark footer-wordmark-light"
+            src="/brand/wordmark-light.png"
+            alt=""
+            width="1000"
+            height="154"
+          />
+        </a>
         <p class="muted">One palette. Every tool.</p>
       </div>
 
@@ -95,8 +110,19 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
   }
 
   .brand {
-    font-weight: 600;
-    color: var(--fg-default);
+    display: inline-block;
+    margin-bottom: var(--space-3);
+  }
+
+  .footer-wordmark {
+    height: 36px;
+    width: auto;
+    display: none;
+  }
+
+  :global([data-theme='light']) .footer-wordmark-dark,
+  :global([data-theme='dark']) .footer-wordmark-light {
+    display: block;
   }
 
   .muted {
