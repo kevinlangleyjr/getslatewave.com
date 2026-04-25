@@ -1,11 +1,8 @@
-<p align="center">
-  <img src="public/brand/icon.png" alt="" width="96" height="96">
-</p>
-
 <h1 align="center">
+  <img src="public/brand/icon.png" alt="" height="64" align="middle">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="public/brand/wordmark-light.png">
-    <img alt="Slatewave" src="public/brand/wordmark.png" width="320">
+    <img alt="Slatewave" src="public/brand/wordmark.png" height="64" align="middle">
   </picture>
 </h1>
 
