@@ -187,7 +187,7 @@ export default function Playground() {
 
       <div className="pg-editor">
         <Editor
-          height="560px"
+          height="100%"
           language={active.language}
           value={code}
           onChange={(v) => setCode(v ?? '')}
