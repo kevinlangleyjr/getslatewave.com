@@ -1,6 +1,15 @@
-# Slatewave
+<p align="center">
+  <img src="public/brand/icon.png" alt="" width="96" height="96">
+</p>
 
-One palette. Every tool.
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/brand/wordmark-light.png">
+    <img alt="Slatewave" src="public/brand/wordmark.png" width="320">
+  </picture>
+</h1>
+
+<p align="center"><em>One palette. Every tool.</em></p>
 
 The Slatewave site — a unified hub for the Slatewave theme family across
 editors, terminals, note apps, and productivity tools. Built with Astro.
