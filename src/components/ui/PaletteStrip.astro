@@ -111,6 +111,7 @@ const { swatches = defaultSwatches } = Astro.props;
     display: grid;
     gap: 2px;
     font-size: var(--fs-xs);
+    min-width: 0;
   }
 
   .name {
@@ -122,10 +123,12 @@ const { swatches = defaultSwatches } = Astro.props;
   .role {
     color: var(--fg-subtle);
     font-family: var(--font-mono);
+    overflow-wrap: anywhere;
   }
 
   .value {
     color: var(--fg-muted);
     font-family: var(--font-mono);
+    overflow-wrap: anywhere;
   }
 </style>
