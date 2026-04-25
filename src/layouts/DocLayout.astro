@@ -56,12 +56,23 @@ const docs = (await getCollection('docs', ({ data }) => !data.draft))
   @media (max-width: 768px) {
     .doc-shell {
       grid-template-columns: 1fr;
+      gap: var(--space-6);
+      padding-block: var(--space-6) var(--space-10);
     }
   }
 
   .sidebar {
     position: sticky;
     top: 88px;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      position: static;
+      top: auto;
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--border);
+    }
   }
 
   .sidebar nav ul {

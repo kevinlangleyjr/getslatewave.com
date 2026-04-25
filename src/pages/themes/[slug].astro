@@ -146,6 +146,12 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     overflow: hidden;
   }
 
+  @media (max-width: 768px) {
+    .hero {
+      padding-block: var(--space-10) var(--space-6);
+    }
+  }
+
   .hero::before {
     content: '';
     position: absolute;

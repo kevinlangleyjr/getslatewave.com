@@ -212,6 +212,12 @@ export function apply(theme: Theme): string {
     overflow: hidden;
   }
 
+  @media (max-width: 768px) {
+    .hero {
+      padding-block: var(--space-12) var(--space-10);
+    }
+  }
+
   .hero .container {
     position: relative;
   }

@@ -53,6 +53,24 @@ const { swatches = defaultSwatches } = Astro.props;
     margin: 0;
   }
 
+  @media (max-width: 480px) {
+    .palette {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-2);
+    }
+
+    li {
+      grid-template-columns: 36px 1fr;
+      gap: var(--space-2);
+      padding: var(--space-2);
+    }
+
+    .chip {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
   li {
     display: grid;
     grid-template-columns: 44px 1fr;
