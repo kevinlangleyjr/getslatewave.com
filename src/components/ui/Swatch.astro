@@ -46,7 +46,7 @@ const { name, value, role, description, size = 'md' } = Astro.props;
     try {
       await navigator.clipboard.writeText(hex);
       btn.classList.add('copied');
-      trackEvent('copy/hex', { hex });
+      trackEvent('copy_hex', { hex });
       setTimeout(() => btn.classList.remove('copied'), 1200);
     } catch {
       /* clipboard unavailable, no-op */

@@ -172,7 +172,7 @@ export default function Playground() {
               className={s.id === active.id ? 'pg-tab pg-tab-active' : 'pg-tab'}
               onClick={() => {
                 setActive(s);
-                trackEvent(`playground/tab/${s.id}`);
+                trackEvent(`playground_tab_${s.id}`);
               }}
             >
               {s.label}
@@ -184,7 +184,7 @@ export default function Playground() {
           className="pg-reset"
           onClick={() => {
             setCode(active.code);
-            trackEvent('playground/reset', { language: active.id });
+            trackEvent('playground_reset', { language: active.id });
           }}
           aria-label="Reset sample code"
         >

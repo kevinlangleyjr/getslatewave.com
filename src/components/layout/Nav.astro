@@ -49,7 +49,7 @@ const links = [
               <a
                 href={href}
                 class:list={['nav-link', { active: isActive(href) }]}
-                data-sa-event={`nav/header/${label.toLowerCase()}`}
+                data-simple-event={`nav_header_${label.toLowerCase()}`}
               >
                 {label}
               </a>
@@ -61,7 +61,7 @@ const links = [
               href="https://github.com/kevinlangleyjr?tab=repositories&q=slatewave"
               rel="me noopener"
               target="_blank"
-              data-sa-event="nav/header/github"
+              data-simple-event="nav_header_github"
             >
               GitHub
             </a>

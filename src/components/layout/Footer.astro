@@ -33,11 +33,11 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
       <div>
         <p class="eyebrow">Explore</p>
         <ul>
-          <li><a href="/themes/" data-sa-event="nav/footer/all-themes">All themes</a></li>
-          <li><a href="/playground/" data-sa-event="nav/footer/playground">Playground</a></li>
-          <li><a href="/colors/" data-sa-event="nav/footer/colors">Colors</a></li>
-          <li><a href="/docs/" data-sa-event="nav/footer/docs">Docs</a></li>
-          <li><a href="/changelog/" data-sa-event="nav/footer/changelog">Changelog</a></li>
+          <li><a href="/themes/" data-simple-event="nav_footer_all_themes">All themes</a></li>
+          <li><a href="/playground/" data-simple-event="nav_footer_playground">Playground</a></li>
+          <li><a href="/colors/" data-simple-event="nav_footer_colors">Colors</a></li>
+          <li><a href="/docs/" data-simple-event="nav_footer_docs">Docs</a></li>
+          <li><a href="/changelog/" data-simple-event="nav_footer_changelog">Changelog</a></li>
         </ul>
       </div>
 
@@ -48,7 +48,7 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
             <li>
               <a
                 href={`/themes/${theme.data.slug}/`}
-                data-sa-event={`nav/footer/theme/${theme.data.slug}`}
+                data-simple-event={`nav_footer_theme_${theme.data.slug.replace(/-/g, '_')}`}
               >
                 {theme.data.shortName}
               </a>
@@ -59,8 +59,8 @@ const themes = (await getCollection('themes', ({ data }) => data.status !== 'pla
     </div>
 
     <p class="small muted">
-      Designed and built by <a href="https://kevinlangleyjr.dev" rel="noopener" target="_blank" data-sa-event="nav/footer/author">Kevin Langley Jr.</a>
-      &middot; &copy; {year} Slatewave &middot; Open source under the <a href="http://www.wtfpl.net/" rel="noopener" target="_blank" data-sa-event="nav/footer/license">WTFPL</a>
+      Designed and built by <a href="https://kevinlangleyjr.dev" rel="noopener" target="_blank" data-simple-event="nav_footer_author">Kevin Langley Jr.</a>
+      &middot; &copy; {year} Slatewave &middot; Open source under the <a href="http://www.wtfpl.net/" rel="noopener" target="_blank" data-simple-event="nav_footer_license">WTFPL</a>
     </p>
   </div>
 </footer>
