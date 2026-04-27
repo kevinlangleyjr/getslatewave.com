@@ -1,0 +1,81 @@
+---
+title: Get started
+description: Fast install paths, setup bundles, and extension guidance for using Slatewave across your tools.
+order: 5
+---
+
+Slatewave works best when it becomes the visual baseline for the tools
+you already keep open all day. Start with one surface, then add the
+nearby tools that share the same palette contract.
+
+## Fast paths
+
+<a id="editor-first"></a>
+
+### Editor-first setup
+
+Use this if VSCode or Cursor is where you spend most of your time.
+
+```sh
+code --install-extension kevinlangleyjr.slatewave
+```
+
+Then add matching nearby surfaces:
+
+1. [Oh My Posh](/themes/oh-my-posh/) or [Starship](/themes/starship/) for your prompt
+2. [Ghostty](/themes/ghostty/) or [iTerm2](/themes/iterm2/) for terminal chrome
+3. [Obsidian](/themes/obsidian/) or [Logseq](/themes/logseq/) for notes
+
+<a id="terminal-stack"></a>
+
+### Terminal-first setup
+
+Use this if your shell is the anchor of your workflow.
+
+1. Install a prompt theme: [Oh My Posh](/themes/oh-my-posh/) or [Starship](/themes/starship/)
+2. Match your terminal emulator: [Ghostty](/themes/ghostty/), [iTerm2](/themes/iterm2/), [Alacritty](/themes/alacritty/), [WezTerm](/themes/wezterm/), or [Windows Terminal](/themes/windows-terminal/)
+3. Add [tmux](/themes/tmux/) if it is part of your daily setup
+
+[Browse terminal themes](/themes/?category=terminal)
+
+<a id="workspace-stack"></a>
+
+### Whole-workspace setup
+
+Use this when you want the palette to travel across your full developer
+environment.
+
+1. Pick your editor from [the editor themes](/themes/?category=editor)
+2. Pick your terminal stack from [the terminal themes](/themes/?category=terminal)
+3. Add notes, launcher, and chat surfaces from [all themes](/themes/)
+
+This is intentionally tool-by-tool today. A unified install CLI is a
+future DX direction, not a shipped Slatewave installer.
+
+## What to expect on each theme page
+
+Every shipped theme page includes:
+
+- A preview that uses the same palette values you install
+- Repository activity and release metadata when available
+- A primary install action near the top of the page
+- Copyable install commands when a CLI install exists
+- Manual steps when the host app requires app-specific setup
+
+## Extending Slatewave
+
+When porting Slatewave to a new tool, use the semantic roles from the
+[palette spec](/docs/palette-spec/) instead of matching screenshots by
+eye. The goal is not just similar colors; it is consistent meaning
+across tools.
+
+Before starting a new port:
+
+1. Confirm the target app supports user-installable themes
+2. Map background, foreground, selection, focus, warning, error, and
+   syntax roles to the closest native theme keys
+3. Keep the repo public so the site can link to source, releases, and
+   issue tracking
+4. Add the theme metadata to this website once install steps are stable
+
+For contribution details, see [Contributing](/docs/contributing/).
