@@ -35,6 +35,8 @@ const { name, value, role, description, size = 'md' } = Astro.props;
 </article>
 
 <script>
+  import { trackEvent } from '~/lib/analytics';
+
   document.addEventListener('click', async (event) => {
     const target = event.target as HTMLElement | null;
     const btn = target?.closest<HTMLButtonElement>('.swatch .copy');
@@ -44,6 +46,7 @@ const { name, value, role, description, size = 'md' } = Astro.props;
     try {
       await navigator.clipboard.writeText(hex);
       btn.classList.add('copied');
+      trackEvent('copy/hex', { hex });
       setTimeout(() => btn.classList.remove('copied'), 1200);
     } catch {
       /* clipboard unavailable, no-op */
