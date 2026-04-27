@@ -24,6 +24,7 @@ const { data } = theme;
 const { Content } = await render(theme);
 
 const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
+const primaryInstall = data.install?.[0];
 
 const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 ---
@@ -32,6 +33,11 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
   <article class="theme-page" style={accentStyle}>
     <header class="hero">
       <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/themes/">Themes</a>
+          <span aria-hidden="true">/</span>
+          <span>{data.shortName}</span>
+        </nav>
         <p class="eyebrow">{data.category}</p>
         <h1>{data.name}</h1>
         <p class="tagline">{data.tagline}</p>
@@ -45,6 +51,13 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
               Marketplace ↗
             </a>
           )}
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#install">
+            {primaryInstall?.command ? `Install with ${primaryInstall.label}` : 'View install steps'}
+          </a>
+          <a class="btn btn-ghost" href="/themes/">Browse all themes</a>
         </div>
 
         {meta && (meta.stars > 0 || meta.latestRelease || meta.pushedAt) && (
@@ -165,6 +178,19 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     position: relative;
   }
 
+  .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    color: var(--fg-subtle);
+    font-size: var(--fs-sm);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--page-accent);
+  }
+
   .hero h1 {
     margin-top: var(--space-3);
     font-size: clamp(2rem, 4vw, var(--fs-2xl));
@@ -195,6 +221,45 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 
   .repo-link:hover {
     color: var(--page-accent);
+  }
+
+  .hero-actions {
+    margin-top: var(--space-6);
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+  }
+
+  .btn-primary {
+    background: var(--page-accent);
+    color: var(--accent-ink);
+  }
+
+  .btn-primary:hover {
+    background: color-mix(in oklab, var(--page-accent) 85%, white);
+    color: var(--accent-ink);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--fg-default);
+    border-color: var(--border-strong);
+  }
+
+  .btn-ghost:hover {
+    background: var(--bg-raised);
+    color: var(--fg-default);
   }
 
   .stats {
