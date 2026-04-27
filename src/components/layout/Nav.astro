@@ -2,7 +2,14 @@
 import ThemeToggle from '~/components/ui/ThemeToggle.astro';
 
 const pathname = Astro.url.pathname;
-const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/') || pathname.startsWith(href);
+const installPath = '/docs/getting-started/';
+const isActive = (href: string) => {
+  if (href === '/docs/') {
+    return pathname.startsWith('/docs/') && !pathname.startsWith(installPath);
+  }
+
+  return pathname === href || pathname.startsWith(href);
+};
 
 const links = [
   { href: '/docs/getting-started/', label: 'Install' },
