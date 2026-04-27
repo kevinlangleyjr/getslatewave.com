@@ -52,7 +52,7 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
             rel="noopener"
             target="_blank"
             class="repo-link"
-            data-sa-event={`install/${data.slug}/repo`}
+            data-simple-event={`install_${slugSegment}_repo`}
           >
             {data.repo.owner}/{data.repo.name} ↗
           </a>
@@ -62,7 +62,7 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
               rel="noopener"
               target="_blank"
               class="repo-link"
-              data-sa-event={`install/${data.slug}/marketplace`}
+              data-simple-event={`install_${slugSegment}_marketplace`}
             >
               Marketplace ↗
             </a>
@@ -73,12 +73,12 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
           <a
             class="btn btn-primary"
             href="#install-heading"
-            data-sa-event={`cta/theme/install-jump/${data.slug}`}
+            data-simple-event={`cta_theme_install_jump_${slugSegment}`}
           >
             <span>{primaryInstall?.command ? `Install with ${primaryInstall.label}` : 'View install steps'}</span>
             <span aria-hidden="true">↓</span>
           </a>
-          <a class="btn btn-ghost" href="/themes/" data-sa-event="cta/theme/browse-all">Browse all themes</a>
+          <a class="btn btn-ghost" href="/themes/" data-simple-event="cta_theme_browse_all">Browse all themes</a>
         </div>
 
         {meta && (meta.stars > 0 || meta.latestRelease || meta.pushedAt) && (
@@ -153,7 +153,7 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
                     href={method.link}
                     rel="noopener"
                     target="_blank"
-                    data-sa-event={`install/${data.slug}/external/${slugifyMethod(method.label)}`}
+                    data-simple-event={`install_${slugSegment}_external_${slugifyMethod(method.label)}`}
                   >
                     Open ↗
                   </a>
@@ -234,7 +234,7 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
         }, 1800);
       } catch {
         button.textContent = selectCommand(button) ? 'Selected' : 'Select command';
-        trackEvent(`install/${themeSlug}/copy-command-fallback/${methodId}`, {
+        trackEvent(`install_${slugSegment}_copy_command_fallback_${methodId}`, {
           method: methodLabel,
         });
         window.setTimeout(() => {

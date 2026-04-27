@@ -56,14 +56,14 @@ export function apply(theme: Theme): string {
           carefully-tuned color system.
         </p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="/themes/vscode/#install" data-sa-event="cta/home/hero-install">Install VSCode theme</a>
-          <a class="btn btn-ghost" href="/themes/" data-sa-event="cta/home/hero-browse">Browse {shippedCount} tools</a>
+          <a class="btn btn-primary" href="/themes/vscode/#install" data-simple-event="cta_home_hero_install">Install VSCode theme</a>
+          <a class="btn btn-ghost" href="/themes/" data-simple-event="cta_home_hero_browse">Browse {shippedCount} tools</a>
           <a
             class="btn btn-link"
             href="https://github.com/kevinlangleyjr?tab=repositories&q=slatewave"
             rel="noopener"
             target="_blank"
-            data-sa-event="cta/home/hero-github"
+            data-simple-event="cta_home_hero_github"
           >
             View on GitHub
           </a>
@@ -146,7 +146,7 @@ export function apply(theme: Theme): string {
             Get the editor palette first: syntax, workbench chrome, selections,
             and diff colors all tuned for long sessions.
           </p>
-          <a class="starter-link" href="/docs/getting-started/#editor-first-setup" data-sa-event="cta/home/starter-editor">Install editor theme →</a>
+          <a class="starter-link" href="/docs/getting-started/#editor-first-setup" data-simple-event="cta_home_starter_editor">Install editor theme →</a>
         </article>
 
         <article class="starter-card" style="--starter-accent: #38bdf8;">
@@ -156,7 +156,7 @@ export function apply(theme: Theme): string {
             Carry the same slate foundation and teal accent into Oh My Posh,
             Starship, Ghostty, tmux, and terminal palettes.
           </p>
-          <a class="starter-link" href="/docs/getting-started/#terminal-first-setup" data-sa-event="cta/home/starter-terminal">Use terminal bundle →</a>
+          <a class="starter-link" href="/docs/getting-started/#terminal-first-setup" data-simple-event="cta_home_starter_terminal">Use terminal bundle →</a>
         </article>
 
         <article class="starter-card" style="--starter-accent: #b388ff;">
@@ -166,7 +166,7 @@ export function apply(theme: Theme): string {
             Choose your editor, terminal, notes app, launcher, and chat surface
             from the same generated color system.
           </p>
-          <a class="starter-link" href="/docs/getting-started/#whole-workspace-setup" data-sa-event="cta/home/starter-full">Build the full setup →</a>
+          <a class="starter-link" href="/docs/getting-started/#whole-workspace-setup" data-simple-event="cta_home_starter_full">Build the full setup →</a>
         </article>
       </div>
     </div>
@@ -181,7 +181,7 @@ export function apply(theme: Theme): string {
           Editor, terminal, notes — three of the {shippedCount} shipping
           themes, rendered with the authoritative Slatewave palette. These
           previews aren't screenshots; they use the same colors you'd install.
-          <a href="/themes/" class="inline-link" data-sa-event="cta/home/surfaces-all">See all {shippedCount} themes →</a>
+          <a href="/themes/" class="inline-link" data-simple-event="cta_home_surfaces_all">See all {shippedCount} themes →</a>
         </p>
       </header>
 
@@ -189,7 +189,7 @@ export function apply(theme: Theme): string {
         <article class="surface" style="--surface-accent: #5eead4;">
           <header class="surface-head">
             <p class="eyebrow">Editor · VSCode</p>
-            <a class="surface-link" href="/themes/vscode/" data-sa-event="cta/home/surface-view/vscode">View theme →</a>
+            <a class="surface-link" href="/themes/vscode/" data-simple-event="cta_home_surface_view_vscode">View theme →</a>
           </header>
           <CodePreview code={heroSample} language="typescript" label="palette.ts" />
         </article>
@@ -197,7 +197,7 @@ export function apply(theme: Theme): string {
         <article class="surface" style="--surface-accent: #38bdf8;">
           <header class="surface-head">
             <p class="eyebrow">Terminal · Oh My Posh</p>
-            <a class="surface-link" href="/themes/oh-my-posh/" data-sa-event="cta/home/surface-view/oh-my-posh">View theme →</a>
+            <a class="surface-link" href="/themes/oh-my-posh/" data-simple-event="cta_home_surface_view_oh_my_posh">View theme →</a>
           </header>
           <OhMyPoshPreview />
         </article>
@@ -205,7 +205,7 @@ export function apply(theme: Theme): string {
         <article class="surface" style="--surface-accent: #b388ff;">
           <header class="surface-head">
             <p class="eyebrow">Notes · Obsidian</p>
-            <a class="surface-link" href="/themes/obsidian/" data-sa-event="cta/home/surface-view/obsidian">View theme →</a>
+            <a class="surface-link" href="/themes/obsidian/" data-simple-event="cta_home_surface_view_obsidian">View theme →</a>
           </header>
           <ObsidianPreview />
         </article>
