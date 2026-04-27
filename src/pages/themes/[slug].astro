@@ -162,6 +162,20 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 <script>
   const copyButtons = document.querySelectorAll<HTMLButtonElement>('[data-copy-command]');
 
+  const selectCommand = (button: HTMLButtonElement) => {
+    const command = button
+      .closest<HTMLElement>('.install-command')
+      ?.querySelector('code');
+    if (!command) return false;
+
+    const range = document.createRange();
+    range.selectNodeContents(command);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    return true;
+  };
+
   copyButtons.forEach((button) => {
     const original = button.textContent ?? 'Copy';
     button.addEventListener('click', async () => {
@@ -177,7 +191,7 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
           delete button.dataset.copied;
         }, 1800);
       } catch {
-        button.textContent = 'Select command';
+        button.textContent = selectCommand(button) ? 'Selected' : 'Select command';
         window.setTimeout(() => {
           button.textContent = original;
         }, 1800);
