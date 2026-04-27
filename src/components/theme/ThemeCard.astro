@@ -28,6 +28,9 @@ const href = isPlanned ? data.repo.url : `/themes/${data.slug}/`;
 const meta = isPlanned ? null : await fetchRepoMeta(data.repo.owner, data.repo.name);
 const version = meta?.latestRelease?.tag ?? null;
 const pushedRel = meta?.pushedAt ? relativeTime(meta.pushedAt) : null;
+const trackEventName = isPlanned
+  ? `theme/card-planned/${data.slug}`
+  : `theme/card-click/${data.slug}`;
 ---
 
 <a
@@ -38,6 +41,7 @@ const pushedRel = meta?.pushedAt ? relativeTime(meta.pushedAt) : null;
   data-status={data.status}
   target={isPlanned ? '_blank' : undefined}
   rel={isPlanned ? 'noopener' : undefined}
+  data-sa-event={trackEventName}
 >
   <header class="card-head">
     <span class="category">{categoryLabel[data.category]}</span>
