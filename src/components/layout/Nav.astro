@@ -46,7 +46,13 @@ const links = [
         <ul>
           {links.map(({ href, label }) => (
             <li>
-              <a href={href} class:list={['nav-link', { active: isActive(href) }]}>{label}</a>
+              <a
+                href={href}
+                class:list={['nav-link', { active: isActive(href) }]}
+                data-sa-event={`nav/header/${label.toLowerCase()}`}
+              >
+                {label}
+              </a>
             </li>
           ))}
           <li>
@@ -55,6 +61,7 @@ const links = [
               href="https://github.com/kevinlangleyjr?tab=repositories&q=slatewave"
               rel="me noopener"
               target="_blank"
+              data-sa-event="nav/header/github"
             >
               GitHub
             </a>
