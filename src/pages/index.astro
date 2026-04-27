@@ -126,6 +126,51 @@ export function apply(theme: Theme): string {
     </div>
   </section>
 
+  <section class="section starter-paths">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow">Start here</p>
+        <h2>Install Slatewave where it will change your day first.</h2>
+        <p class="section-lede">
+          Pick the workflow you use most, copy the install command, then expand
+          the same palette across the rest of your setup.
+        </p>
+      </header>
+
+      <div class="starter-grid">
+        <article class="starter-card" style="--starter-accent: #5eead4;">
+          <p class="starter-kicker">Most direct</p>
+          <h3>Start in VSCode or Cursor</h3>
+          <p>
+            Get the editor palette first: syntax, workbench chrome, selections,
+            and diff colors all tuned for long sessions.
+          </p>
+          <a class="starter-link" href="/themes/vscode/#install-heading">Install editor theme →</a>
+        </article>
+
+        <article class="starter-card" style="--starter-accent: #38bdf8;">
+          <p class="starter-kicker">Terminal-first</p>
+          <h3>Match your prompt and shell</h3>
+          <p>
+            Carry the same slate foundation and teal accent into Oh My Posh,
+            Starship, Ghostty, tmux, and terminal palettes.
+          </p>
+          <a class="starter-link" href="/themes/?category=terminal">Browse terminal themes →</a>
+        </article>
+
+        <article class="starter-card" style="--starter-accent: #b388ff;">
+          <p class="starter-kicker">Whole setup</p>
+          <h3>Build a consistent workspace</h3>
+          <p>
+            Choose your editor, terminal, notes app, launcher, and chat surface
+            from the same generated color system.
+          </p>
+          <a class="starter-link" href="/themes/">Choose from {shippedCount} tools →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section class="section surfaces">
     <div class="container">
       <header class="section-head">
@@ -469,6 +514,60 @@ export function apply(theme: Theme): string {
   @media (max-width: 560px) {
     .positioning-card {
       padding: var(--space-6);
+    }
+  }
+
+  .starter-paths {
+    padding-block: 0 var(--space-16);
+  }
+
+  .starter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .starter-card {
+    --starter-accent: var(--accent);
+    padding: var(--space-5);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-height: 100%;
+  }
+
+  .starter-kicker {
+    color: var(--starter-accent);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .starter-card h3 {
+    font-size: var(--fs-md);
+    font-weight: 600;
+  }
+
+  .starter-card p:not(.starter-kicker) {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .starter-link {
+    margin-top: auto;
+    color: var(--starter-accent);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+  }
+
+  @media (max-width: 860px) {
+    .starter-grid {
+      grid-template-columns: 1fr;
     }
   }
 

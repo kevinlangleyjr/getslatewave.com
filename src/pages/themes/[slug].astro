@@ -134,7 +134,17 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
               </header>
               {method.description && <p class="muted">{method.description}</p>}
               {method.command && (
-                <pre class="install-cmd"><code>{method.command}</code></pre>
+                <div class="install-command">
+                  <pre class="install-cmd"><code>{method.command}</code></pre>
+                  <button
+                    type="button"
+                    class="copy-command"
+                    data-copy-command={method.command}
+                    aria-label={`Copy ${method.label} install command`}
+                  >
+                    Copy
+                  </button>
+                </div>
               )}
               {method.steps && (
                 <ol>
@@ -148,6 +158,33 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     </section>
   </article>
 </Base>
+
+<script>
+  const copyButtons = document.querySelectorAll<HTMLButtonElement>('[data-copy-command]');
+
+  copyButtons.forEach((button) => {
+    const original = button.textContent ?? 'Copy';
+    button.addEventListener('click', async () => {
+      const command = button.dataset.copyCommand;
+      if (!command) return;
+
+      try {
+        await navigator.clipboard.writeText(command);
+        button.textContent = 'Copied';
+        button.dataset.copied = 'true';
+        window.setTimeout(() => {
+          button.textContent = original;
+          delete button.dataset.copied;
+        }, 1800);
+      } catch {
+        button.textContent = 'Select command';
+        window.setTimeout(() => {
+          button.textContent = original;
+        }, 1800);
+      }
+    });
+  });
+</script>
 
 <style>
   .theme-page {
@@ -389,19 +426,55 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     color: var(--page-accent);
   }
 
-  .install-cmd {
+  .install-command {
     margin-top: var(--space-3);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
     padding: var(--space-3) var(--space-4);
     background: var(--bg-inset);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
+    gap: var(--space-3);
+  }
+
+  .install-cmd {
     overflow-x: auto;
     max-width: 100%;
     font-size: var(--fs-sm);
+    align-self: center;
   }
 
   .install-cmd code {
     white-space: pre;
+  }
+
+  .copy-command {
+    align-self: center;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--page-accent) 18%, transparent);
+    color: var(--page-accent);
+    border: 1px solid color-mix(in oklab, var(--page-accent) 35%, transparent);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    transition: background 120ms ease, color 120ms ease;
+  }
+
+  .copy-command:hover,
+  .copy-command[data-copied='true'] {
+    background: var(--page-accent);
+    color: var(--accent-ink);
+  }
+
+  @media (max-width: 560px) {
+    .install-command {
+      grid-template-columns: 1fr;
+    }
+
+    .copy-command {
+      justify-self: start;
+    }
   }
 
   .install-item ol {
