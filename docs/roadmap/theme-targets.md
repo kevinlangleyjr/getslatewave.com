@@ -1,7 +1,8 @@
 # Slatewave Porting Candidates
 
-Research compiled 2026-04-22. Ranked by category, with effort estimates
-and recommended priority for porting the Slatewave palette.
+Research compiled 2026-04-22, last updated 2026-04-27. Ranked by
+category, with effort estimates and recommended priority for porting
+the Slatewave palette.
 
 Slatewave is a Tailwind-slate foundation with a teal signature
 (`#5eead4`) and sky, rose, purple, and amber accents. See
@@ -25,6 +26,15 @@ Slatewave is a Tailwind-slate foundation with a teal signature
 | **JetBrains IDEs** | Editor | Beta | [jetbrains-slatewave](https://github.com/kevinlangleyjr/jetbrains-slatewave) |
 | **Raycast** | Productivity | Beta | [raycast-slatewave](https://github.com/kevinlangleyjr/raycast-slatewave) |
 | **Alfred** | Productivity | Beta | [alfred-slatewave](https://github.com/kevinlangleyjr/alfred-slatewave) |
+| **Zed** | Editor | Beta | [zed-slatewave](https://github.com/kevinlangleyjr/zed-slatewave) |
+| **Neovim** | Editor | Beta | [neovim-slatewave](https://github.com/kevinlangleyjr/neovim-slatewave) |
+| **Helix** | Editor | Beta | [helix-slatewave](https://github.com/kevinlangleyjr/helix-slatewave) |
+| **WezTerm** | Terminal | Beta | [wezterm-slatewave](https://github.com/kevinlangleyjr/wezterm-slatewave) |
+| **Starship** | Terminal | Beta | [starship-slatewave](https://github.com/kevinlangleyjr/starship-slatewave) |
+| **tmux** | Terminal | Beta | [tmux-slatewave](https://github.com/kevinlangleyjr/tmux-slatewave) |
+| **Windows Terminal** | Terminal | Beta | [windows-terminal-slatewave](https://github.com/kevinlangleyjr/windows-terminal-slatewave) |
+| **MarkEdit** | Notes | Beta | [markedit-slatewave](https://github.com/kevinlangleyjr/markedit-slatewave) |
+| **LSD** | CLI | Beta | [lsd-slatewave](https://github.com/kevinlangleyjr/lsd-slatewave) |
 
 Candidates below are marked **✅ Shipped** inline when the original
 research entry now corresponds to a live theme.
@@ -47,7 +57,7 @@ research entry now corresponds to a live theme.
 - **Blockers**: None.
 - **Priority**: Quick-win.
 
-### 3. WezTerm — quick-win
+### 3. WezTerm — ✅ Shipped
 
 - **Mechanism**: Lua config, or a TOML `.toml` dropped in `colors/` with `ansi`, `brights`, `background`, `foreground`, tab bar colors. [docs](https://wezfurlong.org/wezterm/config/appearance.html#defining-your-own-colors)
 - **Effort**: Low. Tab bar adds ~6 extra slots but straightforward.
@@ -67,19 +77,19 @@ research entry now corresponds to a live theme.
 - **Effort**: Low. Easily published to `kitty-themes` repo.
 - **Priority**: Quick-win.
 
-### 6. Windows Terminal — medium
+### 6. Windows Terminal — ✅ Shipped
 
 - **Mechanism**: JSON scheme block in `settings.json`. [docs](https://learn.microsoft.com/windows/terminal/customize-settings/color-schemes)
 - **Effort**: Low palette work, medium distribution (no central gallery beyond community lists).
 - **Priority**: Medium.
 
-### 7. Starship — quick-win
+### 7. Starship — ✅ Shipped
 
 - **Mechanism**: `starship.toml` palette + per-module styles. [docs](https://starship.rs/config/#style-strings)
 - **Effort**: Low. Direct port from slatewave-omp segments.
 - **Priority**: Quick-win (highest leverage — Starship is broadly popular).
 
-### 8. tmux — medium
+### 8. tmux — ✅ Shipped
 
 - **Mechanism**: `.tmux.conf` with `set -g status-style`, `pane-border-style`, etc. Often distributed as TPM plugins.
 - **Effort**: Medium — status bar design is more opinionated than pure color mapping.
@@ -100,13 +110,13 @@ research entry now corresponds to a live theme.
 
 ## Editors / IDEs
 
-### 1. Zed — quick-win
+### 1. Zed — ✅ Shipped
 
 - **Mechanism**: JSON theme family file in `~/.config/zed/themes/`, published via extensions repo. [docs](https://zed.dev/docs/extensions/themes)
 - **Effort**: Low-medium. Highlight scopes overlap heavily with VSCode tokens.
 - **Priority**: Quick-win — fastest-growing modern editor with a real theme marketplace.
 
-### 2. Neovim — quick-win
+### 2. Neovim — ✅ Shipped
 
 - **Mechanism**: Lua colorscheme using `vim.api.nvim_set_hl`. Treesitter + LSP groups. Distribute via LazyVim/Packer.
 - **Effort**: Medium — many highlight groups, plus plugin integrations (Telescope, lualine, gitsigns).
@@ -124,7 +134,7 @@ research entry now corresponds to a live theme.
 - **Effort**: Medium-high — UI theme is separate from editor colors; plugin packaging + JetBrains Marketplace review required.
 - **Priority**: Medium (huge audience justifies effort).
 
-### 5. Helix — quick-win (bonus)
+### 5. Helix — ✅ Shipped
 
 - **Mechanism**: TOML theme in `~/.config/helix/themes/`. [docs](https://docs.helix-editor.com/themes.html)
 - **Effort**: Low. Small scope list.
@@ -143,14 +153,40 @@ research entry now corresponds to a live theme.
 - **Effort**: Medium — CSS variables exposed, but many components need tuning.
 - **Priority**: Quick-win.
 
-### 2. Anytype — stretch
+### 2. MarkEdit — ✅ Shipped
+
+- **Mechanism**: JS bundle dropped in MarkEdit's scripts folder; ships a CodeMirror theme + a small set of UI overrides.
+- **Effort**: Low-medium. Surface area is just the editor pane and inline markdown.
+- **Priority**: Quick-win bonus — small audience but the install path was already understood from the VSCode/Sublime ports.
+
+### 3. Anytype — stretch
 
 - **Mechanism**: Limited; light/dark only, no custom theme API as of current releases.
 - **Priority**: Stretch / skip.
 
-### 3. Notion, Roam — skip
+### 4. Notion, Roam — skip
 
 No supported theme mechanism. Roam has community CSS hacks; Notion requires browser userstyles.
+
+## CLI tools
+
+### 1. LSD — ✅ Shipped
+
+- **Mechanism**: YAML `colors.yaml` mapping file types, permissions, sizes, dates, git status, and user/group to ANSI or hex colors. [docs](https://github.com/lsd-rs/lsd#config-file-content)
+- **Effort**: Low. The full palette is already well-defined; LSD just needs explicit mappings per column.
+- **Priority**: Bonus — small audience but ports cleanly and the file lives under `~/.config/lsd/` next to the rest of the dotfiles you'd already update.
+
+### 2. eza / exa — quick-win
+
+- **Mechanism**: `EZA_COLORS` / `LS_COLORS`-style env var. No central theme registry; users wire it themselves.
+- **Effort**: Low. Same color slots as LSD; can be derived from the LSD port.
+- **Priority**: Quick-win bonus when next refreshing the LSD port.
+
+### 3. bat — quick-win
+
+- **Mechanism**: Sublime `.tmTheme` file in `~/.config/bat/themes/`, registered via `bat cache --build`. [docs](https://github.com/sharkdp/bat#adding-new-themes)
+- **Effort**: Low. The Sublime Text port is already a tmTheme — minor reshape required.
+- **Priority**: Quick-win bonus alongside any future Sublime touch-up.
 
 ## Browsers
 
@@ -220,16 +256,17 @@ No theming support.
 
 ## Top 5 Recommended Next Targets
 
-_Ghostty and Raycast from the original top 5 have shipped. Remaining
-priorities, re-ranked:_
+_Four of the previous five (Starship, Zed, Neovim, WezTerm) have
+shipped. Firefox is the only carry-over. Re-ranked among unshipped:_
 
-1. **Starship** — Directly parallels the existing OMP port; trivially reuses the palette and reaches a massive shell-prompt audience.
-2. **Zed** — Modern, rapidly-adopted editor with a clean JSON theme spec and a real extension marketplace — highest ROI among remaining editors.
-3. **Neovim** — Largest dev audience on this list; Lua colorscheme is more work than Starship but pays back via broad visibility and ties nicely to the VSCode port's token scopes.
-4. **WezTerm** — Rounds out the terminal trio alongside Ghostty / iTerm2 / Alacritty; straightforward TOML/Lua theme file and upstream contribution path.
-5. **Firefox** — Browser chrome is a surface we haven't touched yet; WebExtension theme API is simple enough to ship quickly and publishes through AMO.
+1. **Firefox** — Browser chrome is the largest unthemed surface left. WebExtension `theme` API is simple (toolbar/tab/frame colors), AMO publishing is straightforward, and a Firefox theme broadens the family beyond developer tooling.
+2. **Kitty** — Last of the major terminal emulators not yet shipped. `.conf` mapping is already done in spirit (matches Alacritty/Ghostty); upstream `kitty-themes` repo accepts contributions, so distribution is a single PR.
+3. **Powerlevel10k** — Massive ZSH-prompt audience that Starship and Oh My Posh don't capture. Higher effort than other prompts (per-segment `*_FOREGROUND`/`*_BACKGROUND` numeric codes, segment selection opinionated), but the leverage is real.
+4. **bat / eza** — Bonus pair while the rest of the CLI surface is fresh. The Sublime Text port already produces a tmTheme that bat can consume with minor reshape; eza color env vars derive directly from the LSD port. Two ports for one effort.
+5. **GitHub userstyle** — Highest visibility per install (Slatewave on a tab everyone has open), but also the highest maintenance cost as GitHub ships UI redesigns. Good "halo" target rather than core surface.
 
 ### Shipped from the original research
 
-Ghostty, Alacritty, iTerm2, Sublime Text, JetBrains, Logseq, Slack
-(under Productivity), Raycast, Alfred — all live.
+Ghostty, Alacritty, iTerm2, WezTerm, Windows Terminal, Starship, tmux,
+Sublime Text, JetBrains, Zed, Neovim, Helix, Logseq, MarkEdit, Slack
+(under Productivity), Raycast, Alfred, plus a bonus LSD port — all live.
