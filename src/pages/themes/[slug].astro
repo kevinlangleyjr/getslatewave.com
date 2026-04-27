@@ -53,9 +53,10 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
           )}
         </div>
 
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#install">
-            {primaryInstall?.command ? `Install with ${primaryInstall.label}` : 'View install steps'}
+        <div class="hero-actions" aria-label="Theme actions">
+          <a class="btn btn-primary" href="#install-heading">
+            <span>{primaryInstall?.command ? `Install with ${primaryInstall.label}` : 'View install steps'}</span>
+            <span aria-hidden="true">↓</span>
           </a>
           <a class="btn btn-ghost" href="/themes/">Browse all themes</a>
         </div>
@@ -121,7 +122,7 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 
     <section class="section install-section" id="install">
       <div class="container narrow">
-        <h2>Install</h2>
+        <h2 id="install-heading">Install</h2>
         <ul class="install-list">
           {data.install.map((method) => (
             <li class="install-item">
@@ -233,22 +234,34 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
   .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
     padding: var(--space-3) var(--space-5);
     border-radius: var(--radius-md);
     font-size: var(--fs-sm);
-    font-weight: 500;
+    font-weight: 600;
     border: 1px solid transparent;
-    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.14) inset;
+    transition:
+      background 120ms ease,
+      border-color 120ms ease,
+      box-shadow 120ms ease,
+      color 120ms ease,
+      transform 120ms ease;
   }
 
   .btn-primary {
     background: var(--page-accent);
     color: var(--accent-ink);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.35) inset,
+      0 10px 24px color-mix(in oklab, var(--page-accent) 20%, transparent);
   }
 
   .btn-primary:hover {
     background: color-mix(in oklab, var(--page-accent) 85%, white);
     color: var(--accent-ink);
+    transform: translateY(-1px);
   }
 
   .btn-ghost {
@@ -308,7 +321,10 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 
   .install-section {
     padding-bottom: var(--space-16);
-    scroll-margin-top: var(--space-20);
+  }
+
+  #install-heading {
+    scroll-margin-top: calc(var(--space-24) + var(--space-16));
   }
 
   .narrow {
