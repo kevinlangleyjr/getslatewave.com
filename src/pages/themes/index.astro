@@ -45,6 +45,28 @@ const statuses = [
       </header>
 
       <form class="filters" id="theme-filters" aria-label="Filter themes">
+        <div class="filter-controls">
+          <label class="field">
+            <span>Find a tool</span>
+            <input
+              type="search"
+              name="query"
+              placeholder="Search VSCode, terminal, notes..."
+              autocomplete="off"
+            />
+          </label>
+
+          <label class="field">
+            <span>Sort</span>
+            <select name="sort">
+              <option value="recommended">Recommended</option>
+              <option value="name">Name A-Z</option>
+              <option value="category">Category</option>
+              <option value="status">Status</option>
+            </select>
+          </label>
+        </div>
+
         <fieldset>
           <legend>Category</legend>
           <div class="chips">
@@ -89,6 +111,18 @@ const statuses = [
           <li
             class="theme-item"
             data-category={theme.data.category}
+            data-name={theme.data.shortName}
+            data-order={theme.data.order}
+            data-search={[
+              theme.data.name,
+              theme.data.shortName,
+              theme.data.slug,
+              theme.data.category,
+              theme.data.status,
+              theme.data.tagline,
+              theme.data.summary,
+              ...theme.data.tags,
+            ].join(' ').toLowerCase()}
             data-status={theme.data.status}
           >
             <ThemeCard theme={theme} />
@@ -96,43 +130,78 @@ const statuses = [
         ))}
       </ul>
 
-      <p class="empty" id="theme-empty" hidden>
-        No themes match these filters yet.
-      </p>
+      <div class="empty" id="theme-empty" hidden>
+        <h2>No themes match those filters.</h2>
+        <p>Try a broader search, switch back to all categories, or clear the filters.</p>
+        <button type="reset" form="theme-filters">Clear filters</button>
+      </div>
     </div>
   </section>
 </Base>
 
 <script>
   const form = document.getElementById('theme-filters') as HTMLFormElement | null;
-  const items = document.querySelectorAll<HTMLElement>('.theme-item');
+  const grid = document.getElementById('theme-grid');
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.theme-item'));
   const empty = document.getElementById('theme-empty');
   const count = document.getElementById('theme-count');
   const total = items.length;
+  const statusRank: Record<string, number> = { stable: 0, beta: 1, planned: 2 };
+
+  const byName = (a: HTMLElement, b: HTMLElement) =>
+    String(a.dataset.name ?? '').localeCompare(String(b.dataset.name ?? ''));
+
+  const sortItems = (sort: string) => {
+    const sorted = [...items].sort((a, b) => {
+      if (sort === 'name') return byName(a, b);
+      if (sort === 'category') {
+        return (
+          String(a.dataset.category ?? '').localeCompare(String(b.dataset.category ?? '')) ||
+          byName(a, b)
+        );
+      }
+      if (sort === 'status') {
+        return (
+          (statusRank[a.dataset.status ?? ''] ?? 99) -
+            (statusRank[b.dataset.status ?? ''] ?? 99) ||
+          byName(a, b)
+        );
+      }
+      return Number(a.dataset.order ?? 0) - Number(b.dataset.order ?? 0);
+    });
+    sorted.forEach((item) => grid?.appendChild(item));
+  };
 
   const update = () => {
     if (!form) return;
     const data = new FormData(form);
     const cat = String(data.get('category') ?? 'all');
     const status = String(data.get('status') ?? 'all');
+    const query = String(data.get('query') ?? '').trim().toLowerCase();
+    const sort = String(data.get('sort') ?? 'recommended');
     let visible = 0;
+    sortItems(sort);
     items.forEach((item) => {
       const matchCat = cat === 'all' || item.dataset.category === cat;
       const matchStatus = status === 'all' || item.dataset.status === status;
-      const show = matchCat && matchStatus;
+      const matchQuery = !query || String(item.dataset.search ?? '').includes(query);
+      const show = matchCat && matchStatus && matchQuery;
       item.hidden = !show;
       if (show) visible += 1;
     });
     if (empty) empty.hidden = visible !== 0;
     if (count) {
       count.textContent =
-        visible === total
+        visible === total && !query
           ? `Showing all ${total} ${total === 1 ? 'theme' : 'themes'}`
-          : `Showing ${visible} of ${total} ${total === 1 ? 'theme' : 'themes'}`;
+          : `Showing ${visible} of ${total} ${total === 1 ? 'theme' : 'themes'}${query ? ` for "${query}"` : ''}`;
     }
   };
 
   form?.addEventListener('change', update);
+  form?.addEventListener('input', update);
+  form?.addEventListener('reset', () => window.setTimeout(update, 0));
+  update();
 </script>
 
 <style>
