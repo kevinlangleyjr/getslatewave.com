@@ -46,22 +46,38 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
         <p class="tagline">{data.tagline}</p>
         <div class="meta">
           <Badge tone={data.status}>{data.status}</Badge>
-          <a href={data.repo.url} rel="noopener" target="_blank" class="repo-link">
+          <a
+            href={data.repo.url}
+            rel="noopener"
+            target="_blank"
+            class="repo-link"
+            data-sa-event={`install/${data.slug}/repo`}
+          >
             {data.repo.owner}/{data.repo.name} ↗
           </a>
           {data.links.marketplace && (
-            <a href={data.links.marketplace} rel="noopener" target="_blank" class="repo-link">
+            <a
+              href={data.links.marketplace}
+              rel="noopener"
+              target="_blank"
+              class="repo-link"
+              data-sa-event={`install/${data.slug}/marketplace`}
+            >
               Marketplace ↗
             </a>
           )}
         </div>
 
         <div class="hero-actions" aria-label="Theme actions">
-          <a class="btn btn-primary" href="#install-heading">
+          <a
+            class="btn btn-primary"
+            href="#install-heading"
+            data-sa-event={`cta/theme/install-jump/${data.slug}`}
+          >
             <span>{primaryInstall?.command ? `Install with ${primaryInstall.label}` : 'View install steps'}</span>
             <span aria-hidden="true">↓</span>
           </a>
-          <a class="btn btn-ghost" href="/themes/">Browse all themes</a>
+          <a class="btn btn-ghost" href="/themes/" data-sa-event="cta/theme/browse-all">Browse all themes</a>
         </div>
 
         {meta && (meta.stars > 0 || meta.latestRelease || meta.pushedAt) && (
@@ -132,7 +148,14 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
               <header>
                 <h3>{method.label}</h3>
                 {method.link && (
-                  <a href={method.link} rel="noopener" target="_blank">Open ↗</a>
+                  <a
+                    href={method.link}
+                    rel="noopener"
+                    target="_blank"
+                    data-sa-event={`install/${data.slug}/external/${slugifyMethod(method.label)}`}
+                  >
+                    Open ↗
+                  </a>
                 )}
               </header>
               {method.description && <p class="muted">{method.description}</p>}
