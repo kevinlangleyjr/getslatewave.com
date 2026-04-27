@@ -51,14 +51,15 @@ export function apply(theme: Theme): string {
         <p class="eyebrow">A cohesive theme system</p>
         <h1>One palette.<br />Every tool.</h1>
         <p class="lede">
-          Slatewave is a family of themes that share a single, carefully-tuned
-          color system — {shippedCount} tools and counting, all speaking the
-          same visual language.
+          Slatewave makes your whole developer workspace feel consistent:
+          editor, terminal, notes, launcher, and chat all generated from one
+          carefully-tuned color system.
         </p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="/themes/">Browse themes</a>
+          <a class="btn btn-primary" href="/themes/vscode/#install">Install VSCode theme</a>
+          <a class="btn btn-ghost" href="/themes/">Browse {shippedCount} tools</a>
           <a
-            class="btn btn-ghost"
+            class="btn btn-link"
             href="https://github.com/kevinlangleyjr?tab=repositories&q=slatewave"
             rel="noopener"
             target="_blank"
@@ -66,6 +67,21 @@ export function apply(theme: Theme): string {
             View on GitHub
           </a>
         </div>
+
+        <dl class="hero-proof" aria-label="Slatewave proof points">
+          <div>
+            <dt>{shippedCount}</dt>
+            <dd>shipping themes</dd>
+          </div>
+          <div>
+            <dt>1</dt>
+            <dd>palette contract</dd>
+          </div>
+          <div>
+            <dt>No</dt>
+            <dd>hand-matched ports</dd>
+          </div>
+        </dl>
       </div>
 
       <div class="hero-mark" aria-hidden="true">
@@ -74,6 +90,38 @@ export function apply(theme: Theme): string {
         <span class="hero-mark-glow hero-mark-glow-rose"></span>
         <span class="hero-mark-glow hero-mark-glow-amber"></span>
         <img class="hero-mark-icon" src="/brand/icon.svg" alt="" width="908" height="1005" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section positioning">
+    <div class="container">
+      <div class="positioning-card">
+        <p class="eyebrow">Why Slatewave</p>
+        <h2>Stop rebuilding your visual environment one app at a time.</h2>
+        <div class="positioning-grid">
+          <article>
+            <h3>Built for daily developer context switching</h3>
+            <p>
+              Slatewave follows you from code review to shell output to notes,
+              so color meaning stays familiar across the tools you already use.
+            </p>
+          </article>
+          <article>
+            <h3>Generated from a shared color contract</h3>
+            <p>
+              Each port maps the same semantic roles to its native theme keys,
+              instead of approximating screenshots by eye.
+            </p>
+          </article>
+          <article>
+            <h3>Start small, then make it everywhere</h3>
+            <p>
+              Install one theme today, then carry the same palette into your
+              terminal, notes, launcher, and team chat when you're ready.
+            </p>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -325,6 +373,103 @@ export function apply(theme: Theme): string {
     display: flex;
     gap: var(--space-3);
     flex-wrap: wrap;
+  }
+
+  .btn-link {
+    color: var(--fg-muted);
+    padding-inline: var(--space-2);
+  }
+
+  .btn-link:hover {
+    color: var(--accent);
+  }
+
+  .hero-proof {
+    margin-top: var(--space-8);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+    max-width: 40rem;
+  }
+
+  .hero-proof div {
+    padding: var(--space-4);
+    background: color-mix(in oklab, var(--bg-raised) 78%, transparent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .hero-proof dt {
+    color: var(--fg-default);
+    font-size: var(--fs-lg);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+  }
+
+  .hero-proof dd {
+    margin-top: var(--space-1);
+    color: var(--fg-subtle);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 560px) {
+    .hero-proof {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .positioning {
+    padding-block: 0 var(--space-16);
+  }
+
+  .positioning-card {
+    padding: var(--space-8);
+    background:
+      radial-gradient(circle at 0% 0%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 34rem),
+      var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+  }
+
+  .positioning-card h2 {
+    margin-top: var(--space-3);
+    max-width: 48rem;
+    font-size: clamp(1.75rem, 3vw, var(--fs-xl));
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .positioning-grid {
+    margin-top: var(--space-8);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .positioning-grid h3 {
+    font-size: var(--fs-md);
+    font-weight: 600;
+  }
+
+  .positioning-grid p {
+    margin-top: var(--space-2);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  @media (max-width: 820px) {
+    .positioning-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .positioning-card {
+      padding: var(--space-6);
+    }
   }
 
   .surfaces {
