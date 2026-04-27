@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Editor, { loader, type OnMount } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
 import { monacoTheme, MONACO_THEME_NAME } from '~/lib/monaco-theme';
+import { trackEvent } from '~/lib/analytics';
 
 loader.config({
   paths: {
@@ -169,7 +170,10 @@ export default function Playground() {
               role="tab"
               aria-selected={s.id === active.id}
               className={s.id === active.id ? 'pg-tab pg-tab-active' : 'pg-tab'}
-              onClick={() => setActive(s)}
+              onClick={() => {
+                setActive(s);
+                trackEvent(`playground/tab/${s.id}`);
+              }}
             >
               {s.label}
             </button>
@@ -178,7 +182,10 @@ export default function Playground() {
         <button
           type="button"
           className="pg-reset"
-          onClick={() => setCode(active.code)}
+          onClick={() => {
+            setCode(active.code);
+            trackEvent('playground/reset', { language: active.id });
+          }}
           aria-label="Reset sample code"
         >
           Reset
