@@ -27,7 +27,8 @@ const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
 const primaryInstall = data.install?.[0];
 
 const slugifyMethod = (label: string) =>
-  label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+const slugSegment = data.slug.replace(/-/g, '_');
 
 const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 ---
@@ -218,11 +219,13 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
       const methodId = button.dataset.methodId ?? 'unknown';
       const methodLabel = button.dataset.methodLabel ?? methodId;
 
+      const slugSegment = themeSlug.replace(/-/g, '_');
+
       try {
         await navigator.clipboard.writeText(command);
         button.textContent = 'Copied';
         button.dataset.copied = 'true';
-        trackEvent(`install/${themeSlug}/copy-command/${methodId}`, {
+        trackEvent(`install_${slugSegment}_copy_command_${methodId}`, {
           method: methodLabel,
         });
         window.setTimeout(() => {
