@@ -151,6 +151,34 @@ const statuses = [
   const byName = (a: HTMLElement, b: HTMLElement) =>
     String(a.dataset.name ?? '').localeCompare(String(b.dataset.name ?? ''));
 
+  const applyUrlParams = () => {
+    if (!form) return;
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('query');
+    const category = params.get('category');
+    const status = params.get('status');
+    const sort = params.get('sort');
+
+    if (query) {
+      const input = form.elements.namedItem('query') as HTMLInputElement | null;
+      if (input) input.value = query;
+    }
+    if (category && form.querySelector<HTMLInputElement>(`input[name="category"][value="${category}"]`)) {
+      const input = form.querySelector<HTMLInputElement>(`input[name="category"][value="${category}"]`);
+      if (input) input.checked = true;
+    }
+    if (status && form.querySelector<HTMLInputElement>(`input[name="status"][value="${status}"]`)) {
+      const input = form.querySelector<HTMLInputElement>(`input[name="status"][value="${status}"]`);
+      if (input) input.checked = true;
+    }
+    if (sort) {
+      const select = form.elements.namedItem('sort') as HTMLSelectElement | null;
+      if (select && Array.from(select.options).some((option) => option.value === sort)) {
+        select.value = sort;
+      }
+    }
+  };
+
   const sortItems = (sort: string) => {
     const sorted = [...items].sort((a, b) => {
       if (sort === 'name') return byName(a, b);
@@ -201,6 +229,7 @@ const statuses = [
   form?.addEventListener('change', update);
   form?.addEventListener('input', update);
   form?.addEventListener('reset', () => window.setTimeout(update, 0));
+  applyUrlParams();
   update();
 </script>
 
