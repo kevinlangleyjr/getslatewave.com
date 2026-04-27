@@ -26,6 +26,9 @@ const { Content } = await render(theme);
 const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
 const primaryInstall = data.install?.[0];
 
+const slugifyMethod = (label: string) =>
+  label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 ---
 
@@ -120,7 +123,7 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
       </div>
     </section>
 
-    <section class="section install-section" id="install">
+    <section class="section install-section" id="install" data-theme-slug={data.slug}>
       <div class="container narrow">
         <h2 id="install-heading">Install</h2>
         <ul class="install-list">
@@ -140,6 +143,8 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
                     type="button"
                     class="copy-command"
                     data-copy-command={method.command}
+                    data-method-id={slugifyMethod(method.label)}
+                    data-method-label={method.label}
                     aria-label={`Copy ${method.label} install command`}
                   >
                     Copy
@@ -160,6 +165,11 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 </Base>
 
 <script>
+  import { trackEvent } from '~/lib/analytics';
+
+  const installSection = document.querySelector<HTMLElement>('.install-section');
+  const themeSlug = installSection?.dataset.themeSlug ?? 'unknown';
+
   const copyButtons = document.querySelectorAll<HTMLButtonElement>('[data-copy-command]');
 
   const selectCommand = (button: HTMLButtonElement) => {
@@ -182,16 +192,25 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
       const command = button.dataset.copyCommand;
       if (!command) return;
 
+      const methodId = button.dataset.methodId ?? 'unknown';
+      const methodLabel = button.dataset.methodLabel ?? methodId;
+
       try {
         await navigator.clipboard.writeText(command);
         button.textContent = 'Copied';
         button.dataset.copied = 'true';
+        trackEvent(`install/${themeSlug}/copy-command/${methodId}`, {
+          method: methodLabel,
+        });
         window.setTimeout(() => {
           button.textContent = original;
           delete button.dataset.copied;
         }, 1800);
       } catch {
         button.textContent = selectCommand(button) ? 'Selected' : 'Select command';
+        trackEvent(`install/${themeSlug}/copy-command-fallback/${methodId}`, {
+          method: methodLabel,
+        });
         window.setTimeout(() => {
           button.textContent = original;
         }, 1800);
