@@ -4,12 +4,12 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 
-import slatewaveTheme from './src/lib/slatewave-theme.json' with { type: 'json' };
+import { slatewaveTheme } from './src/lib/shiki.ts';
 
 export default defineConfig({
-  site: 'https://slatewave.dev',
-  output: 'static',
-  trailingSlash: 'always',
+  site: "https://getslatewave.com",
+  output: "static",
+  trailingSlash: "always",
   integrations: [mdx(), sitemap(), react()],
   markdown: {
     shikiConfig: {
@@ -18,11 +18,11 @@ export default defineConfig({
     },
   },
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: "auto",
   },
   vite: {
     optimizeDeps: {
-      include: ['monaco-editor'],
+      include: ["monaco-editor"],
     },
   },
 });
