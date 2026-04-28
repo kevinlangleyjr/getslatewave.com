@@ -59,10 +59,16 @@ const docs = (await getCollection('docs', ({ data }) => !data.draft))
 
   .doc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
     list-style: none;
     padding: 0;
+  }
+
+  @media (max-width: 640px) {
+    .doc-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .doc-card {
