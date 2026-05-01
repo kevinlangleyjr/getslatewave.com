@@ -1,0 +1,82 @@
+---
+name: Slatewave for LSD
+shortName: LSD
+slug: lsd
+category: terminal
+tagline: A Slatewave palette for LSD — the next-gen `ls`, tinted slate and teal.
+summary: >-
+  LSD splits its output into column roles — owner, permissions, size,
+  date, git status, tree edges — and Slatewave recolors each so the row
+  reads at a glance. Teal for read, amber for write, rose for exec; teal
+  for fresh dates, slate for old; tree edges recede and filenames lead.
+status: beta
+order: 200
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: lsd-slatewave
+  url: https://github.com/kevinlangleyjr/lsd-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: yaml
+  sample: |
+    # ~/.config/lsd/colors.yaml — slatewave (abridged)
+    user: "#e2e8f0"
+    group: "#94a3b8"
+    permission:
+      read: "#5eead4"
+      write: "#fbbf24"
+      exec: "#fb7185"
+      no-access: "#64748b"
+    date:
+      hour-old: "#5eead4"
+      day-old: "#99f6e4"
+      older: "#94a3b8"
+    size:
+      small: "#cbd5e1"
+      medium: "#fbbf24"
+      large: "#b45309"
+    git-status:
+      new-in-index: "#5eead4"
+      modified: "#fbbf24"
+      deleted: "#fb7185"
+      conflicted: "#ef5350"
+    tree-edge: "#475569"
+install:
+  - label: Clone + symlink
+    description: LSD ≥ 1.0 required (hex color support in colors.yaml).
+    steps:
+      - 'git clone https://github.com/kevinlangleyjr/lsd-slatewave.git ~/.config/lsd-slatewave'
+      - 'mkdir -p ~/.config/lsd'
+      - 'ln -sf ~/.config/lsd-slatewave/colors.yaml ~/.config/lsd/colors.yaml'
+  - label: Or curl the file straight in
+    description: Drop colors.yaml into ~/.config/lsd/ without cloning.
+    command: mkdir -p ~/.config/lsd && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/lsd-slatewave/main/colors.yaml -o ~/.config/lsd/colors.yaml
+  - label: Activate the custom theme
+    description: LSD only consults colors.yaml when told to use a custom theme. Edit ~/.config/lsd/config.yaml.
+    steps:
+      - 'Open or create ~/.config/lsd/config.yaml'
+      - 'Add: color.when set to auto'
+      - 'Add: color.theme set to custom'
+      - 'Run lsd -la --git --tree --depth 2 to verify'
+  - label: Pair with a Nerd Font
+    description: Optional — set icons.theme to fancy in LSD's config for the icon glyphs. Falls back to unicode cleanly.
+  - label: File-type colors via LS_COLORS
+    description: Directory, executable, archive, and symlink colors come from LS_COLORS, not this theme. Slatewave composes with vivid or trapd00r/LS_COLORS — pick whichever you prefer.
+    command: export LS_COLORS="$(vivid generate molokai)"
+tags: [terminal, cli, lsd, ls]
+---
+
+Slatewave for LSD recolors the column roles LSD already exposes —
+owner, group, permissions, size, date, git status, tree edges — so the
+row reads spatially: teal for read, amber for write, rose for exec;
+teal-300 for hour-old dates fading to slate-400 for older ones; slate
+for small files warming to amber for large.
+
+File-type colors (directories, symlinks, archives, media) are driven
+by `LS_COLORS`, so Slatewave composes with whatever `LS_COLORS`
+generator you already use — [vivid](https://github.com/sharkdp/vivid),
+trapd00r/LS_COLORS, or the default. The theme tunes against LSD 1.0+,
+which accepts `#rrggbb` hex alongside the legacy named colors and ANSI
+256 indices.
