@@ -1,6 +1,7 @@
 ---
 import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
 import type { BundledLanguage } from 'shiki';
+import TerminalChrome from './TerminalChrome.astro';
 
 interface Props {
   code: string;
@@ -28,12 +29,9 @@ const html = highlighter.codeToHtml(code.trimEnd(), {
 
 <figure class:list={['code-preview', 'sw-frame', { 'has-line-numbers': lineNumbers }]}>
   {showChrome && (
-    <header class="chrome" aria-hidden="true">
-      <span class="dot dot-r"></span>
-      <span class="dot dot-y"></span>
-      <span class="dot dot-g"></span>
-      {(label || language) && <span class="label">{label ?? language}</span>}
-    </header>
+    <TerminalChrome>
+      {(label || language) && <span slot="trailing" class="label">{label ?? language}</span>}
+    </TerminalChrome>
   )}
   <div class="code-body" set:html={html} />
 </figure>
@@ -42,26 +40,6 @@ const html = highlighter.codeToHtml(code.trimEnd(), {
   .code-preview {
     background: var(--sw-slate-editor);
   }
-
-  .chrome {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: var(--sw-slate-chrome);
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.16);
-  }
-
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
 
   .label {
     margin-left: auto;
