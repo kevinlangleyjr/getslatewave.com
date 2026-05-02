@@ -1,0 +1,429 @@
+---
+/**
+ * Pure HTML/CSS rendering of `lsd -la --git --tree --depth=2` with
+ * Slatewave applied.
+ *
+ * Every column maps to a slot in lsd-slatewave/colors.yaml, so the
+ * preview puts each role on screen without making the user run lsd
+ * themselves.
+ *
+ * LSD draws Nerd Font glyphs to the left of each name. Browsers can't be
+ * relied on to have a Nerd Font installed, so we substitute inline SVG
+ * icons whose silhouettes match the most common LSD glyphs (folders,
+ * dot-folders, git/github specials, language-specific file types, etc.).
+ *
+ * File and folder names render in the default text color (slate-200).
+ * LSD leaves type-based name colors to LS_COLORS, which is shipped
+ * separately from colors.yaml — without an LS_COLORS set, all names
+ * render uniformly. Differentiation lives entirely in the icon color.
+ */
+
+type IconKey =
+  | 'folder' | 'folder-hidden'
+  | 'file' | 'config'
+  | 'env' | 'env-example'
+  | 'git' | 'github' | 'gitignore'
+  | 'vscode' | 'idea'
+  | 'apple'
+  | 'ts' | 'js' | 'json' | 'yaml' | 'md' | 'license' | 'astro'
+  | 'image' | 'webmanifest'
+  | 'link' | 'exec';
+
+type SizeKind = 'none' | 'small' | 'medium' | 'large';
+type DateKind = 'hour-old' | 'day-old' | 'older';
+type GitKind = 'unmodified' | 'ignored' | 'modified' | 'added' | 'deleted' | 'renamed' | 'untracked';
+
+interface Row {
+  git: GitKind;
+  ftype: 'd' | '-' | 'l';
+  perms: string; // 9 chars: rwxrwxrwx (with - for absent bits)
+  size: string;
+  sizeKind: SizeKind;
+  date: string;
+  dateKind: DateKind;
+  prefix: string; // tree-edge prefix string, e.g. '├── ' or '│   └── '
+  icon: IconKey;
+  name: string;
+}
+
+const u = 'kevin.langleyjr';
+const g = 'staff';
+
+const rows: Row[] = [
+  // Root entries (depth 1)
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '512 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '── ',     icon: 'folder',         name: '.' },
+
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '347 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'env-example',    name: '.env.example' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '384 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'git',            name: '.git' },
+
+  // .git children (depth 2)
+  { git: 'ignored',    ftype: '-', perms: 'rw-r--r--', size: '316 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'config',         name: 'config' },
+  { git: 'ignored',    ftype: '-', perms: 'rw-r--r--', size: ' 73 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:26 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'file',           name: 'description' },
+  { git: 'ignored',    ftype: '-', perms: 'rw-r--r--', size: ' 21 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:26 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'file',           name: 'HEAD' },
+  { git: 'ignored',    ftype: 'd', perms: 'rwxr-xr-x', size: '512 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'hooks' },
+  { git: 'ignored',    ftype: '-', perms: 'rw-r--r--', size: '8.8 KB', sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'file',           name: 'index' },
+  { git: 'ignored',    ftype: 'd', perms: 'rwxr-xr-x', size: ' 96 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:26 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'info' },
+  { git: 'ignored',    ftype: 'd', perms: 'rwxr-xr-x', size: '128 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'logs' },
+  { git: 'ignored',    ftype: 'd', perms: 'rwxr-xr-x', size: '128 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:26 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'objects' },
+  { git: 'ignored',    ftype: '-', perms: 'rw-r--r--', size: '112 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'file',           name: 'packed-refs' },
+  { git: 'ignored',    ftype: 'd', perms: 'rwxr-xr-x', size: '160 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:26 2026', dateKind: 'older', prefix: '│   └── ', icon: 'folder',         name: 'refs' },
+
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: ' 96 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'github',         name: '.github' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: ' 96 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   └── ', icon: 'folder',         name: 'workflows' },
+
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '264 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'gitignore',      name: '.gitignore' },
+
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '128 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'vscode',         name: '.vscode' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: ' 87 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'json',           name: 'extensions.json' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '207 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   └── ', icon: 'json',           name: 'launch.json' },
+
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '626 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'js',             name: 'astro.config.mjs' },
+
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: ' 96 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'folder',         name: 'docs' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: ' 96 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   └── ', icon: 'folder',         name: 'roadmap' },
+
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '479 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'license',        name: 'LICENSE' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '871 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'json',           name: 'package.json' },
+  { git: 'ignored',    ftype: '-', perms: 'rw-r--r--', size: '139 KB', sizeKind: 'medium', date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'yaml',           name: 'pnpm-lock.yaml' },
+
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '256 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'folder',         name: 'public' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: ' 16 KB', sizeKind: 'medium', date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'image',          name: 'apple-touch-icon.png' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '192 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'brand' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '2.4 KB', sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'image',          name: 'favicon-32.png' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: ' 24 KB', sizeKind: 'medium', date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'image',          name: 'favicon.png' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: ' 20 KB', sizeKind: 'medium', date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'image',          name: 'icon-192.png' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '552 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   └── ', icon: 'webmanifest',    name: 'site.webmanifest' },
+
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '2.7 KB', sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'md',             name: 'README.md' },
+
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '288 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '├── ',    icon: 'folder',         name: 'src' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '224 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'components' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '128 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'content' },
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '2.7 KB', sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'ts',             name: 'content.config.ts' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '128 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'layouts' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '288 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'lib' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '320 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   ├── ', icon: 'folder',         name: 'pages' },
+  { git: 'unmodified', ftype: 'd', perms: 'rwxr-xr-x', size: '192 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '│   └── ', icon: 'folder',         name: 'styles' },
+
+  { git: 'unmodified', ftype: '-', perms: 'rw-r--r--', size: '201 B',  sizeKind: 'small',  date: 'Mon Apr 27 00:09:29 2026', dateKind: 'older', prefix: '└── ',    icon: 'json',           name: 'tsconfig.json' },
+];
+
+const gitColor: Record<GitKind, string> = {
+  unmodified: '#64748b',
+  ignored: '#475569',
+  modified: '#fbbf24',
+  added: '#5eead4',
+  deleted: '#fb7185',
+  renamed: '#7dd3fc',
+  untracked: '#99f6e4',
+};
+
+const gitChar: Record<GitKind, string> = {
+  unmodified: '.',
+  ignored: '!',
+  modified: 'M',
+  added: 'A',
+  deleted: 'D',
+  renamed: 'R',
+  untracked: '?',
+};
+
+const permClass = (c: string): string => {
+  if (c === 'r') return 'p p-r';
+  if (c === 'w') return 'p p-w';
+  if (c === 'x') return 'p p-x';
+  if (c === 's' || c === 't') return 'p p-s';
+  return 'p p-dash';
+};
+---
+
+<figure class="lsd-preview" aria-label="Slatewave applied to lsd">
+  <div class="window">
+    <header class="chrome" aria-hidden="true">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+      <span class="title">zsh in getslatewave.com</span>
+    </header>
+
+    <div class="body">
+      <div class="prompt-line">
+        <span class="prompt-cwd">~/Development/getslatewave</span>
+        <span class="prompt-branch">⎇ main</span>
+        <span class="prompt-arrow">❯</span>
+        <span class="prompt-cmd">lsd</span>
+        <span class="prompt-flag">-la</span>
+        <span class="prompt-flag">--git</span>
+        <span class="prompt-flag">--tree</span>
+        <span class="prompt-flag">--depth=2</span>
+      </div>
+
+      <div class="listing" role="table" aria-label="lsd output">
+        {rows.map((row) => (
+          <div class="row" role="row">
+            <span class="col col-git" style={`color:${gitColor[row.git]}`}>{gitChar[row.git]}</span>
+            <span class="col col-perms">
+              <span class:list={['ft', `ft-${row.ftype}`]}>{row.ftype}</span>
+              {row.perms.split('').map((c) => <span class={permClass(c)}>{c}</span>)}
+            </span>
+            <span class="col col-user">{u}</span>
+            <span class="col col-group">{g}</span>
+            <span class:list={['col', 'col-size', `size-${row.sizeKind}`]}>{row.size}</span>
+            <span class:list={['col', 'col-date', `date-${row.dateKind}`]}>{row.date}</span>
+            <span class="col col-name">
+              <span class="tree-edge">{row.prefix}</span>
+              <span class:list={['ficon', `icon-${row.icon}`]}>
+                {row.icon === 'folder' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.379a1.5 1.5 0 0 1 1.06.44L8 4.5h4.5A1.5 1.5 0 0 1 14 6v5.5A1.5 1.5 0 0 1 12.5 13h-9A1.5 1.5 0 0 1 2 11.5z"/></svg>}
+                {row.icon === 'folder-hidden' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h2.379a1.5 1.5 0 0 1 1.06.44L8 4.5h4.5A1.5 1.5 0 0 1 14 6v5.5A1.5 1.5 0 0 1 12.5 13h-9A1.5 1.5 0 0 1 2 11.5z"/></svg>}
+                {row.icon === 'file' && <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3 2h6.5L13 5.5V14H3z"/><polyline points="9 2 9 6 13 6"/></svg>}
+                {row.icon === 'config' && <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3 2h6.5L13 5.5V14H3z"/><polyline points="9 2 9 6 13 6"/><line x1="5" y1="9" x2="11" y2="9"/><line x1="5" y1="11" x2="9" y2="11"/></svg>}
+                {row.icon === 'env' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.05a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.05a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.05a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>}
+                {row.icon === 'env-example' && <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3 2h6.5L13 5.5V14H3z"/><polyline points="9 2 9 6 13 6"/></svg>}
+                {row.icon === 'git' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/></svg>}
+                {row.icon === 'github' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>}
+                {row.icon === 'gitignore' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/><line x1="3" y1="3" x2="21" y2="21" stroke-linecap="round"/></svg>}
+                {row.icon === 'vscode' && <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17 1.5L7.5 8.7 3 5.3v13.4l4.5-3.4L17 22.5 21 20.5V3.5L17 1.5zM9 12L17 5.7v12.6L9 12z"/></svg>}
+                {row.icon === 'idea' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>}
+                {row.icon === 'apple' && <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17.543 12.477c-.024-2.425 1.982-3.596 2.072-3.652-1.13-1.651-2.888-1.877-3.51-1.903-1.492-.151-2.915.878-3.672.878s-1.931-.855-3.175-.832c-1.634.024-3.138.949-3.978 2.412-1.696 2.941-.433 7.3 1.222 9.689.808 1.17 1.77 2.484 3.035 2.437 1.218-.049 1.678-.788 3.148-.788s1.884.788 3.175.761c1.31-.024 2.141-1.193 2.946-2.366.931-1.358 1.314-2.673 1.338-2.74-.03-.013-2.567-.985-2.594-3.905m-2.406-7.17c.672-.816 1.128-1.95 1.003-3.079-.968.04-2.142.643-2.836 1.459-.623.725-1.168 1.88-1.02 2.988 1.08.083 2.18-.548 2.853-1.368"/></svg>}
+                {row.icon === 'ts' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="6.5" font-weight="800" fill="#0f172a">TS</text></svg>}
+                {row.icon === 'js' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="6.5" font-weight="800" fill="#0f172a">JS</text></svg>}
+                {row.icon === 'json' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" font-weight="800" fill="#0f172a">{`{}`}</text></svg>}
+                {row.icon === 'yaml' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="5.5" font-weight="800" fill="#0f172a">YML</text></svg>}
+                {row.icon === 'md' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 15V9l3 4 3-4v6"/><path d="M16 9v6"/><path d="M16 15l2.5-2.5L21 15"/></svg>}
+                {row.icon === 'license' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/><circle cx="12" cy="14" r="2"/><path d="M11 16v3l1-1 1 1v-3"/></svg>}
+                {row.icon === 'astro' && <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2 6 22h12L12 2zm0 7 3 9H9l3-9z"/></svg>}
+                {row.icon === 'image' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg>}
+                {row.icon === 'webmanifest' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>}
+                {row.icon === 'link' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>}
+                {row.icon === 'exec' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>}
+              </span>
+              <span class="name">{row.name}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div class="prompt-line">
+        <span class="prompt-cwd">~/Development/getslatewave</span>
+        <span class="prompt-branch">⎇ main</span>
+        <span class="prompt-arrow">❯</span>
+        <span class="prompt-cursor" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .lsd-preview {
+    margin: 0;
+    padding: var(--space-8) var(--space-6);
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(15, 23, 42, 0.85), transparent 60%),
+      var(--bg-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .window {
+    background: #282c34;
+    border: 1px solid #0f172a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 25px 60px -15px rgba(0, 0, 0, 0.6);
+    color: #e2e8f0;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: #21252b;
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .chrome .title {
+    margin-left: auto;
+    color: #94a3b8;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.04em;
+  }
+
+  .body {
+    padding: 14px 18px 18px;
+    overflow-x: auto;
+  }
+
+  .prompt-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+    white-space: nowrap;
+  }
+
+  .prompt-line:last-child { margin-top: 8px; margin-bottom: 0; }
+
+  .prompt-cwd { color: #5eead4; font-weight: 600; }
+  .prompt-branch { color: #fb7185; }
+  .prompt-arrow { color: #5eead4; font-weight: 700; }
+  .prompt-cmd { color: #e2e8f0; }
+  .prompt-flag { color: #94a3b8; }
+
+  .prompt-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 1.05em;
+    background: #5eead4;
+    border-radius: 1px;
+    animation: lsd-blink 1.1s steps(2, start) infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes lsd-blink {
+    50% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prompt-cursor { animation: none; }
+  }
+
+  /* Listing — character-aligned grid. Six fixed columns then the name
+     column flexes; the body is overflow-x:auto so wide content scrolls
+     rather than wraps. */
+  .listing {
+    display: grid;
+    grid-template-columns:
+      auto       /* git */
+      auto       /* perms */
+      auto       /* user */
+      auto       /* group */
+      auto       /* size */
+      auto       /* date */
+      minmax(0, 1fr); /* name */
+    column-gap: 14px;
+    row-gap: 0;
+    min-width: max-content;
+  }
+
+  .row { display: contents; }
+  .col { white-space: nowrap; }
+
+  .col-git {
+    text-align: center;
+    min-width: 1.5ch;
+    font-weight: 600;
+  }
+
+  .col-perms {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .ft { font-weight: 600; margin-right: 1px; }
+  .ft-d { color: #5eead4; }
+  .ft-l { color: #7dd3fc; }
+  .ft-\- { color: #64748b; }
+
+  .p { display: inline-block; width: 1ch; }
+  .p-r { color: #5eead4; }
+  .p-w { color: #fbbf24; }
+  .p-x { color: #fb7185; }
+  .p-s { color: #b388ff; }
+  .p-dash { color: #64748b; }
+
+  .col-user { color: #e2e8f0; font-weight: 500; }
+  .col-group { color: #94a3b8; }
+
+  .col-size { text-align: right; min-width: 6ch; }
+  .size-none { color: #64748b; }
+  .size-small { color: #cbd5e1; }
+  .size-medium { color: #fbbf24; }
+  .size-large { color: #b45309; font-weight: 600; }
+
+  .col-date { text-align: left; }
+  .date-hour-old { color: #5eead4; }
+  .date-day-old { color: #99f6e4; }
+  .date-older { color: #94a3b8; }
+
+  .col-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .tree-edge {
+    color: #475569;
+    white-space: pre;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+  }
+
+  /* Icon colors — match LSD's built-in icon theme. Filenames don't get
+     tinted by type (LS_COLORS owns that), so the differentiation between
+     folders, configs, code, etc. lives entirely in the icon color. */
+  .ficon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .ficon svg { display: block; }
+
+  .icon-folder, .icon-folder-hidden { color: #5eead4; }
+  .icon-folder-hidden { opacity: 0.7; }
+  .icon-file { color: #94a3b8; }
+  .icon-config { color: #cbd5e1; }
+  .icon-git { color: #f05033; }         /* Git brand red-orange */
+  .icon-github { color: #e2e8f0; }      /* Octocat — slate-200 */
+  .icon-gitignore { color: #64748b; }
+  .icon-vscode { color: #38bdf8; }
+  .icon-idea { color: #fbbf24; }        /* IntelliJ lightbulb yellow */
+  .icon-apple { color: #cbd5e1; }       /* macOS silver */
+  .icon-env { color: #b388ff; }         /* secrets — purple */
+  .icon-env-example { color: #94a3b8; } /* template env — muted slate */
+  .icon-ts { color: #38bdf8; }
+  .icon-js { color: #fbbf24; }
+  .icon-json { color: #fbbf24; }
+  .icon-yaml { color: #fbbf24; }
+  .icon-md { color: #94a3b8; }
+  .icon-license { color: #cbd5e1; }
+  .icon-astro { color: #fb7185; }
+  .icon-image { color: #fb7185; }
+  .icon-webmanifest { color: #94a3b8; }
+  .icon-link { color: #7dd3fc; }
+  .icon-exec { color: #5eead4; }
+
+  /* All names render in slate-200. LSD leaves type-based name colors to
+     LS_COLORS, which is shipped separately from colors.yaml. */
+  .name {
+    color: #e2e8f0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 720px) {
+    .body { padding: 12px 12px; font-size: 11.5px; }
+    .listing { column-gap: 10px; }
+    .lsd-preview { padding: var(--space-4) var(--space-3); }
+  }
+
+  @media (max-width: 540px) {
+    .col-group { display: none; }
+  }
+</style>
