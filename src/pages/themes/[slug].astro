@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 import Badge from '~/components/ui/Badge.astro';
+import PaletteStrip from '~/components/theme/PaletteStrip.astro';
 import CodePreview from '~/components/previews/CodePreview.astro';
 import TerminalPreview from '~/components/previews/TerminalPreview.astro';
 import AlfredPreview from '~/components/previews/AlfredPreview.astro';
@@ -176,6 +177,12 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
             )}
           </>
         )}
+      </div>
+    </section>
+
+    <section class="section palette-section">
+      <div class="container narrow">
+        <PaletteStrip />
       </div>
     </section>
 
@@ -485,6 +492,10 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
 
   .section {
     padding-block: var(--space-8);
+  }
+
+  .palette-section {
+    padding-block: var(--space-4) var(--space-2);
   }
 
   .install-section {
