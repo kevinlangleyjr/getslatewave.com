@@ -1,0 +1,96 @@
+---
+name: Slatewave for bat
+shortName: bat
+slug: bat
+category: terminal
+tagline: A Slatewave theme for bat — the cat clone with syntax highlighting.
+summary: >-
+  A `.tmTheme` syntax theme for bat, mirroring the Slatewave Sublime
+  Text scope mapping so files printed in your terminal highlight the
+  same way they do in your editor — and the same theme cascades to any
+  tool that delegates highlighting to bat (delta, fzf preview, ripgrep-all).
+status: beta
+order: 145
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: bat-slatewave
+  url: https://github.com/kevinlangleyjr/bat-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: go
+  sample: |
+    // bat --theme=Slatewave server.go
+    package main
+
+    import (
+        "log"
+        "net/http"
+    )
+
+    const port = ":8080"
+
+    type Server struct {
+        Name   string
+        Routes map[string]http.HandlerFunc
+    }
+
+    func (s *Server) Hello(w http.ResponseWriter, r *http.Request) {
+        // greet the caller in the slatewave palette
+        w.Header().Set("Content-Type", "text/plain")
+        w.Write([]byte("slate below, teal above"))
+    }
+
+    func main() {
+        s := &Server{Name: "slatewave", Routes: nil}
+        http.HandleFunc("/", s.Hello)
+        log.Fatal(http.ListenAndServe(port, nil))
+    }
+install:
+  - label: curl
+    description: bat scans .tmTheme files from $(bat --config-dir)/themes — drop the theme straight in with curl. Requires bat ≥ 0.18.
+    command: mkdir -p "$(bat --config-dir)/themes" && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/bat-slatewave/main/Slatewave.tmTheme -o "$(bat --config-dir)/themes/Slatewave.tmTheme"
+  - label: Or clone the full repo
+    description: If you'd rather track updates with git, clone the repo into bat's themes directory — bat scans subdirectories recursively for .tmTheme files.
+    command: mkdir -p "$(bat --config-dir)/themes" && git clone https://github.com/kevinlangleyjr/bat-slatewave.git "$(bat --config-dir)/themes/bat-slatewave"
+  - label: Rebuild bat's theme cache
+    description: bat caches compiled themes on disk — rebuild after adding a new one or it won't show up in --list-themes.
+    command: bat cache --build
+  - label: Verify it loaded
+    description: Slatewave should now appear in bat's theme list, and the one-shot --theme flag should render with it.
+    steps:
+      - 'bat --list-themes | grep Slatewave'
+      - 'bat --theme=Slatewave --color=always /path/to/some.go | head -40'
+  - label: Make Slatewave the default
+    description: Write bat's config file with --theme="Slatewave" so every bat invocation uses it without needing an env var or flag.
+    command: echo '--theme="Slatewave"' > "$(bat --config-file)"
+  - label: Or — set per-shell only
+    description: Prefer a session-scoped switch? Export BAT_THEME instead of writing the config file.
+    steps:
+      - 'zsh / bash — `export BAT_THEME=Slatewave`'
+      - 'fish — `set -gx BAT_THEME Slatewave`'
+  - label: Pair with delta
+    description: git-delta reads bat's theme cache. Once Slatewave is registered, point delta at it via your ~/.gitconfig.
+    steps:
+      - 'Under [delta] in ~/.gitconfig, add `syntax-theme = Slatewave`'
+tags: [terminal, cli, bat, syntax-highlighting]
+---
+
+Slatewave for bat is a Sublime Text–compatible `.tmTheme` file — the
+format `bat` consumes via [syntect](https://github.com/trishume/syntect).
+Scope mapping is identical to the [Sublime Text port](/themes/sublime-text/),
+so a Go, TypeScript, or Markdown file that highlights a certain way in
+your editor highlights the same way when piped through `bat` in the
+terminal.
+
+Once registered with `bat cache --build`, the theme cascades to every
+tool that delegates highlighting to bat: [git-delta](https://github.com/dandavison/delta)
+for pretty diffs, `fzf --preview` for file previews, and
+[ripgrep-all](https://github.com/phiresky/ripgrep-all) when piped
+through a pager. Set it once, get it everywhere.
+
+Requires a true-color terminal — at 256 colors the slate ramp collapses
+and the accent hues drift. Pair with any of the Slatewave terminal ports
+(Alacritty, Ghostty, iTerm2, WezTerm, Windows Terminal) for the matched
+chrome.
