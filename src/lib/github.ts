@@ -126,6 +126,13 @@ export async function fetchRepoMeta(
       ]);
 
       if (!repoRes.ok) {
+        if (isRateLimited(repoRes)) {
+          console.warn(
+            `[github] rate-limited on ${owner}/${name} — falling back to stale cache. ` +
+              'Set GITHUB_TOKEN to raise the limit to 5000/hour.',
+          );
+          return await readStaleCache<RepoMeta>(key);
+        }
         console.warn(`[github] repo ${owner}/${name}: ${repoRes.status} ${repoRes.statusText}`);
         return null;
       }
@@ -173,6 +180,13 @@ export async function fetchReleases(
         { headers: headers() },
       );
       if (!res.ok) {
+        if (isRateLimited(res)) {
+          console.warn(
+            `[github] rate-limited on ${owner}/${name} releases — falling back to stale cache. ` +
+              'Set GITHUB_TOKEN to raise the limit to 5000/hour.',
+          );
+          return (await readStaleCache<Release[]>(key)) ?? [];
+        }
         console.warn(
           `[github] releases ${owner}/${name}: ${res.status} ${res.statusText}`,
         );
