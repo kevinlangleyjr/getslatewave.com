@@ -6,7 +6,9 @@
  * raise that to 5000/hour.
  *
  * Results are cached to `node_modules/.cache/slatewave-github/` with a
- * 30-minute TTL so dev hot-reloads don't burn API quota.
+ * 30-minute TTL so dev hot-reloads don't burn API quota. On a rate-limit
+ * hit we fall back to whatever's in the cache regardless of age, so a
+ * 403/429 stops degrading the page rather than blanking the metadata.
  */
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
