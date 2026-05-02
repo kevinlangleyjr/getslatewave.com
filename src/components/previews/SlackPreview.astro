@@ -14,6 +14,8 @@
  *   8. Mention Badge      #FB7185   unread mention pill
  */
 
+import TerminalChrome from './TerminalChrome.astro';
+
 interface Channel {
   name: string;
   unread?: number;
@@ -58,12 +60,7 @@ const messages = [
 
 <figure class="slack-preview" aria-label="Slatewave applied to Slack">
   <div class="window">
-    <header class="chrome" aria-hidden="true">
-      <span class="dot dot-r"></span>
-      <span class="dot dot-y"></span>
-      <span class="dot dot-g"></span>
-      <span class="title">Slack — Slatewave</span>
-    </header>
+    <TerminalChrome title="Slack — Slatewave" />
 
     <div class="layout">
       <aside class="rail" aria-hidden="true">
@@ -196,28 +193,6 @@ const messages = [
       0 25px 60px -15px rgba(0, 0, 0, 0.6),
       0 0 0 1px rgba(255, 255, 255, 0.04) inset;
     font-family: var(--font-sans);
-  }
-
-  .chrome {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background: #21252b;
-  }
-
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
-
-  .chrome .title {
-    margin-left: auto;
-    color: #94a3b8;
-    font-size: var(--fs-xs);
-    letter-spacing: 0.04em;
-    font-family: var(--font-mono);
   }
 
   .layout {
