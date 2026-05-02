@@ -417,13 +417,46 @@ const permClass = (c: string): string => {
     text-overflow: ellipsis;
   }
 
+  /* Below each breakpoint, drop a column AND shrink the grid template by
+     one. With `display: contents` on rows, hiding a `.col` without also
+     updating `grid-template-columns` desyncs row counts and the cells
+     auto-flow into the next visual row. */
   @media (max-width: 720px) {
     .body { padding: 12px 12px; font-size: 11.5px; }
-    .listing { column-gap: 10px; }
+    .listing {
+      grid-template-columns:
+        auto     /* git */
+        auto     /* perms */
+        auto     /* user */
+        auto     /* size */
+        auto     /* date */
+        minmax(0, 1fr); /* name */
+      column-gap: 10px;
+    }
+    .col-group { display: none; }
     .lsd-preview { padding: var(--space-4) var(--space-3); }
   }
 
   @media (max-width: 540px) {
-    .col-group { display: none; }
+    .listing {
+      grid-template-columns:
+        auto     /* git */
+        auto     /* perms */
+        auto     /* size */
+        auto     /* date */
+        minmax(0, 1fr); /* name */
+    }
+    .col-user { display: none; }
+  }
+
+  @media (max-width: 420px) {
+    .listing {
+      grid-template-columns:
+        auto     /* git */
+        auto     /* perms */
+        auto     /* size */
+        minmax(0, 1fr); /* name */
+    }
+    .col-date { display: none; }
   }
 </style>
