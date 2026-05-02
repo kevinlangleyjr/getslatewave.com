@@ -5,11 +5,12 @@
  * Slatewave theme; everything around it — the project/branch chips, the
  * dual icon rails, the breadcrumb in the status bar, the Trial pill — is
  * hand-built chrome scoped to the JetBrains slatewave.theme.json tokens
- * (surface = #282c34, chrome = #21252b, slate-700 selection bg, teal-300
+ * (surface = var(--sw-slate-editor), chrome = var(--sw-slate-chrome), slate-700 selection bg, teal-300
  * selection fg).
  */
 
 import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import TrafficLightDots from './TrafficLightDots.astro';
 
 const sample = `/**
  * Build-time GitHub metadata fetchers.
@@ -157,11 +158,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
 <figure class="jb-preview" aria-label="Slatewave applied to GoLand">
   <div class="window">
     <header class="title-bar" aria-hidden="true">
-      <div class="dots">
-        <span class="dot dot-r"></span>
-        <span class="dot dot-y"></span>
-        <span class="dot dot-g"></span>
-      </div>
+      <TrafficLightDots />
       <div class="proj-chip">
         <span class="proj-icon">G</span>
         <span class="proj-name">getslatewave</span>
@@ -269,7 +266,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
               {n.type === 'libroot' && (
                 <svg class="ficon folder libroot" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6">
                   <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  <circle cx="18" cy="6" r="2.5" fill="#fbbf24" stroke="none"/>
+                  <circle cx="18" cy="6" r="2.5" fill="var(--sw-amber-400)" stroke="none"/>
                 </svg>
               )}
               {n.type === 'special' && (
@@ -402,15 +399,15 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   }
 
   .window {
-    background: #282c34;
-    border: 1px solid #0f172a;
+    background: var(--sw-slate-editor);
+    border: 1px solid var(--sw-slate-900);
     border-radius: 12px;
     overflow: hidden;
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.06) inset,
       0 25px 60px -15px rgba(0, 0, 0, 0.6);
     font-family: var(--font-sans);
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     display: flex;
     flex-direction: column;
     min-height: 580px;
@@ -422,17 +419,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    background: #21252b;
+    background: var(--sw-slate-chrome);
     border-bottom: 1px solid #1a1f28;
     font-size: 11.5px;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
 
-  .dots { display: inline-flex; gap: 8px; margin-right: 6px; }
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
 
   .proj-chip,
   .branch-chip {
@@ -442,7 +434,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     padding: 3px 8px;
     border-radius: 5px;
     background: transparent;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     line-height: 1;
   }
 
@@ -455,17 +447,17 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     width: 16px;
     height: 16px;
     border-radius: 4px;
-    background: linear-gradient(135deg, #5eead4, #38bdf8);
-    color: #0f172a;
+    background: linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400));
+    color: var(--sw-slate-900);
     font-size: 9px;
     font-weight: 800;
   }
 
   .proj-name { font-weight: 500; }
 
-  .branch-chip svg { color: #94a3b8; }
+  .branch-chip svg { color: var(--sw-slate-400); }
 
-  .caret { color: #475569; font-size: 9px; }
+  .caret { color: var(--sw-slate-600); font-size: 9px; }
 
   .title-spacer { flex: 1; }
 
@@ -483,7 +475,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     align-items: center;
     gap: 6px;
     padding: 3px 10px;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-size: 11px;
   }
 
@@ -494,18 +486,18 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     width: 22px;
     height: 22px;
     border-radius: 4px;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-size: 12px;
   }
 
-  .run-btn svg { color: #5eead4; }
-  .run-btn:nth-child(3) svg { color: #fb7185; }
+  .run-btn svg { color: var(--sw-teal-300); }
+  .run-btn:nth-child(3) svg { color: var(--sw-rose-400); }
 
   .title-tools {
     display: inline-flex;
     gap: 8px;
     margin-left: 8px;
-    color: #475569;
+    color: var(--sw-slate-600);
     font-size: 13px;
   }
 
@@ -523,8 +515,8 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     flex-direction: column;
     align-items: center;
     padding: 4px 0;
-    background: #21252b;
-    color: #64748b;
+    background: var(--sw-slate-chrome);
+    color: var(--sw-slate-500);
   }
 
   .rail-left { border-right: 1px solid #1a1f28; }
@@ -538,12 +530,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     justify-content: center;
     border-radius: 4px;
     margin: 1px 0;
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 11px;
   }
 
   .rail-icon.active {
-    color: #5eead4;
+    color: var(--sw-teal-300);
     background: rgba(94, 234, 212, 0.10);
   }
 
@@ -551,7 +543,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
 
   /* Sidebar */
   .sidebar {
-    background: #21252b;
+    background: var(--sw-slate-chrome);
     border-right: 1px solid #1a1f28;
     display: flex;
     flex-direction: column;
@@ -565,13 +557,13 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     gap: 4px;
     padding: 8px 12px 6px;
     font-size: 12px;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     font-weight: 500;
   }
 
   .sidebar-head .sidebar-actions {
     margin-left: auto;
-    color: #475569;
+    color: var(--sw-slate-600);
   }
 
   .tree {
@@ -586,13 +578,13 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     gap: 4px;
     padding: 1px 14px 1px 4px;
     font-size: 12px;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     white-space: nowrap;
     height: 22px;
   }
 
   .node.active {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     font-weight: 500;
   }
 
@@ -600,14 +592,14 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     background: rgba(94, 234, 212, 0.10);
   }
 
-  .node.vcs.type-file .node-name { color: #b45309; }
-  .node.vcs.type-folder .node-name { color: #b45309; }
+  .node.vcs.type-file .node-name { color: var(--sw-amber-700); }
+  .node.vcs.type-folder .node-name { color: var(--sw-amber-700); }
 
   .indent { display: inline-block; flex-shrink: 0; }
 
   .caret-cell {
     width: 10px;
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 9px;
     text-align: center;
     flex-shrink: 0;
@@ -620,15 +612,15 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     flex-shrink: 0;
   }
 
-  .ficon.folder { color: #94a3b8; }
-  .ficon.folder.libroot { color: #94a3b8; }
+  .ficon.folder { color: var(--sw-slate-400); }
+  .ficon.folder.libroot { color: var(--sw-slate-400); }
 
   .ficon.proj {
     width: 14px;
     height: 14px;
     border-radius: 3px;
-    background: linear-gradient(135deg, #5eead4, #38bdf8);
-    color: #0f172a;
+    background: linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400));
+    color: var(--sw-slate-900);
     font-size: 8px;
     font-weight: 800;
   }
@@ -639,15 +631,15 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     border-radius: 2px;
     font-size: 8px;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--sw-slate-900);
     line-height: 1;
   }
 
-  .ext-ts { background: #38bdf8; }
-  .ext-json { background: #fbbf24; }
-  .ext-md { background: #94a3b8; }
-  .ext-js { background: #fbbf24; }
-  .ext-env { background: #b388ff; font-size: 7px; }
+  .ext-ts { background: var(--sw-sky-400); }
+  .ext-json { background: var(--sw-amber-400); }
+  .ext-md { background: var(--sw-slate-400); }
+  .ext-js { background: var(--sw-amber-400); }
+  .ext-env { background: var(--sw-purple); font-size: 7px; }
 
   .node-name {
     overflow: hidden;
@@ -655,7 +647,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   }
 
   .node-annotation {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-style: italic;
     font-size: 11px;
     margin-left: 6px;
@@ -674,7 +666,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   .tab-bar {
     display: flex;
     align-items: center;
-    background: #21252b;
+    background: var(--sw-slate-chrome);
     border-bottom: 1px solid #1a1f28;
     overflow-x: auto;
     flex-shrink: 0;
@@ -686,15 +678,15 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     gap: 6px;
     padding: 7px 12px;
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     border-right: 1px solid #1a1f28;
     flex-shrink: 0;
     position: relative;
   }
 
   .tab.active {
-    color: #e2e8f0;
-    background: #282c34;
+    color: var(--sw-slate-200);
+    background: var(--sw-slate-editor);
   }
 
   .tab.active::after {
@@ -702,10 +694,10 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     position: absolute;
     left: 0; right: 0; bottom: -1px;
     height: 2px;
-    background: #5eead4;
+    background: var(--sw-teal-300);
   }
 
-  .tab-close { color: #475569; font-size: 11px; margin-left: 2px; }
+  .tab-close { color: var(--sw-slate-600); font-size: 11px; margin-left: 2px; }
 
   .tab-actions {
     margin-left: auto;
@@ -713,7 +705,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     align-items: center;
     gap: 8px;
     padding: 0 12px;
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 11px;
   }
 
@@ -732,18 +724,18 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     border-radius: 50%;
   }
 
-  .diag-error { color: #fb7185; }
-  .diag-error::before { background: #fb7185; }
-  .diag-warn { color: #fbbf24; }
-  .diag-warn::before { background: #fbbf24; }
-  .diag-ok { color: #5eead4; }
+  .diag-error { color: var(--sw-rose-400); }
+  .diag-error::before { background: var(--sw-rose-400); }
+  .diag-warn { color: var(--sw-amber-400); }
+  .diag-warn::before { background: var(--sw-amber-400); }
+  .diag-ok { color: var(--sw-teal-300); }
   .diag-ok::before { content: '✓'; background: transparent; width: auto; height: auto; font-weight: 700; }
 
   /* Editor body — VCS gutter | line numbers | code | minimap */
   .editor {
     display: grid;
     grid-template-columns: 4px 38px minmax(0, 1fr) 56px;
-    background: #282c34;
+    background: var(--sw-slate-editor);
     flex: 1;
     min-height: 0;
     overflow: hidden;
@@ -763,11 +755,11 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     width: 100%;
   }
 
-  .vcs-marker.added { background: #5eead4; }
-  .vcs-marker.modified { background: #38bdf8; }
+  .vcs-marker.added { background: var(--sw-teal-300); }
+  .vcs-marker.modified { background: var(--sw-sky-400); }
 
   .gutter {
-    color: #475569;
+    color: var(--sw-slate-600);
     text-align: right;
     padding: 10px 8px 10px 8px;
     user-select: none;
@@ -790,8 +782,8 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   }
 
   .minimap {
-    background: #282c34;
-    border-left: 1px solid #1e293b;
+    background: var(--sw-slate-editor);
+    border-left: 1px solid var(--sw-slate-800);
     padding: 10px 6px;
     display: flex;
     flex-direction: column;
@@ -801,7 +793,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
 
   .mini-ln {
     height: 2px;
-    background: #5eead4;
+    background: var(--sw-teal-300);
     border-radius: 1px;
   }
 
@@ -810,8 +802,8 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #21252b;
-    color: #cbd5e1;
+    background: var(--sw-slate-chrome);
+    color: var(--sw-slate-300);
     padding: 0 8px 0 4px;
     height: 26px;
     font-size: 11px;
@@ -833,7 +825,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   }
 
   .bc-sep {
-    color: #475569;
+    color: var(--sw-slate-600);
     font-size: 12px;
     margin: 0 2px;
   }
@@ -841,7 +833,7 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   .bc-icon {
     display: inline-flex;
     align-items: center;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     margin-right: 4px;
   }
 
@@ -854,24 +846,24 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     border-radius: 2px;
     font-size: 7px;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--sw-slate-900);
   }
 
-  .bc-mini-icon.proj { background: linear-gradient(135deg, #5eead4, #38bdf8); }
-  .bc-mini-icon.ts { background: #38bdf8; }
+  .bc-mini-icon.proj { background: linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400)); }
+  .bc-mini-icon.ts { background: var(--sw-sky-400); }
   .bc-mini-icon.iface {
     background: transparent;
-    border: 1.5px solid #5eead4;
-    color: #5eead4;
+    border: 1.5px solid var(--sw-teal-300);
+    color: var(--sw-teal-300);
     font-size: 8px;
   }
 
   .bc-part {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     margin-right: 2px;
   }
 
-  .status-left > :last-child.bc-part { color: #cbd5e1; }
+  .status-left > :last-child.bc-part { color: var(--sw-slate-300); }
 
   .status-cell {
     display: inline-flex;
@@ -879,12 +871,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     gap: 4px;
   }
 
-  .status-cell.muted { color: #94a3b8; }
-  .status-cell svg { color: #94a3b8; }
+  .status-cell.muted { color: var(--sw-slate-400); }
+  .status-cell svg { color: var(--sw-slate-400); }
 
   .trial-pill {
-    border: 1px solid #475569;
-    color: #cbd5e1;
+    border: 1px solid var(--sw-slate-600);
+    color: var(--sw-slate-300);
     border-radius: 10px;
     padding: 1px 8px;
     font-size: 10px;

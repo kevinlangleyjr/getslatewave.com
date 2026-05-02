@@ -15,6 +15,7 @@
  */
 
 import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import TrafficLightDots from './TrafficLightDots.astro';
 
 const sample = `/**
  * Build-time GitHub metadata fetchers.
@@ -130,11 +131,7 @@ const tree: Node[] = [
 <figure class="st-preview" aria-label="Slatewave applied to Sublime Text 3">
   <div class="window">
     <header class="title-bar" aria-hidden="true">
-      <div class="dots">
-        <span class="dot dot-r"></span>
-        <span class="dot dot-y"></span>
-        <span class="dot dot-g"></span>
-      </div>
+      <TrafficLightDots />
       <div class="title-center">
         <svg class="title-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.7">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -247,15 +244,15 @@ const tree: Node[] = [
   }
 
   .window {
-    background: #282c34;
-    border: 1px solid #0f172a;
+    background: var(--sw-slate-editor);
+    border: 1px solid var(--sw-slate-900);
     border-radius: 12px;
     overflow: hidden;
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.06) inset,
       0 25px 60px -15px rgba(0, 0, 0, 0.6);
     font-family: var(--font-sans);
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     display: flex;
     flex-direction: column;
     min-height: 580px;
@@ -268,30 +265,25 @@ const tree: Node[] = [
     align-items: center;
     gap: 12px;
     padding: 8px 14px;
-    background: #21252b;
+    background: var(--sw-slate-chrome);
     border-bottom: 1px solid #1a1f28;
     font-size: 11.5px;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
 
-  .dots { display: inline-flex; gap: 8px; }
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
 
   .title-center {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
 
-  .title-icon { color: #94a3b8; }
-  .title-file { color: #e2e8f0; font-weight: 500; }
-  .title-sep { color: #475569; }
-  .title-project { color: #94a3b8; }
+  .title-icon { color: var(--sw-slate-400); }
+  .title-file { color: var(--sw-slate-200); font-weight: 500; }
+  .title-sep { color: var(--sw-slate-600); }
+  .title-project { color: var(--sw-slate-400); }
 
   .title-right {
     display: inline-flex;
@@ -299,7 +291,7 @@ const tree: Node[] = [
   }
 
   .unregistered {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 10px;
     letter-spacing: 0.1em;
     font-weight: 600;
@@ -315,7 +307,7 @@ const tree: Node[] = [
 
   /* Sidebar — Sublime's FOLDERS pane */
   .sidebar {
-    background: #21252b;
+    background: var(--sw-slate-chrome);
     border-right: 1px solid #1a1f28;
     display: flex;
     flex-direction: column;
@@ -329,7 +321,7 @@ const tree: Node[] = [
     font-size: 10.5px;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: #5eead4;
+    color: var(--sw-teal-300);
   }
 
   .tree {
@@ -344,7 +336,7 @@ const tree: Node[] = [
     gap: 6px;
     padding: 2px 14px 2px 8px;
     font-size: 12px;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     white-space: nowrap;
     height: 22px;
   }
@@ -353,7 +345,7 @@ const tree: Node[] = [
      opaque than VSCode's row. */
   .node.active {
     background: rgba(94, 234, 212, 0.15);
-    color: #5eead4;
+    color: var(--sw-teal-300);
   }
 
   .indent { display: inline-block; flex-shrink: 0; }
@@ -363,7 +355,7 @@ const tree: Node[] = [
   }
 
   .ficon.folder {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
   }
 
   .file-spacer {
@@ -378,7 +370,7 @@ const tree: Node[] = [
   }
 
   .root-marker {
-    color: #5eead4;
+    color: var(--sw-teal-300);
     font-size: 10px;
     margin-left: auto;
   }
@@ -395,7 +387,7 @@ const tree: Node[] = [
   .tab-bar {
     display: flex;
     align-items: stretch;
-    background: #21252b;
+    background: var(--sw-slate-chrome);
     border-bottom: 1px solid #1a1f28;
     flex-shrink: 0;
     height: 30px;
@@ -407,7 +399,7 @@ const tree: Node[] = [
     padding: 0 8px;
     gap: 6px;
     border-right: 1px solid #1a1f28;
-    color: #475569;
+    color: var(--sw-slate-600);
     font-size: 11px;
   }
 
@@ -428,15 +420,15 @@ const tree: Node[] = [
     gap: 8px;
     padding: 0 14px;
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     border-right: 1px solid #1a1f28;
     flex-shrink: 0;
     position: relative;
   }
 
   .tab.active {
-    color: #e2e8f0;
-    background: #282c34;
+    color: var(--sw-slate-200);
+    background: var(--sw-slate-editor);
   }
 
   .tab.active::before {
@@ -444,15 +436,15 @@ const tree: Node[] = [
     position: absolute;
     left: 0; right: 0; top: 0;
     height: 1px;
-    background: #5eead4;
+    background: var(--sw-teal-300);
   }
 
   .tab-close {
-    color: #475569;
+    color: var(--sw-slate-600);
     font-size: 12px;
   }
 
-  .tab.active .tab-close { color: #94a3b8; }
+  .tab.active .tab-close { color: var(--sw-slate-400); }
 
   .tab-actions {
     display: inline-flex;
@@ -460,7 +452,7 @@ const tree: Node[] = [
     padding: 0 12px;
     gap: 12px;
     border-left: 1px solid #1a1f28;
-    color: #475569;
+    color: var(--sw-slate-600);
     font-size: 12px;
     margin-left: auto;
   }
@@ -469,7 +461,7 @@ const tree: Node[] = [
   .editor {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) 90px;
-    background: #282c34;
+    background: var(--sw-slate-editor);
     flex: 1;
     min-height: 0;
     overflow: hidden;
@@ -479,7 +471,7 @@ const tree: Node[] = [
   }
 
   .gutter {
-    color: #475569;
+    color: var(--sw-slate-600);
     text-align: right;
     padding: 10px 10px 10px 14px;
     user-select: none;
@@ -490,7 +482,7 @@ const tree: Node[] = [
   }
 
   .ln.active {
-    color: #5eead4;
+    color: var(--sw-teal-300);
     font-weight: 600;
     background: rgba(94, 234, 212, 0.06);
     padding: 0 4px;
@@ -528,8 +520,8 @@ const tree: Node[] = [
 
   /* Minimap — Sublime's is bigger and more prominent than VSCode's */
   .minimap {
-    background: #282c34;
-    border-left: 1px solid #1e293b;
+    background: var(--sw-slate-editor);
+    border-left: 1px solid var(--sw-slate-800);
     padding: 10px 6px;
     display: flex;
     flex-direction: column;
@@ -551,7 +543,7 @@ const tree: Node[] = [
 
   .mini-ln {
     height: 2px;
-    background: #94a3b8;
+    background: var(--sw-slate-400);
     border-radius: 1px;
   }
 
@@ -560,8 +552,8 @@ const tree: Node[] = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #21252b;
-    color: #cbd5e1;
+    background: var(--sw-slate-chrome);
+    color: var(--sw-slate-300);
     padding: 0 14px;
     height: 22px;
     font-size: 11px;
@@ -575,7 +567,7 @@ const tree: Node[] = [
   }
 
   .status-left { gap: 8px; }
-  .status-left svg { color: #5eead4; }
+  .status-left svg { color: var(--sw-teal-300); }
 
   .status-cell {
     display: inline-flex;
@@ -583,10 +575,10 @@ const tree: Node[] = [
     gap: 5px;
   }
 
-  .status-cell.muted { color: #94a3b8; }
+  .status-cell.muted { color: var(--sw-slate-400); }
 
   .git-counter {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     margin-left: 4px;
   }
 

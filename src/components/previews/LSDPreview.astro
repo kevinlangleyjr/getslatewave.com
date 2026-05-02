@@ -111,13 +111,13 @@ const rows: Row[] = [
 ];
 
 const gitColor: Record<GitKind, string> = {
-  unmodified: '#64748b',
-  ignored: '#475569',
-  modified: '#fbbf24',
-  added: '#5eead4',
-  deleted: '#fb7185',
-  renamed: '#7dd3fc',
-  untracked: '#99f6e4',
+  unmodified: 'var(--sw-slate-500)',
+  ignored: 'var(--sw-slate-600)',
+  modified: 'var(--sw-amber-400)',
+  added: 'var(--sw-teal-300)',
+  deleted: 'var(--sw-rose-400)',
+  renamed: 'var(--sw-sky-300)',
+  untracked: 'var(--sw-teal-200)',
 };
 
 const gitChar: Record<GitKind, string> = {
@@ -182,10 +182,10 @@ const permClass = (c: string): string => {
                 {row.icon === 'vscode' && <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17 1.5L7.5 8.7 3 5.3v13.4l4.5-3.4L17 22.5 21 20.5V3.5L17 1.5zM9 12L17 5.7v12.6L9 12z"/></svg>}
                 {row.icon === 'idea' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>}
                 {row.icon === 'apple' && <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M17.543 12.477c-.024-2.425 1.982-3.596 2.072-3.652-1.13-1.651-2.888-1.877-3.51-1.903-1.492-.151-2.915.878-3.672.878s-1.931-.855-3.175-.832c-1.634.024-3.138.949-3.978 2.412-1.696 2.941-.433 7.3 1.222 9.689.808 1.17 1.77 2.484 3.035 2.437 1.218-.049 1.678-.788 3.148-.788s1.884.788 3.175.761c1.31-.024 2.141-1.193 2.946-2.366.931-1.358 1.314-2.673 1.338-2.74-.03-.013-2.567-.985-2.594-3.905m-2.406-7.17c.672-.816 1.128-1.95 1.003-3.079-.968.04-2.142.643-2.836 1.459-.623.725-1.168 1.88-1.02 2.988 1.08.083 2.18-.548 2.853-1.368"/></svg>}
-                {row.icon === 'ts' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="6.5" font-weight="800" fill="#0f172a">TS</text></svg>}
-                {row.icon === 'js' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="6.5" font-weight="800" fill="#0f172a">JS</text></svg>}
-                {row.icon === 'json' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" font-weight="800" fill="#0f172a">{`{}`}</text></svg>}
-                {row.icon === 'yaml' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="5.5" font-weight="800" fill="#0f172a">YML</text></svg>}
+                {row.icon === 'ts' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="6.5" font-weight="800" fill="var(--sw-slate-900)">TS</text></svg>}
+                {row.icon === 'js' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="6.5" font-weight="800" fill="var(--sw-slate-900)">JS</text></svg>}
+                {row.icon === 'json' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" font-weight="800" fill="var(--sw-slate-900)">{`{}`}</text></svg>}
+                {row.icon === 'yaml' && <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><rect x="1" y="1" width="14" height="14" rx="2"/><text x="8" y="11" text-anchor="middle" font-family="ui-sans-serif,system-ui" font-size="5.5" font-weight="800" fill="var(--sw-slate-900)">YML</text></svg>}
                 {row.icon === 'md' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 15V9l3 4 3-4v6"/><path d="M16 9v6"/><path d="M16 15l2.5-2.5L21 15"/></svg>}
                 {row.icon === 'license' && <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/><circle cx="12" cy="14" r="2"/><path d="M11 16v3l1-1 1 1v-3"/></svg>}
                 {row.icon === 'astro' && <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2 6 22h12L12 2zm0 7 3 9H9l3-9z"/></svg>}
@@ -221,14 +221,14 @@ const permClass = (c: string): string => {
   }
 
   .window {
-    background: #282c34;
-    border: 1px solid #0f172a;
+    background: var(--sw-slate-editor);
+    border: 1px solid var(--sw-slate-900);
     border-radius: 12px;
     overflow: hidden;
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.06) inset,
       0 25px 60px -15px rgba(0, 0, 0, 0.6);
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     font-family: var(--font-mono);
     font-size: 12.5px;
     line-height: 1.65;
@@ -243,24 +243,24 @@ const permClass = (c: string): string => {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     margin-bottom: 8px;
     white-space: nowrap;
   }
 
   .prompt-line:last-child { margin-top: 8px; margin-bottom: 0; }
 
-  .prompt-cwd { color: #5eead4; font-weight: 600; }
-  .prompt-branch { color: #fb7185; }
-  .prompt-arrow { color: #5eead4; font-weight: 700; }
-  .prompt-cmd { color: #e2e8f0; }
-  .prompt-flag { color: #94a3b8; }
+  .prompt-cwd { color: var(--sw-teal-300); font-weight: 600; }
+  .prompt-branch { color: var(--sw-rose-400); }
+  .prompt-arrow { color: var(--sw-teal-300); font-weight: 700; }
+  .prompt-cmd { color: var(--sw-slate-200); }
+  .prompt-flag { color: var(--sw-slate-400); }
 
   .prompt-cursor {
     display: inline-block;
     width: 7px;
     height: 1.05em;
-    background: #5eead4;
+    background: var(--sw-teal-300);
     border-radius: 1px;
     animation: lsd-blink 1.1s steps(2, start) infinite;
     vertical-align: text-bottom;
@@ -307,30 +307,30 @@ const permClass = (c: string): string => {
   }
 
   .ft { font-weight: 600; margin-right: 1px; }
-  .ft-d { color: #5eead4; }
-  .ft-l { color: #7dd3fc; }
-  .ft-\- { color: #64748b; }
+  .ft-d { color: var(--sw-teal-300); }
+  .ft-l { color: var(--sw-sky-300); }
+  .ft-\- { color: var(--sw-slate-500); }
 
   .p { display: inline-block; width: 1ch; }
-  .p-r { color: #5eead4; }
-  .p-w { color: #fbbf24; }
-  .p-x { color: #fb7185; }
-  .p-s { color: #b388ff; }
-  .p-dash { color: #64748b; }
+  .p-r { color: var(--sw-teal-300); }
+  .p-w { color: var(--sw-amber-400); }
+  .p-x { color: var(--sw-rose-400); }
+  .p-s { color: var(--sw-purple); }
+  .p-dash { color: var(--sw-slate-500); }
 
-  .col-user { color: #e2e8f0; font-weight: 500; }
-  .col-group { color: #94a3b8; }
+  .col-user { color: var(--sw-slate-200); font-weight: 500; }
+  .col-group { color: var(--sw-slate-400); }
 
   .col-size { text-align: right; min-width: 6ch; }
-  .size-none { color: #64748b; }
-  .size-small { color: #cbd5e1; }
-  .size-medium { color: #fbbf24; }
-  .size-large { color: #b45309; font-weight: 600; }
+  .size-none { color: var(--sw-slate-500); }
+  .size-small { color: var(--sw-slate-300); }
+  .size-medium { color: var(--sw-amber-400); }
+  .size-large { color: var(--sw-amber-700); font-weight: 600; }
 
   .col-date { text-align: left; }
-  .date-hour-old { color: #5eead4; }
-  .date-day-old { color: #99f6e4; }
-  .date-older { color: #94a3b8; }
+  .date-hour-old { color: var(--sw-teal-300); }
+  .date-day-old { color: var(--sw-teal-200); }
+  .date-older { color: var(--sw-slate-400); }
 
   .col-name {
     display: inline-flex;
@@ -341,7 +341,7 @@ const permClass = (c: string): string => {
   }
 
   .tree-edge {
-    color: #475569;
+    color: var(--sw-slate-600);
     white-space: pre;
     flex-shrink: 0;
     font-family: var(--font-mono);
@@ -361,34 +361,34 @@ const permClass = (c: string): string => {
 
   .ficon svg { display: block; }
 
-  .icon-folder, .icon-folder-hidden { color: #5eead4; }
+  .icon-folder, .icon-folder-hidden { color: var(--sw-teal-300); }
   .icon-folder-hidden { opacity: 0.7; }
-  .icon-file { color: #94a3b8; }
-  .icon-config { color: #cbd5e1; }
+  .icon-file { color: var(--sw-slate-400); }
+  .icon-config { color: var(--sw-slate-300); }
   .icon-git { color: #f05033; }         /* Git brand red-orange */
-  .icon-github { color: #e2e8f0; }      /* Octocat — slate-200 */
-  .icon-gitignore { color: #64748b; }
-  .icon-vscode { color: #38bdf8; }
-  .icon-idea { color: #fbbf24; }        /* IntelliJ lightbulb yellow */
-  .icon-apple { color: #cbd5e1; }       /* macOS silver */
-  .icon-env { color: #b388ff; }         /* secrets — purple */
-  .icon-env-example { color: #94a3b8; } /* template env — muted slate */
-  .icon-ts { color: #38bdf8; }
-  .icon-js { color: #fbbf24; }
-  .icon-json { color: #fbbf24; }
-  .icon-yaml { color: #fbbf24; }
-  .icon-md { color: #94a3b8; }
-  .icon-license { color: #cbd5e1; }
-  .icon-astro { color: #fb7185; }
-  .icon-image { color: #fb7185; }
-  .icon-webmanifest { color: #94a3b8; }
-  .icon-link { color: #7dd3fc; }
-  .icon-exec { color: #5eead4; }
+  .icon-github { color: var(--sw-slate-200); }      /* Octocat — slate-200 */
+  .icon-gitignore { color: var(--sw-slate-500); }
+  .icon-vscode { color: var(--sw-sky-400); }
+  .icon-idea { color: var(--sw-amber-400); }        /* IntelliJ lightbulb yellow */
+  .icon-apple { color: var(--sw-slate-300); }       /* macOS silver */
+  .icon-env { color: var(--sw-purple); }         /* secrets — purple */
+  .icon-env-example { color: var(--sw-slate-400); } /* template env — muted slate */
+  .icon-ts { color: var(--sw-sky-400); }
+  .icon-js { color: var(--sw-amber-400); }
+  .icon-json { color: var(--sw-amber-400); }
+  .icon-yaml { color: var(--sw-amber-400); }
+  .icon-md { color: var(--sw-slate-400); }
+  .icon-license { color: var(--sw-slate-300); }
+  .icon-astro { color: var(--sw-rose-400); }
+  .icon-image { color: var(--sw-rose-400); }
+  .icon-webmanifest { color: var(--sw-slate-400); }
+  .icon-link { color: var(--sw-sky-300); }
+  .icon-exec { color: var(--sw-teal-300); }
 
   /* All names render in slate-200. LSD leaves type-based name colors to
      LS_COLORS, which is shipped separately from colors.yaml. */
   .name {
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     overflow: hidden;
     text-overflow: ellipsis;
   }

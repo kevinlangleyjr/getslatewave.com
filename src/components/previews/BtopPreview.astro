@@ -191,7 +191,7 @@ const procRows: ProcRow[] = [
     padding: var(--space-5) var(--space-4);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     line-height: 1.55;
   }
 
@@ -212,7 +212,7 @@ const procRows: ProcRow[] = [
   /* Panels: rounded slate-600 border with the label punching through. */
   .panel {
     position: relative;
-    border: 1px solid #475569;
+    border: 1px solid var(--sw-slate-600);
     border-radius: 6px;
     padding: 0.85rem 1rem 0.7rem;
   }
@@ -224,16 +224,16 @@ const procRows: ProcRow[] = [
     left: 1.1ch;
     padding: 0 0.6ch;
     background: var(--sw-slate-editor);
-    color: #5eead4;
+    color: var(--sw-teal-300);
     font-weight: 700;
     font-size: var(--fs-xs);
     letter-spacing: 0.02em;
   }
 
   /* Shared text helpers */
-  .muted { color: #94a3b8; }
-  .tab { color: #cbd5e1; }
-  .sep { color: #475569; padding: 0 0.2ch; }
+  .muted { color: var(--sw-slate-400); }
+  .tab { color: var(--sw-slate-300); }
+  .sep { color: var(--sw-slate-600); padding: 0 0.2ch; }
   .grow { flex: 1; text-align: center; }
 
   /* Panel top bar — the tabs/menu strip across the top of cpu and proc */
@@ -246,13 +246,13 @@ const procRows: ProcRow[] = [
   }
 
   .clock {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     letter-spacing: 0.04em;
   }
 
   /* CPU panel content */
   .cpu-title {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     font-weight: 700;
     margin-bottom: 0.25rem;
   }
@@ -270,14 +270,14 @@ const procRows: ProcRow[] = [
   }
 
   .cpu-row .cpu-label {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
   .cpu-row.emphasized .cpu-label {
-    color: #5eead4;
+    color: var(--sw-teal-300);
     font-weight: 700;
   }
   .cpu-pct {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     text-align: right;
   }
   .cpu-temp {
@@ -304,11 +304,11 @@ const procRows: ProcRow[] = [
   }
 
   .mem-label {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
   .mem-value {
     text-align: right;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
   .mem-pct {
     text-align: right;
@@ -334,10 +334,10 @@ const procRows: ProcRow[] = [
     height: 100%;
     background: linear-gradient(
       to right,
-      #5eead4 0%,
-      #5eead4 30%,
-      #fbbf24 60%,
-      #fb7185 100%
+      var(--sw-teal-300) 0%,
+      var(--sw-teal-300) 30%,
+      var(--sw-amber-400) 60%,
+      var(--sw-rose-400) 100%
     );
     border-radius: 1px;
   }
@@ -362,9 +362,9 @@ const procRows: ProcRow[] = [
   }
 
   .proc-table thead th {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-weight: 400;
-    border-bottom: 1px solid #334155;
+    border-bottom: 1px solid var(--sw-slate-700);
     padding-bottom: 0.18rem;
   }
 
@@ -374,23 +374,23 @@ const procRows: ProcRow[] = [
   }
 
   .proc-table .pid {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
   .proc-table .program {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
   .proc-table .cpu {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
 
   /* Highlighted (selected) process row — slate-700 bg + teal-300 fg,
      matching `selected_bg` / `selected_fg` in the .theme file */
   .proc-table tr.hl td {
-    background: #334155;
-    color: #5eead4;
+    background: var(--sw-slate-700);
+    color: var(--sw-teal-300);
   }
   .proc-table tr.hl td.muted {
-    color: #5eead4;
+    color: var(--sw-teal-300);
     opacity: 0.85;
   }
 
@@ -400,7 +400,7 @@ const procRows: ProcRow[] = [
     gap: 0.4ch;
     margin-top: 0.5rem;
     padding-top: 0.4rem;
-    border-top: 1px solid #334155;
+    border-top: 1px solid var(--sw-slate-700);
     font-size: var(--fs-xs);
   }
 

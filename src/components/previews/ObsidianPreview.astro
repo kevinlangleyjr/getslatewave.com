@@ -53,10 +53,10 @@ import TerminalChrome from './TerminalChrome.astro';
       <div class="line"></div>
       <div class="line">
         <p>
-          Plain body text sits at <code>#e2e8f0</code> over the slate editor.
+          Plain body text sits at <code>var(--sw-slate-200)</code> over the slate editor.
           <strong>Bold brightens toward <code>#f1f5f9</code></strong> so
           emphasis reads clearly. <em>Italics shift muted toward</em>
-          <code>#cbd5e1</code>.
+          <code>var(--sw-slate-300)</code>.
         </p>
       </div>
       <div class="line"></div>
@@ -112,20 +112,20 @@ import TerminalChrome from './TerminalChrome.astro';
 
 <style>
   .obs-preview {
-    background: #282c34;
+    background: var(--sw-slate-editor);
     font-size: 12px;
-    --teal: #5eead4;
+    --teal: var(--sw-teal-300);
     --teal-pill: #14b8a6;
-    --teal-pill-fg: #99f6e4;
-    --rose: #fb7185;
-    --purple: #b388ff;
-    --amber: #fbbf24;
-    --sky: #7dd3fc;
-    --slate-fg: #e2e8f0;
-    --slate-muted: #94a3b8;
-    --slate-faint: #64748b;
+    --teal-pill-fg: var(--sw-teal-200);
+    --rose: var(--sw-rose-400);
+    --purple: var(--sw-purple);
+    --amber: var(--sw-amber-400);
+    --sky: var(--sw-sky-300);
+    --slate-fg: var(--sw-slate-200);
+    --slate-muted: var(--sw-slate-400);
+    --slate-faint: var(--sw-slate-500);
     --slate-bg: #1e2127;
-    --slate-bg-raised: #282c34;
+    --slate-bg-raised: var(--sw-slate-editor);
   }
 
   .title-bar {
@@ -150,7 +150,7 @@ import TerminalChrome from './TerminalChrome.astro';
 
   .pane-left,
   .pane-right {
-    background: #1e293b;
+    background: var(--sw-slate-800);
     border-right: 1px solid rgba(255, 255, 255, 0.04);
   }
 
@@ -282,7 +282,7 @@ import TerminalChrome from './TerminalChrome.astro';
   }
 
   .pane-note em {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
 
   .tight-list,

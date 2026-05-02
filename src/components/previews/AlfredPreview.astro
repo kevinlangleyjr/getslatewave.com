@@ -19,8 +19,8 @@ const rows: Row[] = [
   {
     title: 'Slatewave for VSCode',
     subtitle: '/Applications/Visual Studio Code.app',
-    iconBg: '#38bdf8',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-sky-400)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'code',
     hint: '↵',
     selected: true,
@@ -28,40 +28,40 @@ const rows: Row[] = [
   {
     title: 'Slatewave for Obsidian',
     subtitle: '/Applications/Obsidian.app',
-    iconBg: '#b388ff',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-purple)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'hex',
     hint: '⌘2',
   },
   {
     title: 'Slatewave for Helix',
     subtitle: '~/.config/helix/themes/slatewave.toml',
-    iconBg: '#5eead4',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-teal-300)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'terminal',
     hint: '⌘3',
   },
   {
     title: 'Slatewave for WezTerm',
     subtitle: '~/.config/wezterm/colors/slatewave.toml',
-    iconBg: '#1e293b',
-    iconFg: '#5eead4',
+    iconBg: 'var(--sw-slate-800)',
+    iconFg: 'var(--sw-teal-300)',
     icon: 'wave',
     hint: '⌘4',
   },
   {
     title: 'Slatewave for Raycast',
     subtitle: 'Theme Studio · Slatewave.json',
-    iconBg: '#fb7185',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-rose-400)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'compass',
     hint: '⌘5',
   },
   {
     title: 'Slatewave for Ghostty',
     subtitle: '~/.config/ghostty/themes/Slatewave',
-    iconBg: '#fbbf24',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-amber-400)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'sun',
     hint: '⌘6',
   },
@@ -146,7 +146,7 @@ const rows: Row[] = [
     max-width: 640px;
     margin: 0 auto;
     background: rgba(40, 44, 52, 0.92);
-    border: 1px solid #1e293b;
+    border: 1px solid var(--sw-slate-800);
     border-radius: 14px;
     box-shadow:
       0 25px 60px -15px rgba(0, 0, 0, 0.6),
@@ -154,7 +154,7 @@ const rows: Row[] = [
     backdrop-filter: blur(20px);
     overflow: hidden;
     font-family: var(--font-sans);
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
 
   .search {
@@ -167,7 +167,7 @@ const rows: Row[] = [
   .query {
     font-size: 36px;
     font-weight: 300;
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     letter-spacing: -0.01em;
     line-height: 1;
     background: rgba(94, 234, 212, 0.12);
@@ -179,7 +179,7 @@ const rows: Row[] = [
     display: inline-block;
     width: 2px;
     height: 38px;
-    background: #5eead4;
+    background: var(--sw-teal-300);
     margin-left: 4px;
     animation: alfred-blink 1.1s steps(2, start) infinite;
   }
@@ -225,7 +225,7 @@ const rows: Row[] = [
   }
 
   .title {
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     font-size: 18px;
     font-weight: 400;
     letter-spacing: -0.01em;
@@ -235,11 +235,11 @@ const rows: Row[] = [
   }
 
   .row.selected .title {
-    color: #5eead4;
+    color: var(--sw-teal-300);
   }
 
   .subtitle {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 12px;
     font-family: var(--font-mono);
     margin-top: 2px;
@@ -249,14 +249,14 @@ const rows: Row[] = [
   }
 
   .hint {
-    color: #475569;
+    color: var(--sw-slate-600);
     font-size: 13px;
     font-family: var(--font-mono);
     flex-shrink: 0;
   }
 
   .row.selected .hint {
-    color: #5eead4;
+    color: var(--sw-teal-300);
   }
 
   @media (max-width: 540px) {
