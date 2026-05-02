@@ -1,0 +1,280 @@
+---
+/**
+ * Pure HTML/CSS rendering of MarkEdit's source-view editor with the
+ * Slatewave theme. Markdown markers (#, >, -, *, **, [, ], etc.) stay
+ * visible in slate-500 while the content they wrap takes on its semantic
+ * color — exactly how MarkEdit-theming styles the underlying CodeMirror
+ * source. The fenced code block at the bottom routes through Shiki so
+ * the embedded TypeScript actually renders in the Slatewave palette.
+ *
+ * Sample mirrors the kind of file someone authoring a Slatewave changelog
+ * entry would write — heading + blockquote + bullet list with bold /
+ * italic / link inline markup + a fenced code block.
+ */
+
+import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import TerminalChrome from './TerminalChrome.astro';
+
+const codeSample = `const accent = '#5eead4';   // teal-300
+const error  = '#fb7185';   // rose-400`;
+
+const highlighter = await getHighlighter();
+const codeHtml = highlighter.codeToHtml(codeSample, {
+  lang: 'typescript',
+  theme: slatewaveThemeName,
+});
+---
+
+<figure class="me-preview sw-frame">
+  <TerminalChrome title="changelog.md — markedit-slatewave" />
+
+  <div class="editor">
+    <div class="gutter" aria-hidden="true">
+      {Array.from({ length: 14 }, (_, i) => i + 1).map((n) => (
+        <div class:list={['ln', { active: n === 6 }]}>{n}</div>
+      ))}
+    </div>
+
+    <div class="content">
+      <!-- Line 1: H1 -->
+      <div class="line">
+        <h1 class="md-h1"><span class="md-marker"># </span>Slatewave for MarkEdit</h1>
+      </div>
+      <!-- Line 2: blank -->
+      <div class="line"><span class="md-blank">​</span></div>
+      <!-- Line 3: blockquote -->
+      <div class="line">
+        <span class="md-blockquote"><span class="md-marker">&gt; </span><em>Slate below, teal above.</em></span>
+      </div>
+      <!-- Line 4: blank -->
+      <div class="line"><span class="md-blank">​</span></div>
+      <!-- Line 5: H2 -->
+      <div class="line">
+        <h2 class="md-h2"><span class="md-marker">## </span>Inline markup</h2>
+      </div>
+      <!-- Line 6: blank (cursor here) -->
+      <div class="line"><span class="md-blank">​</span></div>
+      <!-- Line 7: bullet — bold -->
+      <div class="line">
+        <span class="md-bullet"><span class="md-marker">- </span><span class="md-bold"><span class="md-marker">**</span>Bold<span class="md-marker">**</span></span> reads in sky <span class="md-code"><span class="md-marker">`</span>#38bdf8<span class="md-marker">`</span></span></span>
+      </div>
+      <!-- Line 8: bullet — italic -->
+      <div class="line">
+        <span class="md-bullet"><span class="md-marker">- </span><span class="md-italic"><span class="md-marker">*</span>Italic<span class="md-marker">*</span></span> travels in purple <span class="md-code"><span class="md-marker">`</span>#b388ff<span class="md-marker">`</span></span></span>
+      </div>
+      <!-- Line 9: bullet — link -->
+      <div class="line">
+        <span class="md-bullet"><span class="md-marker">- </span><span class="md-link"><span class="md-marker">[</span>Links<span class="md-marker">](</span><span class="md-link-url">https://getslatewave.com</span><span class="md-marker">)</span></span>, resolved</span>
+      </div>
+      <!-- Line 10: blank -->
+      <div class="line"><span class="md-blank">​</span></div>
+      <!-- Line 11: code fence open -->
+      <div class="line">
+        <span class="md-fence"><span class="md-marker">```</span><span class="md-fence-lang">ts</span></span>
+      </div>
+      <!-- Lines 12–13: code block (Shiki) -->
+      <div class="line code-line">
+        <div class="code-body" set:html={codeHtml} />
+      </div>
+      <!-- Line 14: code fence close -->
+      <div class="line">
+        <span class="md-fence"><span class="md-marker">```</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="statusbar" aria-hidden="true">
+    <span class="sb-section">changelog.md</span>
+    <span class="sb-section sb-words">128 words</span>
+    <span class="sb-spacer"></span>
+    <span class="sb-section">Markdown</span>
+    <span class="sb-section">UTF-8</span>
+    <span class="sb-section sb-pos">Ln 6, Col 1</span>
+  </div>
+</figure>
+
+<style>
+  .me-preview {
+    background: var(--sw-slate-editor);
+    overflow: hidden;
+    color: var(--sw-slate-200);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .editor {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 18rem;
+    padding: var(--space-4) 0 var(--space-4);
+  }
+
+  .gutter {
+    padding: 0 0.85rem 0 var(--space-4);
+    color: var(--sw-slate-500);
+    text-align: right;
+    user-select: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ln {
+    height: 1lh;
+    line-height: inherit;
+  }
+
+  .ln.active {
+    color: var(--sw-amber-400);
+    font-weight: 700;
+  }
+
+  .content {
+    padding-right: var(--space-5);
+    overflow-x: auto;
+  }
+
+  .line {
+    height: 1lh;
+    line-height: inherit;
+  }
+
+  .md-blank {
+    display: inline-block;
+    height: 1lh;
+  }
+
+  /* Markdown markers — kept visible so the source view stays readable */
+  .md-marker {
+    color: var(--sw-slate-500);
+  }
+
+  /* Headings */
+  .md-h1, .md-h2 {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--sw-teal-300);
+    display: inline;
+  }
+  .md-h1 { font-size: 17px; }
+  .md-h2 { font-size: 15px; }
+
+  /* Blockquote */
+  .md-blockquote {
+    color: var(--sw-slate-300);
+    font-style: italic;
+  }
+  .md-blockquote em {
+    color: var(--sw-slate-300);
+    font-style: italic;
+  }
+
+  /* Bullet list */
+  .md-bullet {
+    color: var(--sw-slate-200);
+  }
+
+  /* Bold — sky-400 per the prose */
+  .md-bold {
+    color: var(--sw-sky-400);
+    font-weight: 700;
+  }
+
+  /* Italic — purple per the prose */
+  .md-italic {
+    color: var(--sw-purple);
+    font-style: italic;
+  }
+
+  /* Inline code */
+  .md-code {
+    color: var(--sw-teal-200);
+    background: rgba(94, 234, 212, 0.08);
+    padding: 0 0.2ch;
+    border-radius: 2px;
+  }
+  .md-code .md-marker {
+    color: var(--sw-rose-400);
+  }
+
+  /* Links */
+  .md-link {
+    color: var(--sw-sky-400);
+  }
+  .md-link-url {
+    color: var(--sw-sky-300);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Fenced code blocks */
+  .md-fence {
+    color: var(--sw-slate-500);
+  }
+  .md-fence-lang {
+    color: var(--sw-amber-400);
+    font-weight: 700;
+  }
+
+  .code-line {
+    height: auto;
+  }
+  .code-body :global(pre) {
+    margin: 0;
+    padding: 0.1rem 0;
+    background: transparent !important;
+  }
+  .code-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  /* Status bar (macOS-native style) */
+  .statusbar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0.35rem var(--space-4);
+    background: var(--sw-slate-chrome);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--sw-slate-400);
+  }
+
+  .sb-section {
+    padding: 0 0.8rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .sb-section:first-child {
+    padding-left: 0;
+    color: var(--sw-slate-300);
+  }
+
+  .sb-section:last-child {
+    border-right: 0;
+    color: var(--sw-teal-300);
+    font-weight: 700;
+  }
+
+  .sb-spacer {
+    flex: 1 1 auto;
+  }
+
+  @media (max-width: 540px) {
+    .me-preview {
+      font-size: 12px;
+    }
+    .gutter {
+      padding-left: var(--space-3);
+    }
+    .content {
+      padding-right: var(--space-3);
+    }
+    .sb-words,
+    .sb-section:nth-of-type(4) {
+      display: none;
+    }
+  }
+</style>
