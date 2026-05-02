@@ -24,36 +24,36 @@ const commands: Command[] = [
   {
     title: 'Show Theme Studio',
     context: 'Raycast',
-    iconBg: '#b388ff',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-purple)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'paint',
   },
   {
     title: 'Top Left Sixth',
     context: 'Window Management',
-    iconBg: '#38bdf8',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-sky-400)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'rect-tl',
   },
   {
     title: 'Center',
     context: 'Window Management',
-    iconBg: '#38bdf8',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-sky-400)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'rect-c',
   },
   {
     title: 'Left Half',
     context: 'Window Management',
-    iconBg: '#38bdf8',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-sky-400)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'rect-l',
   },
   {
     title: 'Install Browser Extension',
     context: 'Browser',
-    iconBg: '#fb7185',
-    iconFg: '#0f172a',
+    iconBg: 'var(--sw-rose-400)',
+    iconFg: 'var(--sw-slate-900)',
     icon: 'globe',
   },
 ];
@@ -175,15 +175,15 @@ const commands: Command[] = [
     margin: 0 auto;
     background:
       radial-gradient(140% 80% at 50% 0%, rgba(94, 234, 212, 0.05), transparent 60%),
-      #282c34;
-    border: 1px solid #1e293b;
+      var(--sw-slate-editor);
+    border: 1px solid var(--sw-slate-800);
     border-radius: 12px;
     box-shadow:
       0 25px 60px -15px rgba(0, 0, 0, 0.6),
       0 0 0 1px rgba(255, 255, 255, 0.04) inset;
     overflow: hidden;
     font-family: var(--font-sans);
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
   }
 
   .search {
@@ -194,7 +194,7 @@ const commands: Command[] = [
   }
 
   .placeholder {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 14px;
   }
 
@@ -202,7 +202,7 @@ const commands: Command[] = [
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-size: 12px;
   }
 
@@ -214,9 +214,9 @@ const commands: Command[] = [
     height: 22px;
     padding: 0 6px;
     border-radius: 5px;
-    background: #1e293b;
-    border: 1px solid #334155;
-    color: #cbd5e1;
+    background: var(--sw-slate-800);
+    border: 1px solid var(--sw-slate-700);
+    color: var(--sw-slate-300);
     font-family: var(--font-mono);
     font-size: 11px;
   }
@@ -231,7 +231,7 @@ const commands: Command[] = [
   }
 
   .section-header {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 11px;
     padding: 6px 8px 4px;
   }
@@ -255,7 +255,7 @@ const commands: Command[] = [
     height: 28px;
     border-radius: 6px;
     background: rgba(94, 234, 212, 0.18);
-    color: #5eead4;
+    color: var(--sw-teal-300);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -286,24 +286,24 @@ const commands: Command[] = [
   }
 
   .title {
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     font-size: 13px;
     font-weight: 500;
   }
 
   .subtitle {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 12px;
   }
 
   .cta {
-    color: #5eead4;
+    color: var(--sw-teal-300);
     font-size: 12px;
     font-weight: 500;
   }
 
   .cmd-name {
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     font-size: 13px;
     font-weight: 500;
     white-space: nowrap;
@@ -312,12 +312,12 @@ const commands: Command[] = [
   }
 
   .cmd-context {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 12px;
   }
 
   .cmd-kind {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 12px;
     font-weight: 500;
     flex-shrink: 0;
@@ -333,7 +333,7 @@ const commands: Command[] = [
   }
 
   .footer-left {
-    color: #475569;
+    color: var(--sw-slate-600);
     display: inline-flex;
   }
 
@@ -347,24 +347,24 @@ const commands: Command[] = [
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     font-size: 12px;
     font-weight: 500;
   }
 
   .action.danger {
-    color: #fb7185;
+    color: var(--sw-rose-400);
   }
 
   .action.danger kbd {
     border-color: rgba(251, 113, 133, 0.4);
-    color: #fb7185;
+    color: var(--sw-rose-400);
     background: rgba(251, 113, 133, 0.08);
   }
 
   .kbd-arrow {
-    background: #1e293b;
-    color: #94a3b8;
+    background: var(--sw-slate-800);
+    color: var(--sw-slate-400);
   }
 
   .footer-divider {

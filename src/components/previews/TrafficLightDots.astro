@@ -1,0 +1,32 @@
+---
+/**
+ * Just the three traffic-light dots (rose / amber / teal), used inside
+ * richer IDE-style chrome that doesn't fit the generic
+ * <TerminalChrome>: VSCodePreview, SublimeTextPreview, JetBrainsPreview.
+ *
+ * Renders an inline-flex container, no margin — the consumer's chrome
+ * positions it within its title bar / activity bar / etc.
+ */
+---
+
+<div class="dots" aria-hidden="true">
+  <span class="dot dot-r"></span>
+  <span class="dot dot-y"></span>
+  <span class="dot dot-g"></span>
+</div>
+
+<style>
+  .dots {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot-r { background: var(--sw-rose-400); }
+  .dot-y { background: var(--sw-amber-400); }
+  .dot-g { background: var(--sw-teal-300); }
+</style>

@@ -6,7 +6,7 @@
  *
  *   1. Column BG          #1E293B   sidebar background
  *   2. Menu BG            #282C34   workspace switcher menu
- *   3. Active Item        #334155   selected channel pill
+ *   3. Active Item        var(--sw-slate-700)   selected channel pill
  *   4. Active Item Text   #5EEAD4   selected channel label
  *   5. Hover Item         #282C34   row hover background
  *   6. Text Color         #E2E8F0   default sidebar text
@@ -47,13 +47,13 @@ const messages = [
     author: 'Alex',
     time: '10:42 AM',
     body: 'Just shipped the slatewave palette across the editor and terminal — slate below, teal above.',
-    accent: '#5eead4',
+    accent: 'var(--sw-teal-300)',
   },
   {
     author: 'Sam',
     time: '10:43 AM',
     body: 'Looks great in action. The mention badge actually pops against the slate column now.',
-    accent: '#b388ff',
+    accent: 'var(--sw-purple)',
   },
 ];
 ---
@@ -163,17 +163,17 @@ const messages = [
 <style>
   /* Slack theme slots — these are the 8 values pasted into Slack */
   .slack-preview {
-    --slk-column: #1e293b;       /* 1. Column BG */
-    --slk-menu: #282c34;         /* 2. Menu BG */
-    --slk-active: #334155;       /* 3. Active Item */
-    --slk-active-text: #5eead4;  /* 4. Active Item Text */
-    --slk-hover: #282c34;        /* 5. Hover Item */
-    --slk-text: #e2e8f0;         /* 6. Text Color */
-    --slk-presence: #5eead4;     /* 7. Active Presence */
-    --slk-mention: #fb7185;      /* 8. Mention Badge */
+    --slk-column: var(--sw-slate-800);       /* 1. Column BG */
+    --slk-menu: var(--sw-slate-editor);         /* 2. Menu BG */
+    --slk-active: var(--sw-slate-700);       /* 3. Active Item */
+    --slk-active-text: var(--sw-teal-300);  /* 4. Active Item Text */
+    --slk-hover: var(--sw-slate-editor);        /* 5. Hover Item */
+    --slk-text: var(--sw-slate-200);         /* 6. Text Color */
+    --slk-presence: var(--sw-teal-300);     /* 7. Active Presence */
+    --slk-mention: var(--sw-rose-400);      /* 8. Mention Badge */
 
     /* Slack defaults outside the 8-slot custom block */
-    --slk-rail: #0f172a;
+    --slk-rail: var(--sw-slate-900);
     --slk-main: #1d2128;
     --slk-main-border: rgba(255, 255, 255, 0.05);
 
@@ -186,7 +186,7 @@ const messages = [
 
   .window {
     background: var(--slk-column);
-    border: 1px solid #1e293b;
+    border: 1px solid var(--sw-slate-800);
     border-radius: 12px;
     overflow: hidden;
     box-shadow:
@@ -216,8 +216,8 @@ const messages = [
     width: 36px;
     height: 36px;
     border-radius: 8px;
-    background: #334155;
-    color: #cbd5e1;
+    background: var(--sw-slate-700);
+    color: var(--sw-slate-300);
     font-size: 12px;
     font-weight: 700;
     display: inline-flex;
@@ -227,8 +227,8 @@ const messages = [
   }
 
   .ws-icon.ws-active {
-    background: linear-gradient(135deg, #5eead4, #38bdf8);
-    color: #0f172a;
+    background: linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400));
+    color: var(--sw-slate-900);
     box-shadow: 0 0 0 2px var(--slk-rail), 0 0 0 3px var(--slk-active-text);
   }
 
@@ -236,8 +236,8 @@ const messages = [
     width: 36px;
     height: 36px;
     border-radius: 8px;
-    border: 1px dashed #334155;
-    color: #64748b;
+    border: 1px dashed var(--sw-slate-700);
+    color: var(--sw-slate-500);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -270,7 +270,7 @@ const messages = [
   }
 
   .ws-name .caret {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-size: 10px;
   }
 
@@ -279,7 +279,7 @@ const messages = [
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-size: 12px;
   }
 
@@ -305,7 +305,7 @@ const messages = [
   }
 
   .quick-row .glyph {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 12px;
     width: 14px;
     text-align: center;
@@ -316,7 +316,7 @@ const messages = [
   }
 
   .section-header {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-size: 12px;
     padding: 4px 10px 2px;
     font-weight: 500;
@@ -335,7 +335,7 @@ const messages = [
 
   .row .hash,
   .row .glyph {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 13px;
     width: 14px;
     text-align: center;
@@ -350,8 +350,8 @@ const messages = [
     text-overflow: ellipsis;
   }
 
-  .row.muted .name { color: #64748b; }
-  .row.muted .glyph { color: #64748b; }
+  .row.muted .name { color: var(--sw-slate-500); }
+  .row.muted .glyph { color: var(--sw-slate-500); }
 
   /* Hover state — slot 5 */
   .row.hover { background: var(--slk-hover); }
@@ -369,7 +369,7 @@ const messages = [
   /* Mention badge — slot 8 */
   .badge {
     background: var(--slk-mention);
-    color: #0f172a;
+    color: var(--sw-slate-900);
     font-size: 11px;
     font-weight: 700;
     padding: 1px 7px;
@@ -388,13 +388,13 @@ const messages = [
   .presence-on { background: var(--slk-presence); }
   .presence-off {
     background: transparent;
-    border: 1.5px solid #475569;
+    border: 1.5px solid var(--sw-slate-600);
   }
 
   /* Main pane — Slack's body, kept in default tones to focus on the sidebar */
   .main {
     background: var(--slk-main);
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -417,18 +417,18 @@ const messages = [
   }
 
   .main-title .hash {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     font-size: 16px;
   }
 
   .main-title > span:nth-child(2) {
     font-size: 15px;
     font-weight: 700;
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
   }
 
   .topic {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 12px;
     margin-left: 8px;
   }
@@ -444,7 +444,7 @@ const messages = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     border-radius: 4px;
     font-size: 12px;
   }
@@ -469,7 +469,7 @@ const messages = [
     width: 36px;
     height: 36px;
     border-radius: 6px;
-    color: #0f172a;
+    color: var(--sw-slate-900);
     font-size: 12px;
     font-weight: 700;
     display: inline-flex;
@@ -487,19 +487,19 @@ const messages = [
   }
 
   .msg-author {
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     font-weight: 700;
     font-size: 13px;
   }
 
   .msg-time {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 11px;
   }
 
   .msg-body p {
     margin: 2px 0 0;
-    color: #cbd5e1;
+    color: var(--sw-slate-300);
     font-size: 13px;
     line-height: 1.5;
   }
@@ -507,7 +507,7 @@ const messages = [
   .composer {
     margin: 0 18px 14px;
     padding: 10px 14px;
-    background: #282c34;
+    background: var(--sw-slate-editor);
     border: 1px solid var(--slk-main-border);
     border-radius: 8px;
     display: flex;
@@ -516,14 +516,14 @@ const messages = [
   }
 
   .placeholder {
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 13px;
   }
 
   .composer-icons {
     display: inline-flex;
     gap: 10px;
-    color: #64748b;
+    color: var(--sw-slate-500);
     font-size: 12px;
   }
 

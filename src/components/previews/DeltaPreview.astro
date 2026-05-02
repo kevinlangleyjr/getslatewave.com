@@ -2,11 +2,11 @@
 /**
  * Pure HTML/CSS rendering of `delta`'s diff output with Slatewave applied.
  * Modeled after the real delta-slatewave config:
- *   - file-decoration-style = "#5eead4" ul (teal underline below path)
+ *   - file-decoration-style = "var(--sw-teal-300)" ul (teal underline below path)
  *   - hunk-header decoration is an open-left box in slate-600
  *   - line-numbers separator on left is ┊ (slate-600), on right is │ + space
  *   - row bg tint applies only to the code column (gutter stays editor-bg)
- *   - line-numbers-minus-style = #fb7185 / line-numbers-plus-style = #5eead4
+ *   - line-numbers-minus-style = var(--sw-rose-400) / line-numbers-plus-style = var(--sw-teal-300)
  *   - minus/plus row backgrounds desaturated wine/teal, brighter emph bg
  *
  * Diff content is the recent CodePreview.astro change (adding lineNumbers).
@@ -118,7 +118,7 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     font-family: var(--font-mono);
     font-size: var(--fs-sm);
     line-height: 1.7;
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
   }
 
   /* File header: Δ path, with a teal underline rule below */
@@ -126,14 +126,14 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     display: flex;
     gap: 0.6ch;
     padding: 0 var(--space-4);
-    color: #e2e8f0;
+    color: var(--sw-slate-200);
     font-weight: 700;
   }
-  .glyph { color: #5eead4; font-weight: 700; }
+  .glyph { color: var(--sw-teal-300); font-weight: 700; }
 
   .file-rule {
     height: 0;
-    border-bottom: 1px solid #5eead4;
+    border-bottom: 1px solid var(--sw-teal-300);
     margin: 0.4rem 0 var(--space-4);
   }
 
@@ -145,18 +145,18 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
   .hunk-box {
     display: inline-block;
     padding: 0.05rem 1.5ch 0.05rem 1ch;
-    border-top: 1px solid #475569;
-    border-right: 1px solid #475569;
-    border-bottom: 1px solid #475569;
-    color: #5eead4;
+    border-top: 1px solid var(--sw-slate-600);
+    border-right: 1px solid var(--sw-slate-600);
+    border-bottom: 1px solid var(--sw-slate-600);
+    color: var(--sw-teal-300);
     font-weight: 700;
   }
   .bullet {
-    color: #94a3b8;
+    color: var(--sw-slate-400);
     margin-right: 0.6ch;
     font-weight: 400;
   }
-  .hunk-section { color: #5eead4; }
+  .hunk-section { color: var(--sw-teal-300); }
 
   /* Diff rows: gutter (no bg) + code (row-tinted, wraps on whitespace). */
   .diff { display: block; }
@@ -170,7 +170,7 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
   .gutter {
     flex: 0 0 auto;
     padding: 0 0.5ch 0 var(--space-3);
-    color: var(--sw-slate-500, #64748b);
+    color: var(--sw-slate-500, var(--sw-slate-500));
     user-select: none;
     white-space: pre;
   }
@@ -181,10 +181,10 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     text-align: right;
   }
 
-  .sep { color: #475569; }
+  .sep { color: var(--sw-slate-600); }
 
-  .row.minus .ln-old { color: #fb7185; font-weight: 700; }
-  .row.plus .ln-new { color: #5eead4; font-weight: 700; }
+  .row.minus .ln-old { color: var(--sw-rose-400); font-weight: 700; }
+  .row.plus .ln-new { color: var(--sw-teal-300); font-weight: 700; }
 
   .code {
     flex: 1 1 0;
