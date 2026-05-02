@@ -1,0 +1,244 @@
+---
+/**
+ * Pure HTML/CSS rendering of `delta`'s diff output with Slatewave applied.
+ * Modeled after the real delta-slatewave config:
+ *   - file-decoration-style = "#5eead4" ul (teal underline below path)
+ *   - hunk-header decoration is an open-left box in slate-600
+ *   - line-numbers separator on left is ┊ (slate-600), on right is │ + space
+ *   - row bg tint applies only to the code column (gutter stays editor-bg)
+ *   - line-numbers-minus-style = #fb7185 / line-numbers-plus-style = #5eead4
+ *   - minus/plus row backgrounds desaturated wine/teal, brighter emph bg
+ *
+ * Diff content is the recent CodePreview.astro change (adding lineNumbers).
+ */
+
+import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+
+type RowKind = 'context' | 'minus' | 'plus';
+
+interface Row {
+  kind: RowKind;
+  old: number | null;
+  new: number | null;
+  code: string;
+  emph?: Array<[number, number]>;
+}
+
+const rows: Row[] = [
+  { kind: 'context', old: 7, new: 7, code: '  language: string;' },
+  { kind: 'context', old: 8, new: 8, code: '  label?: string;' },
+  { kind: 'context', old: 9, new: 9, code: '  showChrome?: boolean;' },
+  { kind: 'plus', old: null, new: 10, code: '  lineNumbers?: boolean;' },
+  { kind: 'context', old: 10, new: 11, code: '}' },
+  { kind: 'context', old: 11, new: 12, code: '' },
+  {
+    kind: 'minus',
+    old: 12,
+    new: null,
+    code: 'const { code, language, label, showChrome = true } = Astro.props;',
+  },
+  {
+    kind: 'plus',
+    old: null,
+    new: 13,
+    code: 'const { code, language, label, showChrome = true, lineNumbers = false } = Astro.props;',
+    emph: [[48, 70]],
+  },
+];
+
+const highlighter = await getHighlighter();
+
+function highlightSegment(text: string): string {
+  if (text === '') return '';
+  const html = highlighter.codeToHtml(text, { lang: 'typescript', theme: slatewaveThemeName });
+  // Greedy match — capture everything inside the line span, including nested
+  // token spans. The non-greedy version drops everything past the first close.
+  const m = html.match(/<span class="line">([\s\S]*)<\/span>\s*<\/code>/);
+  return m ? m[1] : text;
+}
+
+function renderCode(row: Row): string {
+  if (!row.emph?.length) return highlightSegment(row.code);
+  const ranges = [...row.emph].sort((a, b) => a[0] - b[0]);
+  let out = '';
+  let cur = 0;
+  const cls = row.kind === 'minus' ? 'emph-minus' : 'emph-plus';
+  for (const [s, e] of ranges) {
+    if (s > cur) out += highlightSegment(row.code.slice(cur, s));
+    out += `<span class="${cls}">${highlightSegment(row.code.slice(s, e))}</span>`;
+    cur = e;
+  }
+  if (cur < row.code.length) out += highlightSegment(row.code.slice(cur));
+  return out;
+}
+
+const renderedRows = rows.map((r) => ({ ...r, html: renderCode(r) }));
+
+const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().padStart(2));
+---
+
+<figure class="delta-preview sw-frame">
+  <header class="chrome" aria-hidden="true">
+    <span class="dot dot-r"></span>
+    <span class="dot dot-y"></span>
+    <span class="dot dot-g"></span>
+    <span class="title">git diff</span>
+  </header>
+  <div class="body">
+    <div class="file-header">
+      <span class="glyph">Δ</span>
+      <span class="path">src/components/previews/CodePreview.astro</span>
+    </div>
+    <div class="file-rule" aria-hidden="true"></div>
+
+    <div class="hunk-wrap" aria-hidden="true">
+      <div class="hunk-box">
+        <span class="bullet">•</span>
+        <span class="hunk-section">interface Props {</span>
+      </div>
+    </div>
+
+    <div class="diff" role="presentation">
+      {renderedRows.map((r) => (
+        <div class:list={['row', r.kind]}>
+          <span class="gutter"
+            ><span class="ln ln-old">{fmtLn(r.old)}</span><span class="sep">┊</span><span class="ln ln-new">{fmtLn(r.new)}</span><span class="sep">│ </span></span
+          >
+          <span class="code"><span class="code-inner" set:html={r.html || '​'} /></span>
+        </div>
+      ))}
+    </div>
+  </div>
+</figure>
+
+<style>
+  .delta-preview {
+    background: var(--sw-slate-editor);
+    overflow: hidden;
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--sw-slate-chrome);
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .title {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--sw-slate-400);
+  }
+
+  .body {
+    padding: var(--space-4) 0 var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+    color: #e2e8f0;
+  }
+
+  /* File header: Δ path, with a teal underline rule below */
+  .file-header {
+    display: flex;
+    gap: 0.6ch;
+    padding: 0 var(--space-4);
+    color: #e2e8f0;
+    font-weight: 700;
+  }
+  .glyph { color: #5eead4; font-weight: 700; }
+
+  .file-rule {
+    height: 0;
+    border-bottom: 1px solid #5eead4;
+    margin: 0.4rem 0 var(--space-4);
+  }
+
+  /* Hunk header: open-left box in slate-600, bullet + section in teal-300 */
+  .hunk-wrap {
+    padding: 0 var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+  .hunk-box {
+    display: inline-block;
+    padding: 0.05rem 1.5ch 0.05rem 1ch;
+    border-top: 1px solid #475569;
+    border-right: 1px solid #475569;
+    border-bottom: 1px solid #475569;
+    color: #5eead4;
+    font-weight: 700;
+  }
+  .bullet {
+    color: #94a3b8;
+    margin-right: 0.6ch;
+    font-weight: 400;
+  }
+  .hunk-section { color: #5eead4; }
+
+  /* Diff rows: gutter (no bg) + code (row-tinted, wraps on whitespace). */
+  .diff { display: block; }
+
+  .row {
+    display: flex;
+    align-items: stretch;
+    font-family: var(--font-mono);
+  }
+
+  .gutter {
+    flex: 0 0 auto;
+    padding: 0 0.5ch 0 var(--space-3);
+    color: var(--sw-slate-500, #64748b);
+    user-select: none;
+    white-space: pre;
+  }
+
+  .ln {
+    display: inline-block;
+    width: 2ch;
+    text-align: right;
+  }
+
+  .sep { color: #475569; }
+
+  .row.minus .ln-old { color: #fb7185; font-weight: 700; }
+  .row.plus .ln-new { color: #5eead4; font-weight: 700; }
+
+  .code {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-right: var(--space-4);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .code-inner { display: inline; }
+
+  .row.minus .code { background: #3b0e1a; }
+  .row.plus .code { background: #0e3a35; }
+
+  /* Word-level emph: brighter wine / teal on the changed bytes */
+  .code :global(.emph-minus) {
+    background: #7a1a2a;
+    font-weight: 700;
+  }
+  .code :global(.emph-plus) {
+    background: #1d6457;
+    font-weight: 700;
+  }
+
+  @media (max-width: 640px) {
+    .body { font-size: var(--fs-xs); }
+    .file-header,
+    .hunk-wrap { padding: 0 var(--space-3); }
+    .gutter { padding-left: var(--space-2); }
+    .code { padding-right: var(--space-3); }
+  }
+</style>
