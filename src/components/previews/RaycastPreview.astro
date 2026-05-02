@@ -1,0 +1,385 @@
+---
+/**
+ * Pure HTML/CSS rendering of Slatewave applied to Raycast. Mirrors the
+ * twelve-slot theme: slate-900 base, slate-800 secondary, teal-300
+ * selection + loader, plus the seven accent tokens (red/orange/yellow/
+ * green/blue/purple/magenta) on representative command rows.
+ */
+
+interface Command {
+  title: string;
+  context: string;
+  iconBg: string;
+  iconFg: string;
+  icon: 'paint' | 'rect-tl' | 'rect-c' | 'rect-l' | 'globe';
+}
+
+const featured = {
+  title: 'Welcome, Pro! New features just unlocked',
+  subtitle: 'Learn more about what’s new',
+  cta: 'Walkthrough',
+};
+
+const commands: Command[] = [
+  {
+    title: 'Show Theme Studio',
+    context: 'Raycast',
+    iconBg: '#b388ff',
+    iconFg: '#0f172a',
+    icon: 'paint',
+  },
+  {
+    title: 'Top Left Sixth',
+    context: 'Window Management',
+    iconBg: '#38bdf8',
+    iconFg: '#0f172a',
+    icon: 'rect-tl',
+  },
+  {
+    title: 'Center',
+    context: 'Window Management',
+    iconBg: '#38bdf8',
+    iconFg: '#0f172a',
+    icon: 'rect-c',
+  },
+  {
+    title: 'Left Half',
+    context: 'Window Management',
+    iconBg: '#38bdf8',
+    iconFg: '#0f172a',
+    icon: 'rect-l',
+  },
+  {
+    title: 'Install Browser Extension',
+    context: 'Browser',
+    iconBg: '#fb7185',
+    iconFg: '#0f172a',
+    icon: 'globe',
+  },
+];
+---
+
+<figure class="raycast-preview" aria-label="Slatewave applied to Raycast">
+  <div class="window">
+    <div class="search">
+      <span class="placeholder">Search for apps and commands…</span>
+      <span class="ai">
+        <span>Ask AI</span>
+        <kbd>Tab</kbd>
+      </span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <div class="section-header">Pro Plan</div>
+      <div class="row featured">
+        <span class="featured-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <polyline points="8 12 11 15 16 9"/>
+          </svg>
+        </span>
+        <div class="text">
+          <div class="title">{featured.title}</div>
+          <div class="subtitle">{featured.subtitle}</div>
+        </div>
+        <span class="cta">{featured.cta}</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">Suggestions</div>
+      {commands.map((cmd) => (
+        <div class="row">
+          <span class="icon" style={`background:${cmd.iconBg};color:${cmd.iconFg}`} aria-hidden="true">
+            {cmd.icon === 'paint' && (
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 20l8-8 4 4-8 8H4z"/>
+                <path d="M14 6l4 4"/>
+                <path d="M16 4l4 4-2 2-4-4z"/>
+              </svg>
+            )}
+            {cmd.icon === 'rect-tl' && (
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <rect x="3" y="3" width="9" height="9" rx="1.5"/>
+                <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            )}
+            {cmd.icon === 'rect-c' && (
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <rect x="7" y="8" width="10" height="8" rx="1.5"/>
+                <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            )}
+            {cmd.icon === 'rect-l' && (
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <rect x="3" y="3" width="9" height="18" rx="1.5"/>
+                <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            )}
+            {cmd.icon === 'globe' && (
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M3 12h18"/>
+                <path d="M12 3a14 14 0 0 1 0 18"/>
+                <path d="M12 3a14 14 0 0 0 0 18"/>
+              </svg>
+            )}
+          </span>
+          <div class="text">
+            <span class="cmd-name">{cmd.title}</span>
+            <span class="cmd-context">{cmd.context}</span>
+          </div>
+          <span class="cmd-kind">Command</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="footer">
+      <span class="footer-left" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </span>
+      <span class="footer-right">
+        <span class="action">
+          <span>Learn More</span>
+          <kbd class="kbd-arrow">↵</kbd>
+        </span>
+        <span class="footer-divider"></span>
+        <span class="action danger">
+          <span>Dismiss</span>
+          <kbd>⌃</kbd>
+          <kbd>X</kbd>
+        </span>
+      </span>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .raycast-preview {
+    margin: 0;
+    padding: var(--space-6);
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(15, 23, 42, 0.85), transparent 60%),
+      var(--bg-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .window {
+    max-width: 640px;
+    margin: 0 auto;
+    background:
+      radial-gradient(140% 80% at 50% 0%, rgba(94, 234, 212, 0.05), transparent 60%),
+      #282c34;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    box-shadow:
+      0 25px 60px -15px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    overflow: hidden;
+    font-family: var(--font-sans);
+    color: #cbd5e1;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+  }
+
+  .placeholder {
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .ai {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 5px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #cbd5e1;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .section {
+    padding: 8px 12px;
+  }
+
+  .section-header {
+    color: #64748b;
+    font-size: 11px;
+    padding: 6px 8px 4px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+
+  .row.featured {
+    background: rgba(94, 234, 212, 0.10);
+    box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.2) inset;
+  }
+
+  .featured-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(94, 234, 212, 0.18);
+    color: #5eead4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .text {
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .featured .text {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .title {
+    color: #e2e8f0;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .subtitle {
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  .cta {
+    color: #5eead4;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .cmd-name {
+    color: #e2e8f0;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cmd-context {
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  .cmd-kind {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(15, 23, 42, 0.4);
+  }
+
+  .footer-left {
+    color: #475569;
+    display: inline-flex;
+  }
+
+  .footer-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .action.danger {
+    color: #fb7185;
+  }
+
+  .action.danger kbd {
+    border-color: rgba(251, 113, 133, 0.4);
+    color: #fb7185;
+    background: rgba(251, 113, 133, 0.08);
+  }
+
+  .kbd-arrow {
+    background: #1e293b;
+    color: #94a3b8;
+  }
+
+  .footer-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  @media (max-width: 540px) {
+    .raycast-preview { padding: var(--space-3); }
+    .placeholder { font-size: 13px; }
+    .title, .cmd-name { font-size: 12px; }
+    .subtitle, .cmd-context, .cmd-kind { font-size: 11px; }
+    .row { padding: 6px 8px; gap: 10px; }
+    .icon { width: 20px; height: 20px; }
+    .featured-icon { width: 26px; height: 26px; }
+  }
+</style>
