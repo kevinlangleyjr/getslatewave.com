@@ -1,0 +1,106 @@
+---
+/**
+ * Compact palette legend rendered below the preview on every theme
+ * detail page. Maps the Tailwind-ish role names used in prose
+ * ("teal-300 hunk headers", "amber line-number math") to actual
+ * swatches so readers can recognize the colors at a glance.
+ *
+ * Pulls from the canonical Slatewave palette in src/styles/tokens.css.
+ */
+
+interface Swatch {
+  /** Tailwind-ish role name as used in prose. */
+  name: string;
+  /** Hex value mirrored from tokens.css for the inline label. */
+  hex: string;
+  /** CSS variable that paints the swatch — single source of truth. */
+  cssVar: string;
+}
+
+const swatches: Swatch[] = [
+  { name: 'slate-editor', hex: '#282c34', cssVar: '--sw-slate-editor' },
+  { name: 'slate-400',    hex: '#94a3b8', cssVar: '--sw-slate-400' },
+  { name: 'slate-200',    hex: '#e2e8f0', cssVar: '--sw-slate-200' },
+  { name: 'teal-300',     hex: '#5eead4', cssVar: '--sw-teal-300' },
+  { name: 'sky-400',      hex: '#38bdf8', cssVar: '--sw-sky-400' },
+  { name: 'purple',       hex: '#b388ff', cssVar: '--sw-purple' },
+  { name: 'amber-400',    hex: '#fbbf24', cssVar: '--sw-amber-400' },
+  { name: 'rose-400',     hex: '#fb7185', cssVar: '--sw-rose-400' },
+];
+---
+
+<aside class="palette-strip" aria-label="Slatewave palette">
+  <p class="palette-eyebrow">Palette</p>
+  <ul class="palette-swatches">
+    {swatches.map((s) => (
+      <li class="palette-item">
+        <span class="palette-chip" style={`background: var(${s.cssVar})`} aria-hidden="true"></span>
+        <span class="palette-name">{s.name}</span>
+        <code class="palette-hex">{s.hex}</code>
+      </li>
+    ))}
+  </ul>
+</aside>
+
+<style>
+  .palette-strip {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  .palette-eyebrow {
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg-faint);
+    font-weight: 600;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .palette-swatches {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .palette-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5ch;
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+    color: var(--fg-muted);
+  }
+
+  .palette-chip {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+    flex-shrink: 0;
+  }
+
+  .palette-name {
+    color: var(--fg-default);
+  }
+
+  .palette-hex {
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+  }
+
+  @media (max-width: 540px) {
+    .palette-eyebrow {
+      flex-basis: 100%;
+    }
+    .palette-hex {
+      display: none;
+    }
+  }
+</style>
