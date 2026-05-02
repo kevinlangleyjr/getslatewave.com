@@ -36,14 +36,14 @@ preview:
       "magenta": "#f472b6"
     }
 install:
-  - label: Import via Theme Studio
-    description: Raycast Pro required — custom themes are a Pro-only feature.
+  - label: Manual
+    description: Paste the theme JSON via Raycast's Theme Studio. Raycast Pro required — custom themes are a Pro-only feature.
     steps:
       - Open Raycast and search for "Theme Studio" (or run Manage Themes → Create New Theme)
       - Copy the contents of slatewave.json from the repo
       - In Theme Studio, choose Import Theme and paste the JSON
       - Set Slatewave as your active theme in Raycast Settings → Appearance
-  - label: From a local clone
+  - label: Clone
     description: Clone the repo before running the import steps above.
     command: git clone https://github.com/kevinlangleyjr/raycast-slatewave ~/Development/raycast-slatewave
 tags: [productivity, launcher, raycast]

@@ -51,25 +51,21 @@ preview:
         ]
     }
 install:
-  - label: Open settings.json
-    description: Windows Terminal stores its config in settings.json — open it from the app.
+  - label: Manual
+    description: Paste the scheme object into the `schemes` array of settings.json, then reference it from a profile.
     steps:
-      - 'Open Windows Terminal → ▾ dropdown → Settings'
-      - 'On the Settings page, click "Open JSON file" in the bottom-left'
-  - label: Color scheme only
-    description: Paste the scheme object into the `schemes` array, then reference it from a profile.
-    steps:
+      - 'Open Windows Terminal → ▾ dropdown → Settings → "Open JSON file" (bottom-left)'
       - 'Copy the contents of slatewave.json into the `schemes: []` array'
       - 'Set `"colorScheme": "Slatewave"` under `profiles.defaults` (or on a single profile)'
       - Save — Windows Terminal reloads live, no restart needed
-  - label: Scheme + chrome
-    description: The full bundle also adds a `theme` block that tints the tab strip to match the VSCode activity bar.
+  - label: Manual — full bundle
+    description: Adds a `theme` block on top of the palette that tints the tab strip to match the VSCode activity bar.
     steps:
       - 'Copy the `schemes[0]` object from slatewave-full.json into your `schemes` array'
       - 'Copy the `themes[0]` object into your `themes` array'
       - 'Set `"theme": "Slatewave"` at the top level of settings.json'
       - 'Set `"colorScheme": "Slatewave"` under `profiles.defaults`'
-  - label: From a local clone
+  - label: Clone
     description: Clone the repo and paste from the files at your own pace.
     steps:
       - git clone https://github.com/kevinlangleyjr/windows-terminal-slatewave

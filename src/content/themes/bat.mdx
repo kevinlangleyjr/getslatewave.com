@@ -50,29 +50,29 @@ preview:
     }
 install:
   - label: curl
-    description: bat scans .tmTheme files from $(bat --config-dir)/themes — drop the theme straight in with curl. Requires bat ≥ 0.18.
+    description: Drop the .tmTheme into bat's themes directory. Requires bat ≥ 0.18.
     command: mkdir -p "$(bat --config-dir)/themes" && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/bat-slatewave/main/Slatewave.tmTheme -o "$(bat --config-dir)/themes/Slatewave.tmTheme"
-  - label: Or clone the full repo
-    description: If you'd rather track updates with git, clone the repo into bat's themes directory — bat scans subdirectories recursively for .tmTheme files.
+  - label: Clone
+    description: Clone into bat's themes directory — bat scans subdirectories recursively for .tmTheme files.
     command: mkdir -p "$(bat --config-dir)/themes" && git clone https://github.com/kevinlangleyjr/bat-slatewave.git "$(bat --config-dir)/themes/bat-slatewave"
   - label: Rebuild bat's theme cache
-    description: bat caches compiled themes on disk — rebuild after adding a new one or it won't show up in --list-themes.
+    description: bat caches compiled themes on disk — rebuild after adding one or it won't show up in --list-themes.
     command: bat cache --build
-  - label: Verify it loaded
-    description: Slatewave should now appear in bat's theme list, and the one-shot --theme flag should render with it.
-    steps:
-      - 'bat --list-themes | grep Slatewave'
-      - 'bat --theme=Slatewave --color=always /path/to/some.go | head -40'
-  - label: Make Slatewave the default
-    description: Write bat's config file with --theme="Slatewave" so every bat invocation uses it without needing an env var or flag.
+  - label: Activate — config file
+    description: Write --theme="Slatewave" to bat's config file so every invocation uses it without a flag.
     command: echo '--theme="Slatewave"' > "$(bat --config-file)"
-  - label: Or — set per-shell only
-    description: Prefer a session-scoped switch? Export BAT_THEME instead of writing the config file.
+  - label: Activate — env var
+    description: Session-scoped — export BAT_THEME instead of editing the config file.
     steps:
       - 'zsh / bash — `export BAT_THEME=Slatewave`'
       - 'fish — `set -gx BAT_THEME Slatewave`'
+  - label: Verify
+    description: Slatewave should appear in bat's theme list and render via the --theme flag.
+    steps:
+      - 'bat --list-themes | grep Slatewave'
+      - 'bat --theme=Slatewave --color=always /path/to/some.go | head -40'
   - label: Pair with delta
-    description: git-delta reads bat's theme cache. Once Slatewave is registered, point delta at it via your ~/.gitconfig.
+    description: git-delta reads bat's theme cache. Once Slatewave is registered, point delta at it from your ~/.gitconfig.
     steps:
       - 'Under [delta] in ~/.gitconfig, add `syntax-theme = Slatewave`'
 tags: [terminal, cli, bat, syntax-highlighting]

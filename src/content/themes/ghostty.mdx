@@ -35,20 +35,20 @@ preview:
     background-opacity = 1.0
     shell-integration = detect
 install:
-  - label: CLI
-    description: Download the theme file into Ghostty's themes directory, then enable it in your config.
+  - label: curl
+    description: Drop the theme file into Ghostty's themes directory.
     command: mkdir -p ~/.config/ghostty/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/ghostty-slatewave/main/Slatewave -o ~/.config/ghostty/themes/Slatewave
+  - label: Clone
+    description: Clone the repo and copy the theme file into Ghostty's themes directory.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/ghostty-slatewave
+      - cp ghostty-slatewave/Slatewave ~/.config/ghostty/themes/Slatewave
   - label: Activate
     description: Add a single line to ~/.config/ghostty/config — or paste the theme file contents inline at the top level of that same config.
     steps:
       - Open `~/.config/ghostty/config`
       - Add `theme = Slatewave`
       - Reload with ⌘⇧, (macOS) or restart Ghostty
-  - label: From a local clone
-    description: Clone the repo and copy the theme file into Ghostty's themes directory.
-    steps:
-      - git clone https://github.com/kevinlangleyjr/ghostty-slatewave
-      - cp ghostty-slatewave/Slatewave ~/.config/ghostty/themes/Slatewave
 tags: [terminal, ghostty]
 ---
 

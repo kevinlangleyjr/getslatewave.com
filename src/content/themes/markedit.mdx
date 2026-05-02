@@ -32,14 +32,14 @@ preview:
     const accent = "#5eead4"; // teal-300, the primary signal
     ```
 install:
-  - label: Prebuilt script
-    description: Drop the built bundle into MarkEdit's scripts folder and relaunch.
+  - label: Manual
+    description: Drop the prebuilt bundle into MarkEdit's scripts folder and relaunch.
     steps:
       - Download `dist/markedit-theme-slatewave.js` from the repo
       - Copy it to `~/Library/Containers/app.cyan.markedit/Data/Documents/scripts/`
       - Quit and relaunch MarkEdit
-  - label: Build from source
-    description: Requires Node/Yarn. The build auto-deploys into MarkEdit's scripts folder.
+  - label: Clone
+    description: Build from source — requires Node/Yarn. The build auto-deploys into MarkEdit's scripts folder.
     steps:
       - git clone https://github.com/kevinlangleyjr/markedit-slatewave
       - cd markedit-slatewave && yarn install && yarn build

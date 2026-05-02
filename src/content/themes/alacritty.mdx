@@ -35,23 +35,23 @@ preview:
     [cursor]
     style = { shape = "Block", blinking = "Off" }
 install:
-  - label: Palette only
-    description: Download slatewave.toml into Alacritty's themes directory, then import it from your main config.
+  - label: curl
+    description: Drop slatewave.toml into Alacritty's themes directory, then import it from your main config.
     command: mkdir -p ~/.config/alacritty/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/alacritty-slatewave/main/slatewave.toml -o ~/.config/alacritty/themes/slatewave.toml
-  - label: Activate
-    description: Add the import to ~/.config/alacritty/alacritty.toml. Alacritty hot-reloads on save — no restart needed.
-    steps:
-      - 'Add `import = ["~/.config/alacritty/themes/slatewave.toml"]` under the `[general]` table'
-      - Save — Alacritty reloads and applies the theme live
-  - label: Palette + typography
-    description: The full bundle imports slatewave.toml then adds Hack Nerd Font Mono, block cursor, and an opaque window. Requires Hack Nerd Font installed.
+  - label: curl — full bundle
+    description: Palette plus Hack Nerd Font Mono, block cursor, and an opaque window. Requires Hack Nerd Font installed.
     command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/alacritty-slatewave/main/slatewave-full.toml -o ~/.config/alacritty/themes/slatewave-full.toml
-  - label: From a local clone
-    description: Clone and copy both theme files at once.
+  - label: Clone
+    description: Clone the repo and copy both theme files into Alacritty's themes directory.
     steps:
       - git clone https://github.com/kevinlangleyjr/alacritty-slatewave
       - cp alacritty-slatewave/slatewave.toml      ~/.config/alacritty/themes/
       - cp alacritty-slatewave/slatewave-full.toml ~/.config/alacritty/themes/
+  - label: Activate
+    description: Import the theme from ~/.config/alacritty/alacritty.toml — Alacritty hot-reloads on save, no restart needed.
+    steps:
+      - 'Add `import = ["~/.config/alacritty/themes/slatewave.toml"]` under the `[general]` table'
+      - Save — Alacritty reloads and applies the theme live
 tags: [terminal, alacritty]
 ---
 

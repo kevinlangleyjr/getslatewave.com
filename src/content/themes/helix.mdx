@@ -53,20 +53,19 @@ preview:
         println!("{theme}");
     }
 install:
-  - label: From a local clone
-    description: Requires Helix 24.03+ for modern theme scopes (ui.bufferline, ui.virtual.inlay-hint, curly diagnostic underlines).
+  - label: Clone
+    description: Clone and copy the theme into Helix's themes directory. Requires Helix 24.03+ for modern theme scopes (ui.bufferline, ui.virtual.inlay-hint, curly diagnostic underlines).
     steps:
       - git clone https://github.com/kevinlangleyjr/helix-slatewave.git
       - cp helix-slatewave/themes/slatewave.toml ~/.config/helix/themes/slatewave.toml
+  - label: Symlink
+    description: Tweaking the theme? Symlink the repo file instead of copying so edits round-trip.
+    command: ln -s "$(pwd)/helix-slatewave/themes/slatewave.toml" ~/.config/helix/themes/slatewave.toml
   - label: Activate
-    description: Set the theme in config.toml, or switch at runtime from the command palette.
+    description: Set the theme in config.toml, or switch at runtime from the command palette — Helix reloads themes on save.
     steps:
       - 'Add `theme = "slatewave"` to ~/.config/helix/config.toml'
       - 'Or pick at runtime — `:set theme slatewave`'
-      - Helix reloads themes on file save, so edits to the theme TOML apply live
-  - label: Symlink for live editing
-    description: Tweaking the theme? Symlink the repo file instead of copying so edits round-trip.
-    command: ln -s "$(pwd)/helix-slatewave/themes/slatewave.toml" ~/.config/helix/themes/slatewave.toml
 tags: [editor, helix]
 ---
 

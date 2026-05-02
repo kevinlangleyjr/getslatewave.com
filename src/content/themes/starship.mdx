@@ -42,9 +42,14 @@ preview:
     success_symbol = '[╰─❯](bold fg:teal_300)'
     error_symbol   = '[╰─❯](bold fg:rose_400)'
 install:
-  - label: Clone + point Starship at it
-    description: Clone the repo and set STARSHIP_CONFIG in your shell init. Requires Starship ≥ 1.16.
+  - label: curl
+    description: Drop slatewave.toml at ~/.config/starship.toml so Starship reads it as the default config (when STARSHIP_CONFIG is unset). Requires Starship ≥ 1.16.
+    command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/starship-slatewave/main/slatewave.toml -o ~/.config/starship.toml
+  - label: Clone
+    description: Clone for versioned updates, then point STARSHIP_CONFIG at it from your shell init.
     command: git clone https://github.com/kevinlangleyjr/starship-slatewave.git ~/.config/starship-slatewave
+  - label: Manual
+    description: Keep your existing prompt layout but adopt Slatewave colors — copy the [palettes.slatewave] table into your starship.toml and reference its color names from module styles.
   - label: Activate — zsh
     description: Add to ~/.zshrc.
     steps:
@@ -61,11 +66,6 @@ install:
     steps:
       - 'set -gx STARSHIP_CONFIG ~/.config/starship-slatewave/slatewave.toml'
       - 'starship init fish | source'
-  - label: Install as default config
-    description: If STARSHIP_CONFIG is unset, Starship reads ~/.config/starship.toml. Drop the theme there to make it the default for every shell.
-    command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/starship-slatewave/main/slatewave.toml -o ~/.config/starship.toml
-  - label: Import the palette only
-    description: Keep your existing prompt layout but adopt Slatewave colors — copy the [palettes.slatewave] table into your existing starship.toml and reference its color names from your module styles.
 tags: [terminal, prompt, starship]
 ---
 
