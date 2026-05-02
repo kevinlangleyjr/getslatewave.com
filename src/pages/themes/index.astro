@@ -1,12 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 import ThemeCard from '~/components/theme/ThemeCard.astro';
 
 const themes = (await getCollection('themes'))
   .sort((a, b) => a.data.order - b.data.order);
 
-const categories = [
+type Category = CollectionEntry<'themes'>['data']['category'];
+type CategoryFilter = 'all' | Category;
+
+const categories: ReadonlyArray<{ value: CategoryFilter; label: string }> = [
   { value: 'all', label: 'All' },
   { value: 'editor', label: 'Editor' },
   { value: 'terminal', label: 'Terminal' },
@@ -16,9 +19,9 @@ const categories = [
   { value: 'productivity', label: 'Productivity' },
 ];
 
-const presentCategories = new Set(themes.map((t) => t.data.category));
+const presentCategories = new Set<Category>(themes.map((t) => t.data.category));
 const visibleCategories = categories.filter(
-  (c) => c.value === 'all' || presentCategories.has(c.value as any),
+  (c) => c.value === 'all' || presentCategories.has(c.value),
 );
 
 const statuses = [
