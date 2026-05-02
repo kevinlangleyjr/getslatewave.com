@@ -49,6 +49,27 @@ async function readCache<T>(key: string): Promise<T | null> {
   return null;
 }
 
+/**
+ * Read the cache regardless of TTL. Used as a fallback when GitHub
+ * rate-limits us — stale data is better than null on a build that
+ * would otherwise blank the activity panel.
+ */
+async function readStaleCache<T>(key: string): Promise<T | null> {
+  try {
+    const raw = await readFile(join(CACHE_DIR, `${key}.json`), 'utf8');
+    const parsed = JSON.parse(raw) as { data: T; at: number };
+    return parsed.data;
+  } catch {
+    return null;
+  }
+}
+
+function isRateLimited(res: Response): boolean {
+  if (res.status === 429) return true;
+  if (res.status === 403 && res.headers.get('x-ratelimit-remaining') === '0') return true;
+  return false;
+}
+
 async function writeCache<T>(key: string, data: T): Promise<void> {
   try {
     await mkdir(CACHE_DIR, { recursive: true });
