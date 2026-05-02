@@ -39,7 +39,13 @@ preview:
       return roles;
     }
 install:
-  - label: Dev extension (from clone)
+  - label: Marketplace
+    description: Coming soon — pending publish to the Zed extensions registry.
+    steps:
+      - Open the command palette (⌘⇧P / Ctrl+Shift+P)
+      - Run "zed extensions"
+      - Search "Slatewave" and click Install
+  - label: Clone
     description: Install the cloned repo as a dev extension while the registry entry is pending.
     steps:
       - git clone https://github.com/kevinlangleyjr/zed-slatewave.git
@@ -47,24 +53,6 @@ install:
       - Run "zed extensions install dev extension"
       - Select the cloned `zed-slatewave` directory
       - Pick the theme with ⌘K ⌘T / Ctrl+K Ctrl+T → Slatewave
-  - label: Extension registry
-    description: Coming soon — pending publish to the Zed extensions registry.
-    steps:
-      - Open the command palette
-      - Run "zed extensions"
-      - Search "Slatewave" and click Install
-  - label: Customize
-    description: Override specific colors without forking by editing Zed's settings.json.
-    command: |-
-      {
-        "theme": "Slatewave",
-        "experimental.theme_overrides": {
-          "editor.background": "#0a0f1e",
-          "syntax": {
-            "comment": { "color": "#475569", "font_style": "italic" }
-          }
-        }
-      }
 tags: [editor, zed]
 ---
 
@@ -78,3 +66,20 @@ The companion terminal ANSI palette matches the `terminal.ansi*` block
 from the VSCode theme, so an embedded `zed: terminal` reads identically
 to an external iTerm2 / Ghostty / Alacritty session running any of the
 Slatewave terminal themes.
+
+## Customize
+
+Override specific colors without forking by adding an
+`experimental.theme_overrides` block to Zed's `settings.json`:
+
+```json
+{
+  "theme": "Slatewave",
+  "experimental.theme_overrides": {
+    "editor.background": "#0a0f1e",
+    "syntax": {
+      "comment": { "color": "#475569", "font_style": "italic" }
+    }
+  }
+}
+```

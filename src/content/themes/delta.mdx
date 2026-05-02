@@ -50,20 +50,20 @@ preview:
 
         blame-palette = "#1e293b" "#282c34" "#334155" "#475569"
 install:
-  - label: Clone + include
-    description: 'Layers slatewave.gitconfig into your global config via include.path. Updates land with: git -C ~/.config/delta-slatewave pull.'
+  - label: Clone
+    description: 'Layer slatewave.gitconfig into your global config via include.path — updates land with `git -C ~/.config/delta-slatewave pull`.'
     steps:
       - 'git clone https://github.com/kevinlangleyjr/delta-slatewave.git ~/.config/delta-slatewave'
       - 'git config --global include.path ~/.config/delta-slatewave/slatewave.gitconfig'
-  - label: Or paste the block straight in
-    description: Drop the contents of slatewave.gitconfig into your ~/.gitconfig directly — best path if you want to tweak individual keys in place.
+  - label: Manual
+    description: Paste slatewave.gitconfig directly into your ~/.gitconfig — best path if you want to tweak individual keys in place.
     link: https://github.com/kevinlangleyjr/delta-slatewave/blob/main/slatewave.gitconfig
-  - label: Pair with bat-slatewave
-    description: syntax-theme set to Slatewave resolves through bat's theme cache. Install bat-slatewave and run bat cache --build to register it. Without bat-slatewave, swap to a built-in like base16-256 or remove the line.
-    link: https://github.com/kevinlangleyjr/bat-slatewave
   - label: Verify
-    description: Open any repo and pipe a diff — you should see slate-tinted minus/plus blocks, a teal hunk header in a slate box, and amber line-number math.
+    description: Pipe a diff into delta — desaturated wine/teal minus/plus blocks, teal-bordered hunk header, amber line-number math.
     command: git -C any-repo log -p | head -60
+  - label: Pair with bat-slatewave
+    description: syntax-theme=Slatewave resolves through bat's theme cache — install bat-slatewave and run `bat cache --build`, or swap to a built-in like base16-256.
+    link: https://github.com/kevinlangleyjr/bat-slatewave
 tags: [terminal, git, diff, delta]
 ---
 

@@ -53,33 +53,32 @@ preview:
     fg_color  = "#e2e8f0"
     intensity = "Bold"
 install:
-  - label: TOML
-    description: WezTerm auto-loads any TOML in ~/.config/wezterm/colors/ as a named scheme — drop slatewave.toml in and reference it from your config.
+  - label: curl
+    description: Drop slatewave.toml into ~/.config/wezterm/colors/ — WezTerm auto-loads any TOML there as a named scheme.
     command: mkdir -p ~/.config/wezterm/colors && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.toml -o ~/.config/wezterm/colors/slatewave.toml
-  - label: Activate
-    description: Reference the scheme by name in your WezTerm config.
-    steps:
-      - 'Open ~/.config/wezterm/wezterm.lua'
-      - 'Set `config.color_scheme = "Slatewave"`'
-      - WezTerm reloads on save — no restart needed
-  - label: Inline Lua
-    description: Prefer a Lua table to a separate TOML? Drop slatewave.lua next to wezterm.lua and register the scheme inline.
-    steps:
-      - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.lua -o ~/.config/wezterm/slatewave.lua
-      - 'In wezterm.lua — `config.color_schemes = { Slatewave = require("slatewave") }`'
-      - 'Then — `config.color_scheme = "Slatewave"`'
-  - label: Palette + typography
-    description: Full bundle — palette plus Hack Nerd Font Mono at 14pt, block cursor, opaque window. Requires Hack Nerd Font Mono installed.
+  - label: curl — full bundle
+    description: Palette plus Hack Nerd Font Mono at 14pt, block cursor, opaque window. Requires Hack Nerd Font Mono installed.
     steps:
       - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave-full.lua -o ~/.config/wezterm/slatewave-full.lua
       - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.lua -o ~/.config/wezterm/slatewave.lua
       - 'In wezterm.lua — `require("slatewave-full").apply_to_config(config)`'
-  - label: From a local clone
+  - label: Inline Lua
+    description: Drop slatewave.lua next to wezterm.lua and register the scheme inline.
+    steps:
+      - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.lua -o ~/.config/wezterm/slatewave.lua
+      - 'In wezterm.lua — `config.color_schemes = { Slatewave = require("slatewave") }`'
+      - 'Then — `config.color_scheme = "Slatewave"`'
+  - label: Clone
     description: Clone once and copy all three files at your own pace.
     steps:
       - git clone https://github.com/kevinlangleyjr/wezterm-slatewave
       - cp wezterm-slatewave/slatewave.toml ~/.config/wezterm/colors/
       - cp wezterm-slatewave/slatewave.lua wezterm-slatewave/slatewave-full.lua ~/.config/wezterm/
+  - label: Activate
+    description: Reference the scheme by name in your WezTerm config — WezTerm reloads on save, no restart needed.
+    steps:
+      - 'Open ~/.config/wezterm/wezterm.lua'
+      - 'Set `config.color_scheme = "Slatewave"`'
 tags: [terminal, wezterm]
 ---
 

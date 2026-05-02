@@ -20,26 +20,19 @@ repo:
   defaultBranch: main
 install:
   - label: curl
-    description: Drop slatewave.theme straight into btop's user themes directory. Requires btop ≥ 1.2 for the full set of theme keys.
+    description: Drop slatewave.theme into btop's user themes directory. Requires btop ≥ 1.2 for the full set of theme keys.
     command: mkdir -p ~/.config/btop/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/btop-slatewave/main/slatewave.theme -o ~/.config/btop/themes/slatewave.theme
-  - label: Or clone the repo
-    description: If you'd rather track updates with git, clone it and symlink the theme file. btop only scans the top-level of its themes dir, so the symlink is needed.
+  - label: Clone
+    description: Clone the repo and symlink the theme file in — btop only scans the top level of its themes dir.
     steps:
       - 'git clone https://github.com/kevinlangleyjr/btop-slatewave.git ~/.config/btop/btop-slatewave'
       - 'ln -sf ~/.config/btop/btop-slatewave/slatewave.theme ~/.config/btop/themes/slatewave.theme'
-  - label: Make Slatewave the active theme
-    description: btop reads the active theme name from ~/.config/btop/btop.conf. Edit the color_theme line directly, or pick "slatewave" in btop's own Options menu (press Esc → Options).
+  - label: Activate
+    description: btop reads the active theme name from ~/.config/btop/btop.conf — edit color_theme directly, or pick "slatewave" in btop's Options menu (Esc → Options).
     command: 'sed -i.bak ''s/^color_theme = .*/color_theme = "slatewave"/'' ~/.config/btop/btop.conf'
   - label: Verify
-    description: Launch btop and confirm the meters render with the teal → amber → rose gradient. The CPU box label should appear teal, box outlines slate-600.
+    description: Launch btop and confirm the meters render teal → amber → rose, panel labels are teal-300, box outlines slate-600.
     command: btop
-  - label: Pair with the rest of the terminal palette
-    description: btop renders fully transparent by default (main_bg = ""), so it inherits the terminal background. Pair with any of the Slatewave terminal ports for matched chrome.
-    steps:
-      - 'Alacritty — `alacritty-slatewave`'
-      - 'Ghostty — `ghostty-slatewave`'
-      - 'iTerm2 — `iterm2-slatewave`'
-      - 'WezTerm — `wezterm-slatewave`'
 tags: [terminal, system-monitor, btop, dashboard]
 ---
 

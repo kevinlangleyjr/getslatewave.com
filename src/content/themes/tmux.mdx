@@ -34,21 +34,21 @@ preview:
     set -g prefix C-a
     bind-key r source-file ~/.tmux.conf \; display-message "reloaded"
 install:
-  - label: source-file in ~/.tmux.conf
-    description: Clone the repo then source the theme from your main tmux config. Requires tmux ≥ 3.2 and a Nerd Font for the powerline pill transitions.
-    command: git clone https://github.com/kevinlangleyjr/tmux-slatewave.git ~/.config/tmux/slatewave
-  - label: Activate
-    description: Add the source-file line, then reload.
-    steps:
-      - 'Add to ~/.tmux.conf — `source-file ~/.config/tmux/slatewave/slatewave.tmux.conf`'
-      - 'Reload — `tmux source-file ~/.tmux.conf` (or prefix + r if bound)'
-  - label: TPM (tmux plugin manager)
-    description: If you use TPM, add the plugin and fetch with prefix + I.
+  - label: TPM
+    description: With tmux plugin manager, add the plugin and fetch with prefix + I. Requires tmux ≥ 3.2 and a Nerd Font for the powerline pill transitions.
     steps:
       - "Add to ~/.tmux.conf — `set -g @plugin 'kevinlangleyjr/tmux-slatewave'`"
       - Reload tmux, then press prefix + I to install
-  - label: Copy into existing config
+  - label: Clone
+    description: Clone the repo for sourcing from your main tmux config.
+    command: git clone https://github.com/kevinlangleyjr/tmux-slatewave.git ~/.config/tmux/slatewave
+  - label: Manual
     description: slatewave.tmux.conf is a plain set of `set -g` lines. Every section is commented with the palette values it uses, so partial adoption is safe — copy only the blocks you want.
+  - label: Activate
+    description: After Clone — add the source-file line and reload.
+    steps:
+      - 'Add to ~/.tmux.conf — `source-file ~/.config/tmux/slatewave/slatewave.tmux.conf`'
+      - 'Reload — `tmux source-file ~/.tmux.conf` (or prefix + r if bound)'
 tags: [terminal, multiplexer, tmux]
 ---
 

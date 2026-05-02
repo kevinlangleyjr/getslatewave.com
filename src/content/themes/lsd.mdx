@@ -44,17 +44,17 @@ preview:
       conflicted: "#ef5350"
     tree-edge: "#475569"
 install:
-  - label: Clone + symlink
-    description: LSD ≥ 1.0 required (hex color support in colors.yaml).
+  - label: curl
+    description: Drop colors.yaml into ~/.config/lsd/ without cloning. Requires LSD ≥ 1.0 (hex color support in colors.yaml).
+    command: mkdir -p ~/.config/lsd && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/lsd-slatewave/main/colors.yaml -o ~/.config/lsd/colors.yaml
+  - label: Clone
+    description: Clone the repo and symlink colors.yaml into LSD's config directory.
     steps:
       - 'git clone https://github.com/kevinlangleyjr/lsd-slatewave.git ~/.config/lsd-slatewave'
       - 'mkdir -p ~/.config/lsd'
       - 'ln -sf ~/.config/lsd-slatewave/colors.yaml ~/.config/lsd/colors.yaml'
-  - label: Or curl the file straight in
-    description: Drop colors.yaml into ~/.config/lsd/ without cloning.
-    command: mkdir -p ~/.config/lsd && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/lsd-slatewave/main/colors.yaml -o ~/.config/lsd/colors.yaml
-  - label: Activate the custom theme
-    description: LSD only consults colors.yaml when told to use a custom theme. Edit ~/.config/lsd/config.yaml.
+  - label: Activate
+    description: LSD only consults colors.yaml when told to use a custom theme — edit ~/.config/lsd/config.yaml.
     steps:
       - 'Open or create ~/.config/lsd/config.yaml'
       - 'Add: color.when set to auto'
@@ -62,8 +62,8 @@ install:
       - 'Run lsd -la --git --tree --depth 2 to verify'
   - label: Pair with a Nerd Font
     description: Optional — set icons.theme to fancy in LSD's config for the icon glyphs. Falls back to unicode cleanly.
-  - label: File-type colors via LS_COLORS
-    description: Directory, executable, archive, and symlink colors come from LS_COLORS, not this theme. Slatewave composes with vivid or trapd00r/LS_COLORS — pick whichever you prefer.
+  - label: Pair with LS_COLORS
+    description: Directory, executable, archive, and symlink colors come from LS_COLORS, not this theme. Slatewave composes with vivid or trapd00r/LS_COLORS.
     command: export LS_COLORS="$(vivid generate molokai)"
 tags: [terminal, cli, lsd, ls]
 ---
