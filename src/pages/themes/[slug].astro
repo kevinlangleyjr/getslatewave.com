@@ -4,6 +4,11 @@ import Base from '~/layouts/Base.astro';
 import Badge from '~/components/ui/Badge.astro';
 import CodePreview from '~/components/previews/CodePreview.astro';
 import TerminalPreview from '~/components/previews/TerminalPreview.astro';
+import AlfredPreview from '~/components/previews/AlfredPreview.astro';
+import RaycastPreview from '~/components/previews/RaycastPreview.astro';
+import OhMyPoshPreview from '~/components/previews/OhMyPoshPreview.astro';
+
+const customPreviewSlugs = new Set(['alfred', 'raycast', 'oh-my-posh']);
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
 
@@ -117,17 +122,27 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     </header>
 
     <section class="section">
-      <div class="container narrow">
-        {data.preview.kind === 'code' && (
-          <CodePreview code={data.preview.sample} language={data.preview.language} />
-        )}
-        {data.preview.kind === 'terminal' && (
-          <TerminalPreview prompt={data.preview.prompt} lines={data.preview.lines} />
-        )}
-        {data.preview.kind === 'image' && (
-          <figure class="sw-frame image-preview">
-            <img src={data.preview.image.src} alt={data.preview.alt} loading="eager" />
-          </figure>
+      <div class:list={['container', { narrow: data.slug !== 'oh-my-posh' }]}>
+        {customPreviewSlugs.has(data.slug) ? (
+          <>
+            {data.slug === 'alfred' && <AlfredPreview />}
+            {data.slug === 'raycast' && <RaycastPreview />}
+            {data.slug === 'oh-my-posh' && <OhMyPoshPreview />}
+          </>
+        ) : (
+          <>
+            {data.preview.kind === 'code' && (
+              <CodePreview code={data.preview.sample} language={data.preview.language} />
+            )}
+            {data.preview.kind === 'terminal' && (
+              <TerminalPreview prompt={data.preview.prompt} lines={data.preview.lines} />
+            )}
+            {data.preview.kind === 'image' && (
+              <figure class="sw-frame image-preview">
+                <img src={data.preview.image.src} alt={data.preview.alt} loading="eager" />
+              </figure>
+            )}
+          </>
         )}
       </div>
     </section>
