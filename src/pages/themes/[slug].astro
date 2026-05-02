@@ -1,5 +1,5 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 import Badge from '~/components/ui/Badge.astro';
 import CodePreview from '~/components/previews/CodePreview.astro';
@@ -65,6 +65,13 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
 const customPreview = customPreviews[data.slug];
 const CustomPreviewComponent = customPreview?.component;
 const useWidePreview = customPreview?.wide ?? false;
+
+// Resolve related theme references — drop nulls (broken refs) and any
+// related theme that's still status: planned (no detail page generated).
+const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
+  ? (await Promise.all(data.related.map((ref) => getEntry(ref))))
+      .filter((t): t is CollectionEntry<'themes'> => !!t && t.data.status !== 'planned')
+  : [];
 ---
 
 <Base title={data.name} description={data.summary}>
@@ -225,6 +232,31 @@ const useWidePreview = customPreview?.wide ?? false;
         </ul>
       </div>
     </section>
+
+    {relatedThemes.length > 0 && (
+      <section class="section related-section">
+        <div class="container narrow">
+          <h2>Related themes</h2>
+          <ul class="related-list">
+            {relatedThemes.map((rel) => (
+              <li>
+                <a
+                  href={`/themes/${rel.data.slug}/`}
+                  class="related-card"
+                  data-simple-event={`theme_related_${slugSegment}_to_${rel.data.slug.replace(/-/g, '_')}`}
+                >
+                  <div class="related-meta">
+                    <span class="related-category">{rel.data.category}</span>
+                    <span class="related-name">{rel.data.shortName}</span>
+                  </div>
+                  <p class="related-tagline">{rel.data.tagline}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
   </article>
 </Base>
 
@@ -456,7 +488,69 @@ const useWidePreview = customPreview?.wide ?? false;
   }
 
   .install-section {
-    padding-bottom: var(--space-16);
+    padding-bottom: var(--space-12);
+  }
+
+  .related-section {
+    padding-block: var(--space-8) var(--space-16);
+    border-top: 1px solid var(--border);
+  }
+
+  .related-section h2 {
+    margin: 0 0 var(--space-5);
+  }
+
+  .related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-raised);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+
+  .related-card:hover,
+  .related-card:focus-visible {
+    border-color: var(--page-accent, var(--accent));
+    transform: translateY(-1px);
+  }
+
+  .related-meta {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .related-category {
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
+  }
+
+  .related-name {
+    font-weight: 600;
+    color: var(--fg-default);
+  }
+
+  .related-tagline {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-snug);
   }
 
   #install-heading {
