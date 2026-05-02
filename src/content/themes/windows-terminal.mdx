@@ -24,7 +24,7 @@ preview:
   kind: code
   language: jsonc
   sample: |
-    // settings.json
+    // settings.json — Windows Terminal
     {
         "theme": "Slatewave",
         "profiles": {
@@ -35,8 +35,18 @@ preview:
                 "name": "Slatewave",
                 "background": "#282c34",
                 "foreground": "#e2e8f0",
-                "cursorColor": "#5eead4"
-                // ...
+                "cursorColor": "#5eead4",
+                "selectionBackground": "#334155",
+
+                // ANSI — mirrors terminal.ansi* in vscode-slatewave
+                "black":   "#1e293b",
+                "red":     "#fb7185",
+                "green":   "#5eead4",
+                "yellow":  "#b45309",
+                "blue":    "#38bdf8",
+                "purple":  "#b388ff",
+                "cyan":    "#0e7490",
+                "white":   "#e2e8f0"
             }
         ]
     }
