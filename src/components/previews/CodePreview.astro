@@ -7,9 +7,10 @@ interface Props {
   language: string;
   label?: string;
   showChrome?: boolean;
+  lineNumbers?: boolean;
 }
 
-const { code, language, label, showChrome = true } = Astro.props;
+const { code, language, label, showChrome = true, lineNumbers = false } = Astro.props;
 
 const highlighter = await getHighlighter();
 const loadedLangs = highlighter.getLoadedLanguages();
@@ -25,7 +26,7 @@ const html = highlighter.codeToHtml(code.trimEnd(), {
 });
 ---
 
-<figure class="code-preview sw-frame">
+<figure class:list={['code-preview', 'sw-frame', { 'has-line-numbers': lineNumbers }]}>
   {showChrome && (
     <header class="chrome" aria-hidden="true">
       <span class="dot dot-r"></span>
@@ -89,5 +90,20 @@ const html = highlighter.codeToHtml(code.trimEnd(), {
 
   .code-body :global(code) {
     font-family: var(--font-mono);
+  }
+
+  .has-line-numbers .code-body :global(code) {
+    counter-reset: step;
+    counter-increment: step 0;
+  }
+
+  .has-line-numbers .code-body :global(.line)::before {
+    content: counter(step);
+    counter-increment: step;
+    display: inline-block;
+    width: 2ch;
+    margin-right: 1.25rem;
+    text-align: right;
+    color: var(--sw-slate-500, rgba(148, 163, 184, 0.45));
   }
 </style>
