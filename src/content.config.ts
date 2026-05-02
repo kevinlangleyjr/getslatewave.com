@@ -12,7 +12,6 @@ const themes = defineCollection({
       tagline: z.string().max(140),
       summary: z.string().max(320),
       status: z.enum(['stable', 'beta', 'planned']).default('stable'),
-      featured: z.boolean().default(false),
       order: z.number().default(100),
       accent: z
         .string()
