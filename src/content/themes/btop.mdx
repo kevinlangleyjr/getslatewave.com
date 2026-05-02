@@ -1,0 +1,66 @@
+---
+name: Slatewave for btop
+shortName: btop
+slug: btop
+category: terminal
+tagline: A Slatewave .theme for btop — slate dashboard, teal/amber/rose graphs.
+summary: >-
+  btop reads .theme files from ~/.config/btop/themes — Slatewave for
+  btop maps every meter and graph onto a single teal-300 → amber-400
+  → rose-400 ramp, slate-600 box outlines, slate-700 selection, and
+  teal-300 highlights, so the dashboard shares the same semantic
+  vocabulary as the rest of the family.
+status: beta
+order: 230
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: btop-slatewave
+  url: https://github.com/kevinlangleyjr/btop-slatewave
+  defaultBranch: main
+install:
+  - label: curl
+    description: Drop slatewave.theme straight into btop's user themes directory. Requires btop ≥ 1.2 for the full set of theme keys.
+    command: mkdir -p ~/.config/btop/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/btop-slatewave/main/slatewave.theme -o ~/.config/btop/themes/slatewave.theme
+  - label: Or clone the repo
+    description: If you'd rather track updates with git, clone it and symlink the theme file. btop only scans the top-level of its themes dir, so the symlink is needed.
+    steps:
+      - 'git clone https://github.com/kevinlangleyjr/btop-slatewave.git ~/.config/btop/btop-slatewave'
+      - 'ln -sf ~/.config/btop/btop-slatewave/slatewave.theme ~/.config/btop/themes/slatewave.theme'
+  - label: Make Slatewave the active theme
+    description: btop reads the active theme name from ~/.config/btop/btop.conf. Edit the color_theme line directly, or pick "slatewave" in btop's own Options menu (press Esc → Options).
+    command: 'sed -i.bak ''s/^color_theme = .*/color_theme = "slatewave"/'' ~/.config/btop/btop.conf'
+  - label: Verify
+    description: Launch btop and confirm the meters render with the teal → amber → rose gradient. The CPU box label should appear teal, box outlines slate-600.
+    command: btop
+  - label: Pair with the rest of the terminal palette
+    description: btop renders fully transparent by default (main_bg = ""), so it inherits the terminal background. Pair with any of the Slatewave terminal ports for matched chrome.
+    steps:
+      - 'Alacritty — `alacritty-slatewave`'
+      - 'Ghostty — `ghostty-slatewave`'
+      - 'iTerm2 — `iterm2-slatewave`'
+      - 'WezTerm — `wezterm-slatewave`'
+tags: [terminal, system-monitor, btop, dashboard]
+---
+
+Slatewave for btop is a single `.theme` file — the format `btop` reads
+from `~/.config/btop/themes`. Every meter, graph, and gradient (CPU,
+temperature, memory, network throughput, process activity) maps onto
+the same three-stop ramp:
+
+> **teal-300 → amber-400 → rose-400** — low / cool / idle → high / hot / saturated.
+
+Read it as: more rose = more activity. The same ramp drives temp,
+cpu, memory used, network, and the process box CPU column, so a
+glance across panels gives you the same semantic reading.
+
+Box outlines and dividers are slate-600, panel labels and keyboard
+shortcuts are teal-300, the active row in the process list highlights
+slate-700 / teal-300 — the same surface vocabulary the editor and
+terminal ports use.
+
+`main_bg` is left empty so btop inherits the terminal background. If
+you want opaque slate panels, edit `main_bg = "#1e293b"` in your
+local copy and re-install — `btop.conf` has a `theme_background`
+toggle as well, set it to `false` for transparency or `true` for the
+filled slate look.
