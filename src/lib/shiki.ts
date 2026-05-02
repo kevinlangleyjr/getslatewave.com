@@ -21,6 +21,7 @@ const DEFAULT_LANGS: BundledLanguage[] = [
   'javascript',
   'jsx',
   'json',
+  'jsonc',
   'bash',
   'shell',
   'markdown',
