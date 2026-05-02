@@ -5,15 +5,14 @@
  * Obsidian Slatewave CSS so this previews the actual theme surface
  * rather than a generic "notes app" abstraction.
  */
+
+import TerminalChrome from './TerminalChrome.astro';
 ---
 
 <figure class="obs-preview sw-frame" aria-label="Slatewave Obsidian theme preview">
-  <header class="chrome" aria-hidden="true">
-    <span class="dot dot-r"></span>
-    <span class="dot dot-y"></span>
-    <span class="dot dot-g"></span>
-    <span class="title-bar">Slatewave Preview</span>
-  </header>
+  <TerminalChrome>
+    <span slot="trailing" class="title-bar">Slatewave Preview</span>
+  </TerminalChrome>
 
   <div class="shell">
     <!-- Left: file tree -->
@@ -128,25 +127,6 @@
     --slate-bg: #1e2127;
     --slate-bg-raised: #282c34;
   }
-
-  .chrome {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: var(--sw-slate-chrome);
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
 
   .title-bar {
     margin-left: auto;
