@@ -18,6 +18,8 @@
  * render uniformly. Differentiation lives entirely in the icon color.
  */
 
+import TerminalChrome from './TerminalChrome.astro';
+
 type IconKey =
   | 'folder' | 'folder-hidden'
   | 'file' | 'config'
@@ -139,12 +141,7 @@ const permClass = (c: string): string => {
 
 <figure class="lsd-preview" aria-label="Slatewave applied to lsd">
   <div class="window">
-    <header class="chrome" aria-hidden="true">
-      <span class="dot dot-r"></span>
-      <span class="dot dot-y"></span>
-      <span class="dot dot-g"></span>
-      <span class="title">zsh in getslatewave.com</span>
-    </header>
+    <TerminalChrome title="zsh in getslatewave.com" />
 
     <div class="body">
       <div class="prompt-line">
@@ -235,27 +232,6 @@ const permClass = (c: string): string => {
     font-family: var(--font-mono);
     font-size: 12.5px;
     line-height: 1.65;
-  }
-
-  .chrome {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background: #21252b;
-  }
-
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
-
-  .chrome .title {
-    margin-left: auto;
-    color: #94a3b8;
-    font-size: var(--fs-xs);
-    letter-spacing: 0.04em;
   }
 
   .body {
