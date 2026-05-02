@@ -15,6 +15,16 @@ import { join } from 'node:path';
 const CACHE_DIR = join(process.cwd(), 'node_modules', '.cache', 'slatewave-github');
 const TTL_MS = 30 * 60 * 1000;
 
+// Warn once at module load if no token is set — the slatewave site fetches
+// metadata for ~26 repos × 2 endpoints per build, which exceeds the
+// unauthenticated 60-req/hour limit on any non-trivial CI run.
+if (!process.env.GITHUB_TOKEN && process.env.NODE_ENV !== 'test') {
+  console.warn(
+    '[github] GITHUB_TOKEN is not set — unauthenticated requests are capped at 60/hour. ' +
+      'Set GITHUB_TOKEN to raise the limit to 5000/hour and avoid repo metadata being missing on rebuild.',
+  );
+}
+
 export interface RepoMeta {
   stars: number;
   pushedAt: string;
