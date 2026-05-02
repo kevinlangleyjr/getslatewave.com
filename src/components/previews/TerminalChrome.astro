@@ -1,0 +1,59 @@
+---
+/**
+ * The traffic-light dot row + optional title that every preview frame
+ * uses across the site (CodePreview, BtopPreview, DeltaPreview,
+ * LSDPreview, OhMyPoshPreview, TerminalPreview, ObsidianPreview,
+ * SlackPreview, …).
+ *
+ * Renders just the <header class="chrome">. Consumers keep their own
+ * <figure> root and body wrapper so per-preview body padding / fonts /
+ * grid layouts stay where they belong, and Astro's per-component CSS
+ * scoping doesn't fight us at the figure root.
+ *
+ * Consumers that need a non-string trailing element (e.g., CodePreview's
+ * uppercase language `label`) can pass it via the `trailing` slot.
+ */
+
+interface Props {
+  /** Right-aligned title in slate-400 monospace. */
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<header class="chrome" aria-hidden="true">
+  <span class="dot dot-r"></span>
+  <span class="dot dot-y"></span>
+  <span class="dot dot-g"></span>
+  <slot name="trailing">
+    {title && <span class="title">{title}</span>}
+  </slot>
+</header>
+
+<style>
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--sw-slate-chrome);
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .title {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--sw-slate-400);
+  }
+</style>
