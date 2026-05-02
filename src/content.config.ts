@@ -31,21 +31,6 @@ const themes = defineCollection({
           download: z.string().url().optional(),
         })
         .default({}),
-      hero: z
-        .object({
-          image: image(),
-          alt: z.string(),
-        })
-        .optional(),
-      gallery: z
-        .array(
-          z.object({
-            image: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
-          }),
-        )
-        .default([]),
       preview: z
         .discriminatedUnion('kind', [
           z.object({
