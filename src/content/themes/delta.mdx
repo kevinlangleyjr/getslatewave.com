@@ -1,0 +1,85 @@
+---
+name: Slatewave for delta
+shortName: delta
+slug: delta
+category: terminal
+tagline: A Slatewave palette for delta — git diffs in slate, teal, amber, and rose.
+summary: >-
+  delta drives every diff color through ~/.gitconfig. Slatewave maps
+  its style keys onto the family palette — desaturated rose/teal tints
+  behind syntax-colored content, brighter emph for changed bytes, teal
+  hunk headers in a slate box, amber line-number math, and a slate
+  blame palette.
+status: beta
+order: 220
+accent: '#38bdf8'
+repo:
+  owner: kevinlangleyjr
+  name: delta-slatewave
+  url: https://github.com/kevinlangleyjr/delta-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: ini
+  sample: |
+    # ~/.gitconfig — slatewave (abridged)
+    [core]
+        pager = delta
+    [interactive]
+        diffFilter = delta --color-only
+
+    [delta]
+        navigate     = true
+        line-numbers = true
+        syntax-theme = Slatewave
+
+        minus-style       = syntax "#3b0e1a"
+        minus-emph-style  = syntax bold "#7a1a2a"
+        plus-style        = syntax "#0e3a35"
+        plus-emph-style   = syntax bold "#1d6457"
+
+        hunk-header-style             = "#5eead4" bold
+        hunk-header-decoration-style  = "#475569" box
+        hunk-header-line-number-style = "#fbbf24" bold
+
+        file-style            = "#e2e8f0" bold
+        file-decoration-style = "#5eead4" ul
+
+        line-numbers-minus-style = "#fb7185"
+        line-numbers-plus-style  = "#5eead4"
+
+        blame-palette = "#1e293b" "#282c34" "#334155" "#475569"
+install:
+  - label: Clone + include
+    description: 'Layers slatewave.gitconfig into your global config via include.path. Updates land with: git -C ~/.config/delta-slatewave pull.'
+    steps:
+      - 'git clone https://github.com/kevinlangleyjr/delta-slatewave.git ~/.config/delta-slatewave'
+      - 'git config --global include.path ~/.config/delta-slatewave/slatewave.gitconfig'
+  - label: Or paste the block straight in
+    description: Drop the contents of slatewave.gitconfig into your ~/.gitconfig directly — best path if you want to tweak individual keys in place.
+    link: https://github.com/kevinlangleyjr/delta-slatewave/blob/main/slatewave.gitconfig
+  - label: Pair with bat-slatewave
+    description: syntax-theme set to Slatewave resolves through bat's theme cache. Install bat-slatewave and run bat cache --build to register it. Without bat-slatewave, swap to a built-in like base16-256 or remove the line.
+    link: https://github.com/kevinlangleyjr/bat-slatewave
+  - label: Verify
+    description: Open any repo and pipe a diff — you should see slate-tinted minus/plus blocks, a teal hunk header in a slate box, and amber line-number math.
+    command: git -C any-repo log -p | head -60
+tags: [terminal, git, diff, delta]
+---
+
+Slatewave for delta recolors every visible role in `delta`'s output —
+minus / plus, emph / non-emph, hunk header, file header, commit
+metadata, line numbers, blame, merge conflicts, grep — onto the same
+slate / teal / rose / amber vocabulary the rest of the family speaks.
+
+The minus and plus backgrounds are deliberately desaturated so the
+`syntax` foreground stays readable against them; the emph styles are
+saturated so the bytes that actually changed inside a line jump out.
+The hunk header is teal-300 inside a slate-600 box with amber
+line-number math, so the `@@ -12,7 +12,9 @@` jump pops without taking
+over the diff.
+
+Pairs with [bat-slatewave](https://github.com/kevinlangleyjr/bat-slatewave),
+which provides the `Slatewave` syntax theme delta reads via
+`syntax-theme`. Without bat-slatewave installed, any built-in bat theme
+works — `base16-256` is a sensible neutral fallback.
