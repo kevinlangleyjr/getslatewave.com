@@ -6,6 +6,8 @@
  * git, rhs chip) is shared so the palette reads identically across.
  */
 
+import TerminalChrome from './TerminalChrome.astro';
+
 interface Row {
   os: 'macos' | 'ubuntu' | 'windows';
   label: string;
@@ -51,12 +53,7 @@ const rows: Row[] = [
 ---
 
 <figure class="omp-preview sw-frame" aria-label="Slatewave Oh My Posh prompt on macOS, Ubuntu, and Windows">
-  <header class="chrome" aria-hidden="true">
-    <span class="dot dot-r"></span>
-    <span class="dot dot-y"></span>
-    <span class="dot dot-g"></span>
-    <span class="title">zsh — slatewave</span>
-  </header>
+  <TerminalChrome title="zsh — slatewave" />
 
   <div class="body">
     {rows.map((row, i) => (
@@ -145,33 +142,6 @@ const rows: Row[] = [
     background: #282c34;
     overflow: hidden;
     max-width: 100%;
-  }
-
-  .chrome {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: var(--sw-slate-chrome);
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
-
-  .title {
-    margin-left: auto;
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    color: var(--sw-slate-400);
-    letter-spacing: 0.04em;
   }
 
   .body {
