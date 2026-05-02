@@ -1,0 +1,480 @@
+---
+/**
+ * Pure HTML/CSS rendering of Logseq with the Slatewave theme — left
+ * sidebar (Favorites / Journals / Pages), main outliner pane with
+ * bullet hierarchy, heading cascade, task markers, tags, block refs,
+ * external links, and a fenced code block.
+ *
+ * Maps directly to the highlights in the prose: heading cascade
+ * (H1–H3 teal-300, H4 teal-200, H5 sky-300, H6 purple), rose bullet
+ * markers, semantic task markers (TODO rose, DOING amber, DONE teal,
+ * WAITING slate-500). Code block routed through Shiki for real
+ * Slatewave syntax highlighting.
+ */
+
+import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import TerminalChrome from './TerminalChrome.astro';
+
+const codeSample = `// slatewave/palette.ts
+export const accent = '#5eead4';   // teal-300, the primary signal
+export const error  = '#fb7185';   // rose-400
+`;
+
+const highlighter = await getHighlighter();
+const codeHtml = highlighter.codeToHtml(codeSample, {
+  lang: 'typescript',
+  theme: slatewaveThemeName,
+});
+
+interface SidebarItem {
+  name: string;
+  active?: boolean;
+}
+
+interface SidebarSection {
+  label: string;
+  open: boolean;
+  items: SidebarItem[];
+}
+
+const sidebar: SidebarSection[] = [
+  {
+    label: 'Favorites',
+    open: true,
+    items: [
+      { name: 'Slatewave Preview', active: true },
+      { name: 'Roadmap' },
+      { name: 'Onboarding' },
+    ],
+  },
+  {
+    label: 'Journals',
+    open: true,
+    items: [
+      { name: 'May 2nd, 2026' },
+      { name: 'May 1st, 2026' },
+      { name: 'Apr 30th, 2026' },
+    ],
+  },
+  {
+    label: 'Pages',
+    open: false,
+    items: [],
+  },
+];
+---
+
+<figure class="logseq-preview sw-frame">
+  <TerminalChrome title="Logseq — Slatewave" />
+
+  <div class="shell">
+    <!-- Left sidebar -->
+    <aside class="sidebar" aria-hidden="true">
+      <div class="sidebar-search">
+        <span class="sb-search-icon" aria-hidden="true">⌕</span>
+        <span class="sb-search-text">Search or create page</span>
+      </div>
+
+      {sidebar.map((section) => (
+        <div class:list={['sb-section', { open: section.open }]}>
+          <div class="sb-section-head">
+            <span class="sb-caret">{section.open ? '▾' : '▸'}</span>
+            <span class="sb-section-label">{section.label}</span>
+          </div>
+          {section.open && section.items.length > 0 && (
+            <ul class="sb-list">
+              {section.items.map((item) => (
+                <li class:list={['sb-item', { active: item.active }]}>
+                  <span class="sb-page-glyph" aria-hidden="true">📄</span>
+                  <span class="sb-name">{item.name}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </aside>
+
+    <!-- Main outliner pane -->
+    <article class="pane-main">
+      <header class="page-meta">
+        <h1 class="page-title">Slatewave Preview</h1>
+        <p class="page-props">
+          <span class="prop"><span class="prop-key">tags::</span> <span class="tag">#slatewave</span> <span class="tag">#preview</span></span>
+        </p>
+      </header>
+
+      <!-- Tasks block -->
+      <section class="outliner">
+        <div class="block heading h2">
+          <span class="bullet" aria-hidden="true"></span>
+          <h2>Tasks</h2>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content"><span class="task task-todo">TODO</span> Ship Slatewave site Phase 5</span>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content"><span class="task task-doing">DOING</span> Wire the Logseq theme preview</span>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content"><span class="task task-done">DONE</span> <s>Publish ghostty-slatewave</s></span>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content"><span class="task task-waiting">WAITING</span> on feedback for iTerm2 cursor-guide</span>
+        </div>
+
+        <!-- Today block -->
+        <div class="block heading h2">
+          <span class="bullet" aria-hidden="true"></span>
+          <h2>Today</h2>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content">Heading cascade — <span class="hcolor h1">H1–H3 teal-300</span>, <span class="hcolor h4">H4 teal-200</span>, <span class="hcolor h5">H5 sky-300</span>, <span class="hcolor h6">H6 purple</span>.</span>
+        </div>
+        <div class="block indent-1">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content">Nested items keep the same rose marker.</span>
+        </div>
+        <div class="block indent-2">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content">…even three levels deep.</span>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content">External links sit in <a class="ext-link" href="#">sky <span class="ext-marker">↗</span></a>.</span>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content">Block refs use <span class="block-ref">((dashed-sky-underline))</span>.</span>
+        </div>
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <span class="block-content">Tags travel inline: <span class="tag">#slatewave</span> <span class="tag">#theme</span> <span class="tag">#demo</span>.</span>
+        </div>
+
+        <!-- Code block -->
+        <div class="block">
+          <span class="bullet" aria-hidden="true"></span>
+          <div class="code-block">
+            <div class="code-fence">
+              <span class="fence-lang">ts</span>
+            </div>
+            <div class="code-body" set:html={codeHtml} />
+          </div>
+        </div>
+      </section>
+    </article>
+  </div>
+</figure>
+
+<style>
+  .logseq-preview {
+    background: var(--sw-slate-editor);
+    overflow: hidden;
+    color: var(--sw-slate-200);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 28rem;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--sw-slate-chrome);
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    padding: var(--space-3) var(--space-2) var(--space-3);
+    color: var(--sw-slate-300);
+    font-size: 12px;
+    overflow: hidden;
+  }
+
+  .sidebar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.6ch;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(15, 23, 42, 0.55);
+    color: var(--sw-slate-500);
+    margin-bottom: var(--space-3);
+  }
+
+  .sb-search-icon {
+    color: var(--sw-slate-400);
+  }
+
+  .sb-section {
+    margin-bottom: var(--space-3);
+  }
+
+  .sb-section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5ch;
+    padding: 0.2rem 0.4rem;
+    color: var(--sw-slate-400);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 10px;
+  }
+
+  .sb-caret {
+    color: var(--sw-slate-500);
+    width: 1ch;
+  }
+
+  .sb-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.1rem 0 0 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5ch;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: var(--sw-slate-300);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sb-page-glyph {
+    color: var(--sw-slate-500);
+    font-size: 11px;
+  }
+
+  .sb-item.active {
+    background: rgba(94, 234, 212, 0.12);
+    color: var(--sw-teal-300);
+  }
+
+  /* Main pane */
+  .pane-main {
+    padding: var(--space-5) var(--space-6) var(--space-6);
+    overflow: hidden;
+  }
+
+  .page-meta {
+    margin-bottom: var(--space-4);
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--sw-teal-300);
+    letter-spacing: -0.01em;
+    margin: 0 0 0.3rem;
+  }
+
+  .page-props {
+    margin: 0;
+    color: var(--sw-slate-500);
+    font-size: 11.5px;
+  }
+
+  .prop-key {
+    color: var(--sw-slate-500);
+  }
+
+  /* Outliner blocks */
+  .outliner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .block {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7ch;
+    padding: 0.1rem 0;
+    position: relative;
+  }
+
+  .block.indent-1 {
+    margin-left: 1.2rem;
+  }
+  .block.indent-2 {
+    margin-left: 2.4rem;
+  }
+
+  .block.indent-1::before,
+  .block.indent-2::before {
+    content: '';
+    position: absolute;
+    left: -1ch;
+    top: 0.6rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--sw-slate-700);
+  }
+
+  .bullet {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sw-rose-400);
+    margin-top: 0.45rem;
+    box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.12);
+  }
+
+  .block-content {
+    color: var(--sw-slate-200);
+    line-height: 1.6;
+  }
+
+  /* Headings */
+  .block.heading {
+    margin-top: var(--space-3);
+    margin-bottom: 0.15rem;
+  }
+
+  .block.heading h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--sw-teal-300);
+    letter-spacing: -0.005em;
+  }
+
+  /* Heading cascade colors used inline in body */
+  .hcolor.h1 { color: var(--sw-teal-300); font-weight: 600; }
+  .hcolor.h4 { color: var(--sw-teal-200); font-weight: 600; }
+  .hcolor.h5 { color: var(--sw-sky-300); font-weight: 600; }
+  .hcolor.h6 { color: var(--sw-purple); font-weight: 600; }
+
+  /* Task markers */
+  .task {
+    display: inline-block;
+    padding: 0.05rem 0.5ch;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-right: 0.6ch;
+    vertical-align: 1px;
+  }
+  .task-todo {
+    color: var(--sw-rose-400);
+    background: rgba(251, 113, 133, 0.14);
+  }
+  .task-doing {
+    color: var(--sw-amber-400);
+    background: rgba(251, 191, 36, 0.14);
+  }
+  .task-done {
+    color: var(--sw-teal-300);
+    background: rgba(94, 234, 212, 0.14);
+  }
+  .task-waiting {
+    color: var(--sw-slate-400);
+    background: rgba(148, 163, 184, 0.12);
+  }
+
+  .block-content s {
+    color: var(--sw-slate-500);
+    text-decoration-color: var(--sw-slate-600);
+  }
+
+  /* Inline elements */
+  .ext-link {
+    color: var(--sw-sky-400);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgba(56, 189, 248, 0.4);
+  }
+
+  .ext-marker {
+    color: var(--sw-sky-400);
+    margin-left: 0.1ch;
+    font-size: 10px;
+  }
+
+  .block-ref {
+    color: var(--sw-sky-300);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    border-bottom: 1px dashed var(--sw-sky-400);
+    padding-bottom: 1px;
+  }
+
+  .tag {
+    color: var(--sw-teal-300);
+    font-weight: 500;
+  }
+
+  /* Code block */
+  .code-block {
+    flex: 1;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid var(--sw-slate-700);
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .code-fence {
+    padding: 0.25rem 0.7rem;
+    border-bottom: 1px solid var(--sw-slate-700);
+    color: var(--sw-slate-500);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .fence-lang {
+    color: var(--sw-amber-400);
+    font-weight: 700;
+  }
+
+  .code-body :global(pre) {
+    margin: 0;
+    padding: 0.5rem 0.7rem;
+    background: transparent !important;
+    overflow-x: auto;
+  }
+
+  .code-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 720px) {
+    .shell {
+      grid-template-columns: 160px 1fr;
+    }
+    .pane-main {
+      padding: var(--space-4) var(--space-4) var(--space-5);
+    }
+  }
+
+  @media (max-width: 540px) {
+    .shell {
+      grid-template-columns: 1fr;
+    }
+    .sidebar {
+      display: none;
+    }
+  }
+</style>
