@@ -13,6 +13,7 @@
  */
 
 import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import TerminalChrome from './TerminalChrome.astro';
 
 type RowKind = 'context' | 'minus' | 'plus';
 
@@ -78,12 +79,7 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
 ---
 
 <figure class="delta-preview sw-frame">
-  <header class="chrome" aria-hidden="true">
-    <span class="dot dot-r"></span>
-    <span class="dot dot-y"></span>
-    <span class="dot dot-g"></span>
-    <span class="title">git diff</span>
-  </header>
+  <TerminalChrome title="git diff" />
   <div class="body">
     <div class="file-header">
       <span class="glyph">Δ</span>
@@ -115,27 +111,6 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
   .delta-preview {
     background: var(--sw-slate-editor);
     overflow: hidden;
-  }
-
-  .chrome {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: var(--sw-slate-chrome);
-  }
-
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-r { background: #fb7185; }
-  .dot-y { background: #fbbf24; }
-  .dot-g { background: #5eead4; }
-
-  .title {
-    margin-left: auto;
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    color: var(--sw-slate-400);
   }
 
   .body {
