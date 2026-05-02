@@ -1,0 +1,568 @@
+---
+/**
+ * Pure HTML/CSS rendering of Slack with Slatewave applied. Slack's custom
+ * theme accepts eight comma-separated hex values — this preview puts each
+ * one to work in the role it actually colors:
+ *
+ *   1. Column BG          #1E293B   sidebar background
+ *   2. Menu BG            #282C34   workspace switcher menu
+ *   3. Active Item        #334155   selected channel pill
+ *   4. Active Item Text   #5EEAD4   selected channel label
+ *   5. Hover Item         #282C34   row hover background
+ *   6. Text Color         #E2E8F0   default sidebar text
+ *   7. Active Presence    #5EEAD4   online dot for DMs
+ *   8. Mention Badge      #FB7185   unread mention pill
+ */
+
+interface Channel {
+  name: string;
+  unread?: number;
+  active?: boolean;
+  hover?: boolean;
+}
+
+interface DM {
+  name: string;
+  online?: boolean;
+}
+
+const channels: Channel[] = [
+  { name: 'general' },
+  { name: 'design' },
+  { name: 'design-system', active: true },
+  { name: 'engineering', unread: 3 },
+  { name: 'random', hover: true },
+];
+
+const dms: DM[] = [
+  { name: 'Alex', online: true },
+  { name: 'Sam', online: true },
+  { name: 'Jordan', online: false },
+];
+
+const messages = [
+  {
+    author: 'Alex',
+    time: '10:42 AM',
+    body: 'Just shipped the slatewave palette across the editor and terminal — slate below, teal above.',
+    accent: '#5eead4',
+  },
+  {
+    author: 'Sam',
+    time: '10:43 AM',
+    body: 'Looks great in action. The mention badge actually pops against the slate column now.',
+    accent: '#b388ff',
+  },
+];
+---
+
+<figure class="slack-preview" aria-label="Slatewave applied to Slack">
+  <div class="window">
+    <header class="chrome" aria-hidden="true">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+      <span class="title">Slack — Slatewave</span>
+    </header>
+
+    <div class="layout">
+      <aside class="rail" aria-hidden="true">
+        <div class="ws-icon ws-active">SW</div>
+        <div class="ws-icon">A</div>
+        <div class="ws-icon">B</div>
+        <div class="ws-add">＋</div>
+      </aside>
+
+      <aside class="sidebar">
+        <div class="ws-menu">
+          <div class="ws-name">
+            <span>slatewave</span>
+            <span class="caret" aria-hidden="true">▾</span>
+          </div>
+          <div class="ws-user">
+            <span class="presence presence-on" aria-hidden="true"></span>
+            <span>you</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-body">
+          <div class="quick">
+            <div class="quick-row"><span class="glyph">#</span> Threads</div>
+            <div class="quick-row"><span class="glyph">✎</span> Drafts &amp; sent</div>
+            <div class="quick-row"><span class="glyph">@</span> Mentions &amp; reactions</div>
+          </div>
+
+          <div class="section">
+            <div class="section-header">▾ Channels</div>
+            {channels.map((c) => (
+              <div class:list={['row', { active: c.active, hover: c.hover }]}>
+                <span class="hash">#</span>
+                <span class="name">{c.name}</span>
+                {c.unread && <span class="badge">{c.unread}</span>}
+              </div>
+            ))}
+            <div class="row muted">
+              <span class="glyph">＋</span>
+              <span class="name">Add channels</span>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-header">▾ Direct messages</div>
+            {dms.map((d) => (
+              <div class="row">
+                <span class:list={['presence', d.online ? 'presence-on' : 'presence-off']} aria-hidden="true"></span>
+                <span class="name">{d.name}</span>
+              </div>
+            ))}
+          </div>
+        </nav>
+      </aside>
+
+      <section class="main">
+        <header class="main-header">
+          <div class="main-title">
+            <span class="hash">#</span>
+            <span>design-system</span>
+            <span class="topic">Slatewave palette · 24 members</span>
+          </div>
+          <div class="main-actions" aria-hidden="true">
+            <span class="action-pill">☆</span>
+            <span class="action-pill">⌕</span>
+          </div>
+        </header>
+
+        <div class="messages">
+          {messages.map((m) => (
+            <article class="message">
+              <span class="avatar" style={`background:${m.accent}`} aria-hidden="true">
+                {m.author.split(' ').map((p) => p[0]).join('')}
+              </span>
+              <div class="msg-body">
+                <header class="msg-meta">
+                  <span class="msg-author">{m.author}</span>
+                  <span class="msg-time">{m.time}</span>
+                </header>
+                <p>{m.body}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="composer" aria-hidden="true">
+          <span class="placeholder">Message #design-system</span>
+          <span class="composer-icons">
+            <span>＋</span>
+            <span>Aa</span>
+            <span>📎</span>
+            <span>↩</span>
+          </span>
+        </div>
+      </section>
+    </div>
+  </div>
+</figure>
+
+<style>
+  /* Slack theme slots — these are the 8 values pasted into Slack */
+  .slack-preview {
+    --slk-column: #1e293b;       /* 1. Column BG */
+    --slk-menu: #282c34;         /* 2. Menu BG */
+    --slk-active: #334155;       /* 3. Active Item */
+    --slk-active-text: #5eead4;  /* 4. Active Item Text */
+    --slk-hover: #282c34;        /* 5. Hover Item */
+    --slk-text: #e2e8f0;         /* 6. Text Color */
+    --slk-presence: #5eead4;     /* 7. Active Presence */
+    --slk-mention: #fb7185;      /* 8. Mention Badge */
+
+    /* Slack defaults outside the 8-slot custom block */
+    --slk-rail: #0f172a;
+    --slk-main: #1d2128;
+    --slk-main-border: rgba(255, 255, 255, 0.05);
+
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .window {
+    background: var(--slk-column);
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 25px 60px -15px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    font-family: var(--font-sans);
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: #21252b;
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .chrome .title {
+    margin-left: auto;
+    color: #94a3b8;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.04em;
+    font-family: var(--font-mono);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 56px 240px minmax(0, 1fr);
+    min-height: 420px;
+  }
+
+  /* Rail — workspace switcher (Slack's far-left bar) */
+  .rail {
+    background: var(--slk-rail);
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .ws-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #334155;
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.02em;
+  }
+
+  .ws-icon.ws-active {
+    background: linear-gradient(135deg, #5eead4, #38bdf8);
+    color: #0f172a;
+    box-shadow: 0 0 0 2px var(--slk-rail), 0 0 0 3px var(--slk-active-text);
+  }
+
+  .ws-add {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px dashed #334155;
+    color: #64748b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  /* Sidebar (slot 1: column BG) */
+  .sidebar {
+    background: var(--slk-column);
+    color: var(--slk-text);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  /* Workspace menu (slot 2: menu BG) */
+  .ws-menu {
+    background: var(--slk-menu);
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .ws-name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--slk-text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ws-name .caret {
+    color: #94a3b8;
+    font-size: 10px;
+  }
+
+  .ws-user {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  .sidebar-body {
+    padding: 8px 0;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .quick {
+    padding: 0 6px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .quick-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    color: var(--slk-text);
+    font-size: 13px;
+    border-radius: 4px;
+  }
+
+  .quick-row .glyph {
+    color: #64748b;
+    font-size: 12px;
+    width: 14px;
+    text-align: center;
+  }
+
+  .section {
+    padding: 6px 6px;
+  }
+
+  .section-header {
+    color: #94a3b8;
+    font-size: 12px;
+    padding: 4px 10px 2px;
+    font-weight: 500;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    color: var(--slk-text);
+    font-size: 13px;
+    border-radius: 4px;
+    min-height: 22px;
+  }
+
+  .row .hash,
+  .row .glyph {
+    color: #64748b;
+    font-size: 13px;
+    width: 14px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .row .name {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .row.muted .name { color: #64748b; }
+  .row.muted .glyph { color: #64748b; }
+
+  /* Hover state — slot 5 */
+  .row.hover { background: var(--slk-hover); }
+
+  /* Active row — slot 3 only paints the pill background. Slack ignores
+     "Active Item Text" for the selected channel label in practice, so
+     the name stays in the default text color (slot 6). */
+  .row.active {
+    background: var(--slk-active);
+  }
+  .row.active .name {
+    font-weight: 600;
+  }
+
+  /* Mention badge — slot 8 */
+  .badge {
+    background: var(--slk-mention);
+    color: #0f172a;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 9px;
+    line-height: 1.4;
+    flex-shrink: 0;
+  }
+
+  /* Presence dots — slot 7 (when on) */
+  .presence {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .presence-on { background: var(--slk-presence); }
+  .presence-off {
+    background: transparent;
+    border: 1.5px solid #475569;
+  }
+
+  /* Main pane — Slack's body, kept in default tones to focus on the sidebar */
+  .main {
+    background: var(--slk-main);
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--slk-main-border);
+    flex-shrink: 0;
+  }
+
+  .main-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .main-title .hash {
+    color: #94a3b8;
+    font-size: 16px;
+  }
+
+  .main-title > span:nth-child(2) {
+    font-size: 15px;
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+
+  .topic {
+    color: #64748b;
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  .main-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .action-pill {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  .messages {
+    padding: 10px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+  }
+
+  .message {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0;
+  }
+
+  .msg-body { min-width: 0; }
+
+  .msg-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .msg-author {
+    color: #e2e8f0;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .msg-time {
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  .msg-body p {
+    margin: 2px 0 0;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .composer {
+    margin: 0 18px 14px;
+    padding: 10px 14px;
+    background: #282c34;
+    border: 1px solid var(--slk-main-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .placeholder {
+    color: #64748b;
+    font-size: 13px;
+  }
+
+  .composer-icons {
+    display: inline-flex;
+    gap: 10px;
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  /* Responsive — collapse rail at narrow widths, drop main pane on phones */
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 44px 220px minmax(0, 1fr); }
+    .ws-icon, .ws-add { width: 30px; height: 30px; font-size: 11px; }
+    .topic { display: none; }
+  }
+
+  @media (max-width: 540px) {
+    .layout { grid-template-columns: 36px minmax(0, 1fr); min-height: 360px; }
+    .main { display: none; }
+    .ws-icon, .ws-add { width: 26px; height: 26px; font-size: 10px; border-radius: 6px; }
+    .rail { padding: 8px 0; gap: 8px; }
+  }
+</style>

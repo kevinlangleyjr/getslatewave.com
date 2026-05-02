@@ -7,8 +7,11 @@ import TerminalPreview from '~/components/previews/TerminalPreview.astro';
 import AlfredPreview from '~/components/previews/AlfredPreview.astro';
 import RaycastPreview from '~/components/previews/RaycastPreview.astro';
 import OhMyPoshPreview from '~/components/previews/OhMyPoshPreview.astro';
+import SlackPreview from '~/components/previews/SlackPreview.astro';
+import VSCodePreview from '~/components/previews/VSCodePreview.astro';
 
-const customPreviewSlugs = new Set(['alfred', 'raycast', 'oh-my-posh']);
+const customPreviewSlugs = new Set(['alfred', 'raycast', 'oh-my-posh', 'slack', 'vscode']);
+const widePreviewSlugs = new Set(['oh-my-posh', 'slack', 'vscode']);
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
 
@@ -122,12 +125,14 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     </header>
 
     <section class="section">
-      <div class:list={['container', { narrow: data.slug !== 'oh-my-posh' }]}>
+      <div class:list={['container', { narrow: !widePreviewSlugs.has(data.slug) }]}>
         {customPreviewSlugs.has(data.slug) ? (
           <>
             {data.slug === 'alfred' && <AlfredPreview />}
             {data.slug === 'raycast' && <RaycastPreview />}
             {data.slug === 'oh-my-posh' && <OhMyPoshPreview />}
+            {data.slug === 'slack' && <SlackPreview />}
+            {data.slug === 'vscode' && <VSCodePreview />}
           </>
         ) : (
           <>

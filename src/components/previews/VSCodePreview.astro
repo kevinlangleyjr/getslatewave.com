@@ -1,0 +1,684 @@
+---
+/**
+ * Pure HTML/CSS rendering of VSCode with Slatewave applied. The editor
+ * area runs through Shiki (same highlighter the rest of the site uses)
+ * so the syntax colors are the real Slatewave palette; everything else —
+ * title bar, activity bar, file tree, tabs, status bar — is hand-built
+ * chrome scoped to the VSCode workbench color tokens that Slatewave
+ * actually maps in its theme JSON.
+ */
+
+import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+
+const sample = `// src/lib/github.ts
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
+const CACHE_DIR = join(process.cwd(), 'node_modules', '.cache', 'slatewave-github');
+const TTL_MS = 30 * 60 * 1000;
+
+export interface RepoMeta {
+  stars: number;
+  pushedAt: string;
+  defaultBranch: string;
+  openIssues: number;
+  latestRelease: Release | null;
+}
+
+export interface Release {
+  tag: string;
+  name: string;
+  publishedAt: string;
+  url: string;
+}
+
+const memory = new Map<string, Promise<unknown>>();
+
+function cacheKey(parts: string[]): string {
+  return parts.join('__').replace(/[^a-zA-Z0-9_]/g, '_');
+}
+
+async function readCache<T>(key: string): Promise<T | null> {
+  try {
+    const raw = await readFile(join(CACHE_DIR, \`\${key}.json\`), 'utf8');
+    const parsed = JSON.parse(raw) as { data: T; at: number };
+    if (Date.now() - parsed.at < TTL_MS) return parsed.data;
+  } catch {
+    /* no cache yet */
+  }
+  return null;
+}`;
+
+const highlighter = await getHighlighter();
+const html = highlighter.codeToHtml(sample, {
+  lang: 'typescript',
+  theme: slatewaveThemeName,
+});
+
+const lineCount = sample.split('\n').length;
+
+interface FileNode {
+  type: 'folder' | 'file';
+  name: string;
+  ext?: 'ts' | 'astro' | 'json' | 'md' | 'env' | 'icon' | 'js';
+  open?: boolean;
+  active?: boolean;
+  badge?: number;
+  indent: number;
+}
+
+const tree: FileNode[] = [
+  { type: 'folder', name: '.astro', indent: 0 },
+  { type: 'folder', name: '.github', indent: 0 },
+  { type: 'folder', name: '.vscode', indent: 0 },
+  { type: 'folder', name: 'dist', indent: 0 },
+  { type: 'folder', name: 'docs', indent: 0 },
+  { type: 'folder', name: 'public', indent: 0 },
+  { type: 'folder', name: 'src', indent: 0, open: true },
+  { type: 'folder', name: 'components', indent: 1 },
+  { type: 'folder', name: 'content', indent: 1 },
+  { type: 'folder', name: 'layouts', indent: 1 },
+  { type: 'folder', name: 'lib', indent: 1, open: true },
+  { type: 'file', name: 'analytics.ts', ext: 'ts', indent: 2 },
+  { type: 'file', name: 'format.ts', ext: 'ts', indent: 2 },
+  { type: 'file', name: 'github.ts', ext: 'ts', indent: 2, active: true },
+  { type: 'file', name: 'shiki.ts', ext: 'ts', indent: 2 },
+  { type: 'folder', name: 'pages', indent: 1, badge: 1 },
+  { type: 'folder', name: 'styles', indent: 1 },
+  { type: 'file', name: 'content.config.ts', ext: 'ts', indent: 1 },
+  { type: 'file', name: '.env.example', ext: 'env', indent: 0 },
+  { type: 'file', name: 'astro.config.mjs', ext: 'js', indent: 0 },
+  { type: 'file', name: 'package.json', ext: 'json', indent: 0 },
+  { type: 'file', name: 'README.md', ext: 'md', indent: 0 },
+  { type: 'file', name: 'tsconfig.json', ext: 'json', indent: 0, badge: 1 },
+];
+
+interface Tab {
+  name: string;
+  ext: 'ts' | 'astro' | 'md';
+  active?: boolean;
+  badge?: number;
+  dirty?: boolean;
+}
+
+const tabs: Tab[] = [
+  { name: 'analytics.ts', ext: 'ts' },
+  { name: 'shiki.ts', ext: 'ts' },
+  { name: 'github.ts', ext: 'ts', active: true },
+  { name: 'format.ts', ext: 'ts', badge: 1 },
+  { name: 'README.md', ext: 'md', dirty: true },
+];
+
+const breadcrumbs = ['src', 'lib', 'github.ts'];
+---
+
+<figure class="vscode-preview" aria-label="Slatewave applied to VSCode">
+  <div class="window">
+    <header class="title-bar" aria-hidden="true">
+      <div class="dots">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+      </div>
+      <div class="title-center">
+        <span class="title-back">⟨</span>
+        <span class="title-fwd">⟩</span>
+        <span class="title-search">getslatewave</span>
+      </div>
+      <div class="title-right">
+        <span class="ti">⊟</span>
+        <span class="ti">▢</span>
+        <span class="ti">▢</span>
+      </div>
+    </header>
+
+    <div class="workbench">
+      <aside class="activity-bar" aria-hidden="true">
+        <div class="activity active">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.5" y2="16.5"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="6" cy="3" r="2"/>
+            <circle cx="6" cy="21" r="2"/>
+            <circle cx="18" cy="12" r="2"/>
+            <path d="M6 5v14"/>
+            <path d="M6 12h10"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </div>
+        <div class="activity bottom">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="9" r="2"/>
+            <path d="M8 18a4 4 0 0 1 8 0"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.05a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.05a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.05a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </div>
+      </aside>
+
+      <aside class="sidebar">
+        <div class="sidebar-head">
+          <span>EXPLORER</span>
+          <span class="sidebar-actions">···</span>
+        </div>
+        <div class="section-title">▾ GETSLATEWAVE</div>
+        <div class="tree">
+          {tree.map((n) => (
+            <div class:list={['node', { active: n.active, file: n.type === 'file' }]}>
+              <span class="indent" style={`width:${n.indent * 12}px`}></span>
+              {n.type === 'folder' ? (
+                <>
+                  <span class="caret">{n.open ? '▾' : '▸'}</span>
+                  <svg class="ficon folder" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  </svg>
+                </>
+              ) : (
+                <>
+                  <span class="caret-spacer"></span>
+                  <span class={`ficon file-ext ext-${n.ext}`}>{
+                    n.ext === 'ts' ? 'TS' :
+                    n.ext === 'astro' ? 'A' :
+                    n.ext === 'json' ? '{}' :
+                    n.ext === 'md' ? 'M' :
+                    n.ext === 'js' ? 'JS' :
+                    n.ext === 'env' ? '.E' : '·'
+                  }</span>
+                </>
+              )}
+              <span class="node-name">{n.name}</span>
+              {n.badge && <span class="node-badge">{n.badge}</span>}
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      <section class="editor-pane">
+        <div class="tab-bar">
+          {tabs.map((t) => (
+            <div class:list={['tab', { active: t.active }]}>
+              <span class={`ficon file-ext ext-${t.ext}`}>{
+                t.ext === 'ts' ? 'TS' : t.ext === 'astro' ? 'A' : 'M'
+              }</span>
+              <span class="tab-name">{t.name}</span>
+              {t.badge && <span class="tab-badge">{t.badge}</span>}
+              <span class="tab-close">{t.dirty ? '●' : '×'}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="breadcrumb">
+          {breadcrumbs.map((b, i) => (
+            <>
+              {i > 0 && <span class="bc-sep">›</span>}
+              <span class:list={['bc-part', { last: i === breadcrumbs.length - 1 }]}>{b}</span>
+            </>
+          ))}
+        </div>
+
+        <div class="editor">
+          <div class="gutter" aria-hidden="true">
+            {Array.from({ length: lineCount }, (_, i) => (
+              <div class="ln">{i + 1}</div>
+            ))}
+          </div>
+          <div class="code" set:html={html} />
+          <div class="minimap" aria-hidden="true">
+            {Array.from({ length: lineCount }, (_, i) => {
+              const w = 30 + ((i * 13) % 60);
+              const intensity = (i * 7) % 100;
+              return <div class="mini-ln" style={`width:${w}%;opacity:${0.25 + intensity / 200}`}></div>;
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="status-bar" aria-hidden="true">
+      <div class="status-left">
+        <span class="status-cell">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/></svg>
+          main*
+        </span>
+        <span class="status-cell">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          2
+        </span>
+        <span class="status-cell">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          0
+        </span>
+        <span class="status-cell">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          33
+        </span>
+        <span class="status-cell muted">+0 ~4 −63</span>
+      </div>
+      <div class="status-right">
+        <span class="status-cell muted">Ln 29, Col 23</span>
+        <span class="status-cell muted">Spaces: 2</span>
+        <span class="status-cell muted">UTF-8</span>
+        <span class="status-cell muted">LF</span>
+        <span class="status-cell">TypeScript</span>
+        <span class="status-cell muted">⚡ Prettier</span>
+      </div>
+    </footer>
+  </div>
+</figure>
+
+<style>
+  .vscode-preview {
+    margin: 0;
+    padding: var(--space-8) var(--space-6);
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(15, 23, 42, 0.85), transparent 60%),
+      var(--bg-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .window {
+    background: #282c34;
+    border: 1px solid #0f172a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 25px 60px -15px rgba(0, 0, 0, 0.6);
+    font-family: var(--font-sans);
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 540px;
+  }
+
+  @media (max-width: 720px) {
+    .vscode-preview {
+      padding: var(--space-4) var(--space-3);
+    }
+  }
+
+  /* Title bar */
+  .title-bar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #21252b;
+    border-bottom: 1px solid #1a1f28;
+    font-size: 12px;
+  }
+
+  .dots { display: inline-flex; gap: 8px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .title-center {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .title-back, .title-fwd {
+    color: #475569;
+    font-size: 13px;
+  }
+
+  .title-search {
+    background: #1a1f28;
+    color: #94a3b8;
+    padding: 3px 14px;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    min-width: 180px;
+    text-align: center;
+  }
+
+  .title-right {
+    display: inline-flex;
+    gap: 10px;
+    color: #475569;
+  }
+
+  /* Workbench layout: activity bar | sidebar | editor pane */
+  .workbench {
+    display: grid;
+    grid-template-columns: 48px 220px minmax(0, 1fr);
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Activity bar */
+  .activity-bar {
+    background: #21252b;
+    border-right: 1px solid #1a1f28;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0;
+    gap: 4px;
+  }
+
+  .activity {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    border-left: 2px solid transparent;
+    margin-left: -2px;
+  }
+
+  .activity.active {
+    color: #e2e8f0;
+    border-left-color: #5eead4;
+  }
+
+  .activity.bottom { margin-top: auto; }
+
+  /* Sidebar */
+  .sidebar {
+    background: #21252b;
+    border-right: 1px solid #1a1f28;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px 8px;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+  }
+
+  .sidebar-actions { color: #475569; font-size: 12px; }
+
+  .section-title {
+    padding: 4px 14px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tree {
+    overflow-y: auto;
+    padding: 2px 0 8px;
+    flex: 1;
+  }
+
+  .node {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 14px 2px 6px;
+    font-size: 12px;
+    color: #cbd5e1;
+    white-space: nowrap;
+    height: 22px;
+  }
+
+  .node.active {
+    background: rgba(94, 234, 212, 0.10);
+    color: #5eead4;
+    box-shadow: inset 2px 0 0 #5eead4;
+  }
+
+  .indent { display: inline-block; flex-shrink: 0; }
+
+  .caret {
+    width: 10px;
+    color: #64748b;
+    font-size: 9px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .caret-spacer {
+    width: 10px;
+    flex-shrink: 0;
+  }
+
+  .ficon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ficon.folder { color: #5eead4; }
+
+  .file-ext {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1;
+  }
+
+  .ext-ts { background: #38bdf8; }
+  .ext-astro { background: #fb7185; }
+  .ext-json { background: #fbbf24; }
+  .ext-md { background: #94a3b8; }
+  .ext-js { background: #fbbf24; }
+  .ext-env { background: #b388ff; font-size: 7px; }
+
+  .node-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .node-badge,
+  .tab-badge {
+    background: #fbbf24;
+    color: #0f172a;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+
+  /* Editor pane */
+  .editor-pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .tab-bar {
+    display: flex;
+    background: #21252b;
+    border-bottom: 1px solid #1a1f28;
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #94a3b8;
+    border-right: 1px solid #1a1f28;
+    border-top: 1px solid transparent;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .tab.active {
+    color: #e2e8f0;
+    background: #282c34;
+    border-top-color: #5eead4;
+  }
+
+  .tab-close {
+    color: #475569;
+    font-size: 12px;
+    margin-left: 2px;
+  }
+
+  .tab.active .tab-close { color: #94a3b8; }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 11px;
+    color: #94a3b8;
+    background: #282c34;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  .bc-sep { color: #475569; }
+  .bc-part.last { color: #cbd5e1; }
+
+  /* Editor body */
+  .editor {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) 56px;
+    background: #282c34;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  .gutter {
+    color: #475569;
+    text-align: right;
+    padding: 10px 8px 10px 14px;
+    user-select: none;
+    border-right: 1px solid transparent;
+  }
+
+  .ln { line-height: 1.55; }
+
+  .code {
+    overflow: hidden;
+    padding: 10px 0 10px 14px;
+  }
+
+  .code :global(pre) {
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  .minimap {
+    background: #282c34;
+    border-left: 1px solid #1e293b;
+    padding: 10px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    overflow: hidden;
+  }
+
+  .mini-ln {
+    height: 2px;
+    background: #5eead4;
+    border-radius: 1px;
+  }
+
+  /* Status bar — Slatewave uses slate-900 (not blue) for the status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    color: #cbd5e1;
+    padding: 0 12px;
+    height: 26px;
+    font-size: 11px;
+    border-top: 1px solid #0f172a;
+  }
+
+  .status-left, .status-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .status-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .status-cell.muted { color: #64748b; }
+
+  .status-cell svg { color: #94a3b8; }
+
+  /* Responsive — at narrower widths, drop the minimap, then the activity bar */
+  @media (max-width: 900px) {
+    .editor { grid-template-columns: auto minmax(0, 1fr); }
+    .minimap { display: none; }
+  }
+
+  @media (max-width: 720px) {
+    .workbench { grid-template-columns: 36px 200px minmax(0, 1fr); }
+    .activity { width: 32px; height: 32px; }
+    .activity svg { width: 16px; height: 16px; }
+  }
+
+  @media (max-width: 540px) {
+    .workbench { grid-template-columns: 32px minmax(0, 1fr); }
+    .sidebar { display: none; }
+    .title-search { min-width: 100px; }
+    .breadcrumb { display: none; }
+    .status-cell:nth-child(n+4) { display: none; }
+  }
+</style>
