@@ -11,9 +11,13 @@ import SlackPreview from '~/components/previews/SlackPreview.astro';
 import VSCodePreview from '~/components/previews/VSCodePreview.astro';
 import JetBrainsPreview from '~/components/previews/JetBrainsPreview.astro';
 import SublimeTextPreview from '~/components/previews/SublimeTextPreview.astro';
+import ObsidianPreview from '~/components/previews/ObsidianPreview.astro';
+import LSDPreview from '~/components/previews/LSDPreview.astro';
+import DeltaPreview from '~/components/previews/DeltaPreview.astro';
+import BtopPreview from '~/components/previews/BtopPreview.astro';
 
-const customPreviewSlugs = new Set(['alfred', 'raycast', 'oh-my-posh', 'slack', 'vscode', 'jetbrains', 'sublime-text']);
-const widePreviewSlugs = new Set(['oh-my-posh', 'slack', 'vscode', 'jetbrains', 'sublime-text']);
+const customPreviewSlugs = new Set(['alfred', 'raycast', 'oh-my-posh', 'slack', 'vscode', 'jetbrains', 'sublime-text', 'obsidian', 'lsd', 'delta', 'btop']);
+const widePreviewSlugs = new Set(['oh-my-posh', 'slack', 'vscode', 'jetbrains', 'sublime-text', 'obsidian', 'lsd', 'btop']);
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
 
@@ -137,11 +141,15 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
             {data.slug === 'vscode' && <VSCodePreview />}
             {data.slug === 'jetbrains' && <JetBrainsPreview />}
             {data.slug === 'sublime-text' && <SublimeTextPreview />}
+            {data.slug === 'obsidian' && <ObsidianPreview />}
+            {data.slug === 'lsd' && <LSDPreview />}
+            {data.slug === 'delta' && <DeltaPreview />}
+            {data.slug === 'btop' && <BtopPreview />}
           </>
         ) : (
           <>
             {data.preview.kind === 'code' && (
-              <CodePreview code={data.preview.sample} language={data.preview.language} />
+              <CodePreview code={data.preview.sample} language={data.preview.language} lineNumbers={data.preview.lineNumbers} />
             )}
             {data.preview.kind === 'terminal' && (
               <TerminalPreview prompt={data.preview.prompt} lines={data.preview.lines} />
