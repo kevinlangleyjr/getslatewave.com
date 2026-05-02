@@ -15,11 +15,27 @@ import ObsidianPreview from '~/components/previews/ObsidianPreview.astro';
 import LSDPreview from '~/components/previews/LSDPreview.astro';
 import DeltaPreview from '~/components/previews/DeltaPreview.astro';
 import BtopPreview from '~/components/previews/BtopPreview.astro';
-
-const customPreviewSlugs = new Set(['alfred', 'raycast', 'oh-my-posh', 'slack', 'vscode', 'jetbrains', 'sublime-text', 'obsidian', 'lsd', 'delta', 'btop']);
-const widePreviewSlugs = new Set(['oh-my-posh', 'slack', 'vscode', 'jetbrains', 'sublime-text', 'obsidian', 'lsd', 'btop']);
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
+
+/**
+ * Custom preview registry — slug → bespoke component (+ wide layout flag).
+ * Adding a new custom preview is one entry here rather than editing the
+ * import list, two Sets, and the JSX dispatch chain separately.
+ */
+const customPreviews: Record<string, { component: typeof AlfredPreview; wide?: boolean }> = {
+  alfred: { component: AlfredPreview },
+  raycast: { component: RaycastPreview },
+  'oh-my-posh': { component: OhMyPoshPreview, wide: true },
+  slack: { component: SlackPreview, wide: true },
+  vscode: { component: VSCodePreview, wide: true },
+  jetbrains: { component: JetBrainsPreview, wide: true },
+  'sublime-text': { component: SublimeTextPreview, wide: true },
+  obsidian: { component: ObsidianPreview, wide: true },
+  lsd: { component: LSDPreview, wide: true },
+  delta: { component: DeltaPreview },
+  btop: { component: BtopPreview, wide: true },
+};
 
 export async function getStaticPaths() {
   const themes = await getCollection('themes', ({ data }) => data.status !== 'planned');
@@ -45,6 +61,10 @@ const slugifyMethod = (label: string) =>
 const slugSegment = data.slug.replace(/-/g, '_');
 
 const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
+
+const customPreview = customPreviews[data.slug];
+const CustomPreviewComponent = customPreview?.component;
+const useWidePreview = customPreview?.wide ?? false;
 ---
 
 <Base title={data.name} description={data.summary}>
@@ -131,30 +151,18 @@ const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
     </header>
 
     <section class="section">
-      <div class:list={['container', { narrow: !widePreviewSlugs.has(data.slug) }]}>
-        {customPreviewSlugs.has(data.slug) ? (
-          <>
-            {data.slug === 'alfred' && <AlfredPreview />}
-            {data.slug === 'raycast' && <RaycastPreview />}
-            {data.slug === 'oh-my-posh' && <OhMyPoshPreview />}
-            {data.slug === 'slack' && <SlackPreview />}
-            {data.slug === 'vscode' && <VSCodePreview />}
-            {data.slug === 'jetbrains' && <JetBrainsPreview />}
-            {data.slug === 'sublime-text' && <SublimeTextPreview />}
-            {data.slug === 'obsidian' && <ObsidianPreview />}
-            {data.slug === 'lsd' && <LSDPreview />}
-            {data.slug === 'delta' && <DeltaPreview />}
-            {data.slug === 'btop' && <BtopPreview />}
-          </>
+      <div class:list={['container', { narrow: !useWidePreview }]}>
+        {CustomPreviewComponent ? (
+          <CustomPreviewComponent />
         ) : (
           <>
-            {data.preview.kind === 'code' && (
+            {data.preview?.kind === 'code' && (
               <CodePreview code={data.preview.sample} language={data.preview.language} lineNumbers={data.preview.lineNumbers} />
             )}
-            {data.preview.kind === 'terminal' && (
+            {data.preview?.kind === 'terminal' && (
               <TerminalPreview prompt={data.preview.prompt} lines={data.preview.lines} />
             )}
-            {data.preview.kind === 'image' && (
+            {data.preview?.kind === 'image' && (
               <figure class="sw-frame image-preview">
                 <img src={data.preview.image.src} alt={data.preview.alt} loading="eager" />
               </figure>
