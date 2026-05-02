@@ -21,22 +21,40 @@ links:
   download: https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.toml
 preview:
   kind: code
-  language: lua
+  language: toml
   sample: |
-    -- ~/.config/wezterm/wezterm.lua
-    local wezterm = require 'wezterm'
-    local config  = wezterm.config_builder()
+    # ~/.config/wezterm/colors/slatewave.toml
+    [metadata]
+    name = "Slatewave"
+    author = "Kevin Langley Jr"
 
-    -- Palette only (slatewave.toml in colors/)
-    config.color_scheme = 'Slatewave'
+    [colors]
+    foreground = "#e2e8f0"
+    background = "#282c34"
 
-    -- Or: palette + typography in one require
-    require('slatewave-full').apply_to_config(config)
+    cursor_bg     = "#5eead4"
+    cursor_fg     = "#282c34"
+    cursor_border = "#5eead4"
 
-    return config
+    # Normal — mirrors terminal.ansi* in vscode-slatewave
+    ansi = [
+      "#1e293b",  # black   — slate-800
+      "#fb7185",  # red     — rose-400
+      "#5eead4",  # green   — teal-300
+      "#b45309",  # yellow  — amber-700
+      "#38bdf8",  # blue    — sky-400
+      "#b388ff",  # magenta
+      "#0e7490",  # cyan    — cyan-700
+      "#e2e8f0",  # white   — slate-200
+    ]
+
+    [colors.tab_bar.active_tab]
+    bg_color  = "#282c34"
+    fg_color  = "#e2e8f0"
+    intensity = "Bold"
 install:
-  - label: Color scheme (TOML)
-    description: WezTerm auto-loads any TOML in ~/.config/wezterm/colors/ as a named scheme.
+  - label: TOML
+    description: WezTerm auto-loads any TOML in ~/.config/wezterm/colors/ as a named scheme — drop slatewave.toml in and reference it from your config.
     command: mkdir -p ~/.config/wezterm/colors && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.toml -o ~/.config/wezterm/colors/slatewave.toml
   - label: Activate
     description: Reference the scheme by name in your WezTerm config.
