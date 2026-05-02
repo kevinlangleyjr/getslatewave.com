@@ -1,0 +1,443 @@
+---
+/**
+ * Pure HTML/CSS rendering of btop with Slatewave applied.
+ * Modeled directly after the real btop UI:
+ *   - Three labeled panels (¹cpu, ²mem, ³proc) with rounded slate-600
+ *     borders and the label punching through the top edge in teal-300
+ *   - Gradient meters/graphs on the canonical Slatewave ramp
+ *     (teal-300 → amber-400 → rose-400)
+ *   - Process list with a teal-highlighted active row, slate-200 program
+ *     names, and slate-400 muted secondary fields
+ *
+ * Data is illustrative (M3 Max with 8 P-cores, 64 GiB RAM, a representative
+ * macOS process mix) but the *structure* mirrors btop one-to-one so the
+ * palette reads on familiar surfaces.
+ */
+
+interface CpuRow {
+  label: string;
+  pct: number;
+  temp: string;
+  emphasized?: boolean;
+}
+
+interface MemRow {
+  label: string;
+  pct: number | null;
+  value: string;
+}
+
+interface ProcRow {
+  pid: string;
+  program: string;
+  user: string;
+  mem: string;
+  cpu: string;
+  highlighted?: boolean;
+}
+
+const cpuRows: CpuRow[] = [
+  { label: 'CPU', pct: 52, temp: '51°C', emphasized: true },
+  { label: 'C0', pct: 93, temp: '51°C' },
+  { label: 'C1', pct: 91, temp: '51°C' },
+  { label: 'C2', pct: 89, temp: '50°C' },
+  { label: 'C3', pct: 89, temp: '50°C' },
+  { label: 'C4', pct: 38, temp: '50°C' },
+  { label: 'C5', pct: 49, temp: '50°C' },
+  { label: 'C6', pct: 49, temp: '49°C' },
+  { label: 'C7', pct: 51, temp: '50°C' },
+  { label: 'GPU', pct: 54, temp: '0°C 0.82W', emphasized: true },
+];
+
+const memRows: MemRow[] = [
+  { label: 'Total', pct: null, value: '64.0 GiB' },
+  { label: 'Used', pct: 32, value: '20.1 GiB' },
+  { label: 'Available', pct: 68, value: '43.8 GiB' },
+  { label: 'Cached', pct: 12, value: '7.92 GiB' },
+  { label: 'Free', pct: 2, value: '1.20 GiB' },
+];
+
+const procRows: ProcRow[] = [
+  { pid: '1485', program: 'com.apple.Virtua', user: 'kevin', mem: '5.8G', cpu: '16.3', highlighted: true },
+  { pid: '89782', program: 'Browser Helper', user: 'kevin', mem: '156M', cpu: '1.9' },
+  { pid: '31298', program: 'goland', user: 'kevin', mem: '647M', cpu: '0.5' },
+  { pid: '86019', program: '2.1.126', user: 'kevin', mem: '364M', cpu: '0.3' },
+  { pid: '68617', program: 'Browser Helper', user: 'kevin', mem: '109M', cpu: '0.3' },
+  { pid: '2520', program: 'Browser Helper', user: 'kevin', mem: '140M', cpu: '0.3' },
+  { pid: '766', program: 'corespotlightd', user: 'kevin', mem: '79M', cpu: '0.2' },
+  { pid: '48172', program: 'b5app', user: 'kevin', mem: '87M', cpu: '0.2' },
+  { pid: '18126', program: 'zoom.us', user: 'kevin', mem: '109M', cpu: '0.2' },
+  { pid: '15810', program: 'mediaanalysisd', user: 'kevin', mem: '137M', cpu: '0.2' },
+  { pid: '83750', program: 'btop', user: 'kevin', mem: '14M', cpu: '0.0' },
+];
+---
+
+<figure class="btop-preview sw-frame">
+  <header class="chrome" aria-hidden="true">
+    <span class="dot dot-r"></span>
+    <span class="dot dot-y"></span>
+    <span class="dot dot-g"></span>
+    <span class="title">btop</span>
+  </header>
+  <div class="body">
+    <div class="grid">
+      <section class="panel panel-cpu" data-label="¹cpu">
+        <header class="panel-bar">
+          <span class="tab">menu</span>
+          <span class="sep">|</span>
+          <span class="tab">preset *</span>
+          <span class="grow"><span class="clock">03:16:00</span></span>
+          <span class="muted">BAT▼ 80%</span>
+          <span class="sep">·</span>
+          <span class="muted">2000ms +</span>
+        </header>
+
+        <div class="cpu-title">M3 Max</div>
+
+        <div class="cpu-grid">
+          {cpuRows.map((row) => (
+            <div class:list={['cpu-row', { emphasized: row.emphasized }]}>
+              <span class="cpu-label">{row.label}</span>
+              <div class="meter">
+                <div class="meter-fill" style={`width: ${row.pct}%`}></div>
+              </div>
+              <span class="cpu-pct">{row.pct}%</span>
+              <span class="cpu-temp muted">{row.temp}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="loadavg muted">Load avg:&nbsp;&nbsp;23.12&nbsp;&nbsp;&nbsp;12.29&nbsp;&nbsp;&nbsp;9.74</div>
+      </section>
+
+      <section class="panel panel-mem" data-label="²mem">
+        <div class="mem-list">
+          {memRows.map((row) => (
+            <div class="mem-row">
+              <span class="mem-label">{row.label}:</span>
+              {row.pct !== null ? (
+                <div class="meter">
+                  <div class="meter-fill" style={`width: ${row.pct}%`}></div>
+                </div>
+              ) : (
+                <span class="meter-spacer" aria-hidden="true"></span>
+              )}
+              <span class="mem-value">{row.value}</span>
+              {row.pct !== null && <span class="mem-pct muted">{row.pct}%</span>}
+            </div>
+          ))}
+        </div>
+        <div class="uptime muted">up 1d 23:27</div>
+      </section>
+
+      <section class="panel panel-proc" data-label="³proc">
+        <header class="panel-bar">
+          <span class="tab">filter</span>
+          <span class="grow"></span>
+          <span class="muted">pause</span>
+          <span class="sep">|</span>
+          <span class="muted">per-core</span>
+          <span class="sep">|</span>
+          <span class="muted">reverse</span>
+          <span class="sep">|</span>
+          <span class="muted">tree</span>
+          <span class="sep">·</span>
+          <span class="tab">cpu lazy ▼</span>
+        </header>
+
+        <table class="proc-table">
+          <thead>
+            <tr>
+              <th class="r">Pid</th>
+              <th>Program</th>
+              <th class="r">User</th>
+              <th class="r">MemB</th>
+              <th class="r">Cpu%</th>
+            </tr>
+          </thead>
+          <tbody>
+            {procRows.map((row) => (
+              <tr class:list={[{ hl: row.highlighted }]}>
+                <td class="r pid">{row.pid}</td>
+                <td class="program">{row.program}</td>
+                <td class="r muted">{row.user}</td>
+                <td class="r muted">{row.mem}</td>
+                <td class="r cpu">{row.cpu}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <footer class="proc-footer muted">
+          <span class="tab">select ↓</span>
+          <span class="sep">|</span>
+          <span class="tab">info</span>
+          <span class="sep">|</span>
+          <span class="tab">terminate</span>
+          <span class="sep">|</span>
+          <span class="tab">kill</span>
+          <span class="grow"></span>
+          <span>0 / 825</span>
+        </footer>
+      </section>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .btop-preview {
+    background: var(--sw-slate-editor);
+    overflow: hidden;
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--sw-slate-chrome);
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #fb7185; }
+  .dot-y { background: #fbbf24; }
+  .dot-g { background: #5eead4; }
+
+  .title {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--sw-slate-400);
+  }
+
+  .body {
+    padding: var(--space-5) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: #e2e8f0;
+    line-height: 1.55;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'cpu proc'
+      'mem proc';
+    gap: var(--space-4);
+  }
+
+  .panel-cpu { grid-area: cpu; }
+  .panel-mem { grid-area: mem; }
+  .panel-proc { grid-area: proc; }
+
+  /* Panels: rounded slate-600 border with the label punching through. */
+  .panel {
+    position: relative;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    padding: 0.85rem 1rem 0.7rem;
+  }
+
+  .panel::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -0.7em;
+    left: 1.1ch;
+    padding: 0 0.6ch;
+    background: var(--sw-slate-editor);
+    color: #5eead4;
+    font-weight: 700;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.02em;
+  }
+
+  /* Shared text helpers */
+  .muted { color: #94a3b8; }
+  .tab { color: #cbd5e1; }
+  .sep { color: #475569; padding: 0 0.2ch; }
+  .grow { flex: 1; text-align: center; }
+
+  /* Panel top bar — the tabs/menu strip across the top of cpu and proc */
+  .panel-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4ch;
+    margin-bottom: 0.55rem;
+    font-size: var(--fs-xs);
+  }
+
+  .clock {
+    color: #cbd5e1;
+    letter-spacing: 0.04em;
+  }
+
+  /* CPU panel content */
+  .cpu-title {
+    color: #cbd5e1;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .cpu-grid {
+    display: grid;
+    grid-template-columns: 3ch 1fr 4ch 7ch;
+    column-gap: 0.6ch;
+    row-gap: 0.18rem;
+    align-items: center;
+  }
+
+  .cpu-row {
+    display: contents;
+  }
+
+  .cpu-row .cpu-label {
+    color: #cbd5e1;
+  }
+  .cpu-row.emphasized .cpu-label {
+    color: #5eead4;
+    font-weight: 700;
+  }
+  .cpu-pct {
+    color: #cbd5e1;
+    text-align: right;
+  }
+  .cpu-temp {
+    text-align: right;
+  }
+
+  .loadavg {
+    margin-top: 0.55rem;
+    text-align: center;
+  }
+
+  /* Memory panel content */
+  .mem-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .mem-row {
+    display: grid;
+    grid-template-columns: 9ch 1fr 8ch 4ch;
+    column-gap: 0.6ch;
+    align-items: center;
+  }
+
+  .mem-label {
+    color: #cbd5e1;
+  }
+  .mem-value {
+    text-align: right;
+    color: #cbd5e1;
+  }
+  .mem-pct {
+    text-align: right;
+  }
+  .meter-spacer {
+    display: block;
+  }
+  .uptime {
+    margin-top: 0.6rem;
+    font-size: var(--fs-xs);
+  }
+
+  /* Meter — slate track with the canonical Slatewave gradient fill */
+  .meter {
+    position: relative;
+    width: 100%;
+    height: 0.42rem;
+    background: rgba(148, 163, 184, 0.16);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      #5eead4 0%,
+      #5eead4 30%,
+      #fbbf24 60%,
+      #fb7185 100%
+    );
+    border-radius: 1px;
+  }
+  /* When the meter sits in an emphasized cpu row, beef it up slightly */
+  .cpu-row.emphasized .meter { height: 0.55rem; }
+
+  /* Process panel content */
+  .proc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+  }
+
+  .proc-table th,
+  .proc-table td {
+    padding: 0.05rem 0.5ch;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .proc-table thead th {
+    color: #94a3b8;
+    font-weight: 400;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 0.18rem;
+  }
+
+  .proc-table th.r,
+  .proc-table td.r {
+    text-align: right;
+  }
+
+  .proc-table .pid {
+    color: #cbd5e1;
+  }
+  .proc-table .program {
+    color: #cbd5e1;
+  }
+  .proc-table .cpu {
+    color: #cbd5e1;
+  }
+
+  /* Highlighted (selected) process row — slate-700 bg + teal-300 fg,
+     matching `selected_bg` / `selected_fg` in the .theme file */
+  .proc-table tr.hl td {
+    background: #334155;
+    color: #5eead4;
+  }
+  .proc-table tr.hl td.muted {
+    color: #5eead4;
+    opacity: 0.85;
+  }
+
+  .proc-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.4ch;
+    margin-top: 0.5rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid #334155;
+    font-size: var(--fs-xs);
+  }
+
+  /* Tighten on narrow viewports */
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      grid-template-areas:
+        'cpu'
+        'mem'
+        'proc';
+    }
+    .body { font-size: 11px; }
+  }
+</style>
