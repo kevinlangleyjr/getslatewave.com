@@ -53,6 +53,7 @@ const themes = defineCollection({
             kind: z.literal('code'),
             language: z.string(),
             sample: z.string(),
+            lineNumbers: z.boolean().default(false),
           }),
           z.object({
             kind: z.literal('terminal'),
