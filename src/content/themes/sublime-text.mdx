@@ -34,18 +34,12 @@ preview:
     const editor = apply('Slatewave', 'editor');
     console.log(editor);
 install:
-  - label: Package Control
-    description: Once the package is listed, install it directly from Sublime.
+  - label: Clone
+    description: Clone into Sublime's Packages directory. The path differs by platform.
     steps:
-      - ⌘⇧P / Ctrl+Shift+P → Package Control — Install Package
-      - Pick Slatewave
-      - ⌘⇧P / Ctrl+Shift+P → Slatewave — Activate Color Scheme & Theme
-  - label: Clone — macOS
-    description: Clone into Sublime's Packages directory.
-    command: git clone https://github.com/kevinlangleyjr/sublime-text-slatewave.git "$HOME/Library/Application Support/Sublime Text/Packages/Slatewave"
-  - label: Clone — Linux
-    description: Clone into Sublime's Packages directory.
-    command: git clone https://github.com/kevinlangleyjr/sublime-text-slatewave.git "$HOME/.config/sublime-text/Packages/Slatewave"
+      - 'macOS — `git clone https://github.com/kevinlangleyjr/sublime-text-slatewave.git "$HOME/Library/Application Support/Sublime Text/Packages/Slatewave"`'
+      - 'Linux — `git clone https://github.com/kevinlangleyjr/sublime-text-slatewave.git "$HOME/.config/sublime-text/Packages/Slatewave"`'
+      - 'Windows — `git clone https://github.com/kevinlangleyjr/sublime-text-slatewave.git "%APPDATA%\Sublime Text\Packages\Slatewave"`'
   - label: Activate
     description: Once installed, pick the theme from Sublime's settings (or use the bundled command palette entry).
     steps:

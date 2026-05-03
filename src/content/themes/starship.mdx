@@ -50,23 +50,18 @@ install:
     description: Clone for versioned updates, then point STARSHIP_CONFIG at it from your shell init.
     command: git clone https://github.com/kevinlangleyjr/starship-slatewave.git ~/.config/starship-slatewave
   - label: Manual
-    description: Keep your existing prompt layout but adopt Slatewave colors — copy the [palettes.slatewave] table into your starship.toml and reference its color names from module styles.
-  - label: Activate — zsh
-    description: Add to ~/.zshrc.
+    description: Keep your existing prompt layout but adopt Slatewave colors — copy the `[palettes.slatewave]` table into your starship.toml and reference its color names from module styles.
     steps:
-      - 'export STARSHIP_CONFIG=~/.config/starship-slatewave/slatewave.toml'
-      - 'eval "$(starship init zsh)"'
-      - 'exec zsh'
-  - label: Activate — bash
-    description: Add to ~/.bashrc.
+      - Open slatewave.toml from the repo
+      - Copy the `[palettes.slatewave]` table block
+      - Paste it into your existing ~/.config/starship.toml
+      - 'Set `palette = ''slatewave''` and reference colors like `style = "fg:teal_300"` from any module'
+  - label: Activate
+    description: Point Starship at the Slatewave config and initialize it for your shell. Pick the block matching your shell.
     steps:
-      - 'export STARSHIP_CONFIG=~/.config/starship-slatewave/slatewave.toml'
-      - 'eval "$(starship init bash)"'
-  - label: Activate — fish
-    description: Add to ~/.config/fish/config.fish.
-    steps:
-      - 'set -gx STARSHIP_CONFIG ~/.config/starship-slatewave/slatewave.toml'
-      - 'starship init fish | source'
+      - 'zsh — add to ~/.zshrc: `export STARSHIP_CONFIG=~/.config/starship-slatewave/slatewave.toml` then `eval "$(starship init zsh)"`'
+      - 'bash — add to ~/.bashrc: `export STARSHIP_CONFIG=~/.config/starship-slatewave/slatewave.toml` then `eval "$(starship init bash)"`'
+      - 'fish — add to ~/.config/fish/config.fish: `set -gx STARSHIP_CONFIG ~/.config/starship-slatewave/slatewave.toml` then `starship init fish | source`'
 tags: [terminal, prompt, starship]
 related: [oh-my-posh, tmux]
 ---
