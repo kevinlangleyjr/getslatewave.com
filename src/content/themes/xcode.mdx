@@ -1,0 +1,79 @@
+---
+name: Slatewave for Xcode
+shortName: Xcode
+slug: xcode
+category: editor
+tagline: A full Xcode color theme — source editor, console, and markup — tuned for Swift.
+summary: >-
+  An `.xccolortheme` covering the source editor, debugger console,
+  and Markdown markup rendering. Syntax mapping matches the rest of
+  the family — strings teal, keywords sky, types teal-200, macros
+  purple — and the debugger console uses the same palette as the
+  editor for a consistent feel.
+status: beta
+order: 13
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: xcode-slatewave
+  url: https://github.com/kevinlangleyjr/xcode-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: swift
+  sample: |
+    // Slatewave/Palette.swift
+    import SwiftUI
+
+    struct Palette {
+        static let slate900 = Color(hex: 0x0F172A)
+        static let editor   = Color(hex: 0x282C34)
+        static let teal300  = Color(hex: 0x5EEAD4)
+        static let sky400   = Color(hex: 0x38BDF8)
+    }
+
+    enum Surface: String, CaseIterable {
+        case editor, terminal, notes
+    }
+
+    @MainActor
+    final class Theme: ObservableObject {
+        @Published var name: String
+        @Published var surface: Surface
+
+        init(name: String, surface: Surface = .editor) {
+            self.name = name
+            self.surface = surface
+        }
+
+        func describe() -> String {
+            "\(name) on \(surface.rawValue)"
+        }
+    }
+install:
+  - label: Manual
+    description: Clone the repo and drop the `.xccolortheme` into Xcode's user themes directory.
+    steps:
+      - 'git clone https://github.com/kevinlangleyjr/xcode-slatewave.git'
+      - 'mkdir -p ~/Library/Developer/Xcode/UserData/FontAndColorThemes'
+      - 'cp xcode-slatewave/Slatewave.xccolortheme ~/Library/Developer/Xcode/UserData/FontAndColorThemes/'
+      - Restart Xcode, then Settings → Themes → Slatewave
+tags: [editor, ide, xcode, swift, apple]
+related: [jetbrains, vscode, sublime-text]
+---
+
+Slatewave for Xcode covers every surface Xcode lets a theme touch —
+the source editor, the debugger console (input, output, prompts), and
+Markdown markup rendering inside `.md` files and DocC comments. The
+selection, current-line highlight, and cursor all use teal-300, the
+Slatewave signature accent.
+
+Syntax mapping leans into Swift's grammar: strings are teal, keywords
+sky-400, types and classes teal-200, macros and DocC keywords
+(`- Parameter`, `- Returns`) purple, and attributes (`@MainActor`,
+`@Published`) amber-italic. Numbers, characters, and constants share
+the rose accent so a literal stands out from the surrounding code.
+
+Color values in the `.xccolortheme` plist are space-separated `R G B A`
+floats in the `0.0 – 1.0` range — easy to tweak by hand or by
+duplicating the theme inside Xcode's Themes pane.
