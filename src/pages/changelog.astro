@@ -8,20 +8,31 @@ import { absoluteDate, relativeTime } from '~/lib/format';
 const themes = (await getCollection('themes', ({ data }) => data.status !== 'planned'))
   .sort((a, b) => a.data.order - b.data.order);
 
-const entries = (
+const themeEntries = (
   await Promise.all(
     themes.map(async (theme) => {
       const releases = await fetchReleases(theme.data.repo.owner, theme.data.repo.name, 15);
-      return releases.map((release) => ({ theme, release }));
+      return releases.map((release) => ({
+        name: theme.data.shortName,
+        href: `/themes/${theme.data.slug}/`,
+        release,
+      }));
     }),
   )
-)
-  .flat()
-  .sort((a, b) => {
-    const dateA = new Date(a.release.publishedAt).getTime();
-    const dateB = new Date(b.release.publishedAt).getTime();
-    return dateB - dateA;
-  });
+).flat();
+
+const cliReleases = await fetchReleases('kevinlangleyjr', 'slatewave-cli', 15);
+const cliEntries = cliReleases.map((release) => ({
+  name: 'Slatewave CLI',
+  href: '/cli/',
+  release,
+}));
+
+const entries = [...themeEntries, ...cliEntries].sort((a, b) => {
+  const dateA = new Date(a.release.publishedAt).getTime();
+  const dateB = new Date(b.release.publishedAt).getTime();
+  return dateB - dateA;
+});
 
 const grouped = entries.reduce<Map<string, typeof entries>>((acc, entry) => {
   const d = new Date(entry.release.publishedAt);
@@ -63,11 +74,11 @@ const monthLabel = (key: string): string => {
             <li class="month">
               <h2 class="month-label">{monthLabel(month)}</h2>
               <ul class="month-items">
-                {items.map(({ theme, release }) => (
+                {items.map(({ name, href, release }) => (
                   <li class="entry">
                     <div class="entry-head">
-                      <a href={`/themes/${theme.data.slug}/`} class="theme-name">
-                        {theme.data.shortName}
+                      <a href={href} class="theme-name">
+                        {name}
                       </a>
                       <a
                         class="tag"

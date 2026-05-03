@@ -63,7 +63,20 @@ const { data } = theme;
 const { Content } = await render(theme);
 
 const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
-const primaryInstall = data.install?.[0];
+
+const cliMethod = data.cliSlug
+  ? {
+      label: 'Slatewave CLI',
+      description: 'Install with the Slatewave family CLI — one command, every theme.',
+      command: `slatewave install ${data.cliSlug}`,
+    }
+  : null;
+
+const installMethods = [
+  ...(cliMethod ? [cliMethod] : []),
+  ...(data.install ?? []),
+];
+const primaryInstall = installMethods[0];
 
 const slugifyMethod = (label: string) =>
   label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
@@ -205,8 +218,14 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
     <section class="section install-section" id="install" data-theme-slug={data.slug}>
       <div class="container narrow">
         <h2 id="install-heading">Install</h2>
+        {cliMethod && (
+          <p class="install-cli-hint muted">
+            Don't have the CLI yet?{' '}
+            <a href="/cli/" data-simple-event={`install_${slugSegment}_cli_landing`}>Install the Slatewave CLI →</a>
+          </p>
+        )}
         <ul class="install-list">
-          {data.install.map((method) => (
+          {installMethods.map((method) => (
             <li class="install-item">
               <header>
                 <h3>{method.label}</h3>
@@ -600,6 +619,16 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
   .prose .summary {
     font-size: var(--fs-md);
     color: var(--fg-default);
+  }
+
+  .install-cli-hint {
+    margin-top: var(--space-3);
+    font-size: var(--fs-sm);
+  }
+
+  .install-cli-hint a {
+    color: var(--page-accent);
+    font-weight: 600;
   }
 
   .install-list {

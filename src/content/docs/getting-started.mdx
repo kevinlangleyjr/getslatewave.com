@@ -8,7 +8,27 @@ Slatewave works best when it becomes the visual baseline for the tools
 you already keep open all day. Start with one surface, then add the
 nearby tools that share the same palette contract.
 
-## Fast paths
+## Fastest path: the Slatewave CLI
+
+The [Slatewave CLI](/cli/) installs, activates, and uninstalls every
+theme in the family. One command to install the binary, one more to
+pick the themes you want.
+
+```sh
+brew tap kevinlangleyjr/slatewave
+brew install slatewave
+slatewave init
+```
+
+`slatewave init` detects which Slatewave-supported tools are already
+on this machine, multi-selects what's worth installing, and runs the
+install through a live dashboard. Every step backs up the configs it
+touches so `slatewave uninstall` can reverse cleanly later.
+
+Prefer to do it yourself, tool-by-tool? The manual paths below skip the
+CLI entirely.
+
+## Manual paths
 
 ### Editor-first setup
 
@@ -43,8 +63,9 @@ environment.
 2. Pick your terminal stack from [the terminal themes](/themes/?category=terminal)
 3. Add notes, launcher, and chat surfaces from [all themes](/themes/)
 
-This is intentionally tool-by-tool today. A unified install CLI is a
-future DX direction, not a shipped Slatewave installer.
+If you'd rather not curate this surface-by-surface,
+[`slatewave init`](/cli/) does the same job interactively — it'll only
+offer to install themes for tools you actually have.
 
 ## What to expect on each theme page
 
