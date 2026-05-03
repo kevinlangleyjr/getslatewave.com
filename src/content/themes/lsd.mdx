@@ -61,11 +61,6 @@ install:
       - 'Add: color.when set to auto'
       - 'Add: color.theme set to custom'
       - 'Run lsd -la --git --tree --depth 2 to verify'
-  - label: Pair with a Nerd Font
-    description: Optional — set icons.theme to fancy in LSD's config for the icon glyphs. Falls back to unicode cleanly.
-  - label: Pair with LS_COLORS
-    description: Directory, executable, archive, and symlink colors come from LS_COLORS, not this theme. Slatewave composes with vivid or trapd00r/LS_COLORS.
-    command: export LS_COLORS="$(vivid generate molokai)"
 tags: [terminal, cli, lsd, ls]
 related: [bat, delta, btop]
 ---
@@ -82,3 +77,18 @@ generator you already use — [vivid](https://github.com/sharkdp/vivid),
 trapd00r/LS_COLORS, or the default. The theme tunes against LSD 1.0+,
 which accepts `#rrggbb` hex alongside the legacy named colors and ANSI
 256 indices.
+
+## Pair with a Nerd Font
+
+Optional — set `icons.theme` to `fancy` in `~/.config/lsd/config.yaml`
+for the icon glyphs. Falls back to unicode cleanly when no Nerd Font
+is installed.
+
+## Pair with LS_COLORS
+
+Slatewave handles the column roles; `LS_COLORS` handles file-type
+colors. A common combination:
+
+```sh
+export LS_COLORS="$(vivid generate molokai)"
+```

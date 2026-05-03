@@ -78,9 +78,6 @@ install:
       - 'Add the Plug line to your init.vim / .vimrc'
       - 'Run `:PlugInstall`'
       - 'In init.lua, after the plug list — `require("slatewave").setup({}); vim.cmd.colorscheme("slatewave")`'
-  - label: Verify
-    description: After install, switch the theme at runtime — strings should be teal, keywords sky, constants rose.
-    command: ':colorscheme slatewave'
 tags: [editor, neovim, vim]
 related: [helix, vscode, sublime-text]
 ---
@@ -95,6 +92,15 @@ LSP references, spell), the full `:syntax` group set, TreeSitter `@*`
 captures, LSP `@lsp.*` semantic tokens, and a matching lualine theme.
 Terminal ANSI palette mirrors the VSCode theme's block so embedded
 terminals stay on palette.
+
+## Verify
+
+After install, switch the theme at runtime — strings should be teal,
+keywords sky, constants rose:
+
+```vim
+:colorscheme slatewave
+```
 
 ## Configure
 

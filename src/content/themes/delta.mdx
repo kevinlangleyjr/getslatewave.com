@@ -59,12 +59,6 @@ install:
   - label: Manual
     description: Paste slatewave.gitconfig directly into your ~/.gitconfig — best path if you want to tweak individual keys in place.
     link: https://github.com/kevinlangleyjr/delta-slatewave/blob/main/slatewave.gitconfig
-  - label: Verify
-    description: Pipe a diff into delta — desaturated wine/teal minus/plus blocks, teal-bordered hunk header, amber line-number math.
-    command: git -C any-repo log -p | head -60
-  - label: Pair with bat-slatewave
-    description: syntax-theme=Slatewave resolves through bat's theme cache — install bat-slatewave and run `bat cache --build`, or swap to a built-in like base16-256.
-    link: https://github.com/kevinlangleyjr/bat-slatewave
 tags: [terminal, git, diff, delta]
 related: [bat, lsd]
 ---
@@ -84,4 +78,16 @@ over the diff.
 Pairs with [bat-slatewave](https://github.com/kevinlangleyjr/bat-slatewave),
 which provides the `Slatewave` syntax theme delta reads via
 `syntax-theme`. Without bat-slatewave installed, any built-in bat theme
-works — `base16-256` is a sensible neutral fallback.
+works — `base16-256` is a sensible neutral fallback. After installing
+bat-slatewave, run `bat cache --build` once so delta can resolve the
+theme by name.
+
+## Verify
+
+Pipe a diff into delta and confirm the look — desaturated wine/teal
+minus/plus blocks, a teal-bordered hunk header, and amber line-number
+math:
+
+```sh
+git -C any-repo log -p | head -60
+```
