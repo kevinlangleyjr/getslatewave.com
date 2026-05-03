@@ -58,6 +58,7 @@ export function apply(theme: Theme): string {
         </p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="/themes/vscode/#install" data-simple-event="cta_home_hero_install">Install VSCode theme</a>
+          <a class="btn btn-primary btn-primary-cli" href="/cli/" data-simple-event="cta_home_hero_cli">Install the CLI</a>
           <a class="btn btn-ghost" href="/themes/" data-simple-event="cta_home_hero_browse">Browse {shippedCount} tools</a>
           <a
             class="btn btn-link"
@@ -162,14 +163,15 @@ export function apply(theme: Theme): string {
           <a class="starter-link" href="/docs/getting-started/#terminal-first-setup" data-simple-event="cta_home_starter_terminal">Use terminal bundle →</a>
         </article>
 
-        <article class="starter-card" style="--starter-accent: #b388ff;">
-          <p class="starter-kicker">Whole setup</p>
-          <h3>Build a consistent workspace</h3>
+        <article class="starter-card" style="--starter-accent: #5eead4;">
+          <p class="starter-kicker">One command</p>
+          <h3>Install the whole family at once</h3>
           <p>
-            Choose your editor, terminal, notes app, launcher, and chat surface
-            from the same generated color system.
+            <code>brew install</code> the Slatewave CLI, then <code>slatewave init</code>
+            detects what's on your machine and installs every theme you pick — backups,
+            uninstall, and all.
           </p>
-          <a class="starter-link" href="/docs/getting-started/#whole-workspace-setup" data-simple-event="cta_home_starter_full">Build the full setup →</a>
+          <a class="starter-link" href="/cli/" data-simple-event="cta_home_starter_cli">Install the CLI →</a>
         </article>
       </div>
     </div>
@@ -659,6 +661,17 @@ export function apply(theme: Theme): string {
   .btn-primary:hover {
     background: color-mix(in oklab, var(--accent) 85%, white);
     color: var(--accent-ink);
+  }
+
+  .btn-primary-cli {
+    background: color-mix(in oklab, var(--accent) 16%, transparent);
+    color: var(--accent);
+    border-color: color-mix(in oklab, var(--accent) 35%, transparent);
+  }
+
+  .btn-primary-cli:hover {
+    background: color-mix(in oklab, var(--accent) 26%, transparent);
+    color: var(--accent);
   }
 
   .btn-ghost {
