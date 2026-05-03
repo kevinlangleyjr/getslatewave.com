@@ -12,6 +12,7 @@ import SlackPreview from '~/components/previews/SlackPreview.astro';
 import VSCodePreview from '~/components/previews/VSCodePreview.astro';
 import JetBrainsPreview from '~/components/previews/JetBrainsPreview.astro';
 import SublimeTextPreview from '~/components/previews/SublimeTextPreview.astro';
+import XcodePreview from '~/components/previews/XcodePreview.astro';
 import ObsidianPreview from '~/components/previews/ObsidianPreview.astro';
 import LSDPreview from '~/components/previews/LSDPreview.astro';
 import DeltaPreview from '~/components/previews/DeltaPreview.astro';
@@ -35,6 +36,7 @@ const customPreviews: Record<string, { component: typeof AlfredPreview; wide?: b
   vscode: { component: VSCodePreview, wide: true },
   jetbrains: { component: JetBrainsPreview, wide: true },
   'sublime-text': { component: SublimeTextPreview, wide: true },
+  xcode: { component: XcodePreview, wide: true },
   obsidian: { component: ObsidianPreview, wide: true },
   lsd: { component: LSDPreview, wide: true },
   delta: { component: DeltaPreview },
