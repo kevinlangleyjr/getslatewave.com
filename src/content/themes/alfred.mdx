@@ -18,6 +18,7 @@ repo:
   url: https://github.com/kevinlangleyjr/alfred-slatewave
   defaultBranch: main
 links:
+  marketplace: https://www.alfredapp.com/extras/theme/y027KSVsk2/
   download: https://raw.githubusercontent.com/kevinlangleyjr/alfred-slatewave/main/Slatewave.alfredappearance
 preview:
   kind: code
@@ -46,8 +47,15 @@ preview:
       }
     }
 install:
+  - label: Alfred extras
+    description: One-click install from the official Alfred extras gallery — Alfred opens the import dialog directly.
+    link: https://www.alfredapp.com/extras/theme/y027KSVsk2/
+    steps:
+      - Open the Slatewave page on alfredapp.com/extras
+      - Click "Add to Alfred" — Alfred opens Settings → Appearance with Slatewave pre-selected
+      - Click Import to confirm; Slatewave appears in your theme list
   - label: Manual
-    description: macOS knows how to hand .alfredappearance files to Alfred directly.
+    description: Download the .alfredappearance directly and let macOS hand it to Alfred.
     steps:
       - Download Slatewave.alfredappearance from the repo
       - Double-click the file — Alfred opens Settings → Appearance with Slatewave pre-selected
