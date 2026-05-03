@@ -41,10 +41,8 @@ install:
       - "Add to ~/.tmux.conf — `set -g @plugin 'kevinlangleyjr/tmux-slatewave'`"
       - Reload tmux, then press prefix + I to install
   - label: Clone
-    description: Clone the repo for sourcing from your main tmux config.
+    description: Clone the repo for sourcing from your main tmux config. slatewave.tmux.conf is a plain set of `set -g` lines, each commented with the palette values it uses — so partial adoption is safe if you only want some blocks.
     command: git clone https://github.com/kevinlangleyjr/tmux-slatewave.git ~/.config/tmux/slatewave
-  - label: Manual
-    description: slatewave.tmux.conf is a plain set of `set -g` lines. Every section is commented with the palette values it uses, so partial adoption is safe — copy only the blocks you want.
   - label: Activate
     description: After Clone — add the source-file line and reload.
     steps:

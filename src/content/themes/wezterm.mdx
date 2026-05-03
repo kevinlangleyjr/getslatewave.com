@@ -57,7 +57,7 @@ install:
   - label: curl
     description: Drop slatewave.toml into ~/.config/wezterm/colors/ — WezTerm auto-loads any TOML there as a named scheme.
     command: mkdir -p ~/.config/wezterm/colors && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave.toml -o ~/.config/wezterm/colors/slatewave.toml
-  - label: curl — full bundle
+  - label: Full bundle
     description: Palette plus Hack Nerd Font Mono at 14pt, block cursor, opaque window. Requires Hack Nerd Font Mono installed.
     steps:
       - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/wezterm-slatewave/main/slatewave-full.lua -o ~/.config/wezterm/slatewave-full.lua
