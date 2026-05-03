@@ -40,14 +40,8 @@ preview:
       return roles;
     }
 install:
-  - label: Marketplace
-    description: Marketplace listing pending — use Clone in the meantime.
-    steps:
-      - Open the command palette (⌘⇧P / Ctrl+Shift+P)
-      - Run "zed extensions"
-      - Search "Slatewave" and click Install
   - label: Clone
-    description: Install the cloned repo as a dev extension while the registry entry is pending.
+    description: Install the cloned repo as a Zed dev extension.
     steps:
       - git clone https://github.com/kevinlangleyjr/zed-slatewave.git
       - In Zed, open the command palette (⌘⇧P / Ctrl+Shift+P)
@@ -68,6 +62,9 @@ The companion terminal ANSI palette matches the `terminal.ansi*` block
 from the VSCode theme, so an embedded `zed: terminal` reads identically
 to an external iTerm2 / Ghostty / Alacritty session running any of the
 Slatewave terminal themes.
+
+A Zed extensions registry entry is in flight; until then, the dev
+extension path above is the install.
 
 ## Customize
 
