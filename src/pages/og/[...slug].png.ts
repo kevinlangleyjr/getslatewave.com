@@ -96,6 +96,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
       },
     },
     {
+      params: { slug: 'cli' },
+      props: {
+        input: {
+          eyebrow: 'CLI',
+          title: 'One command. Every theme.',
+          description:
+            'The Slatewave CLI installs, activates, and uninstalls every theme in the family — backed by per-theme manifests, idempotent activates, and clean uninstalls.',
+          footer: 'slatewave.dev/cli',
+        },
+      },
+    },
+    {
       params: { slug: 'changelog' },
       props: {
         input: {
