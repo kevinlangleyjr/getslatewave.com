@@ -59,9 +59,7 @@ install:
     steps:
       - git clone https://github.com/kevinlangleyjr/helix-slatewave.git
       - cp helix-slatewave/themes/slatewave.toml ~/.config/helix/themes/slatewave.toml
-  - label: Symlink
-    description: Tweaking the theme? Symlink the repo file instead of copying so edits round-trip.
-    command: ln -s "$(pwd)/helix-slatewave/themes/slatewave.toml" ~/.config/helix/themes/slatewave.toml
+      - 'Tweaking the theme? Symlink instead so edits round-trip — `ln -s "$(pwd)/helix-slatewave/themes/slatewave.toml" ~/.config/helix/themes/slatewave.toml`'
   - label: Activate
     description: Set the theme in config.toml, or switch at runtime from the command palette — Helix reloads themes on save.
     steps:
