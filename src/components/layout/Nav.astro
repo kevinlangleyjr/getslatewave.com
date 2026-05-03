@@ -23,23 +23,33 @@ const links = [
 
 <header class="site-nav" data-nav-open="false">
   <div class="container nav-inner">
-    <a class="brand" href="/" aria-label="Slatewave home">
-      <img class="brand-mark" src="/brand/icon.svg" alt="" width="51" height="56" />
-      <img
-        class="brand-wordmark brand-wordmark-dark"
-        src="/brand/wordmark.png"
-        alt="Slatewave"
-        width="1000"
-        height="154"
-      />
-      <img
-        class="brand-wordmark brand-wordmark-light"
-        src="/brand/wordmark-light.png"
-        alt=""
-        width="1000"
-        height="154"
-      />
-    </a>
+    <div class="brand-wrap">
+      <a class="brand" href="/" aria-label="Slatewave home">
+        <img class="brand-mark" src="/brand/icon.svg" alt="" width="51" height="56" />
+        <img
+          class="brand-wordmark brand-wordmark-dark"
+          src="/brand/wordmark.png"
+          alt="Slatewave"
+          width="1000"
+          height="154"
+        />
+        <img
+          class="brand-wordmark brand-wordmark-light"
+          src="/brand/wordmark-light.png"
+          alt=""
+          width="1000"
+          height="154"
+        />
+      </a>
+      <a
+        class="brand-beta"
+        href="/changelog/"
+        aria-label="Slatewave is in beta — see the changelog"
+        data-simple-event="nav_header_beta"
+      >
+        <Badge tone="beta">Beta</Badge>
+      </a>
+    </div>
 
     <div class="nav-actions">
       <nav aria-label="Primary" class="nav-menu" id="primary-nav">
@@ -152,12 +162,35 @@ const links = [
     min-height: 64px;
   }
 
+  .brand-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
   .brand {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     font-weight: 600;
     letter-spacing: -0.01em;
+  }
+
+  .brand-beta {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .brand-beta:hover :global(.badge) {
+    background: color-mix(in oklab, var(--status-warn) 18%, transparent);
+  }
+
+  @media (max-width: 360px) {
+    .brand-beta {
+      display: none;
+    }
   }
 
   .brand:hover {
