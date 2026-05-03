@@ -29,6 +29,7 @@ const DEFAULT_LANGS: BundledLanguage[] = [
   'rust',
   'go',
   'python',
+  'swift',
   'yaml',
   'toml',
   'css',
