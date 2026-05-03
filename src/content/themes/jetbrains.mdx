@@ -55,15 +55,12 @@ install:
       - Settings → Plugins → Marketplace
       - Search "Slatewave"
       - Install, then Settings → Appearance & Behavior → Appearance → Theme → Slatewave
-  - label: Manual
+  - label: Build from source
     description: Build a local .zip and install it from disk. Gradle needs JDK ≥ 17 — the JBR bundled with any JetBrains IDE works.
     steps:
       - 'JAVA_HOME=/Applications/GoLand.app/Contents/jbr/Contents/Home ./gradlew buildPlugin'
       - Locate build/distributions/slatewave-0.0.1.zip
       - Settings → Plugins → ⚙ → Install Plugin from Disk… → pick the .zip
-  - label: Live development
-    description: Spin up a sandbox IDE with the plugin preloaded — edits to theme.json or Slatewave.xml apply on next sandbox launch.
-    command: JAVA_HOME=/Applications/GoLand.app/Contents/jbr/Contents/Home ./gradlew runIde
 tags: [editor, ide, jetbrains, intellij]
 related: [vscode, sublime-text, zed]
 ---
@@ -79,3 +76,15 @@ SCSS / LESS, HTML / XML, JSON, YAML, Markdown, Python, Bash, Docker,
 and SQL, with tuned Go-specific accents (struct tags in amber, package
 and imports in teal, receivers in purple) and semantic token support
 across every other language.
+
+## Developing locally
+
+To preview palette tweaks without rebuilding and re-installing the
+plugin each time, run a sandbox IDE with the plugin preloaded:
+
+```sh
+JAVA_HOME=/Applications/GoLand.app/Contents/jbr/Contents/Home ./gradlew runIde
+```
+
+Edits to `slatewave.theme.json` or `Slatewave.xml` apply on the next
+sandbox launch. Swap `GoLand.app` for any JetBrains IDE on disk.
