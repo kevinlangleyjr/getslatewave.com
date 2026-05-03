@@ -81,6 +81,17 @@ const initDemoLines = [
           idempotent activates, and clean uninstalls.
         </p>
 
+        <p class="hero-beta-note">
+          <span class="hero-beta-tag">Beta</span>
+          The CLI is in beta — expect rough edges, and please report what breaks.
+          <a
+            href="https://github.com/kevinlangleyjr/slatewave-cli/issues"
+            rel="noopener"
+            target="_blank"
+            data-simple-event="cta_cli_hero_beta_issues"
+          >Open an issue →</a>
+        </p>
+
         <div class="install-command">
           <pre class="install-cmd"><code>{installCommand}</code></pre>
           <button
@@ -437,6 +448,34 @@ const initDemoLines = [
     .copy-command {
       justify-self: start;
     }
+  }
+
+  .hero-beta-note {
+    margin-top: var(--space-5);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .hero-beta-note a {
+    color: var(--page-accent);
+    white-space: nowrap;
+  }
+
+  .hero-beta-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--space-2);
+    border-radius: 999px;
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--status-warn);
+    border: 1px solid color-mix(in oklab, var(--status-warn) 30%, transparent);
+    background: color-mix(in oklab, var(--status-warn) 10%, transparent);
   }
 
   .hero-actions {
