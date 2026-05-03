@@ -1,0 +1,364 @@
+---
+/**
+ * Pure HTML/CSS rendering of Neovim with Slatewave applied. Editor
+ * content is highlighted by the same Shiki setup the rest of the site
+ * uses; everything else — bufferline, gutter with gitsigns and line
+ * numbers, lualine-style statusline split into sections — is hand-built
+ * chrome scoped to the slatewave Lua plugin's actual highlight groups
+ * (Normal, StatusLine, GitSignsAdd/Change, etc.).
+ *
+ * Sample is the kind of file a slatewave-for-Neovim user would author
+ * themselves: a `setup()` plugin entry with the canonical opts table.
+ */
+
+import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import type { BundledLanguage } from 'shiki';
+import TerminalChrome from './TerminalChrome.astro';
+
+const sample = `-- lua/slatewave/init.lua
+local M = {}
+
+M.opts = {
+  transparent      = false,
+  italic_comments  = true,
+  italic_keywords  = true,
+  dim_inactive     = false,
+  terminal_colors  = true,
+}
+
+function M.setup(user_opts)
+  M.opts = vim.tbl_deep_extend('force', M.opts, user_opts or {})
+  require('slatewave.theme').load(M.opts)
+end
+
+return M`;
+
+const highlighter = await getHighlighter();
+const loaded = highlighter.getLoadedLanguages();
+if (!loaded.includes('lua' as BundledLanguage)) {
+  await highlighter.loadLanguage('lua' as BundledLanguage);
+}
+const html = highlighter.codeToHtml(sample, { lang: 'lua', theme: slatewaveThemeName });
+
+const lineCount = sample.split('\n').length;
+const lineNumbers = Array.from({ length: lineCount }, (_, i) => i + 1);
+
+type GitSign = '+' | '~' | null;
+const gitSigns: GitSign[] = Array.from({ length: lineCount }, (_, i) => {
+  if (i >= 3 && i <= 8) return '+';
+  if (i === 11) return '~';
+  return null;
+});
+
+const cursorLine = 14;
+
+interface Buffer {
+  name: string;
+  ext?: string;
+  modified?: boolean;
+  active?: boolean;
+}
+
+const buffers: Buffer[] = [
+  { name: 'init.lua', active: true, modified: true },
+  { name: 'theme.lua' },
+  { name: 'palette.lua' },
+];
+
+interface Diagnostic {
+  count: number;
+}
+const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
+  error: { count: 0 },
+  warn: { count: 1 },
+  info: { count: 3 },
+};
+---
+
+<figure class="nvim-preview sw-frame">
+  <TerminalChrome title="nvim — neovim-slatewave" />
+
+  <!-- Bufferline (lualine-buffers shape) -->
+  <div class="bufferline" aria-hidden="true">
+    {buffers.map((b) => (
+      <span class:list={['buftab', { active: b.active }]}>
+        {b.active && <span class="buf-indicator" aria-hidden="true">●</span>}
+        <span class="buf-name">{b.name}</span>
+        {b.modified && <span class="buf-modified" aria-hidden="true">+</span>}
+        {!b.active && <span class="buf-close" aria-hidden="true">×</span>}
+      </span>
+    ))}
+    <span class="bufferline-spacer"></span>
+    <span class="bufferline-tabs">1/1</span>
+  </div>
+
+  <!-- Editor body — gutter (line numbers + gitsigns) + code -->
+  <div class="editor">
+    <div class="gutter" aria-hidden="true">
+      {lineNumbers.map((n, i) => (
+        <div class:list={['ln-row', { active: n === cursorLine }]}>
+          <span class:list={['gitsign', gitSigns[i] && `gs-${gitSigns[i] === '+' ? 'add' : 'change'}`]}>
+            {gitSigns[i] ?? ' '}
+          </span>
+          <span class="ln-num">{n}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="code-pane">
+      <div class="code" set:html={html} />
+      <!-- Cursor block on the active line -->
+      <div class="cursor-block" aria-hidden="true" style={`top: calc((${cursorLine} - 1) * 1lh)`}></div>
+    </div>
+  </div>
+
+  <!-- Statusline (lualine sections) -->
+  <div class="statusline" aria-hidden="true">
+    <div class="sl-left">
+      <span class="sl-mode">NORMAL</span>
+      <span class="sl-section sl-branch">
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/>
+          <path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/>
+        </svg>
+        main
+      </span>
+      <span class="sl-section sl-diff">
+        <span class="diff-add">+7</span>
+        <span class="diff-mod">~2</span>
+      </span>
+      <span class="sl-section sl-diag">
+        {diagnostics.warn.count > 0 && <span class="diag diag-warn">⚠ {diagnostics.warn.count}</span>}
+        {diagnostics.info.count > 0 && <span class="diag diag-info">ℹ {diagnostics.info.count}</span>}
+      </span>
+    </div>
+
+    <div class="sl-right">
+      <span class="sl-section">utf-8</span>
+      <span class="sl-section">unix</span>
+      <span class="sl-section">lua</span>
+      <span class="sl-section sl-progress">23%</span>
+      <span class="sl-pos">{cursorLine}:23</span>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .nvim-preview {
+    background: var(--sw-slate-editor);
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--sw-slate-200);
+    line-height: 1.55;
+  }
+
+  /* Bufferline */
+  .bufferline {
+    display: flex;
+    align-items: stretch;
+    padding: 0 var(--space-3);
+    background: var(--sw-slate-chrome);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: var(--fs-xs);
+    color: var(--sw-slate-400);
+  }
+
+  .buftab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5ch;
+    padding: 0.45rem 1rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    color: var(--sw-slate-500);
+    transition: background 120ms ease;
+  }
+
+  .buftab.active {
+    color: var(--sw-slate-200);
+    background: var(--sw-slate-editor);
+    border-bottom: 1px solid var(--sw-slate-editor);
+    margin-bottom: -1px;
+  }
+
+  .buf-indicator {
+    color: var(--sw-teal-300);
+  }
+
+  .buf-modified {
+    color: var(--sw-amber-400);
+    margin-left: 0.2ch;
+  }
+
+  .buf-close {
+    color: var(--sw-slate-600);
+    margin-left: 0.5ch;
+  }
+
+  .bufferline-spacer {
+    flex: 1 1 auto;
+  }
+
+  .bufferline-tabs {
+    align-self: center;
+    padding: 0 0.5ch;
+    color: var(--sw-slate-500);
+  }
+
+  /* Editor — gutter + code */
+  .editor {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 18rem;
+  }
+
+  .gutter {
+    padding: var(--space-3) 0.5ch var(--space-3) var(--space-3);
+    user-select: none;
+    color: var(--sw-slate-500);
+    font-variant-numeric: tabular-nums;
+    background: var(--sw-slate-editor);
+  }
+
+  .ln-row {
+    display: grid;
+    grid-template-columns: 2ch 4ch;
+    gap: 0;
+    padding-right: 0.75ch;
+    line-height: inherit;
+  }
+
+  .ln-row.active .ln-num {
+    color: var(--sw-amber-400);
+    font-weight: 700;
+  }
+
+  .gitsign {
+    text-align: center;
+    font-weight: 700;
+  }
+  .gitsign.gs-add {
+    color: var(--sw-teal-300);
+  }
+  .gitsign.gs-change {
+    color: var(--sw-amber-400);
+  }
+
+  .ln-num {
+    text-align: right;
+  }
+
+  .code-pane {
+    position: relative;
+    padding: var(--space-3) var(--space-4) var(--space-3) 0;
+    overflow-x: auto;
+  }
+
+  .code-pane .code :global(pre) {
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    font-size: var(--fs-sm);
+    line-height: inherit;
+  }
+
+  .code-pane .code :global(code) {
+    font-family: var(--font-mono);
+  }
+
+  /* Block cursor on the active line — sits over the code */
+  .cursor-block {
+    position: absolute;
+    left: 0;
+    width: 0.6ch;
+    height: 1lh;
+    background: var(--sw-teal-300);
+    opacity: 0.7;
+    border-radius: 1px;
+    pointer-events: none;
+    margin-top: var(--space-3);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cursor-block {
+      animation: nvim-blink 1.05s steps(2, start) infinite;
+    }
+  }
+
+  @keyframes nvim-blink {
+    50% { opacity: 0; }
+  }
+
+  /* Statusline (lualine) */
+  .statusline {
+    display: flex;
+    align-items: stretch;
+    background: var(--sw-slate-chrome);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+    color: var(--sw-slate-300);
+  }
+
+  .sl-left, .sl-right {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .sl-left {
+    flex: 1 1 auto;
+  }
+
+  .sl-mode {
+    background: var(--sw-teal-300);
+    color: var(--sw-slate-900);
+    font-weight: 800;
+    padding: 0.35rem 1rem;
+    letter-spacing: 0.06em;
+  }
+
+  .sl-section {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5ch;
+    padding: 0.35rem 0.85rem;
+    color: var(--sw-slate-400);
+  }
+
+  .sl-branch {
+    color: var(--sw-slate-300);
+  }
+
+  .sl-diff .diff-add { color: var(--sw-teal-300); font-weight: 600; }
+  .sl-diff .diff-mod { color: var(--sw-amber-400); font-weight: 600; }
+
+  .sl-diag .diag-warn { color: var(--sw-amber-400); }
+  .sl-diag .diag-info { color: var(--sw-sky-400); }
+
+  .sl-progress {
+    color: var(--sw-slate-300);
+  }
+
+  .sl-pos {
+    background: var(--sw-slate-700);
+    color: var(--sw-slate-200);
+    font-weight: 700;
+    padding: 0.35rem 1rem;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 640px) {
+    .nvim-preview {
+      font-size: var(--fs-xs);
+    }
+    .sl-section {
+      padding: 0.35rem 0.5rem;
+    }
+    /* Hide the chattier sections on phones */
+    .sl-section:nth-child(3),
+    .statusline .sl-right .sl-section:nth-child(2) {
+      display: none;
+    }
+    .ln-row { grid-template-columns: 2ch 3ch; }
+  }
+</style>

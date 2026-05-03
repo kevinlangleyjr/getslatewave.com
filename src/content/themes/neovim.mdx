@@ -41,27 +41,45 @@ preview:
     console.log(apply(theme));
 install:
   - label: lazy.nvim
-    description: Requires Neovim 0.9+ and termguicolors. Call setup() before colorscheme.
+    description: Drop the plugin spec into your lazy.nvim config. Requires Neovim 0.9+ with termguicolors enabled.
+    command: |-
+      return {
+        "kevinlangleyjr/neovim-slatewave",
+        name = "slatewave",
+        priority = 1000,
+        lazy = false,
+        opts = {},
+        config = function(_, opts)
+          require("slatewave").setup(opts)
+          vim.cmd.colorscheme("slatewave")
+        end,
+      }
     steps:
-      - 'Add the plugin spec — `{ "kevinlangleyjr/neovim-slatewave", name = "slatewave", priority = 1000, lazy = false, opts = {}, config = function(_, opts) require("slatewave").setup(opts); vim.cmd.colorscheme("slatewave") end }`'
-      - Run :Lazy sync
+      - 'Drop the file under `~/.config/nvim/lua/plugins/` — lazy.nvim auto-imports it'
+      - 'Run `:Lazy sync` and restart Neovim'
   - label: packer.nvim
+    description: Add the use() call to your packer plugin list.
+    command: |-
+      use({
+        "kevinlangleyjr/neovim-slatewave",
+        as = "slatewave",
+        config = function()
+          require("slatewave").setup({})
+          vim.cmd.colorscheme("slatewave")
+        end,
+      })
     steps:
-      - 'use({ "kevinlangleyjr/neovim-slatewave", as = "slatewave", config = function() require("slatewave").setup({}); vim.cmd.colorscheme("slatewave") end })'
-      - Run :PackerSync
+      - 'Run `:PackerSync` to install'
   - label: vim-plug
+    description: vim-plug has no config callback — call setup() yourself after :PlugInstall.
+    command: "Plug 'kevinlangleyjr/neovim-slatewave', { 'as': 'slatewave' }"
     steps:
-      - "Plug 'kevinlangleyjr/neovim-slatewave', { 'as': 'slatewave' }"
-      - 'Then in init.lua — `require("slatewave").setup({}); vim.cmd.colorscheme("slatewave")`'
-      - Run :PlugInstall
-  - label: Configure
-    description: All options shown with defaults — pass into setup() before loading the colorscheme.
-    steps:
-      - 'transparent = false · sets Normal bg to NONE'
-      - 'italic_comments = true'
-      - 'italic_keywords = true · storage, self/this/super'
-      - 'dim_inactive = false'
-      - 'terminal_colors = true · sets g:terminal_color_0..15'
+      - 'Add the Plug line to your init.vim / .vimrc'
+      - 'Run `:PlugInstall`'
+      - 'In init.lua, after the plug list — `require("slatewave").setup({}); vim.cmd.colorscheme("slatewave")`'
+  - label: Verify
+    description: After install, switch the theme at runtime — strings should be teal, keywords sky, constants rose.
+    command: ':colorscheme slatewave'
 tags: [editor, neovim, vim]
 related: [helix, vscode, sublime-text]
 ---
@@ -76,3 +94,18 @@ LSP references, spell), the full `:syntax` group set, TreeSitter `@*`
 captures, LSP `@lsp.*` semantic tokens, and a matching lualine theme.
 Terminal ANSI palette mirrors the VSCode theme's block so embedded
 terminals stay on palette.
+
+## Configure
+
+`require("slatewave").setup({...})` accepts these options (defaults
+shown). Pass any of them in before the `:colorscheme` call:
+
+```lua
+require("slatewave").setup({
+  transparent     = false,  -- set Normal bg to NONE so the terminal shows through
+  italic_comments = true,
+  italic_keywords = true,   -- applies to storage keywords and self / this / super
+  dim_inactive    = false,
+  terminal_colors = true,   -- sets g:terminal_color_0..15 to the Slatewave ANSI palette
+})
+```
