@@ -59,23 +59,12 @@ install:
   - label: Rebuild bat's theme cache
     description: bat caches compiled themes on disk — rebuild after adding one or it won't show up in --list-themes.
     command: bat cache --build
-  - label: Activate — config file
-    description: Write --theme="Slatewave" to bat's config file so every invocation uses it without a flag.
-    command: echo '--theme="Slatewave"' > "$(bat --config-file)"
-  - label: Activate — env var
-    description: Session-scoped — export BAT_THEME instead of editing the config file.
+  - label: Activate
+    description: Tell bat to use Slatewave by default. Pick the path that fits — config file is persistent, env var is session-scoped.
     steps:
-      - 'zsh / bash — `export BAT_THEME=Slatewave`'
-      - 'fish — `set -gx BAT_THEME Slatewave`'
-  - label: Verify
-    description: Slatewave should appear in bat's theme list and render via the --theme flag.
-    steps:
-      - 'bat --list-themes | grep Slatewave'
-      - 'bat --theme=Slatewave --color=always /path/to/some.go | head -40'
-  - label: Pair with delta
-    description: git-delta reads bat's theme cache. Once Slatewave is registered, point delta at it from your ~/.gitconfig.
-    steps:
-      - 'Under [delta] in ~/.gitconfig, add `syntax-theme = Slatewave`'
+      - 'Config file (persistent) — `echo ''--theme="Slatewave"'' > "$(bat --config-file)"`'
+      - 'zsh / bash env var — `export BAT_THEME=Slatewave`'
+      - 'fish env var — `set -gx BAT_THEME Slatewave`'
 tags: [terminal, cli, bat, syntax-highlighting]
 related: [delta, lsd, btop]
 ---
@@ -97,3 +86,23 @@ Requires a true-color terminal — at 256 colors the slate ramp collapses
 and the accent hues drift. Pair with any of the Slatewave terminal ports
 (Alacritty, Ghostty, iTerm2, WezTerm, Windows Terminal) for the matched
 chrome.
+
+## Verify
+
+After install, Slatewave should appear in bat's theme list and render
+via the `--theme` flag:
+
+```sh
+bat --list-themes | grep Slatewave
+bat --theme=Slatewave --color=always /path/to/some.go | head -40
+```
+
+## Pair with delta
+
+git-delta reads bat's theme cache. Once Slatewave is registered there,
+point delta at it from your `~/.gitconfig`:
+
+```ini
+[delta]
+    syntax-theme = Slatewave
+```

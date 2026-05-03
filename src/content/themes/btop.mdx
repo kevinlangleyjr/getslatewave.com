@@ -31,9 +31,6 @@ install:
   - label: Activate
     description: btop reads the active theme name from ~/.config/btop/btop.conf — edit color_theme directly, or pick "slatewave" in btop's Options menu (Esc → Options).
     command: 'sed -i.bak ''s/^color_theme = .*/color_theme = "slatewave"/'' ~/.config/btop/btop.conf'
-  - label: Verify
-    description: Launch btop and confirm the meters render teal → amber → rose, panel labels are teal-300, box outlines slate-600.
-    command: btop
 tags: [terminal, system-monitor, btop, dashboard]
 related: [tmux, lsd, bat]
 ---
@@ -59,3 +56,8 @@ you want opaque slate panels, edit `main_bg = "#1e293b"` in your
 local copy and re-install — `btop.conf` has a `theme_background`
 toggle as well, set it to `false` for transparency or `true` for the
 filled slate look.
+
+## Verify
+
+Launch `btop` and confirm the meters render teal → amber → rose,
+panel labels are teal-300, and box outlines are slate-600.
