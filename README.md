@@ -35,13 +35,13 @@ available.
 - [Slatewave for WezTerm](src/content/themes/wezterm.mdx) — beta
 - [Slatewave for Windows Terminal](src/content/themes/windows-terminal.mdx) — beta
 - [Slatewave for tmux](src/content/themes/tmux.mdx) — beta
-- [Slatewave for Kitty](src/content/themes/kitty.mdx) — planned
+- [Slatewave for Kitty](src/content/themes/kitty.mdx) — beta
 
 ### Notes
 
 - [Slatewave for Obsidian](src/content/themes/obsidian.mdx) — beta
 - [Slatewave for Logseq](src/content/themes/logseq.mdx) — beta
-- [Slatewave for Anytype](src/content/themes/anytype.mdx) — planned
+- [Slatewave for Anytype](src/content/themes/anytype.mdx) — beta
 
 ### Productivity
 
