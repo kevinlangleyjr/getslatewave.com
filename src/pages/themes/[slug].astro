@@ -21,6 +21,7 @@ import BtopPreview from '~/components/previews/BtopPreview.astro';
 import NeovimPreview from '~/components/previews/NeovimPreview.astro';
 import LogseqPreview from '~/components/previews/LogseqPreview.astro';
 import MarkEditPreview from '~/components/previews/MarkEditPreview.astro';
+import AnytypePreview from '~/components/previews/AnytypePreview.astro';
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
 
@@ -45,6 +46,7 @@ const customPreviews: Record<string, { component: typeof AlfredPreview; wide?: b
   neovim: { component: NeovimPreview, wide: true },
   logseq: { component: LogseqPreview, wide: true },
   markedit: { component: MarkEditPreview, wide: true },
+  anytype: { component: AnytypePreview, wide: true },
 };
 
 export async function getStaticPaths() {
