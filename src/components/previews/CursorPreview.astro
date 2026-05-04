@@ -1,0 +1,862 @@
+---
+/**
+ * Pure HTML/CSS rendering of Cursor with Slatewave applied. Same VSCode
+ * chrome (Cursor is a VSCode fork — same workbench tokens, same theme
+ * JSON), with two distinguishing surfaces:
+ *
+ *   1. The Agent chat panel pinned to the right where the VSCode minimap
+ *      would sit — this is Cursor's headline UI affordance.
+ *   2. The title bar's "Agents Window" link and the status bar's
+ *      "Cursor Tab" + "Sign In" cells, which are Cursor-only.
+ *
+ * Editor area still runs through Shiki with the real Slatewave palette.
+ */
+
+import { getHighlighter, slatewaveThemeName } from '~/lib/shiki';
+import TrafficLightDots from './TrafficLightDots.astro';
+
+const sample = `// src/lib/github.ts
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
+const CACHE_DIR = join(process.cwd(), 'node_modules', '.cache', 'slatewave-github');
+const TTL_MS = 30 * 60 * 1000;
+
+export interface RepoMeta {
+  stars: number;
+  pushedAt: string;
+  defaultBranch: string;
+  openIssues: number;
+  latestRelease: Release | null;
+}
+
+export interface Release {
+  tag: string;
+  name: string;
+  publishedAt: string;
+  url: string;
+}
+
+const memory = new Map<string, Promise<unknown>>();
+
+function cacheKey(parts: string[]): string {
+  return parts.join('__').replace(/[^a-zA-Z0-9_]/g, '_');
+}
+
+async function readCache<T>(key: string): Promise<T | null> {
+  try {
+    const raw = await readFile(join(CACHE_DIR, \`\${key}.json\`), 'utf8');
+    const parsed = JSON.parse(raw) as { data: T; at: number };
+    if (Date.now() - parsed.at < TTL_MS) return parsed.data;
+  } catch {
+    /* no cache yet */
+  }
+  return null;
+}`;
+
+const highlighter = await getHighlighter();
+const html = highlighter.codeToHtml(sample, {
+  lang: 'typescript',
+  theme: slatewaveThemeName,
+});
+
+const lineCount = sample.split('\n').length;
+
+interface FileNode {
+  type: 'folder' | 'file';
+  name: string;
+  ext?: 'ts' | 'astro' | 'json' | 'md' | 'env' | 'icon' | 'js';
+  open?: boolean;
+  active?: boolean;
+  badge?: number;
+  indent: number;
+}
+
+const tree: FileNode[] = [
+  { type: 'folder', name: '.astro', indent: 0 },
+  { type: 'folder', name: '.github', indent: 0 },
+  { type: 'folder', name: '.vscode', indent: 0 },
+  { type: 'folder', name: 'dist', indent: 0 },
+  { type: 'folder', name: 'docs', indent: 0 },
+  { type: 'folder', name: 'public', indent: 0 },
+  { type: 'folder', name: 'src', indent: 0, open: true },
+  { type: 'folder', name: 'components', indent: 1 },
+  { type: 'folder', name: 'content', indent: 1 },
+  { type: 'folder', name: 'layouts', indent: 1 },
+  { type: 'folder', name: 'lib', indent: 1, open: true },
+  { type: 'file', name: 'analytics.ts', ext: 'ts', indent: 2 },
+  { type: 'file', name: 'format.ts', ext: 'ts', indent: 2 },
+  { type: 'file', name: 'github.ts', ext: 'ts', indent: 2, active: true },
+  { type: 'file', name: 'shiki.ts', ext: 'ts', indent: 2 },
+  { type: 'folder', name: 'pages', indent: 1, badge: 1 },
+  { type: 'folder', name: 'styles', indent: 1 },
+  { type: 'file', name: 'content.config.ts', ext: 'ts', indent: 1 },
+  { type: 'file', name: '.env.example', ext: 'env', indent: 0 },
+  { type: 'file', name: 'astro.config.mjs', ext: 'js', indent: 0 },
+  { type: 'file', name: 'package.json', ext: 'json', indent: 0 },
+  { type: 'file', name: 'README.md', ext: 'md', indent: 0 },
+  { type: 'file', name: 'tsconfig.json', ext: 'json', indent: 0, badge: 1 },
+];
+
+interface Tab {
+  name: string;
+  ext: 'ts' | 'astro' | 'md';
+  active?: boolean;
+  badge?: number;
+  dirty?: boolean;
+}
+
+const tabs: Tab[] = [
+  { name: 'analytics.ts', ext: 'ts' },
+  { name: 'shiki.ts', ext: 'ts' },
+  { name: 'github.ts', ext: 'ts', active: true },
+  { name: 'format.ts', ext: 'ts', badge: 1 },
+  { name: 'README.md', ext: 'md', dirty: true },
+];
+
+const breadcrumbs = ['src', 'lib', 'github.ts'];
+---
+
+<figure class="cursor-preview" aria-label="Slatewave applied to Cursor">
+  <div class="window">
+    <header class="title-bar" aria-hidden="true">
+      <TrafficLightDots />
+      <div class="title-center">
+        <span class="title-back">⟨</span>
+        <span class="title-fwd">⟩</span>
+        <span class="title-search">getslatewave</span>
+      </div>
+      <div class="title-right">
+        <span class="agents-window">
+          Agents Window
+          <span class="ext-arrow">↗</span>
+        </span>
+        <span class="ti">⊟</span>
+        <span class="ti">▢</span>
+        <span class="ti">⚙</span>
+      </div>
+    </header>
+
+    <div class="workbench">
+      <aside class="activity-bar" aria-hidden="true">
+        <div class="activity active">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="11" cy="11" r="7"/>
+            <line x1="21" y1="21" x2="16.5" y2="16.5"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="6" cy="3" r="2"/>
+            <circle cx="6" cy="21" r="2"/>
+            <circle cx="18" cy="12" r="2"/>
+            <path d="M6 5v14"/>
+            <path d="M6 12h10"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </div>
+        <div class="activity bottom">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="9" r="2"/>
+            <path d="M8 18a4 4 0 0 1 8 0"/>
+          </svg>
+        </div>
+        <div class="activity">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.05a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.05a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.05a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </div>
+      </aside>
+
+      <aside class="sidebar">
+        <div class="sidebar-head">
+          <span>EXPLORER</span>
+          <span class="sidebar-actions">···</span>
+        </div>
+        <div class="section-title">▾ GETSLATEWAVE</div>
+        <div class="tree">
+          {tree.map((n) => (
+            <div class:list={['node', { active: n.active, file: n.type === 'file' }]}>
+              <span class="indent" style={`width:${n.indent * 12}px`}></span>
+              {n.type === 'folder' ? (
+                <>
+                  <span class="caret">{n.open ? '▾' : '▸'}</span>
+                  <svg class="ficon folder" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  </svg>
+                </>
+              ) : (
+                <>
+                  <span class="caret-spacer"></span>
+                  <span class={`ficon file-ext ext-${n.ext}`}>{
+                    n.ext === 'ts' ? 'TS' :
+                    n.ext === 'astro' ? 'A' :
+                    n.ext === 'json' ? '{}' :
+                    n.ext === 'md' ? 'M' :
+                    n.ext === 'js' ? 'JS' :
+                    n.ext === 'env' ? '.E' : '·'
+                  }</span>
+                </>
+              )}
+              <span class="node-name">{n.name}</span>
+              {n.badge && <span class="node-badge">{n.badge}</span>}
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      <section class="editor-pane">
+        <div class="tab-bar">
+          {tabs.map((t) => (
+            <div class:list={['tab', { active: t.active }]}>
+              <span class={`ficon file-ext ext-${t.ext}`}>{
+                t.ext === 'ts' ? 'TS' : t.ext === 'astro' ? 'A' : 'M'
+              }</span>
+              <span class="tab-name">{t.name}</span>
+              {t.badge && <span class="tab-badge">{t.badge}</span>}
+              <span class="tab-close">{t.dirty ? '●' : '×'}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="breadcrumb">
+          {breadcrumbs.map((b, i) => (
+            <>
+              {i > 0 && <span class="bc-sep">›</span>}
+              <span class:list={['bc-part', { last: i === breadcrumbs.length - 1 }]}>{b}</span>
+            </>
+          ))}
+        </div>
+
+        <div class="editor">
+          <div class="gutter" aria-hidden="true">
+            {Array.from({ length: lineCount }, (_, i) => (
+              <div class="ln">{i + 1}</div>
+            ))}
+          </div>
+          <div class="code" set:html={html} />
+        </div>
+      </section>
+
+      <aside class="agent-pane" aria-label="Cursor agent panel">
+        <div class="agent-tabs">
+          <span class="agent-tab active">
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            New Agent
+            <span class="agent-tab-close">×</span>
+          </span>
+          <span class="agent-tab-spacer"></span>
+          <span class="agent-icon">+</span>
+          <span class="agent-icon">↻</span>
+          <span class="agent-icon">···</span>
+        </div>
+
+        <div class="agent-body">
+          <div class="agent-input">
+            Plan, Build, / for commands, @ for context
+          </div>
+
+          <div class="agent-controls">
+            <span class="agent-control">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 12a4 4 0 0 0 8 0M12 8a4 4 0 0 0 0 8"/>
+              </svg>
+              Agent
+              <span class="ctrl-caret">▾</span>
+            </span>
+            <span class="agent-control">
+              Auto
+              <span class="ctrl-caret">▾</span>
+            </span>
+            <span class="agent-spacer"></span>
+            <span class="agent-control icon-only" title="Attach">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.5l-9.5 9.5a5 5 0 0 1-7-7l9.5-9.5a3.5 3.5 0 0 1 5 5L9 20"/>
+              </svg>
+            </span>
+            <span class="agent-control icon-only" title="Voice">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="3" width="6" height="12" rx="3"/>
+                <path d="M5 11a7 7 0 0 0 14 0"/>
+                <line x1="12" y1="18" x2="12" y2="22"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="status-bar" aria-hidden="true">
+      <div class="status-left">
+        <span class="status-cell">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/></svg>
+          main*
+        </span>
+        <span class="status-cell">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          2
+        </span>
+        <span class="status-cell">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          0
+        </span>
+        <span class="status-cell muted">+0 ~4 −63</span>
+      </div>
+      <div class="status-right">
+        <span class="status-cell cursor-tab">
+          <span class="cursor-dot"></span>
+          Cursor Tab
+        </span>
+        <span class="status-cell muted">Ln 29, Col 23</span>
+        <span class="status-cell muted">Spaces: 2</span>
+        <span class="status-cell muted">UTF-8</span>
+        <span class="status-cell">TypeScript</span>
+        <span class="status-cell sign-in">Sign In</span>
+      </div>
+    </footer>
+  </div>
+</figure>
+
+<style>
+  .cursor-preview {
+    margin: 0;
+    padding: var(--space-8) var(--space-6);
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(15, 23, 42, 0.85), transparent 60%),
+      var(--bg-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .window {
+    background: var(--sw-slate-editor);
+    border: 1px solid var(--sw-slate-900);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 25px 60px -15px rgba(0, 0, 0, 0.6);
+    font-family: var(--font-sans);
+    color: var(--sw-slate-200);
+    display: flex;
+    flex-direction: column;
+    min-height: 540px;
+  }
+
+  @media (max-width: 720px) {
+    .cursor-preview {
+      padding: var(--space-4) var(--space-3);
+    }
+  }
+
+  /* Title bar */
+  .title-bar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: var(--sw-slate-chrome);
+    border-bottom: 1px solid #1a1f28;
+    font-size: 12px;
+  }
+
+  .title-center {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .title-back, .title-fwd {
+    color: var(--sw-slate-600);
+    font-size: 13px;
+  }
+
+  .title-search {
+    background: #1a1f28;
+    color: var(--sw-slate-400);
+    padding: 3px 14px;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    min-width: 180px;
+    text-align: center;
+  }
+
+  .title-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--sw-slate-600);
+  }
+
+  /* Cursor-only: "Agents Window" link in the title-bar right cluster */
+  .agents-window {
+    color: var(--sw-slate-300);
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .agents-window .ext-arrow {
+    color: var(--sw-slate-500);
+    font-size: 10px;
+  }
+
+  /* Workbench: activity | sidebar | editor | agent panel */
+  .workbench {
+    display: grid;
+    grid-template-columns: 48px 220px minmax(0, 1fr) 280px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Activity bar */
+  .activity-bar {
+    background: var(--sw-slate-chrome);
+    border-right: 1px solid #1a1f28;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0;
+    gap: 4px;
+  }
+
+  .activity {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sw-slate-500);
+    border-left: 2px solid transparent;
+    margin-left: -2px;
+  }
+
+  .activity.active {
+    color: var(--sw-slate-200);
+    border-left-color: var(--sw-teal-300);
+  }
+
+  .activity.bottom { margin-top: auto; }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--sw-slate-chrome);
+    border-right: 1px solid #1a1f28;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px 8px;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--sw-slate-400);
+  }
+
+  .sidebar-actions { color: var(--sw-slate-600); font-size: 12px; }
+
+  .section-title {
+    padding: 4px 14px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sw-slate-300);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tree {
+    overflow-y: auto;
+    padding: 2px 0 8px;
+    flex: 1;
+  }
+
+  .node {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 14px 2px 6px;
+    font-size: 12px;
+    color: var(--sw-slate-300);
+    white-space: nowrap;
+    height: 22px;
+  }
+
+  .node.active {
+    background: rgba(94, 234, 212, 0.10);
+    color: var(--sw-teal-300);
+    box-shadow: inset 2px 0 0 var(--sw-teal-300);
+  }
+
+  .indent { display: inline-block; flex-shrink: 0; }
+
+  .caret {
+    width: 10px;
+    color: var(--sw-slate-500);
+    font-size: 9px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .caret-spacer {
+    width: 10px;
+    flex-shrink: 0;
+  }
+
+  .ficon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ficon.folder { color: var(--sw-teal-300); }
+
+  .file-ext {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--sw-slate-900);
+    line-height: 1;
+  }
+
+  .ext-ts { background: var(--sw-sky-400); }
+  .ext-astro { background: var(--sw-rose-400); }
+  .ext-json { background: var(--sw-amber-400); }
+  .ext-md { background: var(--sw-slate-400); }
+  .ext-js { background: var(--sw-amber-400); }
+  .ext-env { background: var(--sw-purple); font-size: 7px; }
+
+  .node-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .node-badge,
+  .tab-badge {
+    background: var(--sw-amber-400);
+    color: var(--sw-slate-900);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 8px;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+
+  /* Editor pane */
+  .editor-pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .tab-bar {
+    display: flex;
+    background: var(--sw-slate-chrome);
+    border-bottom: 1px solid #1a1f28;
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--sw-slate-400);
+    border-right: 1px solid #1a1f28;
+    border-top: 1px solid transparent;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .tab.active {
+    color: var(--sw-slate-200);
+    background: var(--sw-slate-editor);
+    border-top-color: var(--sw-teal-300);
+  }
+
+  .tab-close {
+    color: var(--sw-slate-600);
+    font-size: 12px;
+    margin-left: 2px;
+  }
+
+  .tab.active .tab-close { color: var(--sw-slate-400); }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 11px;
+    color: var(--sw-slate-400);
+    background: var(--sw-slate-editor);
+    border-bottom: 1px solid var(--sw-slate-800);
+  }
+
+  .bc-sep { color: var(--sw-slate-600); }
+  .bc-part.last { color: var(--sw-slate-300); }
+
+  /* Editor body — no minimap on Cursor; the agent pane fills that role */
+  .editor {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    background: var(--sw-slate-editor);
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  .gutter {
+    color: var(--sw-slate-600);
+    text-align: right;
+    padding: 10px 8px 10px 14px;
+    user-select: none;
+    border-right: 1px solid transparent;
+  }
+
+  .ln { line-height: 1.55; }
+
+  .code {
+    overflow: hidden;
+    padding: 10px 0 10px 14px;
+  }
+
+  .code :global(pre) {
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  /* Agent panel — Cursor's headline UI affordance */
+  .agent-pane {
+    background: var(--sw-slate-chrome);
+    border-left: 1px solid #1a1f28;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .agent-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px 4px;
+    border-bottom: 1px solid #1a1f28;
+    font-size: 11px;
+    color: var(--sw-slate-400);
+  }
+
+  .agent-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 8px;
+    background: var(--sw-slate-editor);
+    border-radius: 4px 4px 0 0;
+    color: var(--sw-slate-200);
+    border-top: 1px solid var(--sw-teal-300);
+    font-size: 11px;
+  }
+
+  .agent-tab svg { color: var(--sw-teal-300); }
+
+  .agent-tab-close {
+    color: var(--sw-slate-500);
+    font-size: 11px;
+    margin-left: 2px;
+  }
+
+  .agent-tab-spacer { flex: 1; }
+
+  .agent-icon {
+    color: var(--sw-slate-500);
+    font-size: 12px;
+    width: 18px;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .agent-body {
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .agent-input {
+    background: var(--sw-slate-editor);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 14px 12px 38px;
+    color: var(--sw-slate-500);
+    font-size: 11.5px;
+    line-height: 1.45;
+    min-height: 96px;
+    position: relative;
+  }
+
+  .agent-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: -38px;
+    padding: 0 8px 8px;
+    z-index: 1;
+  }
+
+  .agent-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 7px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    color: var(--sw-slate-300);
+    font-size: 10.5px;
+    font-weight: 500;
+  }
+
+  .agent-control.icon-only {
+    padding: 4px;
+    background: transparent;
+    color: var(--sw-slate-500);
+  }
+
+  .agent-control svg {
+    color: var(--sw-teal-300);
+  }
+
+  .agent-control.icon-only svg {
+    color: var(--sw-slate-500);
+  }
+
+  .ctrl-caret {
+    color: var(--sw-slate-500);
+    font-size: 8px;
+    margin-left: 1px;
+  }
+
+  .agent-spacer { flex: 1; }
+
+  /* Status bar — Slatewave palette plus Cursor-only Cursor Tab + Sign In cells */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--sw-slate-800);
+    color: var(--sw-slate-300);
+    padding: 0 12px;
+    height: 26px;
+    font-size: 11px;
+    border-top: 1px solid var(--sw-slate-900);
+  }
+
+  .status-left, .status-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .status-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .status-cell.muted { color: var(--sw-slate-500); }
+
+  .status-cell svg { color: var(--sw-slate-400); }
+
+  .cursor-tab {
+    color: var(--sw-slate-300);
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--sw-teal-300);
+  }
+
+  .sign-in {
+    background: var(--sw-amber-400);
+    color: var(--sw-slate-900);
+    padding: 1px 9px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  /* Responsive — at narrower widths, drop the agent pane, then the sidebar */
+  @media (max-width: 1100px) {
+    .workbench { grid-template-columns: 48px 220px minmax(0, 1fr) 240px; }
+  }
+
+  @media (max-width: 960px) {
+    .workbench { grid-template-columns: 48px 220px minmax(0, 1fr); }
+    .agent-pane { display: none; }
+    .agents-window { display: none; }
+  }
+
+  @media (max-width: 720px) {
+    .workbench { grid-template-columns: 36px 200px minmax(0, 1fr); }
+    .activity { width: 32px; height: 32px; }
+    .activity svg { width: 16px; height: 16px; }
+  }
+
+  @media (max-width: 540px) {
+    .workbench { grid-template-columns: 32px minmax(0, 1fr); }
+    .sidebar { display: none; }
+    .title-search { min-width: 100px; }
+    .breadcrumb { display: none; }
+    .status-cell:nth-child(n+4) { display: none; }
+    .sign-in { display: none; }
+  }
+</style>
