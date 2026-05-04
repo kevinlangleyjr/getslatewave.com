@@ -14,13 +14,21 @@ The [Slatewave CLI](/cli/) installs, activates, and uninstalls every
 theme in the family. One command to install the binary, one more to
 pick the themes you want.
 
-**macOS / Linux**
+**macOS / Linux** (via Homebrew)
 
 ```sh
 brew tap kevinlangleyjr/slatewave
 brew install slatewave
 slatewave init
 ```
+
+**Linux** (native distro package)
+
+Each release ships `.deb`, `.rpm`, `.apk`, and Arch packages on the
+[Releases page](https://github.com/kevinlangleyjr/slatewave-cli/releases) —
+download the file matching your distro and architecture, then install
+with the matching package manager (`dpkg -i`, `rpm -i`, `apk add
+--allow-untrusted`, or `pacman -U`).
 
 **Windows**
 
