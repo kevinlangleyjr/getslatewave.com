@@ -171,7 +171,7 @@ const initDemoLines = [
     </header>
 
     <section class="section before-after">
-      <div class="container narrow">
+      <div class="container">
         <header class="section-head">
           <p class="eyebrow">What it replaces</p>
           <h2>Stop pasting install rituals.</h2>
@@ -199,7 +199,7 @@ const initDemoLines = [
     </section>
 
     <section class="section demo-section">
-      <div class="container narrow">
+      <div class="container">
         <header class="section-head">
           <p class="eyebrow">First run</p>
           <h2>Detect, pick, install.</h2>
@@ -216,7 +216,7 @@ const initDemoLines = [
     </section>
 
     <section class="section commands-section">
-      <div class="container narrow">
+      <div class="container">
         <header class="section-head">
           <p class="eyebrow">Commands</p>
           <h2>The full surface area.</h2>
@@ -240,7 +240,7 @@ const initDemoLines = [
     </section>
 
     <section class="section rules-section">
-      <div class="container narrow">
+      <div class="container">
         <header class="section-head">
           <p class="eyebrow">Design rules</p>
           <h2>What it will and won't do.</h2>
@@ -263,7 +263,7 @@ const initDemoLines = [
     </section>
 
     <section class="section themes-section">
-      <div class="container narrow">
+      <div class="container">
         <header class="section-head">
           <p class="eyebrow">Supported</p>
           <h2>{supportedThemes.length} themes installable today.</h2>
@@ -292,7 +292,7 @@ const initDemoLines = [
     </section>
 
     <section class="section close">
-      <div class="container narrow close-card">
+      <div class="container close-card">
         <h2>Get the CLI.</h2>
         <p class="close-lede">
           Two repos: the Go binary and the Homebrew tap. WTFPL — do whatever you
@@ -414,7 +414,7 @@ const initDemoLines = [
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     gap: var(--space-3);
-    max-width: 44rem;
+    scroll-margin-top: 88px;
   }
 
   .install-cmd {
@@ -560,7 +560,6 @@ const initDemoLines = [
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     font-size: var(--fs-sm);
-    max-width: 44rem;
   }
 
   .stat {
@@ -595,10 +594,6 @@ const initDemoLines = [
     padding-block: var(--space-12);
   }
 
-  .narrow {
-    max-width: 48rem;
-  }
-
   .section-head {
     margin-bottom: var(--space-8);
     max-width: 42rem;
@@ -628,7 +623,7 @@ const initDemoLines = [
 
   .comparison {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-5);
   }
 
@@ -636,6 +631,7 @@ const initDemoLines = [
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    min-width: 0;
   }
 
   .comparison-label {
@@ -687,7 +683,14 @@ const initDemoLines = [
     list-style: none;
     padding: 0;
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-3);
+  }
+
+  @media (max-width: 720px) {
+    .commands-list {
+      grid-template-columns: 1fr;
+    }
   }
 
   .command-item {
@@ -718,8 +721,20 @@ const initDemoLines = [
     padding: 0;
     counter-reset: rule;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-5);
+  }
+
+  @media (max-width: 1024px) {
+    .rules-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .rules-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .rule-item {
@@ -762,6 +777,10 @@ const initDemoLines = [
     gap: var(--space-3);
   }
 
+  .themes-grid li {
+    display: flex;
+  }
+
   .theme-pill {
     display: grid;
     gap: 2px;
@@ -772,6 +791,8 @@ const initDemoLines = [
     color: inherit;
     text-decoration: none;
     transition: border-color 120ms ease, transform 120ms ease;
+    width: 100%;
+    align-content: start;
   }
 
   .theme-pill:hover,
