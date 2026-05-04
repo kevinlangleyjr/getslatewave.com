@@ -37,6 +37,9 @@ const customPreviews: Record<string, { component: typeof AlfredPreview; wide?: b
   'oh-my-posh': { component: OhMyPoshPreview, wide: true },
   slack: { component: SlackPreview, wide: true },
   vscode: { component: VSCodePreview, wide: true },
+  // VSCodium is VSCode without the Microsoft branding — same workbench
+  // surface, same theme tokens. Reuse the VSCode preview verbatim.
+  vscodium: { component: VSCodePreview, wide: true },
   jetbrains: { component: JetBrainsPreview, wide: true },
   'sublime-text': { component: SublimeTextPreview, wide: true },
   xcode: { component: XcodePreview, wide: true },
