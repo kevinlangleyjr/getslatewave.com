@@ -22,6 +22,7 @@ import NeovimPreview from '~/components/previews/NeovimPreview.astro';
 import LogseqPreview from '~/components/previews/LogseqPreview.astro';
 import MarkEditPreview from '~/components/previews/MarkEditPreview.astro';
 import AnytypePreview from '~/components/previews/AnytypePreview.astro';
+import CursorPreview from '~/components/previews/CursorPreview.astro';
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
 
@@ -47,6 +48,7 @@ const customPreviews: Record<string, { component: typeof AlfredPreview; wide?: b
   logseq: { component: LogseqPreview, wide: true },
   markedit: { component: MarkEditPreview, wide: true },
   anytype: { component: AnytypePreview, wide: true },
+  cursor: { component: CursorPreview, wide: true },
 };
 
 export async function getStaticPaths() {
