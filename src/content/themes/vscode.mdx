@@ -39,6 +39,12 @@ install:
   - label: VSCode CLI
     description: Install from an existing VSCode or Cursor instance using the `code` (or `cursor`) command-line tool.
     command: code --install-extension kevinlangleyjr.slatewave
+  - label: OpenVSX
+    description: Browse Slatewave on the Open VSX gallery — useful if you've pointed VSCode at OpenVSX, or just prefer the open registry. Click **Download** on the extension page, then drag the .vsix into VSCode or use the CLI command below.
+    link: https://open-vsx.org/extension/kevinlangleyjr/slatewave
+  - label: VSIX from OpenVSX (CLI)
+    description: Install the downloaded .vsix from the shell — works with vanilla VSCode and any VSCode-compatible CLI tool.
+    command: code --install-extension ~/Downloads/slatewave-*.vsix
   - label: Manual
     description: Clone the repo and symlink into your VSCode extensions directory.
     steps:
@@ -46,7 +52,7 @@ install:
       - Copy the folder into `~/.vscode/extensions/`
       - Restart VSCode and pick Slatewave from the command palette
 tags: [editor, dark, high-contrast]
-related: [jetbrains, sublime-text, neovim, zed]
+related: [cursor, vscodium, antigravity, jetbrains, sublime-text, neovim, zed]
 ---
 
 Slatewave for VSCode applies the canonical Slatewave palette to editor

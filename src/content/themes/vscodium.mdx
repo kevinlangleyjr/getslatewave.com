@@ -1,0 +1,66 @@
+---
+name: Slatewave for VSCodium
+shortName: VSCodium
+slug: vscodium
+cliSlug: vscodium
+category: editor
+tagline: The Slatewave VSCode extension, installed into VSCodium from the Open VSX gallery.
+summary: >-
+  VSCodium is the telemetry-free, MS-branding-stripped build of VSCode
+  that points at the Open VSX gallery by default. The canonical
+  `kevinlangleyjr.slatewave` extension installs into VSCodium unchanged
+  from OpenVSX — same VSIX, same syntax tokens, same workbench chrome.
+status: beta
+order: 11.2
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: vscode-slatewave
+  url: https://github.com/kevinlangleyjr/vscode-slatewave
+links:
+  marketplace: https://open-vsx.org/extension/kevinlangleyjr/slatewave
+install:
+  - label: Slatewave CLI
+    description: One command on macOS, Linux, or Windows. Wraps `codium --install-extension` and tracks the install in slatewave's state so `slatewave uninstall vscodium` reverses it cleanly later — independent of the parallel VSCode or Cursor install if you have multiple editors.
+    command: slatewave install vscodium
+  - label: Extensions panel
+    description: Inside VSCodium, open the Extensions panel (⇧⌘X / Ctrl+Shift+X), search **Slatewave**, and click Install. VSCodium reads from Open VSX out of the box, so the search hits the right gallery.
+    link: https://open-vsx.org/extension/kevinlangleyjr/slatewave
+  - label: VSCodium CLI
+    description: Install directly with the `codium` command-line tool from any shell — same flag as the VSCode CLI.
+    command: codium --install-extension kevinlangleyjr.slatewave
+  - label: VSIX from OpenVSX
+    description: Click **Download** on the OpenVSX extension page, then either drag the .vsix into VSCodium or run the CLI command below.
+    command: codium --install-extension ~/Downloads/slatewave-*.vsix
+  - label: Manual
+    description: Clone the repo and drop the folder into VSCodium's extensions directory.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/vscode-slatewave
+      - Copy the folder into `~/.vscode-oss/extensions/`
+      - Restart VSCodium and pick Slatewave from the command palette
+tags: [editor, vscodium, vscode, openvsx]
+related: [vscode, cursor, antigravity, jetbrains, sublime-text]
+---
+
+VSCodium is the libre, telemetry-free build of VSCode — same source,
+no Microsoft branding, and crucially **points at the Open VSX gallery
+by default** instead of the Visual Studio Marketplace. The canonical
+[Slatewave for VSCode](/themes/vscode/) extension is published to
+Open VSX, so VSCodium installs the exact same VSIX with the same
+syntax tokens, the same workbench chrome, the same diff colors.
+
+There's no separate VSCodium port — this page exists so the install
+path (Open VSX gallery, `codium --install-extension`) is documented
+rather than implied from the VSCode page.
+
+`slatewave install vscodium` shells out to `codium --install-extension`
+and tracks the install in slatewave's state, so the matching
+`slatewave uninstall vscodium` reverses it cleanly later — independent
+of any VSCode or Cursor install you may have alongside it.
+
+> **Heads-up:** the kevinlangleyjr.slatewave extension is currently in
+> review on Open VSX. Until the publication lands, both
+> `slatewave install vscodium` and `codium --install-extension`
+> will surface "extension not found" — that's an Open VSX gallery
+> issue, not a VSCodium or CLI bug. Once approved, every install path
+> on this page works end-to-end with no further changes.

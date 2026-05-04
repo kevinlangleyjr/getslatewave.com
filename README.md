@@ -19,6 +19,8 @@ available.
 ### Editors
 
 - [Slatewave for VSCode](src/content/themes/vscode.mdx) — beta
+- [Slatewave for VSCodium](src/content/themes/vscodium.mdx) — beta
+- [Slatewave for Antigravity](src/content/themes/antigravity.mdx) — beta
 - [Slatewave for JetBrains](src/content/themes/jetbrains.mdx) — beta
 - [Slatewave for Neovim](src/content/themes/neovim.mdx) — beta
 - [Slatewave for Sublime Text](src/content/themes/sublime-text.mdx) — beta

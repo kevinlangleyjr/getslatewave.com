@@ -52,8 +52,17 @@ const designRules: { title: string; body: string }[] = [
 // Themes that opt in to runtime.GOOS = "windows" in their manifest.
 // Keep in sync with internal/manifest/embedded/*.toml `supported_os`
 // entries that include "windows" — windows-terminal is windows-only,
-// the other three are cross-platform.
-const windowsSupportedSlugs = ['vscode', 'starship', 'oh-my-posh', 'windows-terminal'];
+// the others are cross-platform (the four VSCode-family editors plus
+// the two cross-platform prompts).
+const windowsSupportedSlugs = [
+  'vscode',
+  'cursor',
+  'vscodium',
+  'antigravity',
+  'starship',
+  'oh-my-posh',
+  'windows-terminal',
+];
 const windowsThemes = supportedThemes
   .filter((theme) => windowsSupportedSlugs.includes(theme.data.slug))
   .sort((a, b) => a.data.shortName.localeCompare(b.data.shortName));
