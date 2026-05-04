@@ -23,6 +23,7 @@ import LogseqPreview from '~/components/previews/LogseqPreview.astro';
 import MarkEditPreview from '~/components/previews/MarkEditPreview.astro';
 import AnytypePreview from '~/components/previews/AnytypePreview.astro';
 import CursorPreview from '~/components/previews/CursorPreview.astro';
+import AntigravityPreview from '~/components/previews/AntigravityPreview.astro';
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, absoluteDate, formatStars } from '~/lib/format';
 
@@ -52,6 +53,7 @@ const customPreviews: Record<string, { component: typeof AlfredPreview; wide?: b
   markedit: { component: MarkEditPreview, wide: true },
   anytype: { component: AnytypePreview, wide: true },
   cursor: { component: CursorPreview, wide: true },
+  antigravity: { component: AntigravityPreview, wide: true },
 };
 
 export async function getStaticPaths() {
