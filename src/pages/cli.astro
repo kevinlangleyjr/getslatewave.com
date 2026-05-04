@@ -299,9 +299,20 @@ const initDemoLines = [
           </li>
           <li class="platform-card">
             <p class="platform-name">Linux</p>
-            <p class="platform-detail">Every theme except <code>windows-terminal</code>.</p>
+            <p class="platform-detail">
+              Every theme except <code>windows-terminal</code>. Native
+              <code>.deb</code>, <code>.rpm</code>, <code>.apk</code>,
+              and Arch packages on each release.
+            </p>
             <p class="platform-install">
               <code>brew install slatewave</code>
+              <span class="platform-install-or">or</span>
+              <a
+                href="https://github.com/kevinlangleyjr/slatewave-cli/releases"
+                rel="noopener"
+                target="_blank"
+                data-simple-event="cta_cli_platforms_linux_packages"
+              >grab a distro package →</a>
             </p>
           </li>
           <li class="platform-card">
@@ -880,10 +891,18 @@ const initDemoLines = [
     margin: 0;
     font-size: var(--fs-xs);
     color: var(--fg-subtle);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
   }
 
   .platform-install a {
     color: var(--page-accent);
+  }
+
+  .platform-install-or {
+    color: var(--fg-subtle);
   }
 
   .themes-grid {
