@@ -43,7 +43,20 @@ const designRules: { title: string; body: string }[] = [
     title: 'Backups before edits',
     body: 'Any manifest whose activate type replaces an existing config line writes a .slatewave.<timestamp>.bak first. slatewave uninstall restores from it.',
   },
+  {
+    title: 'Hide what will not work',
+    body: 'The CLI is OS-aware. Themes that do not support the current platform are filtered out of list, browse, init, and tab-completion. An explicit install for an unsupported theme errors out before any side-effects.',
+  },
 ];
+
+// Themes that opt in to runtime.GOOS = "windows" in their manifest.
+// Keep in sync with internal/manifest/embedded/*.toml `supported_os`
+// entries that include "windows" — windows-terminal is windows-only,
+// the other three are cross-platform.
+const windowsSupportedSlugs = ['vscode', 'starship', 'oh-my-posh', 'windows-terminal'];
+const windowsThemes = supportedThemes
+  .filter((theme) => windowsSupportedSlugs.includes(theme.data.slug))
+  .sort((a, b) => a.data.shortName.localeCompare(b.data.shortName));
 
 // TODO: replace this hardcoded approximation with an asciinema-player embed
 // pointing at /cli/init-demo.cast once the recording is captured.
@@ -259,6 +272,59 @@ const initDemoLines = [
             </li>
           ))}
         </ol>
+      </div>
+    </section>
+
+    <section class="section platforms-section">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Cross-platform</p>
+          <h2>Runs on macOS, Linux, and Windows.</h2>
+          <p class="section-lede">
+            Every manifest declares which OSes it works on. The CLI filters
+            <code>list</code>, <code>browse</code>, <code>init</code>, and
+            tab-completion to match — so you only see themes you can actually
+            install. An explicit <code>install</code> for an unsupported
+            theme errors out before any side-effects.
+          </p>
+        </header>
+
+        <ul class="platforms-grid">
+          <li class="platform-card">
+            <p class="platform-name">macOS</p>
+            <p class="platform-detail">Every theme except <code>windows-terminal</code>.</p>
+            <p class="platform-install">
+              <code>brew install slatewave</code>
+            </p>
+          </li>
+          <li class="platform-card">
+            <p class="platform-name">Linux</p>
+            <p class="platform-detail">Every theme except <code>windows-terminal</code>.</p>
+            <p class="platform-install">
+              <code>brew install slatewave</code>
+            </p>
+          </li>
+          <li class="platform-card">
+            <p class="platform-name">Windows</p>
+            <p class="platform-detail">
+              The {windowsThemes.length} cross-platform manifests today —
+              {windowsThemes.map((theme, i) => (
+                <>
+                  {i > 0 ? (i === windowsThemes.length - 1 ? ', and ' : ', ') : ''}
+                  <a href={`/themes/${theme.data.slug}/`} class="platform-link">{theme.data.shortName}</a>
+                </>
+              ))}.
+            </p>
+            <p class="platform-install">
+              <a
+                href="https://github.com/kevinlangleyjr/slatewave-cli/releases"
+                rel="noopener"
+                target="_blank"
+                data-simple-event="cta_cli_platforms_releases"
+              >Download from Releases →</a>
+            </p>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -721,20 +787,8 @@ const initDemoLines = [
     padding: 0;
     counter-reset: rule;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
     gap: var(--space-5);
-  }
-
-  @media (max-width: 1024px) {
-    .rules-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 560px) {
-    .rules-grid {
-      grid-template-columns: 1fr;
-    }
   }
 
   .rule-item {
@@ -767,6 +821,69 @@ const initDemoLines = [
     color: var(--fg-muted);
     font-size: var(--fs-sm);
     line-height: var(--lh-snug);
+  }
+
+  .platforms-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-4);
+  }
+
+  .platform-card {
+    padding: var(--space-5);
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .platform-name {
+    margin: 0;
+    font-size: var(--fs-md);
+    font-weight: 600;
+    color: var(--page-accent);
+    letter-spacing: -0.01em;
+  }
+
+  .platform-detail {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-snug);
+  }
+
+  .platform-detail code,
+  .platform-install code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    background: var(--bg-inset);
+    padding: 1px 6px;
+    border-radius: var(--radius-sm);
+    color: var(--fg-default);
+  }
+
+  .platform-link {
+    color: var(--fg-default);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--page-accent) 50%, transparent);
+    text-underline-offset: 3px;
+  }
+
+  .platform-link:hover {
+    color: var(--page-accent);
+  }
+
+  .platform-install {
+    margin: 0;
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+  }
+
+  .platform-install a {
+    color: var(--page-accent);
   }
 
   .themes-grid {

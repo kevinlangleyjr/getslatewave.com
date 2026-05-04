@@ -14,9 +14,20 @@ The [Slatewave CLI](/cli/) installs, activates, and uninstalls every
 theme in the family. One command to install the binary, one more to
 pick the themes you want.
 
+**macOS / Linux**
+
 ```sh
 brew tap kevinlangleyjr/slatewave
 brew install slatewave
+slatewave init
+```
+
+**Windows**
+
+Download `slatewave_windows_*.zip` from the [Releases page](https://github.com/kevinlangleyjr/slatewave-cli/releases),
+extract `slatewave.exe`, and put it somewhere on `%PATH%`. Then:
+
+```powershell
 slatewave init
 ```
 
@@ -24,6 +35,12 @@ slatewave init
 on this machine, multi-selects what's worth installing, and runs the
 install through a live dashboard. Every step backs up the configs it
 touches so `slatewave uninstall` can reverse cleanly later.
+
+The CLI is OS-aware: themes that don't work on the current platform are
+hidden from `list`, `browse`, `init`, and tab-completion entirely. On
+Windows that's a focused set today — VSCode, Starship, Oh My Posh, and
+Windows Terminal — so `slatewave init` only offers what'll actually
+install end-to-end.
 
 Prefer to do it yourself, tool-by-tool? The manual paths below skip the
 CLI entirely.

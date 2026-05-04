@@ -52,6 +52,9 @@ preview:
         ]
     }
 install:
+  - label: Slatewave CLI
+    description: The CLI prints the install steps below and links to the scheme file. Available in the Windows binary on the Releases page; macOS and Linux don't see this theme in `slatewave list` since Windows Terminal is Windows-only.
+    command: slatewave install windows-terminal
   - label: Manual
     description: Paste the scheme object into the `schemes` array of settings.json, then reference it from a profile.
     steps:

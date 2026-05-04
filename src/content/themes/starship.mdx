@@ -43,6 +43,9 @@ preview:
     success_symbol = '[╰─❯](bold fg:teal_300)'
     error_symbol   = '[╰─❯](bold fg:rose_400)'
 install:
+  - label: Slatewave CLI
+    description: One command on macOS, Linux, or Windows — drops slatewave.toml at ~/.config/starship.toml and appends the init line to your ~/.zshrc, ~/.bashrc, or PowerShell `$PROFILE`. Reverses cleanly via `slatewave uninstall starship`.
+    command: slatewave install starship
   - label: curl
     description: Drop slatewave.toml at ~/.config/starship.toml so Starship reads it as the default config (when STARSHIP_CONFIG is unset). Requires Starship ≥ 1.16.
     command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/starship-slatewave/main/slatewave.toml -o ~/.config/starship.toml

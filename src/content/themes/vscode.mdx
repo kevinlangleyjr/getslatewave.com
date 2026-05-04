@@ -30,6 +30,9 @@ preview:
       return `${theme.name} for ${theme.platform}`;
     }
 install:
+  - label: Slatewave CLI
+    description: One command on macOS, Linux, or Windows — wraps `code --install-extension` and tracks the install in slatewave's state so `slatewave uninstall vscode` reverses it cleanly later.
+    command: slatewave install vscode
   - label: Marketplace
     description: Install from the Visual Studio Marketplace in VSCode or Cursor.
     link: https://marketplace.visualstudio.com/items?itemName=kevinlangleyjr.slatewave

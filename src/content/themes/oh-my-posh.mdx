@@ -24,6 +24,9 @@ preview:
     - '▲ building client for production...'
     - '✓ 42 modules transformed.'
 install:
+  - label: Slatewave CLI
+    description: One command on macOS, Linux, or Windows — fetches the config and wires the `oh-my-posh init` line into your shell rc (PowerShell `$PROFILE` on Windows). Reverses cleanly via `slatewave uninstall oh-my-posh`.
+    command: slatewave install oh-my-posh
   - label: curl
     description: Pull the theme directly into Oh My Posh's config directory.
     command: curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/slatewave-omp/main/slatewave.omp.json -o ~/.config/oh-my-posh/slatewave.omp.json
