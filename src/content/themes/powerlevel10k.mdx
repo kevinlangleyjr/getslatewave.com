@@ -1,0 +1,79 @@
+---
+name: Slatewave for Powerlevel10k
+shortName: Powerlevel10k
+slug: powerlevel10k
+cliSlug: powerlevel10k
+category: terminal
+tagline: A Slatewave prompt for Powerlevel10k, twin of the Oh My Posh and Starship ports.
+summary: >-
+  A `slatewave.p10k.zsh` config you source from `.zshrc` after p10k itself
+  loads — two-line frame with a teal `╭─` opener and `╰─❯$` closer, and the
+  same left/right segment layout as the Slatewave Oh My Posh and Starship
+  ports so switching shells preserves the visual rhythm.
+status: beta
+order: 31
+accent: '#38bdf8'
+repo:
+  owner: kevinlangleyjr
+  name: p10k-slatewave
+  url: https://github.com/kevinlangleyjr/p10k-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: zsh
+  sample: |
+    # ~/.config/p10k/slatewave.p10k.zsh — slatewave palette (abridged)
+
+    # Frame — teal prompt char on success, rose on non-zero exit
+    typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VIINS_FOREGROUND='#5eead4'
+    typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_VIINS_FOREGROUND='#ef5350'
+
+    # Path — slate raised surface, teal text
+    typeset -g POWERLEVEL9K_DIR_BACKGROUND='#2c313a'
+    typeset -g POWERLEVEL9K_DIR_FOREGROUND='#5eead4'
+
+    # Git — clean=sky, modified=rose, contrast text on accent backgrounds
+    typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#38bdf8'
+    typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#fb7185'
+    typeset -g POWERLEVEL9K_VCS_CONTENT_FOREGROUND='#193549'
+
+    # Layout — mirrors the OMP and Starship ports
+    typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+      os_icon dir vcs virtualenv java_version
+    )
+    typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+      command_execution_time battery load ram time
+    )
+install:
+  - label: curl
+    description: Drop slatewave.p10k.zsh into ~/.config/p10k. Requires Powerlevel10k 1.18.0+ and a Nerd Font (MesloLGS NF or Hack Nerd Font Mono both work).
+    command: mkdir -p ~/.config/p10k && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/p10k-slatewave/main/slatewave.p10k.zsh -o ~/.config/p10k/slatewave.p10k.zsh
+  - label: Clone
+    description: Clone for versioned updates instead of curl.
+    command: git clone https://github.com/kevinlangleyjr/p10k-slatewave ~/.config/p10k-slatewave
+  - label: Activate
+    description: Source the Slatewave config from your .zshrc — *after* the line that sources p10k itself, so its assignments win.
+    steps:
+      - 'Add to ~/.zshrc, after p10k is sourced: `[[ -f ~/.config/p10k/slatewave.p10k.zsh ]] && source ~/.config/p10k/slatewave.p10k.zsh`'
+      - Restart your shell or run `source ~/.zshrc`
+tags: [terminal, prompt, zsh, p10k, powerlevel10k]
+related: [oh-my-posh, starship]
+---
+
+Slatewave for Powerlevel10k ships as a single `slatewave.p10k.zsh` you
+source from `.zshrc` after p10k itself loads — its `typeset -g
+POWERLEVEL9K_*` assignments win, the layout doesn't change, and removing
+the source line reverts you to vanilla p10k. The prompt is a two-line
+frame: `╭─` opens, `╰─❯$` closes, both teal on success and rose on a
+non-zero exit.
+
+Left segments run `os → ssh → dir → git → virtualenv → java`; right
+segments run `exec time → battery → cpu load → ram → time` — the same
+rhythm as the Oh My Posh and Starship ports, so the prompt looks the
+same in zsh whether p10k or starship is rendering it. Transient prompt
+collapses old prompts to a single line on enter to keep scrollback
+clean.
+
+Every color resolves to a hex value pinned to the Slatewave palette, so
+overrides compose cleanly: re-declare any `POWERLEVEL9K_*` below the
+source line and your assignment wins.
