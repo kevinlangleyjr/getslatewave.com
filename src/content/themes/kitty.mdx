@@ -1,21 +1,95 @@
 ---
-name: Slatewave for Kitty
-shortName: Kitty
+name: Slatewave for kitty
+shortName: kitty
 slug: kitty
+cliSlug: kitty
 category: terminal
-tagline: Slatewave for Kitty, with tab and selection colors dialed in.
+tagline: Palette + tab bar + marks tuned to kitty's full color schema, with an opinionated typography bundle.
 summary: >-
-  Planned — a Slatewave `.conf` for Kitty covering ANSI, selection, cursor,
-  and tab-bar colors.
-status: planned
+  A kitty theme covering ANSI, cursor, selection, URL hover, window
+  borders, tab bar, and marks. Ships as a palette-only `.conf` or a
+  palette + Hack Nerd Font Mono + block cursor + opaque window bundle.
+status: beta
 order: 49
 accent: '#5eead4'
 repo:
   owner: kevinlangleyjr
   name: kitty-slatewave
-  url: https://sw.kovidgoyal.net/kitty/
-tags: [terminal, planned]
+  url: https://github.com/kevinlangleyjr/kitty-slatewave
+  defaultBranch: main
+links:
+  download: https://raw.githubusercontent.com/kevinlangleyjr/kitty-slatewave/main/slatewave.conf
+preview:
+  kind: code
+  language: bash
+  sample: |
+    # ~/.config/kitty/slatewave.conf
+    foreground              #e2e8f0
+    background              #282c34
+    selection_foreground    #e2e8f0
+    selection_background    #334155
+
+    cursor                  #5eead4
+    cursor_text_color       #282c34
+    url_color               #38bdf8
+
+    active_border_color     #5eead4
+    inactive_border_color   #334155
+
+    active_tab_foreground   #282c34
+    active_tab_background   #5eead4
+    inactive_tab_foreground #cbd5e1
+    inactive_tab_background #282c34
+    tab_bar_background      #21252b
+
+    # ANSI 0-15 — mirrors terminal.ansi* in vscode-slatewave
+    color0  #1e293b
+    color1  #fb7185
+    color2  #5eead4
+    color3  #b45309
+    color4  #38bdf8
+    color5  #b388ff
+    color6  #0e7490
+    color7  #e2e8f0
+install:
+  - label: Slatewave CLI
+    description: One command — installs the full bundle (palette + Hack Nerd Font Mono + block cursor + opaque window) and wires `include slatewave-full.conf` into your kitty.conf. Reverses cleanly with `slatewave uninstall kitty`.
+    command: brew install kevinlangleyjr/slatewave/slatewave && slatewave install kitty
+  - label: curl (palette only)
+    description: Drop slatewave.conf into ~/.config/kitty/ and include it from kitty.conf — colors only, your existing font and window settings stay.
+    steps:
+      - mkdir -p ~/.config/kitty && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/kitty-slatewave/main/slatewave.conf -o ~/.config/kitty/slatewave.conf
+      - 'In ~/.config/kitty/kitty.conf — `include slatewave.conf`'
+  - label: Full bundle
+    description: Palette plus Hack Nerd Font Mono at 14pt, non-blinking block cursor, opaque window. Both files have to land together — slatewave-full.conf does `include slatewave.conf`. Requires Hack Nerd Font Mono installed.
+    steps:
+      - mkdir -p ~/.config/kitty
+      - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/kitty-slatewave/main/slatewave-full.conf -o ~/.config/kitty/slatewave-full.conf
+      - curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/kitty-slatewave/main/slatewave.conf -o ~/.config/kitty/slatewave.conf
+      - 'In ~/.config/kitty/kitty.conf — `include slatewave-full.conf`'
+  - label: Clone
+    description: Clone the repo and copy both files into kitty's config directory at your own pace.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/kitty-slatewave
+      - cp kitty-slatewave/slatewave.conf kitty-slatewave/slatewave-full.conf ~/.config/kitty/
+  - label: Activate
+    description: Reload kitty to pick up the include — no restart needed.
+    steps:
+      - 'macOS — `cmd+ctrl+,`'
+      - 'Linux / Windows — `ctrl+shift+F5`'
+tags: [terminal, kitty]
 related: [ghostty, alacritty, wezterm]
 ---
 
-Planned — not yet available.
+Slatewave for kitty tunes every slot kitty exposes — not just the
+16 ANSI colors. The tab bar uses teal-on-slate for the active tab
+and chrome `#21252b` for the bar itself, matching the VSCode activity
+bar so the window edges read as one continuous surface. The bell
+border is amber, marks `1`/`2`/`3` mirror the editor's
+error/warning/info accents (rose, amber, sky), and the macOS / Wayland
+titlebars tint to the slate background.
+
+The two install shapes let you opt into the typography opinions or
+keep your existing font and window settings. The full bundle composes
+— layer your overrides _after_ the include in kitty.conf and the
+later values win in kitty's parse order.
