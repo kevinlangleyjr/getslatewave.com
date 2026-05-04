@@ -417,7 +417,11 @@ const breadcrumbs = [
     overflow: hidden;
     font-family: var(--font-mono);
     font-size: 12px;
-    line-height: 1.45;
+    /* Absolute line-height (not unitless) so the gutter — which uses a
+       smaller 11px font for the line numbers — still produces rows the
+       same height as the 12px code rows. Otherwise unitless 1.45
+       inherits as a factor and the gutter drifts ~1.5px shorter per row. */
+    line-height: calc(12px * 1.45);
     position: relative;
   }
 
@@ -431,7 +435,6 @@ const breadcrumbs = [
   }
 
   .ln {
-    line-height: 1.45;
     font-size: 11px;
   }
 
