@@ -1,0 +1,48 @@
+---
+name: Slatewave for Cursor
+shortName: Cursor
+slug: cursor
+cliSlug: cursor
+category: editor
+tagline: The Slatewave VSCode extension, installed into Cursor with one command.
+summary: >-
+  Cursor is a VSCode fork that consumes the same Microsoft Marketplace
+  gallery, so the canonical `kevinlangleyjr.slatewave` extension installs
+  into Cursor unchanged. Slatewave CLI ships a dedicated `cursor` slug
+  that shells out to `cursor --install-extension` instead of `code`.
+status: beta
+order: 11
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: vscode-slatewave
+  url: https://github.com/kevinlangleyjr/vscode-slatewave
+links:
+  marketplace: https://marketplace.visualstudio.com/items?itemName=kevinlangleyjr.slatewave
+install:
+  - label: Slatewave CLI
+    description: One command on macOS, Linux, or Windows. Wraps `cursor --install-extension` and tracks the install in slatewave's state so `slatewave uninstall cursor` reverses it cleanly later — independent of the parallel VSCode install if you have both editors.
+    command: slatewave install cursor
+  - label: Cursor CLI
+    description: Install directly with the `cursor` command-line tool from inside any shell.
+    command: cursor --install-extension kevinlangleyjr.slatewave
+  - label: Marketplace
+    description: Install from inside Cursor — the Extensions sidebar reads from the same marketplace as VSCode, so search "Slatewave" and install.
+    link: https://marketplace.visualstudio.com/items?itemName=kevinlangleyjr.slatewave
+tags: [editor, cursor, vscode]
+related: [vscode, jetbrains, sublime-text, neovim, zed]
+---
+
+Cursor uses the same VSIX extension format and Microsoft Marketplace
+gallery as VSCode, so there's no separate Cursor port — the
+[Slatewave for VSCode](/themes/vscode/) extension installs into Cursor
+unchanged. Same syntax tokens, same workbench chrome, same diff colors.
+
+The reason Cursor gets its own page (and its own
+`slatewave install cursor`) is purely operational: the CLI needs to
+shell out to the `cursor` binary instead of `code`, and `slatewave
+uninstall cursor` should only reverse the Cursor side if you happen to
+have both editors with Slatewave installed.
+
+For the full preview, palette mapping notes, and the editor-themed
+screenshots, see [Slatewave for VSCode](/themes/vscode/).
