@@ -67,7 +67,7 @@ const initDemoLines = [
 
 <Base
   title="Slatewave CLI"
-  description="The family installer for Slatewave themes — one CLI to install, activate, update, and uninstall every theme. brew install kevinlangleyjr/slatewave/slatewave."
+  description="The family installer for Slatewave themes — one CLI to install, activate, update, and uninstall every theme. brew tap kevinlangleyjr/slatewave then brew install slatewave."
   ogImage="/og/cli.png"
 >
   <article class="cli-page">
@@ -92,7 +92,7 @@ const initDemoLines = [
           >Open an issue →</a>
         </p>
 
-        <div class="install-command">
+        <div id="install" class="install-command">
           <pre class="install-cmd"><code>{installCommand}</code></pre>
           <button
             type="button"
@@ -103,6 +103,16 @@ const initDemoLines = [
             Copy
           </button>
         </div>
+
+        <p class="install-platforms">
+          macOS and Linux via Homebrew · Windows binaries on the
+          <a
+            href="https://github.com/kevinlangleyjr/slatewave-cli/releases"
+            rel="noopener"
+            target="_blank"
+            data-simple-event="cta_cli_hero_releases"
+          >GitHub releases page →</a>
+        </p>
 
         <div class="hero-actions">
           <a
@@ -291,7 +301,7 @@ const initDemoLines = [
         <div class="close-actions">
           <a
             class="btn btn-primary"
-            href="#top"
+            href="#install"
             data-simple-event="cta_cli_close_install"
           >
             Back to the install command ↑
@@ -476,6 +486,17 @@ const initDemoLines = [
     color: var(--status-warn);
     border: 1px solid color-mix(in oklab, var(--status-warn) 30%, transparent);
     background: color-mix(in oklab, var(--status-warn) 10%, transparent);
+  }
+
+  .install-platforms {
+    margin-top: var(--space-3);
+    color: var(--fg-subtle);
+    font-size: var(--fs-xs);
+  }
+
+  .install-platforms a {
+    color: var(--page-accent);
+    white-space: nowrap;
   }
 
   .hero-actions {
