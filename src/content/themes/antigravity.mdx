@@ -1,0 +1,60 @@
+---
+name: Slatewave for Antigravity
+shortName: Antigravity
+slug: antigravity
+cliSlug: antigravity
+category: editor
+tagline: The Slatewave VSCode extension, installed into Google's Antigravity IDE from the Open VSX gallery.
+summary: >-
+  Antigravity is Google's agentic VSCode fork. Microsoft's marketplace
+  ToS forbid forks from accessing it, so Antigravity ships pointed at
+  Open VSX — Slatewave installs from there with the same VSIX, same
+  workbench tokens, same syntax mapping.
+status: beta
+order: 11.4
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: vscode-slatewave
+  url: https://github.com/kevinlangleyjr/vscode-slatewave
+links:
+  marketplace: https://open-vsx.org/extension/kevinlangleyjr/slatewave
+install:
+  - label: Slatewave CLI
+    description: One command on macOS, Linux, or Windows. Wraps `antigravity --install-extension` and tracks the install in slatewave's state so `slatewave uninstall antigravity` reverses it cleanly later — independent of any VSCode / Cursor / VSCodium installs alongside.
+    command: slatewave install antigravity
+  - label: Extensions panel
+    description: Inside Antigravity, open the Extensions panel (⇧⌘X / Ctrl+Shift+X), search **Slatewave**, and click Install. Antigravity reads from Open VSX exclusively.
+    link: https://open-vsx.org/extension/kevinlangleyjr/slatewave
+  - label: Antigravity CLI
+    description: Install with the `antigravity` command-line tool. On macOS the binary lives at `/Applications/Antigravity.app/Contents/Resources/app/bin/antigravity` if it isn't already on your $PATH.
+    command: antigravity --install-extension kevinlangleyjr.slatewave
+  - label: VSIX from OpenVSX
+    description: Click **Download** on the OpenVSX extension page, then either drag the .vsix into Antigravity or run the CLI command below.
+    command: antigravity --install-extension ~/Downloads/slatewave-*.vsix
+tags: [editor, antigravity, vscode, openvsx, agent]
+related: [vscode, cursor, vscodium, jetbrains, zed]
+---
+
+Antigravity is Google's VSCode fork built around the agentic Agent
+Manager workflow. It speaks the same VSIX format and reads the same
+workbench color tokens as VSCode — but Microsoft's marketplace Terms
+of Service prohibit forks from accessing the Visual Studio Marketplace,
+so Antigravity is pointed at the Open VSX gallery instead.
+
+The canonical [Slatewave for VSCode](/themes/vscode/) extension is
+published to Open VSX, so the install path is short: search Slatewave
+in the Extensions panel, or one of the CLI / VSIX paths above.
+
+> **Heads-up:** if you also have VSCode or Cursor installed, **don't
+> use `code --install-extension` for Antigravity** — it'll install into
+> VSCode/Cursor, not Antigravity. The `antigravity` binary is the only
+> one that targets Antigravity's extensions directory. `slatewave
+> install antigravity` shells out to the right binary automatically.
+
+> **Open VSX availability:** the kevinlangleyjr.slatewave extension is
+> currently in review on Open VSX. Until the publication lands, both
+> `slatewave install antigravity` and `antigravity --install-extension`
+> will surface "extension not found" — that's an Open VSX gallery
+> issue, not an Antigravity or CLI bug. Once approved, every install
+> path on this page works end-to-end with no further changes.
