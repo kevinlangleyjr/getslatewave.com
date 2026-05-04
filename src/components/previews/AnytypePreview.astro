@@ -1,0 +1,569 @@
+---
+/**
+ * Pure HTML/CSS rendering of Anytype with the Slatewave theme — three
+ * columns: channel rail, page rail with a Types section, and the page
+ * canvas with a globe emoji icon, teal action chips, and a "Welcome to
+ * Anytype" body. Mirrors the actual app layout so the preview shows
+ * the theme's real surface, not a generic notes-app abstraction.
+ */
+
+import TerminalChrome from './TerminalChrome.astro';
+---
+
+<figure class="any-preview sw-frame" aria-label="Slatewave Anytype theme preview">
+  <TerminalChrome>
+    <span slot="trailing" class="title-bar">Welcome to Anytype</span>
+  </TerminalChrome>
+
+  <div class="shell">
+    <!-- Leftmost: channel filter / list -->
+    <aside class="pane pane-channels">
+      <div class="rail-row">
+        <span class="rail-icon" aria-hidden="true"></span>
+        <span class="rail-icon plus" aria-hidden="true">+</span>
+        <span class="rail-icon ghost" aria-hidden="true"></span>
+      </div>
+      <div class="search-input">
+        <span class="search-glyph" aria-hidden="true">⌕</span>
+        Filter Channels…
+      </div>
+      <ul class="channel-list">
+        <li class="channel active">
+          <span class="ch-icon" aria-hidden="true"></span>
+          Get Started
+        </li>
+        <li class="channel new">
+          <span class="ch-plus" aria-hidden="true">+</span>
+          New channel
+        </li>
+      </ul>
+      <div class="rail-foot" aria-hidden="true">
+        <span class="avatar"></span>
+        <span class="foot-name">Splendid Rattlesn…</span>
+      </div>
+    </aside>
+
+    <!-- Middle: page list inside the active channel -->
+    <aside class="pane pane-pages">
+      <div class="space-cover" aria-hidden="true"></div>
+      <div class="space-icon" aria-hidden="true"></div>
+      <div class="space-header">
+        <span class="space-title">Get Started <span class="caret">▾</span></span>
+        <span class="space-actions" aria-hidden="true">
+          <span class="space-act">⌕</span>
+          <span class="space-act">✎</span>
+        </span>
+      </div>
+
+      <ul class="page-list">
+        <li class="page-item active">
+          <span class="page-glyph home" aria-hidden="true">⌂</span>
+          Welcome to Anytype
+        </li>
+        <li class="page-item">
+          <span class="page-glyph dot" aria-hidden="true">•</span>
+          Playground Page
+        </li>
+      </ul>
+
+      <p class="section-label"><span class="caret">▾</span> Types</p>
+      <ul class="page-list types">
+        <li class="page-item type">
+          <span class="page-glyph type-pages" aria-hidden="true"></span>
+          Pages
+        </li>
+        <li class="page-item type">
+          <span class="page-glyph type-tasks" aria-hidden="true"></span>
+          Tasks
+        </li>
+        <li class="page-item type">
+          <span class="page-glyph type-collections" aria-hidden="true"></span>
+          Collections
+        </li>
+        <li class="page-item type">
+          <span class="page-glyph type-bookmarks" aria-hidden="true"></span>
+          Bookmarks
+        </li>
+        <li class="page-item type">
+          <span class="page-glyph type-images" aria-hidden="true"></span>
+          Images
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Right: page canvas -->
+    <article class="pane pane-canvas">
+      <div class="canvas-toolbar" aria-hidden="true">
+        <span class="tb-arrow">‹</span>
+        <span class="tb-arrow">›</span>
+        <span class="tb-icon" aria-hidden="true"></span>
+        <span class="tb-flex"></span>
+        <span class="tb-share">Share</span>
+        <span class="tb-icon star" aria-hidden="true">☆</span>
+      </div>
+
+      <div class="page-icon" aria-hidden="true">🌐</div>
+
+      <div class="page-actions">
+        <span class="action-chip">📷 Add cover</span>
+        <span class="action-chip">ⓘ Show description</span>
+      </div>
+
+      <h1 class="page-title">Welcome to Anytype</h1>
+      <p class="page-meta">Page · Tag</p>
+
+      <p class="page-greeting">Hey, welcome!</p>
+      <p class="page-body">
+        This short walkthrough covers how to <strong>create</strong>,
+        <strong>navigate</strong>, and <strong>collaborate</strong> in
+        Anytype — all on the Slatewave palette.
+      </p>
+
+      <div class="callout">
+        <span class="callout-mark" aria-hidden="true">▶</span>
+        <div class="callout-body">
+          <p class="callout-title">Getting Started</p>
+          <p class="callout-sub">Without The Boring Bits</p>
+        </div>
+      </div>
+
+      <h2 class="page-h2">Channels</h2>
+      <p class="page-body">
+        Everything in Anytype lives inside a <strong>Channel</strong> —
+        your workspace for notes, projects, and conversations.
+        Internal mentions like <a class="mention" href="#">@Slatewave</a>
+        render in teal; external links in <a class="ext" href="#">sky</a>.
+        Inline <code>code</code> sits on a slate-800 pill.
+      </p>
+    </article>
+  </div>
+</figure>
+
+<style>
+  .any-preview {
+    background: var(--sw-slate-editor);
+    font-size: 12px;
+    --teal: var(--sw-teal-300);
+    --teal-soft: rgba(94, 234, 212, 0.14);
+    --rose: var(--sw-rose-400);
+    --purple: var(--sw-purple);
+    --amber: var(--sw-amber-400);
+    --orange: #fb923c;
+    --sky: var(--sw-sky-300);
+    --sky-strong: var(--sw-sky-400);
+    --emerald: #34d399;
+    --slate-fg: var(--sw-slate-200);
+    --slate-muted: var(--sw-slate-300);
+    --slate-faint: var(--sw-slate-500);
+    --canvas: var(--sw-slate-editor);
+    --rail: var(--sw-slate-chrome);
+    /* Channel rail in the real app reads as a *lifted* slate-blue —
+     * brighter and bluer than the page rail. Mix slate-800 with
+     * slate-700 to land between them in lightness while keeping the
+     * blue cast that distinguishes it from the neutral chrome. */
+    --vault: color-mix(in oklab, var(--sw-slate-800) 55%, var(--sw-slate-700) 45%);
+    --inset: var(--sw-slate-800);
+  }
+
+  .title-bar {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--slate-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 152px 196px 1fr;
+    min-height: 460px;
+  }
+
+  .pane {
+    padding: 12px;
+    font-family: var(--font-sans);
+    color: var(--slate-fg);
+  }
+
+  /* ---------- Channel rail (leftmost, deeper than canvas) ---------- */
+  .pane-channels {
+    background: var(--vault);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .rail-row {
+    display: flex;
+    gap: 6px;
+  }
+  .rail-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: rgba(203, 213, 225, 0.10);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--slate-faint);
+    font-size: 10px;
+  }
+  .rail-icon.plus {
+    background: rgba(94, 234, 212, 0.10);
+    color: var(--teal);
+  }
+  .rail-icon.ghost { background: transparent; }
+
+  .search-input {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    font-size: 10.5px;
+    color: var(--slate-faint);
+  }
+  .search-glyph { color: var(--slate-faint); }
+
+  .channel-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+    font-size: 11px;
+  }
+  .channel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    color: var(--slate-muted);
+  }
+  .channel .ch-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: linear-gradient(135deg, var(--orange) 0%, var(--rose) 100%);
+    flex-shrink: 0;
+  }
+  .channel .ch-plus {
+    width: 14px;
+    height: 14px;
+    color: var(--slate-faint);
+    text-align: center;
+    line-height: 14px;
+    flex-shrink: 0;
+  }
+  .channel.active {
+    background: var(--teal-soft);
+    color: var(--slate-fg);
+  }
+  .channel.new {
+    color: var(--slate-faint);
+  }
+
+  .rail-foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 10.5px;
+    color: var(--slate-faint);
+  }
+  .avatar {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(94, 234, 212, 0.18);
+    color: var(--teal);
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 14px;
+  }
+  .avatar::before {
+    content: 'S';
+  }
+
+  /* ---------- Page rail (middle) ---------- */
+  .pane-pages {
+    background: var(--rail);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .space-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    background: linear-gradient(180deg, var(--purple) 0%, var(--rose) 100%);
+    opacity: 0.22;
+  }
+
+  .space-icon {
+    margin-top: 18px;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--orange) 0%, var(--rose) 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  .space-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+  }
+  .space-title {
+    font-weight: 600;
+    color: var(--slate-fg);
+    font-size: 12.5px;
+  }
+  .space-title .caret {
+    color: var(--slate-faint);
+    font-size: 9px;
+    margin-left: 2px;
+  }
+  .space-actions {
+    display: flex;
+    gap: 6px;
+    color: var(--slate-faint);
+    font-size: 10px;
+  }
+  .space-act {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    background: rgba(94, 234, 212, 0.10);
+    color: var(--teal);
+    text-align: center;
+    line-height: 16px;
+  }
+
+  .page-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2px;
+    font-size: 11.5px;
+    z-index: 1;
+  }
+  .page-list.types { font-size: 11px; }
+
+  .page-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    border-radius: 3px;
+    color: var(--slate-muted);
+  }
+  .page-item.active {
+    color: var(--slate-fg);
+    background: rgba(94, 234, 212, 0.08);
+  }
+  .page-item .page-glyph {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    border-radius: 2px;
+  }
+  .page-glyph.home { color: var(--rose); }
+  .page-glyph.dot { color: var(--slate-faint); }
+
+  .page-glyph.type-pages       { background: var(--amber); }
+  .page-glyph.type-tasks       { background: var(--emerald); }
+  .page-glyph.type-collections { background: var(--teal); }
+  .page-glyph.type-bookmarks   { background: var(--orange); }
+  .page-glyph.type-images      { background: var(--sky-strong); }
+
+  .section-label {
+    font-size: 10.5px;
+    text-transform: capitalize;
+    color: var(--slate-faint);
+    margin: 6px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 1;
+  }
+  .section-label .caret { font-size: 9px; }
+
+  /* ---------- Canvas ---------- */
+  .pane-canvas {
+    padding: 10px 22px 22px;
+    overflow: hidden;
+    line-height: 1.55;
+  }
+
+  .canvas-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    color: var(--slate-faint);
+    font-size: 11px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+  .tb-arrow {
+    font-size: 14px;
+    line-height: 1;
+  }
+  .tb-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    background: rgba(203, 213, 225, 0.10);
+    display: inline-block;
+  }
+  .tb-icon.star {
+    background: transparent;
+    color: var(--slate-faint);
+    font-size: 11px;
+  }
+  .tb-flex { flex: 1; }
+  .tb-share {
+    font-weight: 600;
+    color: var(--slate-fg);
+  }
+
+  .page-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--inset);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .page-actions {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .action-chip {
+    color: var(--teal);
+    font-size: 10.5px;
+    font-weight: 500;
+  }
+
+  .page-title {
+    color: var(--slate-fg);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+  .page-meta {
+    color: var(--slate-faint);
+    font-size: 10.5px;
+    margin: 0 0 18px;
+  }
+
+  .page-greeting {
+    color: var(--slate-fg);
+    font-size: 12px;
+    margin: 0 0 6px;
+  }
+
+  .page-body {
+    color: var(--slate-fg);
+    font-size: 12px;
+    margin: 0 0 14px;
+  }
+
+  .page-body strong {
+    color: #f1f5f9;
+    font-weight: 700;
+  }
+
+  .page-h2 {
+    color: var(--slate-fg);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 8px 0 8px;
+  }
+
+  .callout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    margin: 0 0 16px;
+    background: var(--inset);
+    border: 1px solid rgba(94, 234, 212, 0.12);
+    border-radius: 6px;
+  }
+  .callout-mark {
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--rose);
+    color: #fff;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .callout-body { display: grid; gap: 1px; }
+  .callout-title {
+    color: var(--slate-fg);
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .callout-sub {
+    color: var(--slate-muted);
+    font-size: 11px;
+    margin: 0;
+  }
+
+  .mention { color: var(--teal); text-decoration: none; }
+  .ext {
+    color: var(--sky-strong);
+    text-decoration: underline;
+    text-decoration-color: rgba(56, 189, 248, 0.35);
+    text-underline-offset: 2px;
+  }
+  .page-body code {
+    display: inline;
+    padding: 0 4px;
+    background: var(--inset);
+    color: var(--sw-teal-200);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+  }
+
+  @media (max-width: 720px) {
+    .shell {
+      grid-template-columns: 132px 1fr;
+    }
+    .pane-channels { display: none; }
+  }
+</style>
