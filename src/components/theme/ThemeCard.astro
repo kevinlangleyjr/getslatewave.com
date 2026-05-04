@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Badge from '~/components/ui/Badge.astro';
+import InlineCode from '~/components/ui/InlineCode.astro';
 import { fetchRepoMeta } from '~/lib/github';
 import { relativeTime, formatStars } from '~/lib/format';
 
@@ -51,7 +52,7 @@ const trackEventName = isPlanned
 
   <div class="card-body">
     <h3>{data.shortName}</h3>
-    <p class="tagline">{data.tagline}</p>
+    <p class="tagline"><InlineCode text={data.tagline} /></p>
   </div>
 
   <footer class="card-foot">
