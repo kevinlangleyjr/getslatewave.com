@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 import Badge from '~/components/ui/Badge.astro';
+import InlineCode from '~/components/ui/InlineCode.astro';
 import PaletteStrip from '~/components/theme/PaletteStrip.astro';
 import CodePreview from '~/components/previews/CodePreview.astro';
 import TerminalPreview from '~/components/previews/TerminalPreview.astro';
@@ -107,7 +108,7 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
         </nav>
         <p class="eyebrow">{data.category}</p>
         <h1>{data.name}</h1>
-        <p class="tagline">{data.tagline}</p>
+        <p class="tagline"><InlineCode text={data.tagline} /></p>
         <div class="meta">
           <Badge tone={data.status}>{data.status}</Badge>
           <a
@@ -210,7 +211,7 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
     <section class="section">
       <div class="container narrow prose">
         <h2>About this theme</h2>
-        <p class="summary">{data.summary}</p>
+        <p class="summary"><InlineCode text={data.summary} /></p>
         <Content />
       </div>
     </section>
@@ -283,7 +284,7 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
                     <span class="related-category">{rel.data.category}</span>
                     <span class="related-name">{rel.data.shortName}</span>
                   </div>
-                  <p class="related-tagline">{rel.data.tagline}</p>
+                  <p class="related-tagline"><InlineCode text={rel.data.tagline} /></p>
                 </a>
               </li>
             ))}
