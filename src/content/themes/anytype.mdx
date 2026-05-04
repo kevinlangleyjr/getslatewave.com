@@ -2,20 +2,69 @@
 name: Slatewave for Anytype
 shortName: Anytype
 slug: anytype
+cliSlug: anytype
 category: notes
-tagline: Slatewave accents for Anytype, as far as its theming API allows.
+tagline: A Slatewave-tuned Anytype workspace for local-first knowledge work.
 summary: >-
-  Planned — a Slatewave color set for Anytype. Scope depends on what
-  Anytype exposes for user theming; may ship as accents-only.
-status: planned
-order: 79
-accent: '#b388ff'
+  A custom-CSS theme for Anytype that retunes canvas, vault, controls,
+  highlights, tags, and cover gradients to the Slatewave palette via
+  Anytype's `--color-*` variable API. Dark-mode primary; light included.
+status: beta
+order: 76
+accent: '#5eead4'
 repo:
   owner: kevinlangleyjr
   name: anytype-slatewave
-  url: https://anytype.io
-tags: [notes, planned]
+  url: https://github.com/kevinlangleyjr/anytype-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: markdown
+  sample: |
+    # Welcome to Anytype
+
+    Hey, welcome! Slatewave maps Anytype's controls, selection,
+    and **mentions** onto the teal signature.
+
+    - Channels read on the slate-chrome rail
+    - Inline `code` lands on slate-800 with pale-teal text
+    - Internal mentions render teal; external links sky
+
+    > "One palette. Every tool."
+install:
+  - label: Apply via the menu
+    description: Anytype loads custom CSS from a single file in its work directory.
+    steps:
+      - In Anytype, open Menu → File → Open → Custom CSS
+      - Replace the file's contents with `custom.css` from the repo
+      - Run Menu → File → Apply custom CSS — twice (first pass loads the variables, second pass picks up rules that reference them)
+  - label: Clone
+    description: Mirror the repo locally so updates are a `git pull` away.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/anytype-slatewave ~/.local/share/anytype-slatewave
+      - Copy `~/.local/share/anytype-slatewave/custom.css` into Anytype's work directory
+      - Apply via Menu → File → Apply custom CSS (twice)
+tags: [notes, knowledge, anytype]
 related: [obsidian, logseq, markedit]
 ---
 
-Planned — not yet available.
+Slatewave for Anytype is written against the public `--color-*` variable
+API — no upstream theme to fork — so it tracks the same palette
+contract every other Slatewave theme uses. Headings, mentions, controls,
+selection, and the system accent ramp all resolve to teal-300; the
+named-color palette (yellow, orange, red, pink, purple, blue, ice,
+teal, lime, green) is retuned so highlights and tags read as Slatewave
+even when a user picks a "yellow" or "blue" pill.
+
+Anytype custom CSS is desktop-only and per-device — the file is not
+synced. Re-apply via **File → Apply custom CSS** after any edit.
+
+Two scope notes worth knowing up front:
+
+- **Stock object icons** (Pages, Tasks, Collections, Bookmarks, Images)
+  ship as bundled SVGs that aren't reachable through the `--color-*`
+  variables. The theme softens them with a subtle saturate filter; a
+  full palette-matched recolor would need a per-icon `mask-image` pass.
+- **Mobile** clients ignore custom CSS by design.
+
+Both dark and light modes are included. Dark is the primary target.
