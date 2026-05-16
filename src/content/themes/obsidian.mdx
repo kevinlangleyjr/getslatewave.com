@@ -8,13 +8,15 @@ tagline: A Slatewave-tuned Obsidian theme for focused, long-form writing.
 summary: >-
   A CSS theme for Obsidian that applies the Slatewave palette to notes,
   editor, graph view, and UI chrome.
-status: beta
+status: stable
 order: 70
 accent: '#b388ff'
 repo:
   owner: kevinlangleyjr
   name: obsidian-slatewave
   url: https://github.com/kevinlangleyjr/obsidian-slatewave
+links:
+  marketplace: https://community.obsidian.md/themes/slatewave
 preview:
   kind: code
   language: markdown
@@ -27,10 +29,16 @@ preview:
 
     > "One palette. Every tool."
 install:
-  - label: Clone
+  - label: Community Themes
+    description: Open Settings → Appearance → Themes → Manage, search for "Slatewave", then click Install and Use.
+    link: https://community.obsidian.md/themes/slatewave
+  - label: Slatewave CLI
+    description: Clones the theme into a known location and prints the symlink commands to wire it into your vault.
+    command: slatewave install obsidian
+  - label: Manual clone
     description: Clone the repo directly into your vault's themes folder.
     steps:
-      - Clone `obsidian-slatewave` into `<vault>/.obsidian/themes/slatewave`
+      - Clone `obsidian-slatewave` into `<vault>/.obsidian/themes/Slatewave`
       - Open Settings → Appearance → Themes → select Slatewave
       - Optionally enable the matching color scheme under Accent color
 tags: [notes, markdown, long-form]
@@ -40,6 +48,3 @@ related: [logseq, markedit, anytype]
 Slatewave for Obsidian treats your vault as a companion surface to the
 editor: same palette, same accents, same temperature. Optimized for
 long-form reading and writing rather than dense code.
-
-An entry in the Obsidian Community Themes catalog is in flight; until
-then, the clone path above is the install.
