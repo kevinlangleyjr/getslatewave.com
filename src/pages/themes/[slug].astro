@@ -74,7 +74,12 @@ const { Content } = await render(theme);
 
 const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
 
-const cliMethod = data.cliSlug
+// A theme can ship its own richer "Slatewave CLI" install entry — a
+// per-app description, or a different command (kitty prepends a brew
+// step). When it does, skip the generic auto-generated one; prepending
+// it on top of the manual entry is what rendered two CLI sections.
+const hasManualCli = (data.install ?? []).some((m) => m.label === 'Slatewave CLI');
+const cliMethod = data.cliSlug && !hasManualCli
   ? {
       label: 'Slatewave CLI',
       description: 'Install with the Slatewave family CLI — one command, every theme.',
@@ -228,7 +233,7 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
     <section class="section install-section" id="install" data-theme-slug={data.slug}>
       <div class="container narrow">
         <h2 id="install-heading">Install</h2>
-        {cliMethod && (
+        {data.cliSlug && (
           <p class="install-cli-hint muted">
             Don't have the CLI yet?{' '}
             <a href="/cli/" data-simple-event={`install_${slugSegment}_cli_landing`}>Install the Slatewave CLI →</a>
