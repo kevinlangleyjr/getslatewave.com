@@ -1,17 +1,33 @@
 ---
 /**
  * Pure HTML/CSS rendering of the Slatewave Oh My Posh prompt across
- * three OSes: macOS, Ubuntu, Windows. Each row has its own OS glyph,
- * realistic path, and stats — the rest of the chrome (home, path,
- * git, rhs chip) is shared so the palette reads identically across.
+ * three OSes: macOS, Ubuntu, Windows. Mirrors the actual
+ * slatewave.omp.yml so the website preview matches what users see in
+ * their terminal:
+ *   - leading `╭─` / continuation `╰─❯$` corners in teal
+ *   - dark slate OS diamond
+ *   - teal-fg path segment with home + folder + agnoster_short crumbs
+ *   - git segment colors driven by repo state:
+ *       clean        → sky-400
+ *       dirty        → rose-400
+ *       ahead/behind → purple
+ *   - dark slate RHS block: exec time + CPU/RAM + clock
  */
 
 import TerminalChrome from './TerminalChrome.astro';
+
+type GitState = 'clean' | 'dirty' | 'ahead' | 'behind';
 
 interface Row {
   os: 'macos' | 'ubuntu' | 'windows';
   label: string;
   path: { first: string; second: string };
+  git: {
+    state: GitState;
+    branch: string;
+    ahead?: number;
+    behind?: number;
+  };
   timing: string;
   cpu: string;
   ram: string;
@@ -23,7 +39,8 @@ const rows: Row[] = [
   {
     os: 'macos',
     label: 'macOS',
-    path: { first: 'Dev', second: 'getslatewave' },
+    path: { first: 'slatewave', second: 'getslatewave' },
+    git: { state: 'clean', branch: 'main' },
     timing: '101ms',
     cpu: '80.49%',
     ram: '68/68GB',
@@ -33,7 +50,8 @@ const rows: Row[] = [
   {
     os: 'ubuntu',
     label: 'Ubuntu',
-    path: { first: 'Dev', second: 'getslatewave' },
+    path: { first: 'slatewave', second: 'getslatewave' },
+    git: { state: 'dirty', branch: 'main', ahead: 11, behind: 3 },
     timing: '124ms',
     cpu: '34.12%',
     ram: '14/16GB',
@@ -43,7 +61,8 @@ const rows: Row[] = [
   {
     os: 'windows',
     label: 'Windows',
-    path: { first: 'Dev', second: 'getslatewave' },
+    path: { first: 'slatewave', second: 'getslatewave' },
+    git: { state: 'ahead', branch: 'main', ahead: 5 },
     timing: '245ms',
     cpu: '54.80%',
     ram: '24/32GB',
@@ -56,10 +75,11 @@ const rows: Row[] = [
   <TerminalChrome title="zsh — slatewave" />
 
   <div class="body">
-    {rows.map((row, i) => (
+    {rows.map((row) => (
       <>
         <div class="prompt-row">
           <div class="segments">
+            <span class="corner corner-top" aria-hidden="true">╭─</span>
             <span class={`seg seg-os seg-${row.os}`} aria-label={row.label}>
               {row.os === 'macos' && (
                 <svg viewBox="0 0 24 24" width="15" height="17" fill="currentColor" aria-hidden="true">
@@ -78,39 +98,47 @@ const rows: Row[] = [
               )}
             </span>
             <span class="seg seg-teal path">
-              <svg class="home" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg class="path-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/>
+              </svg>
+              <span class="slash">/</span>
+              <svg class="path-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+                <path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8z"/>
               </svg>
               <span class="slash">/</span>
               <span>{row.path.first}</span>
               <span class="slash">/</span>
               <span>{row.path.second}</span>
             </span>
-            <span class="seg seg-rose">
+            <span class={`seg seg-git seg-git-${row.git.state}`}>
               <svg class="octocat" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
               </svg>
-              <span>main</span>
-              <span class="git-counter">↑11</span>
-              <span class="git-counter">✏?3</span>
-              <span class="git-counter">~1</span>
+              <span class="branch">{row.git.branch}</span>
+              {(row.git.ahead ?? 0) > 0 && (
+                <span class="git-counter">↑{row.git.ahead}</span>
+              )}
+              {(row.git.behind ?? 0) > 0 && (
+                <span class="git-counter">↓{row.git.behind}</span>
+              )}
             </span>
           </div>
 
           <div class="rhs">
-            <span class="rhs-part">
+            <span class="rhs-part rhs-exec">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M6 2h12M6 22h12M17 2v6a5 5 0 0 1-10 0V2M17 22v-6a5 5 0 0 0-10 0v6"/>
               </svg>
               {row.timing}
             </span>
-            <span class="rhs-part">
+            <span class="rhs-part rhs-sys">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="9"/>
-                <circle cx="12" cy="12" r="2"/>
+                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                <rect x="9" y="9" width="6" height="6"/>
+                <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
               </svg>
               CPU: <span class="strong">{row.cpu}</span>
-              <span class="pipe">│</span>
+              <span class="pipe">|</span>
               RAM: <span class="strong">{row.ram}</span>
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <ellipse cx="12" cy="5" rx="9" ry="3"/>
@@ -118,7 +146,7 @@ const rows: Row[] = [
                 <path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/>
               </svg>
             </span>
-            <span class="rhs-part">
+            <span class="rhs-part rhs-clock">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
@@ -129,7 +157,7 @@ const rows: Row[] = [
         </div>
 
         <div class="cmd-row">
-          <span class="continuation" aria-hidden="true">↳)$</span>
+          <span class="continuation" aria-hidden="true">╰─❯$</span>
           {row.command ? <span>{row.command}</span> : <span class="cursor" aria-hidden="true"></span>}
         </div>
       </>
@@ -177,6 +205,16 @@ const rows: Row[] = [
     flex-shrink: 0;
   }
 
+  /* Leading corner glyph — `leading_diamond: ╭─` in the OS segment.
+     Renders as teal text in front of the OS hexagon. */
+  .corner {
+    display: inline-flex;
+    align-items: center;
+    color: var(--sw-teal-300);
+    font-weight: 500;
+    padding-right: 2px;
+  }
+
   /* Base seg: pentagon with right-point chevron */
   .seg {
     position: relative;
@@ -189,43 +227,42 @@ const rows: Row[] = [
     min-height: 22px;
   }
 
-  /* OS segment: dark slate hexagon, points on both sides. Top z-index
-     so its right-point paints over the teal segment that overlaps it.
-     Chained .seg.seg-os selector for higher specificity than .seg
-     alone — prevents the base pentagon clip-path from winning. */
+  /* OS segment: slate-700-ish hexagon (matches `#3e4451` from the
+     config), points on both sides. Top z-index so its right-point
+     paints over the teal segment that overlaps it. */
   .seg.seg-os {
-    background: var(--sw-slate-editor);
+    background: #3e4451;
     color: var(--sw-slate-200);
     padding: 3px 18px 3px 14px;
     clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0 50%);
     z-index: 3;
   }
 
+  /* Path segment uses the editor slate bg with teal-300 text — matches
+     `background: #2c313a, foreground: #5eead4` in the config. */
   .seg-teal {
-    background: var(--sw-teal-300);
-    color: var(--sw-slate-900);
+    background: var(--sw-slate-editor);
+    color: var(--sw-teal-300);
     z-index: 2;
   }
 
-  /* Teal overlaps the OS segment. -10px lets teal's flat left fill the
-     triangular gaps at top/bottom of the OS hexagon. */
+  /* Path slot overlaps the OS hexagon's right point. */
   .seg.seg-os + .seg.seg-teal {
     margin-left: -10px;
     padding-left: 18px;
   }
 
   .path {
-    gap: 6px;
+    gap: 5px;
     padding-left: 14px;
   }
 
-  .path .home {
+  .path .path-icon {
     flex-shrink: 0;
-    margin-right: 2px;
   }
 
   .path > span:not(.slash) {
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .slash {
@@ -233,11 +270,14 @@ const rows: Row[] = [
     font-weight: 400;
   }
 
-  /* Rose segment — left-arrow indent + right-point. -25px overlap with
-     a matching +35 padding-left keeps the octocat clear of the teal
-     chevron. */
-  .seg-rose {
-    background: var(--sw-rose-400);
+  /* Git segment — color is driven by repo state, matching the
+     background_templates in slatewave.omp.yml.
+       clean        → sky-400 (default)
+       dirty        → rose-400 (working/staging changed)
+       ahead/behind → purple   (one side has commits)
+     Left arrow indent + right-point chevron; -25px overlap with
+     +35 padding-left keeps the octocat clear of the path chevron. */
+  .seg-git {
     color: var(--sw-slate-900);
     padding: 3px 18px 3px 35px;
     margin-left: -25px;
@@ -246,27 +286,34 @@ const rows: Row[] = [
     z-index: 1;
   }
 
+  .seg-git-clean { background: var(--sw-sky-400); }
+  .seg-git-dirty { background: var(--sw-rose-400); }
+  .seg-git-ahead,
+  .seg-git-behind { background: var(--sw-purple); }
+
   .octocat {
     flex-shrink: 0;
   }
 
-  .git-counter {
-    font-size: 10.5px;
+  .branch {
     font-weight: 600;
-    opacity: 0.85;
   }
 
-  /* Right-hand side: one dark bar, three parts divided by thin rules */
+  .git-counter {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  /* Right-hand side: three parts, each its own background — matches
+     the actual config (exec time is plain, CPU/RAM is `#3e4451`,
+     clock is slate-editor with teal text). */
   .rhs {
     display: flex;
     flex-direction: row;
     align-items: stretch;
     flex-shrink: 0;
     min-width: max-content;
-    background: var(--sw-slate-editor);
-    border-radius: 4px;
-    overflow: hidden;
-    color: var(--sw-slate-200);
     font-size: 11px;
     font-weight: 500;
     white-space: nowrap;
@@ -282,13 +329,41 @@ const rows: Row[] = [
     white-space: nowrap;
   }
 
-  .rhs-part + .rhs-part {
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+  /* Exec time: plain (no background). */
+  .rhs-exec {
+    color: var(--sw-slate-300);
+    background: transparent;
   }
 
-  .rhs-part svg {
+  .rhs-exec svg {
     color: var(--sw-slate-300);
+  }
+
+  /* CPU/RAM: dark slate block, no rounding (visually fuses with clock). */
+  .rhs-sys {
+    background: #3e4451;
+    color: var(--sw-slate-400);
+  }
+
+  .rhs-sys svg {
+    color: var(--sw-slate-400);
     flex-shrink: 0;
+  }
+
+  /* Clock: slate-editor bg, teal-300 fg — matches the config. */
+  .rhs-clock {
+    background: var(--sw-slate-editor);
+    color: var(--sw-teal-300);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .rhs-clock svg {
+    color: var(--sw-teal-300);
+    flex-shrink: 0;
+  }
+
+  .rhs-sys:first-child {
+    border-radius: 4px 0 0 4px;
   }
 
   .rhs-part .strong {
@@ -301,7 +376,8 @@ const rows: Row[] = [
     margin: 0 2px;
   }
 
-  /* Command / continuation row */
+  /* Continuation row: `╰─❯$` in teal, matches the bottom block
+     defined at the end of slatewave.omp.yml. */
   .cmd-row {
     display: flex;
     align-items: center;
@@ -311,7 +387,7 @@ const rows: Row[] = [
   }
 
   .continuation {
-    color: var(--sw-slate-500);
+    color: var(--sw-teal-300);
     font-weight: 500;
     letter-spacing: -0.02em;
   }
@@ -320,7 +396,7 @@ const rows: Row[] = [
     display: inline-block;
     width: 8px;
     height: 1.15em;
-    background: var(--sw-rose-400);
+    background: var(--sw-teal-300);
     border-radius: 1px;
     animation: blink 1.1s steps(2, start) infinite;
   }
