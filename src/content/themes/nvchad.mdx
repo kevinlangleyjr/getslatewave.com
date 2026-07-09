@@ -1,0 +1,101 @@
+---
+name: Slatewave for NvChad
+shortName: NvChad
+slug: nvchad
+cliSlug: nvchad
+category: editor
+tagline: A native base46 theme that recolors the whole NvChad UI, syntax, and plugins.
+summary: >-
+  A first-class base46 theme for NvChad — not a dropped-in colorscheme.
+  It ships `base_16` syntax colors, `base_30` UI chrome, and `polish_hl`
+  overrides that reproduce the exact scope mapping of the standalone
+  Neovim and VSCode ports: teal strings, rose numbers, sky keywords,
+  purple storage.
+status: beta
+order: 19
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: nvchad-slatewave
+  url: https://github.com/kevinlangleyjr/nvchad-slatewave
+  defaultBranch: main
+preview:
+  kind: code
+  language: lua
+  sample: |
+    -- ~/.config/nvim/lua/chadrc.lua
+    local M = {}
+
+    M.base46 = {
+      theme = "slatewave",
+      hl_override = {
+        Comment = { italic = true },
+        ["@comment"] = { italic = true },
+      },
+    }
+
+    return M
+install:
+  - label: Slatewave CLI
+    description: The CLI drops the base46 theme into your NvChad config. Requires an existing NvChad (v2.5+) setup.
+    command: slatewave install nvchad
+    steps:
+      - 'Installs the theme to `~/.config/nvim/lua/themes/slatewave.lua`'
+      - 'Press `<leader>th` in Neovim and pick **slatewave**, or set `M.base46 = { theme = "slatewave" }` in chadrc'
+      - 'Restart Neovim'
+  - label: Manual
+    description: Copy the theme file into NvChad's custom themes directory.
+    command: |-
+      mkdir -p ~/.config/nvim/lua/themes
+      curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/nvchad-slatewave/main/lua/themes/slatewave.lua \
+        -o ~/.config/nvim/lua/themes/slatewave.lua
+    steps:
+      - 'Set `M.base46 = { theme = "slatewave" }` in `~/.config/nvim/lua/chadrc.lua`'
+      - 'Restart Neovim — or press `<leader>th` to preview it live from the theme switcher'
+tags: [editor, neovim, nvchad, base46]
+related: [neovim, helix, vscode]
+---
+
+Slatewave for NvChad is a native [base46](https://github.com/NvChad/base46)
+theme, so it recolors the entire NvChad experience — statusline,
+nvim-tree, Telescope, the completion menu, and every bundled plugin
+integration — not just the buffer text.
+
+The theme file supplies all three tables base46 expects: `base_16` for
+the 16 syntax colors, `base_30` for UI chrome (slate editor surface,
+slate-chrome sidebar, teal accents on the pmenu and folder icons), and a
+`polish_hl` block. That last block is where the Slatewave identity lives:
+it mirrors the exact TreeSitter and `:syntax` mapping shared with the
+standalone [Neovim](/themes/neovim/) and VSCode ports, so the same code
+lights up the same way everywhere — teal strings, rose numbers, sky
+keywords, purple storage keywords, teal-2 types, amber specials.
+
+## Requirements
+
+NvChad **v2.5** or newer. Custom base46 themes are loaded from
+`lua/themes/` in your config (base46 resolves `require('themes.slatewave')`).
+
+## Verify
+
+After activating, strings should be teal, numbers rose, and keywords
+sky. The quickest check is the theme switcher — open it, pick
+**slatewave**, and watch the whole UI recolor:
+
+```text
+<leader>th
+```
+
+## Customize
+
+Override any highlight group from your `chadrc.lua` without touching the
+theme file — base46 merges `hl_override` on top of the theme:
+
+```lua
+M.base46 = {
+  theme = "slatewave",
+  hl_override = {
+    Comment = { italic = true },
+    ["@comment"] = { italic = true },
+  },
+}
+```
