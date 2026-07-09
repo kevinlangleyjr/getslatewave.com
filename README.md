@@ -27,6 +27,7 @@ available.
 - [Slatewave for Sublime Text](src/content/themes/sublime-text.mdx) — beta
 - [Slatewave for Zed](src/content/themes/zed.mdx) — beta
 - [Slatewave for Neovim](src/content/themes/neovim.mdx) — beta
+- [Slatewave for NvChad](src/content/themes/nvchad.mdx) — beta
 - [Slatewave for Helix](src/content/themes/helix.mdx) — beta
 
 ### Terminals
