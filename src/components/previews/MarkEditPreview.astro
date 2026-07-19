@@ -30,9 +30,11 @@ const codeHtml = highlighter.codeToHtml(codeSample, {
 
   <div class="editor">
     <div class="gutter" aria-hidden="true">
-      {Array.from({ length: 14 }, (_, i) => i + 1).map((n) => (
-        <div class:list={['ln', { active: n === 6 }]}>{n}</div>
-      ))}
+      {
+        Array.from({ length: 14 }, (_, i) => i + 1).map((n) => (
+          <div class:list={['ln', { active: n === 6 }]}>{n}</div>
+        ))
+      }
     </div>
 
     <div class="content">
@@ -44,7 +46,9 @@ const codeHtml = highlighter.codeToHtml(codeSample, {
       <div class="line"><span class="md-blank">​</span></div>
       <!-- Line 3: blockquote -->
       <div class="line">
-        <span class="md-blockquote"><span class="md-marker">&gt; </span><em>Slate below, teal above.</em></span>
+        <span class="md-blockquote"
+          ><span class="md-marker">&gt; </span><em>Slate below, teal above.</em></span
+        >
       </div>
       <!-- Line 4: blank -->
       <div class="line"><span class="md-blank">​</span></div>
@@ -56,21 +60,41 @@ const codeHtml = highlighter.codeToHtml(codeSample, {
       <div class="line"><span class="md-blank">​</span></div>
       <!-- Line 7: bullet — bold -->
       <div class="line">
-        <span class="md-bullet"><span class="md-marker">- </span><span class="md-bold"><span class="md-marker">**</span>Bold<span class="md-marker">**</span></span> reads in sky <span class="md-code"><span class="md-marker">`</span>#38bdf8<span class="md-marker">`</span></span></span>
+        <span class="md-bullet"
+          ><span class="md-marker">- </span><span class="md-bold"
+            ><span class="md-marker">**</span>Bold<span class="md-marker">**</span></span
+          > reads in sky <span class="md-code"
+            ><span class="md-marker">`</span>#38bdf8<span class="md-marker">`</span></span
+          ></span
+        >
       </div>
       <!-- Line 8: bullet — italic -->
       <div class="line">
-        <span class="md-bullet"><span class="md-marker">- </span><span class="md-italic"><span class="md-marker">*</span>Italic<span class="md-marker">*</span></span> travels in purple <span class="md-code"><span class="md-marker">`</span>#b388ff<span class="md-marker">`</span></span></span>
+        <span class="md-bullet"
+          ><span class="md-marker">- </span><span class="md-italic"
+            ><span class="md-marker">*</span>Italic<span class="md-marker">*</span></span
+          > travels in purple <span class="md-code"
+            ><span class="md-marker">`</span>#b388ff<span class="md-marker">`</span></span
+          ></span
+        >
       </div>
       <!-- Line 9: bullet — link -->
       <div class="line">
-        <span class="md-bullet"><span class="md-marker">- </span><span class="md-link"><span class="md-marker">[</span>Links<span class="md-marker">](</span><span class="md-link-url">https://getslatewave.com</span><span class="md-marker">)</span></span>, resolved</span>
+        <span class="md-bullet"
+          ><span class="md-marker">- </span><span class="md-link"
+            ><span class="md-marker">[</span>Links<span class="md-marker">](</span><span
+              class="md-link-url">https://getslatewave.com</span
+            ><span class="md-marker">)</span></span
+          >, resolved</span
+        >
       </div>
       <!-- Line 10: blank -->
       <div class="line"><span class="md-blank">​</span></div>
       <!-- Line 11: code fence open -->
       <div class="line">
-        <span class="md-fence"><span class="md-marker">```</span><span class="md-fence-lang">ts</span></span>
+        <span class="md-fence"
+          ><span class="md-marker">```</span><span class="md-fence-lang">ts</span></span
+        >
       </div>
       <!-- Lines 12–13: code block (Shiki) -->
       <div class="line code-line">
@@ -149,15 +173,20 @@ const codeHtml = highlighter.codeToHtml(codeSample, {
   }
 
   /* Headings */
-  .md-h1, .md-h2 {
+  .md-h1,
+  .md-h2 {
     margin: 0;
     font-family: var(--font-mono);
     font-weight: 700;
     color: var(--sw-teal-300);
     display: inline;
   }
-  .md-h1 { font-size: 17px; }
-  .md-h2 { font-size: 15px; }
+  .md-h1 {
+    font-size: 17px;
+  }
+  .md-h2 {
+    font-size: 15px;
+  }
 
   /* Blockquote */
   .md-blockquote {

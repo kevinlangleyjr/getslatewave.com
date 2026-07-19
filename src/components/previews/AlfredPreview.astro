@@ -76,58 +76,118 @@ const rows: Row[] = [
     </div>
 
     <div class="results">
-      {rows.map((row) => (
-        <div class:list={['row', { selected: row.selected }]}>
-          <span class="icon" style={`background:${row.iconBg};color:${row.iconFg}`} aria-hidden="true">
-            {row.icon === 'wave' && (
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>
-              </svg>
-            )}
-            {row.icon === 'code' && (
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="8 6 3 12 8 18"/>
-                <polyline points="16 6 21 12 16 18"/>
-              </svg>
-            )}
-            {row.icon === 'hex' && (
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"/>
-              </svg>
-            )}
-            {row.icon === 'terminal' && (
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 8 10 12 6 16"/>
-                <line x1="13" y1="17" x2="18" y2="17"/>
-              </svg>
-            )}
-            {row.icon === 'compass' && (
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"/>
-                <polygon points="15 9 11 13 9 15 13 11"/>
-              </svg>
-            )}
-            {row.icon === 'sun' && (
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"/>
-                <line x1="12" y1="3" x2="12" y2="6"/>
-                <line x1="12" y1="18" x2="12" y2="21"/>
-                <line x1="3" y1="12" x2="6" y2="12"/>
-                <line x1="18" y1="12" x2="21" y2="12"/>
-                <line x1="5.6" y1="5.6" x2="7.7" y2="7.7"/>
-                <line x1="16.3" y1="16.3" x2="18.4" y2="18.4"/>
-                <line x1="5.6" y1="18.4" x2="7.7" y2="16.3"/>
-                <line x1="16.3" y1="7.7" x2="18.4" y2="5.6"/>
-              </svg>
-            )}
-          </span>
-          <div class="text">
-            <div class="title">{row.title}</div>
-            {row.subtitle && <div class="subtitle">{row.subtitle}</div>}
+      {
+        rows.map((row) => (
+          <div class:list={['row', { selected: row.selected }]}>
+            <span
+              class="icon"
+              style={`background:${row.iconBg};color:${row.iconFg}`}
+              aria-hidden="true"
+            >
+              {row.icon === 'wave' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0" />
+                </svg>
+              )}
+              {row.icon === 'code' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="8 6 3 12 8 18" />
+                  <polyline points="16 6 21 12 16 18" />
+                </svg>
+              )}
+              {row.icon === 'hex' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2" />
+                </svg>
+              )}
+              {row.icon === 'terminal' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 8 10 12 6 16" />
+                  <line x1="13" y1="17" x2="18" y2="17" />
+                </svg>
+              )}
+              {row.icon === 'compass' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <polygon points="15 9 11 13 9 15 13 11" />
+                </svg>
+              )}
+              {row.icon === 'sun' && (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="4" />
+                  <line x1="12" y1="3" x2="12" y2="6" />
+                  <line x1="12" y1="18" x2="12" y2="21" />
+                  <line x1="3" y1="12" x2="6" y2="12" />
+                  <line x1="18" y1="12" x2="21" y2="12" />
+                  <line x1="5.6" y1="5.6" x2="7.7" y2="7.7" />
+                  <line x1="16.3" y1="16.3" x2="18.4" y2="18.4" />
+                  <line x1="5.6" y1="18.4" x2="7.7" y2="16.3" />
+                  <line x1="16.3" y1="7.7" x2="18.4" y2="5.6" />
+                </svg>
+              )}
+            </span>
+            <div class="text">
+              <div class="title">{row.title}</div>
+              {row.subtitle && <div class="subtitle">{row.subtitle}</div>}
+            </div>
+            <span class="hint">{row.hint}</span>
           </div>
-          <span class="hint">{row.hint}</span>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </figure>
@@ -185,11 +245,15 @@ const rows: Row[] = [
   }
 
   @keyframes alfred-blink {
-    50% { opacity: 0; }
+    50% {
+      opacity: 0;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .caret { animation: none; }
+    .caret {
+      animation: none;
+    }
   }
 
   .results {
@@ -260,13 +324,32 @@ const rows: Row[] = [
   }
 
   @media (max-width: 540px) {
-    .alfred-preview { padding: var(--space-3); }
-    .search { padding: 16px 18px; }
-    .query { font-size: 28px; }
-    .caret { height: 30px; }
-    .title { font-size: 16px; }
-    .subtitle { font-size: 11px; }
-    .icon { width: 32px; height: 32px; border-radius: 7px; }
-    .icon svg { width: 18px; height: 18px; }
+    .alfred-preview {
+      padding: var(--space-3);
+    }
+    .search {
+      padding: 16px 18px;
+    }
+    .query {
+      font-size: 28px;
+    }
+    .caret {
+      height: 30px;
+    }
+    .title {
+      font-size: 16px;
+    }
+    .subtitle {
+      font-size: 11px;
+    }
+    .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+    }
+    .icon svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 </style>

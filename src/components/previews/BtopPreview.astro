@@ -60,7 +60,14 @@ const memRows: MemRow[] = [
 ];
 
 const procRows: ProcRow[] = [
-  { pid: '1485', program: 'com.apple.Virtua', user: 'kevin', mem: '5.8G', cpu: '16.3', highlighted: true },
+  {
+    pid: '1485',
+    program: 'com.apple.Virtua',
+    user: 'kevin',
+    mem: '5.8G',
+    cpu: '16.3',
+    highlighted: true,
+  },
   { pid: '89782', program: 'Browser Helper', user: 'kevin', mem: '156M', cpu: '1.9' },
   { pid: '31298', program: 'goland', user: 'kevin', mem: '647M', cpu: '0.5' },
   { pid: '86019', program: '2.1.126', user: 'kevin', mem: '364M', cpu: '0.3' },
@@ -92,37 +99,43 @@ const procRows: ProcRow[] = [
         <div class="cpu-title">M3 Max</div>
 
         <div class="cpu-grid">
-          {cpuRows.map((row) => (
-            <div class:list={['cpu-row', { emphasized: row.emphasized }]}>
-              <span class="cpu-label">{row.label}</span>
-              <div class="meter">
-                <div class="meter-fill" style={`width: ${row.pct}%`}></div>
+          {
+            cpuRows.map((row) => (
+              <div class:list={['cpu-row', { emphasized: row.emphasized }]}>
+                <span class="cpu-label">{row.label}</span>
+                <div class="meter">
+                  <div class="meter-fill" style={`width: ${row.pct}%`} />
+                </div>
+                <span class="cpu-pct">{row.pct}%</span>
+                <span class="cpu-temp muted">{row.temp}</span>
               </div>
-              <span class="cpu-pct">{row.pct}%</span>
-              <span class="cpu-temp muted">{row.temp}</span>
-            </div>
-          ))}
+            ))
+          }
         </div>
 
-        <div class="loadavg muted">Load avg:&nbsp;&nbsp;23.12&nbsp;&nbsp;&nbsp;12.29&nbsp;&nbsp;&nbsp;9.74</div>
+        <div class="loadavg muted">
+          Load avg:&nbsp;&nbsp;23.12&nbsp;&nbsp;&nbsp;12.29&nbsp;&nbsp;&nbsp;9.74
+        </div>
       </section>
 
       <section class="panel panel-mem" data-label="²mem">
         <div class="mem-list">
-          {memRows.map((row) => (
-            <div class="mem-row">
-              <span class="mem-label">{row.label}:</span>
-              {row.pct !== null ? (
-                <div class="meter">
-                  <div class="meter-fill" style={`width: ${row.pct}%`}></div>
-                </div>
-              ) : (
-                <span class="meter-spacer" aria-hidden="true"></span>
-              )}
-              <span class="mem-value">{row.value}</span>
-              {row.pct !== null && <span class="mem-pct muted">{row.pct}%</span>}
-            </div>
-          ))}
+          {
+            memRows.map((row) => (
+              <div class="mem-row">
+                <span class="mem-label">{row.label}:</span>
+                {row.pct !== null ? (
+                  <div class="meter">
+                    <div class="meter-fill" style={`width: ${row.pct}%`} />
+                  </div>
+                ) : (
+                  <span class="meter-spacer" aria-hidden="true" />
+                )}
+                <span class="mem-value">{row.value}</span>
+                {row.pct !== null && <span class="mem-pct muted">{row.pct}%</span>}
+              </div>
+            ))
+          }
         </div>
         <div class="uptime muted">up 1d 23:27</div>
       </section>
@@ -153,15 +166,17 @@ const procRows: ProcRow[] = [
             </tr>
           </thead>
           <tbody>
-            {procRows.map((row) => (
-              <tr class:list={[{ hl: row.highlighted }]}>
-                <td class="r pid">{row.pid}</td>
-                <td class="program">{row.program}</td>
-                <td class="r muted">{row.user}</td>
-                <td class="r muted">{row.mem}</td>
-                <td class="r cpu">{row.cpu}</td>
-              </tr>
-            ))}
+            {
+              procRows.map((row) => (
+                <tr class:list={[{ hl: row.highlighted }]}>
+                  <td class="r pid">{row.pid}</td>
+                  <td class="program">{row.program}</td>
+                  <td class="r muted">{row.user}</td>
+                  <td class="r muted">{row.mem}</td>
+                  <td class="r cpu">{row.cpu}</td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
 
@@ -205,9 +220,15 @@ const procRows: ProcRow[] = [
     gap: var(--space-4);
   }
 
-  .panel-cpu { grid-area: cpu; }
-  .panel-mem { grid-area: mem; }
-  .panel-proc { grid-area: proc; }
+  .panel-cpu {
+    grid-area: cpu;
+  }
+  .panel-mem {
+    grid-area: mem;
+  }
+  .panel-proc {
+    grid-area: proc;
+  }
 
   /* Panels: rounded slate-600 border with the label punching through. */
   .panel {
@@ -231,10 +252,20 @@ const procRows: ProcRow[] = [
   }
 
   /* Shared text helpers */
-  .muted { color: var(--sw-slate-400); }
-  .tab { color: var(--sw-slate-300); }
-  .sep { color: var(--sw-slate-600); padding: 0 0.2ch; }
-  .grow { flex: 1; text-align: center; }
+  .muted {
+    color: var(--sw-slate-400);
+  }
+  .tab {
+    color: var(--sw-slate-300);
+  }
+  .sep {
+    color: var(--sw-slate-600);
+    padding: 0 0.2ch;
+  }
+  .grow {
+    flex: 1;
+    text-align: center;
+  }
 
   /* Panel top bar — the tabs/menu strip across the top of cpu and proc */
   .panel-bar {
@@ -342,7 +373,9 @@ const procRows: ProcRow[] = [
     border-radius: 1px;
   }
   /* When the meter sits in an emphasized cpu row, beef it up slightly */
-  .cpu-row.emphasized .meter { height: 0.55rem; }
+  .cpu-row.emphasized .meter {
+    height: 0.55rem;
+  }
 
   /* Process panel content */
   .proc-table {
@@ -414,6 +447,8 @@ const procRows: ProcRow[] = [
         'mem'
         'proc';
     }
-    .body { font-size: 11px; }
+    .body {
+      font-size: 11px;
+    }
   }
 </style>

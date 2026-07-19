@@ -40,7 +40,11 @@ const semanticRoles = [
   { name: 'fg.muted', value: '#cbd5e1', description: 'Secondary text, labels.' },
   { name: 'fg.subtle', value: '#94a3b8', description: 'Descriptions, placeholders.' },
   { name: 'fg.faint', value: '#64748b', description: 'Comments, disabled states.' },
-  { name: 'accent', value: '#5eead4', description: 'Slatewave signature — focus, selection, CTAs.' },
+  {
+    name: 'accent',
+    value: '#5eead4',
+    description: 'Slatewave signature — focus, selection, CTAs.',
+  },
 ];
 ---
 
@@ -54,8 +58,8 @@ const semanticRoles = [
         <p class="eyebrow">Palette</p>
         <h1>The Slatewave palette.</h1>
         <p class="lede">
-          A slate foundation with a teal signature and sky, rose, purple,
-          and amber accents. Click any value to copy it.
+          A slate foundation with a teal signature and sky, rose, purple, and amber accents. Click
+          any value to copy it.
         </p>
       </header>
     </div>
@@ -68,9 +72,11 @@ const semanticRoles = [
         <p>The stable API consumed by the site's component styles. Prefer these over raw colors.</p>
       </header>
       <div class="grid">
-        {semanticRoles.map((r) => (
-          <Swatch name={r.name} value={r.value} description={r.description} size="lg" />
-        ))}
+        {
+          semanticRoles.map((r) => (
+            <Swatch name={r.name} value={r.value} description={r.description} size="lg" />
+          ))
+        }
       </div>
     </div>
   </section>
@@ -82,9 +88,7 @@ const semanticRoles = [
         <p>The base scale. Every Slatewave surface is built from these.</p>
       </header>
       <div class="grid compact">
-        {palette.slate.map((s) => (
-          <Swatch name={s.name} value={s.value} role={s.role} />
-        ))}
+        {palette.slate.map((s) => <Swatch name={s.name} value={s.value} role={s.role} />)}
       </div>
     </div>
   </section>
@@ -96,9 +100,7 @@ const semanticRoles = [
         <p>The Slatewave accent — used for focus, selection, buttons, and the primary signal.</p>
       </header>
       <div class="grid compact">
-        {palette.teal.map((s) => (
-          <Swatch name={s.name} value={s.value} role={s.role} />
-        ))}
+        {palette.teal.map((s) => <Swatch name={s.name} value={s.value} role={s.role} />)}
       </div>
     </div>
   </section>
@@ -110,9 +112,7 @@ const semanticRoles = [
         <p>Sky, rose, purple, and amber — carrying semantic meaning in syntax highlighting.</p>
       </header>
       <div class="grid compact">
-        {palette.accents.map((s) => (
-          <Swatch name={s.name} value={s.value} role={s.role} />
-        ))}
+        {palette.accents.map((s) => <Swatch name={s.name} value={s.value} role={s.role} />)}
       </div>
     </div>
   </section>

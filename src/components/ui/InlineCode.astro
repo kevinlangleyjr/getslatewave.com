@@ -8,8 +8,12 @@ const { text } = Astro.props;
 const parts = text.split(/(`[^`]+`)/);
 ---
 
-{parts.map((part) =>
-  part.startsWith('`') && part.endsWith('`') && part.length > 2
-    ? <code>{part.slice(1, -1)}</code>
-    : part
-)}
+{
+  parts.map((part) =>
+    part.startsWith('`') && part.endsWith('`') && part.length > 2 ? (
+      <code>{part.slice(1, -1)}</code>
+    ) : (
+      part
+    ),
+  )
+}

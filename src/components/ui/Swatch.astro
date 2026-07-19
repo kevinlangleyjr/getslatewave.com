@@ -23,7 +23,18 @@ const { name, value, role, description, size = 'md' } = Astro.props;
         title="Copy hex"
       >
         <span class="hex">{value}</span>
-        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          class="icon"
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <rect x="9" y="9" width="11" height="11" rx="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
@@ -115,7 +126,9 @@ const { name, value, role, description, size = 'md' } = Astro.props;
     color: var(--fg-subtle);
     background: var(--bg-base);
     border: 1px solid var(--border);
-    transition: color 120ms ease, border-color 120ms ease;
+    transition:
+      color 120ms ease,
+      border-color 120ms ease;
   }
 
   .copy:hover {

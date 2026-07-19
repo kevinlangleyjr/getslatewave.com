@@ -3,8 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 import ThemeCard from '~/components/theme/ThemeCard.astro';
 
-const themes = (await getCollection('themes'))
-  .sort((a, b) => a.data.order - b.data.order);
+const themes = (await getCollection('themes')).sort((a, b) => a.data.order - b.data.order);
 
 type Category = CollectionEntry<'themes'>['data']['category'];
 type CategoryFilter = 'all' | Category;
@@ -42,8 +41,8 @@ const statuses = [
         <p class="eyebrow">Themes</p>
         <h1>Every surface, one palette.</h1>
         <p class="lede">
-          Pick the tool you live in. Every theme below is generated from the
-          same Slatewave palette, tuned for that surface.
+          Pick the tool you live in. Every theme below is generated from the same Slatewave palette,
+          tuned for that surface.
         </p>
       </header>
 
@@ -73,70 +72,71 @@ const statuses = [
         <fieldset>
           <legend>Category</legend>
           <div class="chips">
-            {visibleCategories.map((c, i) => (
-              <label class="chip">
-                <input
-                  type="radio"
-                  name="category"
-                  value={c.value}
-                  checked={i === 0}
-                />
-                <span>{c.label}</span>
-              </label>
-            ))}
+            {
+              visibleCategories.map((c, i) => (
+                <label class="chip">
+                  <input type="radio" name="category" value={c.value} checked={i === 0} />
+                  <span>{c.label}</span>
+                </label>
+              ))
+            }
           </div>
         </fieldset>
 
         <fieldset>
           <legend>Status</legend>
           <div class="chips">
-            {statuses.map((s, i) => (
-              <label class="chip">
-                <input
-                  type="radio"
-                  name="status"
-                  value={s.value}
-                  checked={i === 0}
-                />
-                <span>{s.label}</span>
-              </label>
-            ))}
+            {
+              statuses.map((s, i) => (
+                <label class="chip">
+                  <input type="radio" name="status" value={s.value} checked={i === 0} />
+                  <span>{s.label}</span>
+                </label>
+              ))
+            }
           </div>
         </fieldset>
       </form>
 
       <p class="count" id="theme-count" aria-live="polite">
-        Showing {themes.length} {themes.length === 1 ? 'theme' : 'themes'}
+        Showing {themes.length}
+        {themes.length === 1 ? 'theme' : 'themes'}
       </p>
 
       <ul class="grid" id="theme-grid">
-        {themes.map((theme) => (
-          <li
-            class="theme-item"
-            data-category={theme.data.category}
-            data-name={theme.data.shortName}
-            data-order={theme.data.order}
-            data-search={[
-              theme.data.name,
-              theme.data.shortName,
-              theme.data.slug,
-              theme.data.category,
-              theme.data.status,
-              theme.data.tagline,
-              theme.data.summary,
-              ...theme.data.tags,
-            ].join(' ').toLowerCase()}
-            data-status={theme.data.status}
-          >
-            <ThemeCard theme={theme} />
-          </li>
-        ))}
+        {
+          themes.map((theme) => (
+            <li
+              class="theme-item"
+              data-category={theme.data.category}
+              data-name={theme.data.shortName}
+              data-order={theme.data.order}
+              data-search={[
+                theme.data.name,
+                theme.data.shortName,
+                theme.data.slug,
+                theme.data.category,
+                theme.data.status,
+                theme.data.tagline,
+                theme.data.summary,
+                ...theme.data.tags,
+              ]
+                .join(' ')
+                .toLowerCase()}
+              data-status={theme.data.status}
+            >
+              <ThemeCard theme={theme} />
+            </li>
+          ))
+        }
       </ul>
 
       <div class="empty" id="theme-empty" hidden>
         <h2>No themes match those filters.</h2>
         <p>Try a broader search, switch back to all categories, or clear the filters.</p>
-        <button type="reset" form="theme-filters" data-simple-event="theme_filter_clear">Clear filters</button>
+        <button type="reset" form="theme-filters" data-simple-event="theme_filter_clear"
+          >Clear filters</button
+        >
       </div>
     </div>
   </section>
@@ -166,8 +166,13 @@ const statuses = [
       const input = form.elements.namedItem('query') as HTMLInputElement | null;
       if (input) input.value = query;
     }
-    if (category && form.querySelector<HTMLInputElement>(`input[name="category"][value="${category}"]`)) {
-      const input = form.querySelector<HTMLInputElement>(`input[name="category"][value="${category}"]`);
+    if (
+      category &&
+      form.querySelector<HTMLInputElement>(`input[name="category"][value="${category}"]`)
+    ) {
+      const input = form.querySelector<HTMLInputElement>(
+        `input[name="category"][value="${category}"]`,
+      );
       if (input) input.checked = true;
     }
     if (status && form.querySelector<HTMLInputElement>(`input[name="status"][value="${status}"]`)) {
@@ -193,8 +198,7 @@ const statuses = [
       }
       if (sort === 'status') {
         return (
-          (statusRank[a.dataset.status ?? ''] ?? 99) -
-            (statusRank[b.dataset.status ?? ''] ?? 99) ||
+          (statusRank[a.dataset.status ?? ''] ?? 99) - (statusRank[b.dataset.status ?? ''] ?? 99) ||
           byName(a, b)
         );
       }
@@ -208,7 +212,9 @@ const statuses = [
     const data = new FormData(form);
     const cat = String(data.get('category') ?? 'all');
     const status = String(data.get('status') ?? 'all');
-    const query = String(data.get('query') ?? '').trim().toLowerCase();
+    const query = String(data.get('query') ?? '')
+      .trim()
+      .toLowerCase();
     const sort = String(data.get('sort') ?? 'recommended');
     let visible = 0;
     sortItems(sort);
@@ -301,7 +307,9 @@ const statuses = [
     font-family: var(--font-sans);
     font-size: var(--fs-sm);
     outline: none;
-    transition: border-color 120ms ease, box-shadow 120ms ease;
+    transition:
+      border-color 120ms ease,
+      box-shadow 120ms ease;
   }
 
   .field input[type='search'] {
@@ -358,7 +366,9 @@ const statuses = [
     border-radius: var(--radius-sm);
     font-size: var(--fs-sm);
     color: var(--fg-muted);
-    transition: background 120ms ease, color 120ms ease;
+    transition:
+      background 120ms ease,
+      color 120ms ease;
   }
 
   .chip:hover {

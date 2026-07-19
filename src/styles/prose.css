@@ -24,10 +24,20 @@
   line-height: var(--lh-tight);
 }
 
-.prose h1 { font-size: var(--fs-2xl); }
-.prose h2 { font-size: var(--fs-xl); margin-top: var(--space-12); }
-.prose h3 { font-size: var(--fs-lg); margin-top: var(--space-8); }
-.prose h4 { font-size: var(--fs-md); }
+.prose h1 {
+  font-size: var(--fs-2xl);
+}
+.prose h2 {
+  font-size: var(--fs-xl);
+  margin-top: var(--space-12);
+}
+.prose h3 {
+  font-size: var(--fs-lg);
+  margin-top: var(--space-8);
+}
+.prose h4 {
+  font-size: var(--fs-md);
+}
 
 .prose p,
 .prose li {

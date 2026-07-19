@@ -7,8 +7,7 @@ import CodePreview from '~/components/previews/CodePreview.astro';
 import OhMyPoshPreview from '~/components/previews/OhMyPoshPreview.astro';
 import ObsidianPreview from '~/components/previews/ObsidianPreview.astro';
 
-const themes = (await getCollection('themes'))
-  .sort((a, b) => a.data.order - b.data.order);
+const themes = (await getCollection('themes')).sort((a, b) => a.data.order - b.data.order);
 
 const shipped = themes.filter((t) => t.data.status !== 'planned');
 const shippedCount = shipped.length;
@@ -52,19 +51,30 @@ export function apply(theme: Theme): string {
         <p class="eyebrow">A cohesive theme system</p>
         <h1>One palette.<br />Every tool.</h1>
         <p class="lede">
-          One palette mapped onto every tool you live in — editor, terminal,
-          prompt, notes, launcher, chat. Strings stay teal whichever surface
-          you're on. Errors stay rose.
+          One palette mapped onto every tool you live in — editor, terminal, prompt, notes,
+          launcher, chat. Strings stay teal whichever surface you're on. Errors stay rose.
         </p>
         <p class="hero-beta-note">
           <span class="hero-beta-tag">Beta</span>
           All themes and the CLI are in beta — feedback welcome.
-          <a href="/changelog/" data-simple-event="cta_home_hero_beta_changelog">See the changelog →</a>
+          <a href="/changelog/" data-simple-event="cta_home_hero_beta_changelog"
+            >See the changelog →</a
+          >
         </p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="/themes/vscode/#install" data-simple-event="cta_home_hero_install">Install VSCode theme</a>
-          <a class="btn btn-primary btn-primary-cli" href="/cli/" data-simple-event="cta_home_hero_cli">Install the CLI</a>
-          <a class="btn btn-ghost" href="/themes/" data-simple-event="cta_home_hero_browse">Browse {shippedCount} tools</a>
+          <a
+            class="btn btn-primary"
+            href="/themes/vscode/#install"
+            data-simple-event="cta_home_hero_install">Install VSCode theme</a
+          >
+          <a
+            class="btn btn-primary btn-primary-cli"
+            href="/cli/"
+            data-simple-event="cta_home_hero_cli">Install the CLI</a
+          >
+          <a class="btn btn-ghost" href="/themes/" data-simple-event="cta_home_hero_browse"
+            >Browse {shippedCount} tools</a
+          >
           <a
             class="btn btn-link"
             href="https://github.com/kevinlangleyjr?tab=repositories&q=slatewave"
@@ -111,8 +121,8 @@ export function apply(theme: Theme): string {
           <article>
             <h3>Same colors,<br />every surface.</h3>
             <p>
-              Strings stay teal whether you're in VSCode, bat, Helix, or Sublime.
-              Errors stay rose. The palette doesn't reset when you switch tools.
+              Strings stay teal whether you're in VSCode, bat, Helix, or Sublime. Errors stay rose.
+              The palette doesn't reset when you switch tools.
             </p>
           </article>
           <article>
@@ -126,9 +136,8 @@ export function apply(theme: Theme): string {
           <article>
             <h3>Adopt one.<br />Add the rest.</h3>
             <p>
-              Install the editor theme today. The terminal, prompt, notes app,
-              launcher, and chat ports all use the same hex values when you're
-              ready for them.
+              Install the editor theme today. The terminal, prompt, notes app, launcher, and chat
+              ports all use the same hex values when you're ready for them.
             </p>
           </article>
         </div>
@@ -142,8 +151,8 @@ export function apply(theme: Theme): string {
         <p class="eyebrow">Start here</p>
         <h2>Install Slatewave where it will change your day first.</h2>
         <p class="section-lede">
-          Pick the workflow you use most, copy the install command, then expand
-          the same palette across the rest of your setup.
+          Pick the workflow you use most, copy the install command, then expand the same palette
+          across the rest of your setup.
         </p>
       </header>
 
@@ -152,20 +161,28 @@ export function apply(theme: Theme): string {
           <p class="starter-kicker">Most direct</p>
           <h3>Start in VSCode or Cursor</h3>
           <p>
-            Get the editor palette first: syntax, workbench chrome, selections,
-            and diff colors all tuned for long sessions.
+            Get the editor palette first: syntax, workbench chrome, selections, and diff colors all
+            tuned for long sessions.
           </p>
-          <a class="starter-link" href="/docs/getting-started/#editor-first-setup" data-simple-event="cta_home_starter_editor">Install editor theme →</a>
+          <a
+            class="starter-link"
+            href="/docs/getting-started/#editor-first-setup"
+            data-simple-event="cta_home_starter_editor">Install editor theme →</a
+          >
         </article>
 
         <article class="starter-card" style="--starter-accent: #38bdf8;">
           <p class="starter-kicker">Terminal-first</p>
           <h3>Match your prompt and shell</h3>
           <p>
-            Carry the same slate foundation and teal accent into Oh My Posh,
-            Starship, Ghostty, tmux, and terminal palettes.
+            Carry the same slate foundation and teal accent into Oh My Posh, Starship, Ghostty,
+            tmux, and terminal palettes.
           </p>
-          <a class="starter-link" href="/docs/getting-started/#terminal-first-setup" data-simple-event="cta_home_starter_terminal">Use terminal bundle →</a>
+          <a
+            class="starter-link"
+            href="/docs/getting-started/#terminal-first-setup"
+            data-simple-event="cta_home_starter_terminal">Use terminal bundle →</a
+          >
         </article>
 
         <article class="starter-card" style="--starter-accent: #5eead4;">
@@ -173,10 +190,12 @@ export function apply(theme: Theme): string {
           <h3>Install the whole family at once</h3>
           <p>
             <code>brew install</code> the Slatewave CLI, then <code>slatewave init</code>
-            detects what's on your machine and installs every theme you pick — backups,
-            uninstall, and all.
+            detects what's on your machine and installs every theme you pick — backups, uninstall, and
+            all.
           </p>
-          <a class="starter-link" href="/cli/" data-simple-event="cta_home_starter_cli">Install the CLI →</a>
+          <a class="starter-link" href="/cli/" data-simple-event="cta_home_starter_cli"
+            >Install the CLI →</a
+          >
         </article>
       </div>
     </div>
@@ -188,10 +207,11 @@ export function apply(theme: Theme): string {
         <p class="eyebrow">The same palette, everywhere</p>
         <h2>A few surfaces. One visual language.</h2>
         <p class="section-lede">
-          Editor, terminal, notes — three of the {shippedCount} shipping
-          themes, rendered with the authoritative Slatewave palette. These
-          previews aren't screenshots; they use the same colors you'd install.
-          <a href="/themes/" class="inline-link" data-simple-event="cta_home_surfaces_all">See all {shippedCount} themes →</a>
+          Editor, terminal, notes — three of the {shippedCount} shipping themes, rendered with the authoritative
+          Slatewave palette. These previews aren't screenshots; they use the same colors you'd install.
+          <a href="/themes/" class="inline-link" data-simple-event="cta_home_surfaces_all"
+            >See all {shippedCount} themes →</a
+          >
         </p>
       </header>
 
@@ -199,7 +219,11 @@ export function apply(theme: Theme): string {
         <article class="surface" style="--surface-accent: #5eead4;">
           <header class="surface-head">
             <p class="eyebrow">Editor · VSCode</p>
-            <a class="surface-link" href="/themes/vscode/" data-simple-event="cta_home_surface_view_vscode">View theme →</a>
+            <a
+              class="surface-link"
+              href="/themes/vscode/"
+              data-simple-event="cta_home_surface_view_vscode">View theme →</a
+            >
           </header>
           <CodePreview code={heroSample} language="typescript" label="palette.ts" />
         </article>
@@ -207,7 +231,11 @@ export function apply(theme: Theme): string {
         <article class="surface" style="--surface-accent: #38bdf8;">
           <header class="surface-head">
             <p class="eyebrow">Terminal · Oh My Posh</p>
-            <a class="surface-link" href="/themes/oh-my-posh/" data-simple-event="cta_home_surface_view_oh_my_posh">View theme →</a>
+            <a
+              class="surface-link"
+              href="/themes/oh-my-posh/"
+              data-simple-event="cta_home_surface_view_oh_my_posh">View theme →</a
+            >
           </header>
           <OhMyPoshPreview />
         </article>
@@ -215,7 +243,11 @@ export function apply(theme: Theme): string {
         <article class="surface" style="--surface-accent: #b388ff;">
           <header class="surface-head">
             <p class="eyebrow">Notes · Obsidian</p>
-            <a class="surface-link" href="/themes/obsidian/" data-simple-event="cta_home_surface_view_obsidian">View theme →</a>
+            <a
+              class="surface-link"
+              href="/themes/obsidian/"
+              data-simple-event="cta_home_surface_view_obsidian">View theme →</a
+            >
           </header>
           <ObsidianPreview />
         </article>
@@ -242,11 +274,13 @@ export function apply(theme: Theme): string {
       </ul>
 
       <template id="surface-pool">
-        {shipped.map((theme) => (
-          <li data-category={theme.data.category}>
-            <ThemeCard theme={theme} />
-          </li>
-        ))}
+        {
+          shipped.map((theme) => (
+            <li data-category={theme.data.category}>
+              <ThemeCard theme={theme} />
+            </li>
+          ))
+        }
       </template>
     </div>
   </section>
@@ -281,8 +315,8 @@ export function apply(theme: Theme): string {
         <p class="eyebrow">The palette</p>
         <h2>A single source of truth.</h2>
         <p class="section-lede">
-          Every Slatewave theme is generated from this palette. Change a
-          role here, and the same role shifts everywhere else.
+          Every Slatewave theme is generated from this palette. Change a role here, and the same
+          role shifts everywhere else.
         </p>
       </header>
       <PaletteStrip />
@@ -302,7 +336,9 @@ export function apply(theme: Theme): string {
         </li>
         <li>
           <h3>Open</h3>
-          <p>Every theme lives in its own public repo under the WTFPL — do what you want with it.</p>
+          <p>
+            Every theme lives in its own public repo under the WTFPL — do what you want with it.
+          </p>
         </li>
       </ul>
     </div>
@@ -511,7 +547,11 @@ export function apply(theme: Theme): string {
   .positioning-card {
     padding: var(--space-8);
     background:
-      radial-gradient(circle at 0% 0%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 34rem),
+      radial-gradient(
+        circle at 0% 0%,
+        color-mix(in oklab, var(--accent) 16%, transparent),
+        transparent 34rem
+      ),
       var(--bg-raised);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
@@ -632,7 +672,11 @@ export function apply(theme: Theme): string {
     content: '';
     position: absolute;
     inset: -40px -60px;
-    background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--surface-accent) 14%, transparent), transparent 70%);
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      color-mix(in oklab, var(--surface-accent) 14%, transparent),
+      transparent 70%
+    );
     filter: blur(50px);
     z-index: -1;
     pointer-events: none;
@@ -683,7 +727,10 @@ export function apply(theme: Theme): string {
     font-size: var(--fs-sm);
     font-weight: 500;
     border: 1px solid transparent;
-    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+    transition:
+      background 120ms ease,
+      border-color 120ms ease,
+      color 120ms ease;
   }
 
   .btn-primary {

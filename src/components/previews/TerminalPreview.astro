@@ -31,17 +31,23 @@ const normalized = lines.map(normalize);
   <div class="body">
     <div class="segment-row" aria-hidden="true">
       <span class="segment segment-dir">{directory}</span>
-      <span class="segment segment-git">  {branch}</span>
+      <span class="segment segment-git"> {branch}</span>
     </div>
-    {normalized.map((line) => (
-      <div class:list={['line', `kind-${line.kind ?? 'output'}`]}>
-        {line.prompt && <span class="prompt" aria-hidden="true">{prompt}</span>}
-        <span>{line.text}</span>
-      </div>
-    ))}
+    {
+      normalized.map((line) => (
+        <div class:list={['line', `kind-${line.kind ?? 'output'}`]}>
+          {line.prompt && (
+            <span class="prompt" aria-hidden="true">
+              {prompt}
+            </span>
+          )}
+          <span>{line.text}</span>
+        </div>
+      ))
+    }
     <div class="cursor-row" aria-hidden="true">
       <span class="prompt">{prompt}</span>
-      <span class="cursor" />
+      <span class="cursor"></span>
     </div>
   </div>
 </figure>
@@ -97,12 +103,24 @@ const normalized = lines.map(normalize);
     min-width: 1ch;
   }
 
-  .kind-input span:last-child { color: var(--sw-slate-200); }
-  .kind-output span { color: var(--sw-slate-300); }
-  .kind-info span { color: var(--sw-sky-400); }
-  .kind-ok span { color: var(--sw-teal-300); }
-  .kind-warn span { color: var(--sw-amber-400); }
-  .kind-error span { color: var(--sw-rose-400); }
+  .kind-input span:last-child {
+    color: var(--sw-slate-200);
+  }
+  .kind-output span {
+    color: var(--sw-slate-300);
+  }
+  .kind-info span {
+    color: var(--sw-sky-400);
+  }
+  .kind-ok span {
+    color: var(--sw-teal-300);
+  }
+  .kind-warn span {
+    color: var(--sw-amber-400);
+  }
+  .kind-error span {
+    color: var(--sw-rose-400);
+  }
 
   .cursor-row {
     display: flex;

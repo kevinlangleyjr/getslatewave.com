@@ -91,13 +91,15 @@ const messages = [
 
           <div class="section">
             <div class="section-header">▾ Channels</div>
-            {channels.map((c) => (
-              <div class:list={['row', { active: c.active, hover: c.hover }]}>
-                <span class="hash">#</span>
-                <span class="name">{c.name}</span>
-                {c.unread && <span class="badge">{c.unread}</span>}
-              </div>
-            ))}
+            {
+              channels.map((c) => (
+                <div class:list={['row', { active: c.active, hover: c.hover }]}>
+                  <span class="hash">#</span>
+                  <span class="name">{c.name}</span>
+                  {c.unread && <span class="badge">{c.unread}</span>}
+                </div>
+              ))
+            }
             <div class="row muted">
               <span class="glyph">＋</span>
               <span class="name">Add channels</span>
@@ -106,12 +108,17 @@ const messages = [
 
           <div class="section">
             <div class="section-header">▾ Direct messages</div>
-            {dms.map((d) => (
-              <div class="row">
-                <span class:list={['presence', d.online ? 'presence-on' : 'presence-off']} aria-hidden="true"></span>
-                <span class="name">{d.name}</span>
-              </div>
-            ))}
+            {
+              dms.map((d) => (
+                <div class="row">
+                  <span
+                    class:list={['presence', d.online ? 'presence-on' : 'presence-off']}
+                    aria-hidden="true"
+                  />
+                  <span class="name">{d.name}</span>
+                </div>
+              ))
+            }
           </div>
         </nav>
       </aside>
@@ -130,20 +137,25 @@ const messages = [
         </header>
 
         <div class="messages">
-          {messages.map((m) => (
-            <article class="message">
-              <span class="avatar" style={`background:${m.accent}`} aria-hidden="true">
-                {m.author.split(' ').map((p) => p[0]).join('')}
-              </span>
-              <div class="msg-body">
-                <header class="msg-meta">
-                  <span class="msg-author">{m.author}</span>
-                  <span class="msg-time">{m.time}</span>
-                </header>
-                <p>{m.body}</p>
-              </div>
-            </article>
-          ))}
+          {
+            messages.map((m) => (
+              <article class="message">
+                <span class="avatar" style={`background:${m.accent}`} aria-hidden="true">
+                  {m.author
+                    .split(' ')
+                    .map((p) => p[0])
+                    .join('')}
+                </span>
+                <div class="msg-body">
+                  <header class="msg-meta">
+                    <span class="msg-author">{m.author}</span>
+                    <span class="msg-time">{m.time}</span>
+                  </header>
+                  <p>{m.body}</p>
+                </div>
+              </article>
+            ))
+          }
         </div>
 
         <div class="composer" aria-hidden="true">
@@ -163,14 +175,14 @@ const messages = [
 <style>
   /* Slack theme slots — these are the 8 values pasted into Slack */
   .slack-preview {
-    --slk-column: var(--sw-slate-800);       /* 1. Column BG */
-    --slk-menu: var(--sw-slate-editor);         /* 2. Menu BG */
-    --slk-active: var(--sw-slate-700);       /* 3. Active Item */
-    --slk-active-text: var(--sw-teal-300);  /* 4. Active Item Text */
-    --slk-hover: var(--sw-slate-editor);        /* 5. Hover Item */
-    --slk-text: var(--sw-slate-200);         /* 6. Text Color */
-    --slk-presence: var(--sw-teal-300);     /* 7. Active Presence */
-    --slk-mention: var(--sw-rose-400);      /* 8. Mention Badge */
+    --slk-column: var(--sw-slate-800); /* 1. Column BG */
+    --slk-menu: var(--sw-slate-editor); /* 2. Menu BG */
+    --slk-active: var(--sw-slate-700); /* 3. Active Item */
+    --slk-active-text: var(--sw-teal-300); /* 4. Active Item Text */
+    --slk-hover: var(--sw-slate-editor); /* 5. Hover Item */
+    --slk-text: var(--sw-slate-200); /* 6. Text Color */
+    --slk-presence: var(--sw-teal-300); /* 7. Active Presence */
+    --slk-mention: var(--sw-rose-400); /* 8. Mention Badge */
 
     /* Slack defaults outside the 8-slot custom block */
     --slk-rail: var(--sw-slate-900);
@@ -229,7 +241,9 @@ const messages = [
   .ws-icon.ws-active {
     background: linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400));
     color: var(--sw-slate-900);
-    box-shadow: 0 0 0 2px var(--slk-rail), 0 0 0 3px var(--slk-active-text);
+    box-shadow:
+      0 0 0 2px var(--slk-rail),
+      0 0 0 3px var(--slk-active-text);
   }
 
   .ws-add {
@@ -350,11 +364,17 @@ const messages = [
     text-overflow: ellipsis;
   }
 
-  .row.muted .name { color: var(--sw-slate-500); }
-  .row.muted .glyph { color: var(--sw-slate-500); }
+  .row.muted .name {
+    color: var(--sw-slate-500);
+  }
+  .row.muted .glyph {
+    color: var(--sw-slate-500);
+  }
 
   /* Hover state — slot 5 */
-  .row.hover { background: var(--slk-hover); }
+  .row.hover {
+    background: var(--slk-hover);
+  }
 
   /* Active row — slot 3 only paints the pill background. Slack ignores
      "Active Item Text" for the selected channel label in practice, so
@@ -385,7 +405,9 @@ const messages = [
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .presence-on { background: var(--slk-presence); }
+  .presence-on {
+    background: var(--slk-presence);
+  }
   .presence-off {
     background: transparent;
     border: 1.5px solid var(--sw-slate-600);
@@ -478,7 +500,9 @@ const messages = [
     letter-spacing: 0;
   }
 
-  .msg-body { min-width: 0; }
+  .msg-body {
+    min-width: 0;
+  }
 
   .msg-meta {
     display: flex;
@@ -529,15 +553,38 @@ const messages = [
 
   /* Responsive — collapse rail at narrow widths, drop main pane on phones */
   @media (max-width: 720px) {
-    .layout { grid-template-columns: 44px 220px minmax(0, 1fr); }
-    .ws-icon, .ws-add { width: 30px; height: 30px; font-size: 11px; }
-    .topic { display: none; }
+    .layout {
+      grid-template-columns: 44px 220px minmax(0, 1fr);
+    }
+    .ws-icon,
+    .ws-add {
+      width: 30px;
+      height: 30px;
+      font-size: 11px;
+    }
+    .topic {
+      display: none;
+    }
   }
 
   @media (max-width: 540px) {
-    .layout { grid-template-columns: 36px minmax(0, 1fr); min-height: 360px; }
-    .main { display: none; }
-    .ws-icon, .ws-add { width: 26px; height: 26px; font-size: 10px; border-radius: 6px; }
-    .rail { padding: 8px 0; gap: 8px; }
+    .layout {
+      grid-template-columns: 36px minmax(0, 1fr);
+      min-height: 360px;
+    }
+    .main {
+      display: none;
+    }
+    .ws-icon,
+    .ws-add {
+      width: 26px;
+      height: 26px;
+      font-size: 10px;
+      border-radius: 6px;
+    }
+    .rail {
+      padding: 8px 0;
+      gap: 8px;
+    }
   }
 </style>

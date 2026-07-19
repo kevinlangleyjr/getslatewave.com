@@ -80,14 +80,28 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
 
   <!-- Bufferline (lualine-buffers shape) -->
   <div class="bufferline" aria-hidden="true">
-    {buffers.map((b) => (
-      <span class:list={['buftab', { active: b.active }]}>
-        {b.active && <span class="buf-indicator" aria-hidden="true">●</span>}
-        <span class="buf-name">{b.name}</span>
-        {b.modified && <span class="buf-modified" aria-hidden="true">+</span>}
-        {!b.active && <span class="buf-close" aria-hidden="true">×</span>}
-      </span>
-    ))}
+    {
+      buffers.map((b) => (
+        <span class:list={['buftab', { active: b.active }]}>
+          {b.active && (
+            <span class="buf-indicator" aria-hidden="true">
+              ●
+            </span>
+          )}
+          <span class="buf-name">{b.name}</span>
+          {b.modified && (
+            <span class="buf-modified" aria-hidden="true">
+              +
+            </span>
+          )}
+          {!b.active && (
+            <span class="buf-close" aria-hidden="true">
+              ×
+            </span>
+          )}
+        </span>
+      ))
+    }
     <span class="bufferline-spacer"></span>
     <span class="bufferline-tabs">1/1</span>
   </div>
@@ -95,20 +109,28 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
   <!-- Editor body — gutter (line numbers + gitsigns) + code -->
   <div class="editor">
     <div class="gutter" aria-hidden="true">
-      {lineNumbers.map((n, i) => (
-        <div class:list={['ln-row', { active: n === cursorLine }]}>
-          <span class:list={['gitsign', gitSigns[i] && `gs-${gitSigns[i] === '+' ? 'add' : 'change'}`]}>
-            {gitSigns[i] ?? ' '}
-          </span>
-          <span class="ln-num">{n}</span>
-        </div>
-      ))}
+      {
+        lineNumbers.map((n, i) => (
+          <div class:list={['ln-row', { active: n === cursorLine }]}>
+            <span
+              class:list={[
+                'gitsign',
+                gitSigns[i] && `gs-${gitSigns[i] === '+' ? 'add' : 'change'}`,
+              ]}
+            >
+              {gitSigns[i] ?? ' '}
+            </span>
+            <span class="ln-num">{n}</span>
+          </div>
+        ))
+      }
     </div>
 
     <div class="code-pane">
       <div class="code" set:html={html} />
       <!-- Cursor block on the active line -->
-      <div class="cursor-block" aria-hidden="true" style={`top: calc((${cursorLine} - 1) * 1lh)`}></div>
+      <div class="cursor-block" aria-hidden="true" style={`top: calc((${cursorLine} - 1) * 1lh)`}>
+      </div>
     </div>
   </div>
 
@@ -117,9 +139,22 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
     <div class="sl-left">
       <span class="sl-mode">NORMAL</span>
       <span class="sl-section sl-branch">
-        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/>
-          <path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/>
+        <svg
+          viewBox="0 0 24 24"
+          width="11"
+          height="11"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="6" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle
+            cx="18"
+            cy="12"
+            r="2"></circle>
+          <path d="M6 8v8"></path><path d="M8 6h6a4 4 0 0 1 4 4v0"></path>
         </svg>
         main
       </span>
@@ -128,8 +163,16 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
         <span class="diff-mod">~2</span>
       </span>
       <span class="sl-section sl-diag">
-        {diagnostics.warn.count > 0 && <span class="diag diag-warn">⚠ {diagnostics.warn.count}</span>}
-        {diagnostics.info.count > 0 && <span class="diag diag-info">ℹ {diagnostics.info.count}</span>}
+        {
+          diagnostics.warn.count > 0 && (
+            <span class="diag diag-warn">⚠ {diagnostics.warn.count}</span>
+          )
+        }
+        {
+          diagnostics.info.count > 0 && (
+            <span class="diag diag-info">ℹ {diagnostics.info.count}</span>
+          )
+        }
       </span>
     </div>
 
@@ -286,7 +329,9 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
   }
 
   @keyframes nvim-blink {
-    50% { opacity: 0; }
+    50% {
+      opacity: 0;
+    }
   }
 
   /* Statusline (lualine) */
@@ -300,7 +345,8 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
     color: var(--sw-slate-300);
   }
 
-  .sl-left, .sl-right {
+  .sl-left,
+  .sl-right {
     display: flex;
     align-items: stretch;
   }
@@ -329,11 +375,21 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
     color: var(--sw-slate-300);
   }
 
-  .sl-diff .diff-add { color: var(--sw-teal-300); font-weight: 600; }
-  .sl-diff .diff-mod { color: var(--sw-amber-400); font-weight: 600; }
+  .sl-diff .diff-add {
+    color: var(--sw-teal-300);
+    font-weight: 600;
+  }
+  .sl-diff .diff-mod {
+    color: var(--sw-amber-400);
+    font-weight: 600;
+  }
 
-  .sl-diag .diag-warn { color: var(--sw-amber-400); }
-  .sl-diag .diag-info { color: var(--sw-sky-400); }
+  .sl-diag .diag-warn {
+    color: var(--sw-amber-400);
+  }
+  .sl-diag .diag-info {
+    color: var(--sw-sky-400);
+  }
 
   .sl-progress {
     color: var(--sw-slate-300);
@@ -359,6 +415,8 @@ const diagnostics: { error: Diagnostic; warn: Diagnostic; info: Diagnostic } = {
     .statusline .sl-right .sl-section:nth-child(2) {
       display: none;
     }
-    .ln-row { grid-template-columns: 2ch 3ch; }
+    .ln-row {
+      grid-template-columns: 2ch 3ch;
+    }
   }
 </style>

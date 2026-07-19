@@ -15,7 +15,8 @@ const { code, language, label, showChrome = true, lineNumbers = false } = Astro.
 
 const highlighter = await getHighlighter();
 const loadedLangs = highlighter.getLoadedLanguages();
-const lang = (loadedLangs.includes(language as BundledLanguage) ? language : 'text') as BundledLanguage | 'text';
+const lang = (loadedLangs.includes(language as BundledLanguage) ? language : 'text') as
+  BundledLanguage | 'text';
 
 if (lang !== 'text' && !loadedLangs.includes(lang)) {
   await highlighter.loadLanguage(lang as BundledLanguage);
@@ -28,11 +29,17 @@ const html = highlighter.codeToHtml(code.trimEnd(), {
 ---
 
 <figure class:list={['code-preview', 'sw-frame', { 'has-line-numbers': lineNumbers }]}>
-  {showChrome && (
-    <TerminalChrome>
-      {(label || language) && <span slot="trailing" class="label">{label ?? language}</span>}
-    </TerminalChrome>
-  )}
+  {
+    showChrome && (
+      <TerminalChrome>
+        {(label || language) && (
+          <span slot="trailing" class="label">
+            {label ?? language}
+          </span>
+        )}
+      </TerminalChrome>
+    )
+  }
   <div class="code-body" set:html={html} />
 </figure>
 

@@ -98,7 +98,7 @@ async function writeCache<T>(key: string, data: T): Promise<void> {
 function headers(): HeadersInit {
   const base: Record<string, string> = {
     'User-Agent': 'slatewave-web',
-    'Accept': 'application/vnd.github+json',
+    Accept: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
   };
   const token = process.env.GITHUB_TOKEN;
@@ -117,10 +117,7 @@ function toRelease(raw: Record<string, unknown>): Release {
   };
 }
 
-export async function fetchRepoMeta(
-  owner: string,
-  name: string,
-): Promise<RepoMeta | null> {
+export async function fetchRepoMeta(owner: string, name: string): Promise<RepoMeta | null> {
   const key = cacheKey([owner, name, 'meta']);
   const existing = memory.get(key) as Promise<RepoMeta | null> | undefined;
   if (existing) return existing;
@@ -150,8 +147,7 @@ export async function fetchRepoMeta(
       }
 
       const repo = (await repoRes.json()) as Record<string, unknown>;
-      const release =
-        releaseRes.ok ? ((await releaseRes.json()) as Record<string, unknown>) : null;
+      const release = releaseRes.ok ? ((await releaseRes.json()) as Record<string, unknown>) : null;
 
       const meta: RepoMeta = {
         stars: Number(repo.stargazers_count ?? 0),
@@ -173,11 +169,7 @@ export async function fetchRepoMeta(
   return task;
 }
 
-export async function fetchReleases(
-  owner: string,
-  name: string,
-  limit = 10,
-): Promise<Release[]> {
+export async function fetchReleases(owner: string, name: string, limit = 10): Promise<Release[]> {
   const key = cacheKey([owner, name, 'releases', String(limit)]);
   const existing = memory.get(key) as Promise<Release[]> | undefined;
   if (existing) return existing;
@@ -199,9 +191,7 @@ export async function fetchReleases(
           );
           return (await readStaleCache<Release[]>(key)) ?? [];
         }
-        console.warn(
-          `[github] releases ${owner}/${name}: ${res.status} ${res.statusText}`,
-        );
+        console.warn(`[github] releases ${owner}/${name}: ${res.status} ${res.statusText}`);
         return [];
       }
       const raw = (await res.json()) as Record<string, unknown>[];

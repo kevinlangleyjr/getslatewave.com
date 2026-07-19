@@ -1,0 +1,10 @@
+# build output
+dist/
+# generated types
+.astro/
+# dependencies
+node_modules/
+# lockfile
+pnpm-lock.yaml
+# authored content — leave prose/MDX formatting to the author
+src/content/

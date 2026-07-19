@@ -10,8 +10,9 @@ interface Props {
 
 const { title, description, slug } = Astro.props;
 
-const docs = (await getCollection('docs', ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+const docs = (await getCollection('docs', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <Base title={title} description={description}>
@@ -20,16 +21,15 @@ const docs = (await getCollection('docs', ({ data }) => !data.draft))
       <p class="eyebrow">Docs</p>
       <nav>
         <ul>
-          {docs.map((doc) => (
-            <li>
-              <a
-                href={`/docs/${doc.id}/`}
-                class:list={['doc-link', { active: doc.id === slug }]}
-              >
-                {doc.data.title}
-              </a>
-            </li>
-          ))}
+          {
+            docs.map((doc) => (
+              <li>
+                <a href={`/docs/${doc.id}/`} class:list={['doc-link', { active: doc.id === slug }]}>
+                  {doc.data.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </nav>
     </aside>
