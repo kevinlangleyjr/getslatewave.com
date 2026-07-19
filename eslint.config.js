@@ -24,7 +24,7 @@ export default tseslint.config(
   {
     // Preview components intentionally embed zero-width and other special
     // whitespace characters to reproduce editor/terminal output faithfully.
-    files: ['**/*.astro'],
+    files: ['src/components/previews/**/*.astro'],
     rules: {
       'no-irregular-whitespace': 'off',
     },
