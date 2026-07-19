@@ -83,7 +83,13 @@ interface Node {
 }
 
 const tree: Node[] = [
-  { type: 'root', name: 'getslatewave', annotation: '~/Development/Personal/slatewave/getslatewave', indent: 0, open: true },
+  {
+    type: 'root',
+    name: 'getslatewave',
+    annotation: '~/Development/Personal/slatewave/getslatewave',
+    indent: 0,
+    open: true,
+  },
   { type: 'folder', name: '.astro', indent: 1 },
   { type: 'folder', name: '.github', indent: 1 },
   { type: 'folder', name: '.vscode', indent: 1 },
@@ -165,9 +171,19 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
         <span class="caret">▾</span>
       </div>
       <div class="branch-chip">
-        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/>
-          <path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/>
+        <svg
+          viewBox="0 0 24 24"
+          width="11"
+          height="11"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="6" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle
+            cx="18"
+            cy="12"
+            r="2"></circle>
+          <path d="M6 8v8"></path><path d="M8 6h6a4 4 0 0 1 4 4v0"></path>
         </svg>
         <span>main</span>
         <span class="caret">▾</span>
@@ -181,10 +197,21 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
           <span class="caret">▾</span>
         </span>
         <span class="run-btn">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"
+            ><polygon points="6 4 20 12 6 20 6 4"></polygon></svg
+          >
         </span>
         <span class="run-btn">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="6"/><path d="M2 12h2M20 12h2M12 2v2M12 20v2"/></svg>
+          <svg
+            viewBox="0 0 24 24"
+            width="11"
+            height="11"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            ><circle cx="12" cy="12" r="6"></circle><path d="M2 12h2M20 12h2M12 2v2M12 20v2"
+            ></path></svg
+          >
         </span>
         <span class="run-btn">⋯</span>
       </div>
@@ -199,40 +226,86 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     <div class="workbench">
       <aside class="rail rail-left" aria-hidden="true">
         <div class="rail-icon active">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+            ></path>
           </svg>
         </div>
         <div class="rail-icon">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/>
-            <path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <circle cx="6" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle
+              cx="18"
+              cy="12"
+              r="2"></circle>
+            <path d="M6 8v8"></path><path d="M8 6h6a4 4 0 0 1 4 4v0"></path>
           </svg>
         </div>
         <div class="rail-icon">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <rect x="3" y="3" width="18" height="14" rx="2"/>
-            <path d="M8 21h8M12 17v4"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect x="3" y="3" width="18" height="14" rx="2"></rect>
+            <path d="M8 21h8M12 17v4"></path>
           </svg>
         </div>
         <div class="rail-icon">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </div>
         <div class="rail-icon bottom">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <polyline points="4 17 10 11 4 5"/>
-            <line x1="12" y1="19" x2="20" y2="19"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
           </svg>
         </div>
         <div class="rail-icon">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <circle cx="12" cy="12" r="9"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <circle cx="12" cy="12" r="9"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
           </svg>
         </div>
         <div class="rail-icon">⋯</div>
@@ -245,62 +318,101 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
           <span class="sidebar-actions">⋯</span>
         </div>
         <div class="tree">
-          {tree.map((n) => (
-            <div class:list={['node', `type-${n.type}`, { active: n.active, selected: n.selected, vcs: n.vcs }]}>
-              <span class="indent" style={`width:${n.indent * 12}px`}></span>
-              {(n.type === 'folder' || n.type === 'libroot' || n.type === 'root' || n.type === 'special') ? (
-                <span class="caret-cell">{
-                  n.type === 'special' ? '▸' : (n.open ? '▾' : '▸')
-                }</span>
-              ) : (
-                <span class="caret-cell"></span>
-              )}
-              {n.type === 'root' && (
-                <span class="ficon proj">G</span>
-              )}
-              {n.type === 'folder' && (
-                <svg class="ficon folder" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6">
-                  <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                </svg>
-              )}
-              {n.type === 'libroot' && (
-                <svg class="ficon folder libroot" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6">
-                  <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  <circle cx="18" cy="6" r="2.5" fill="var(--sw-amber-400)" stroke="none"/>
-                </svg>
-              )}
-              {n.type === 'special' && (
-                <svg class="ficon folder" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6">
-                  <path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  <line x1="8" y1="9" x2="16" y2="9"/>
-                  <line x1="8" y1="13" x2="16" y2="13"/>
-                </svg>
-              )}
-              {n.type === 'file' && (
-                <span class={`ficon file-ext ext-${n.ext}`}>{
-                  n.ext === 'ts' ? 'TS' :
-                  n.ext === 'json' ? '{}' :
-                  n.ext === 'md' ? 'M' :
-                  n.ext === 'js' ? 'JS' :
-                  n.ext === 'env' ? '.E' : '·'
-                }</span>
-              )}
-              <span class="node-name">{n.name}</span>
-              {n.annotation && <span class="node-annotation">{n.annotation}</span>}
-            </div>
-          ))}
+          {
+            tree.map((n) => (
+              <div
+                class:list={[
+                  'node',
+                  `type-${n.type}`,
+                  { active: n.active, selected: n.selected, vcs: n.vcs },
+                ]}
+              >
+                <span class="indent" style={`width:${n.indent * 12}px`} />
+                {n.type === 'folder' ||
+                n.type === 'libroot' ||
+                n.type === 'root' ||
+                n.type === 'special' ? (
+                  <span class="caret-cell">{n.type === 'special' ? '▸' : n.open ? '▾' : '▸'}</span>
+                ) : (
+                  <span class="caret-cell" />
+                )}
+                {n.type === 'root' && <span class="ficon proj">G</span>}
+                {n.type === 'folder' && (
+                  <svg
+                    class="ficon folder"
+                    viewBox="0 0 24 24"
+                    width="13"
+                    height="13"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  >
+                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  </svg>
+                )}
+                {n.type === 'libroot' && (
+                  <svg
+                    class="ficon folder libroot"
+                    viewBox="0 0 24 24"
+                    width="13"
+                    height="13"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  >
+                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <circle cx="18" cy="6" r="2.5" fill="var(--sw-amber-400)" stroke="none" />
+                  </svg>
+                )}
+                {n.type === 'special' && (
+                  <svg
+                    class="ficon folder"
+                    viewBox="0 0 24 24"
+                    width="13"
+                    height="13"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  >
+                    <path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <line x1="8" y1="9" x2="16" y2="9" />
+                    <line x1="8" y1="13" x2="16" y2="13" />
+                  </svg>
+                )}
+                {n.type === 'file' && (
+                  <span class={`ficon file-ext ext-${n.ext}`}>
+                    {n.ext === 'ts'
+                      ? 'TS'
+                      : n.ext === 'json'
+                        ? '{}'
+                        : n.ext === 'md'
+                          ? 'M'
+                          : n.ext === 'js'
+                            ? 'JS'
+                            : n.ext === 'env'
+                              ? '.E'
+                              : '·'}
+                  </span>
+                )}
+                <span class="node-name">{n.name}</span>
+                {n.annotation && <span class="node-annotation">{n.annotation}</span>}
+              </div>
+            ))
+          }
         </div>
       </aside>
 
       <section class="editor-pane">
         <div class="tab-bar">
-          {tabs.map((t) => (
-            <div class:list={['tab', { active: t.active }]}>
-              <span class={`ficon file-ext ext-${t.ext}`}>{t.ext === 'ts' ? 'TS' : 'M'}</span>
-              <span class="tab-name">{t.name}</span>
-              <span class="tab-close">×</span>
-            </div>
-          ))}
+          {
+            tabs.map((t) => (
+              <div class:list={['tab', { active: t.active }]}>
+                <span class={`ficon file-ext ext-${t.ext}`}>{t.ext === 'ts' ? 'TS' : 'M'}</span>
+                <span class="tab-name">{t.name}</span>
+                <span class="tab-close">×</span>
+              </div>
+            ))
+          }
           <div class="tab-actions" aria-hidden="true">
             <span class="diag diag-error">6</span>
             <span class="diag diag-warn">4</span>
@@ -312,41 +424,56 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
 
         <div class="editor">
           <div class="vcs-gutter" aria-hidden="true">
-            {vcsMarkers.map((m) => (
-              <div class:list={['vcs-marker', m]}></div>
-            ))}
+            {vcsMarkers.map((m) => <div class:list={['vcs-marker', m]} />)}
           </div>
           <div class="gutter" aria-hidden="true">
-            {Array.from({ length: lineCount }, (_, i) => (
-              <div class="ln">{i + 1}</div>
-            ))}
+            {Array.from({ length: lineCount }, (_, i) => <div class="ln">{i + 1}</div>)}
           </div>
           <div class="code" set:html={html} />
           <div class="minimap" aria-hidden="true">
-            {minimapStyles.map((s) => (
-              <div class="mini-ln" style={s}></div>
-            ))}
+            {minimapStyles.map((s) => <div class="mini-ln" style={s} />)}
           </div>
         </div>
       </section>
 
       <aside class="rail rail-right" aria-hidden="true">
         <div class="rail-icon">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <ellipse cx="12" cy="5" rx="9" ry="3"/>
-            <path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
-            <path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"></path>
+            <path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"></path>
           </svg>
         </div>
         <div class="rail-icon">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"></path>
           </svg>
         </div>
         <div class="rail-icon">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M9 9h6v6H9z"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <path d="M9 9h6v6H9z"></path>
           </svg>
         </div>
       </aside>
@@ -354,34 +481,64 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
 
     <footer class="status-bar" aria-hidden="true">
       <div class="status-left">
-        {breadcrumbEntries.map((entry, i) => (
-          <Fragment>
-            {i > 0 && <span class="bc-sep">›</span>}
-            <span class="bc-icon">
-              {entry.iconKind === 'proj' && <span class="bc-mini-icon proj">G</span>}
-              {entry.iconKind === 'folder' && (
-                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-              )}
-              {entry.iconKind === 'ts' && <span class="bc-mini-icon ts">TS</span>}
-              {entry.iconKind === 'iface' && <span class="bc-mini-icon iface">I</span>}
-            </span>
-            <span class="bc-part">{entry.label}</span>
-          </Fragment>
-        ))}
+        {
+          breadcrumbEntries.map((entry, i) => (
+            <Fragment>
+              {i > 0 && <span class="bc-sep">›</span>}
+              <span class="bc-icon">
+                {entry.iconKind === 'proj' && <span class="bc-mini-icon proj">G</span>}
+                {entry.iconKind === 'folder' && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="10"
+                    height="10"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                  >
+                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  </svg>
+                )}
+                {entry.iconKind === 'ts' && <span class="bc-mini-icon ts">TS</span>}
+                {entry.iconKind === 'iface' && <span class="bc-mini-icon iface">I</span>}
+              </span>
+              <span class="bc-part">{entry.label}</span>
+            </Fragment>
+          ))
+        }
       </div>
       <div class="status-right">
         <span class="status-cell muted">20:20</span>
         <span class="status-cell">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/>
-            <path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="11"
+            height="11"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="6" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle
+              cx="18"
+              cy="12"
+              r="2"></circle>
+            <path d="M6 8v8"></path><path d="M8 6h6a4 4 0 0 1 4 4v0"></path>
           </svg>
         </span>
         <span class="status-cell muted">LF</span>
         <span class="status-cell muted">UTF-8</span>
         <span class="status-cell muted">2 spaces</span>
         <span class="status-cell muted">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          <svg
+            viewBox="0 0 24 24"
+            width="11"
+            height="11"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            ><rect x="5" y="11" width="14" height="9" rx="1"></rect><path
+              d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg
+          >
         </span>
       </div>
     </footer>
@@ -425,7 +582,6 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     color: var(--sw-slate-300);
   }
 
-
   .proj-chip,
   .branch-chip {
     display: inline-flex;
@@ -438,7 +594,10 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     line-height: 1;
   }
 
-  .proj-chip:hover, .branch-chip:hover { background: rgba(94, 234, 212, 0.08); }
+  .proj-chip:hover,
+  .branch-chip:hover {
+    background: rgba(94, 234, 212, 0.08);
+  }
 
   .proj-icon {
     display: inline-flex;
@@ -453,13 +612,22 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     font-weight: 800;
   }
 
-  .proj-name { font-weight: 500; }
+  .proj-name {
+    font-weight: 500;
+  }
 
-  .branch-chip svg { color: var(--sw-slate-400); }
+  .branch-chip svg {
+    color: var(--sw-slate-400);
+  }
 
-  .caret { color: var(--sw-slate-600); font-size: 9px; }
+  .caret {
+    color: var(--sw-slate-600);
+    font-size: 9px;
+  }
 
-  .title-spacer { flex: 1; }
+  .title-spacer {
+    flex: 1;
+  }
 
   .run-controls {
     display: inline-flex;
@@ -490,8 +658,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     font-size: 12px;
   }
 
-  .run-btn svg { color: var(--sw-teal-300); }
-  .run-btn:nth-child(3) svg { color: var(--sw-rose-400); }
+  .run-btn svg {
+    color: var(--sw-teal-300);
+  }
+  .run-btn:nth-child(3) svg {
+    color: var(--sw-rose-400);
+  }
 
   .title-tools {
     display: inline-flex;
@@ -519,8 +691,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     color: var(--sw-slate-500);
   }
 
-  .rail-left { border-right: 1px solid #1a1f28; }
-  .rail-right { border-left: 1px solid #1a1f28; }
+  .rail-left {
+    border-right: 1px solid #1a1f28;
+  }
+  .rail-right {
+    border-left: 1px solid #1a1f28;
+  }
 
   .rail-icon {
     width: 28px;
@@ -536,10 +712,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
 
   .rail-icon.active {
     color: var(--sw-teal-300);
-    background: rgba(94, 234, 212, 0.10);
+    background: rgba(94, 234, 212, 0.1);
   }
 
-  .rail-icon.bottom { margin-top: auto; }
+  .rail-icon.bottom {
+    margin-top: auto;
+  }
 
   /* Sidebar */
   .sidebar {
@@ -589,13 +767,20 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   }
 
   .node.selected {
-    background: rgba(94, 234, 212, 0.10);
+    background: rgba(94, 234, 212, 0.1);
   }
 
-  .node.vcs.type-file .node-name { color: var(--sw-amber-700); }
-  .node.vcs.type-folder .node-name { color: var(--sw-amber-700); }
+  .node.vcs.type-file .node-name {
+    color: var(--sw-amber-700);
+  }
+  .node.vcs.type-folder .node-name {
+    color: var(--sw-amber-700);
+  }
 
-  .indent { display: inline-block; flex-shrink: 0; }
+  .indent {
+    display: inline-block;
+    flex-shrink: 0;
+  }
 
   .caret-cell {
     width: 10px;
@@ -612,8 +797,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     flex-shrink: 0;
   }
 
-  .ficon.folder { color: var(--sw-slate-400); }
-  .ficon.folder.libroot { color: var(--sw-slate-400); }
+  .ficon.folder {
+    color: var(--sw-slate-400);
+  }
+  .ficon.folder.libroot {
+    color: var(--sw-slate-400);
+  }
 
   .ficon.proj {
     width: 14px;
@@ -635,11 +824,22 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     line-height: 1;
   }
 
-  .ext-ts { background: var(--sw-sky-400); }
-  .ext-json { background: var(--sw-amber-400); }
-  .ext-md { background: var(--sw-slate-400); }
-  .ext-js { background: var(--sw-amber-400); }
-  .ext-env { background: var(--sw-purple); font-size: 7px; }
+  .ext-ts {
+    background: var(--sw-sky-400);
+  }
+  .ext-json {
+    background: var(--sw-amber-400);
+  }
+  .ext-md {
+    background: var(--sw-slate-400);
+  }
+  .ext-js {
+    background: var(--sw-amber-400);
+  }
+  .ext-env {
+    background: var(--sw-purple);
+    font-size: 7px;
+  }
 
   .node-name {
     overflow: hidden;
@@ -692,12 +892,18 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
   .tab.active::after {
     content: '';
     position: absolute;
-    left: 0; right: 0; bottom: -1px;
+    left: 0;
+    right: 0;
+    bottom: -1px;
     height: 2px;
     background: var(--sw-teal-300);
   }
 
-  .tab-close { color: var(--sw-slate-600); font-size: 11px; margin-left: 2px; }
+  .tab-close {
+    color: var(--sw-slate-600);
+    font-size: 11px;
+    margin-left: 2px;
+  }
 
   .tab-actions {
     margin-left: auto;
@@ -724,12 +930,28 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     border-radius: 50%;
   }
 
-  .diag-error { color: var(--sw-rose-400); }
-  .diag-error::before { background: var(--sw-rose-400); }
-  .diag-warn { color: var(--sw-amber-400); }
-  .diag-warn::before { background: var(--sw-amber-400); }
-  .diag-ok { color: var(--sw-teal-300); }
-  .diag-ok::before { content: '✓'; background: transparent; width: auto; height: auto; font-weight: 700; }
+  .diag-error {
+    color: var(--sw-rose-400);
+  }
+  .diag-error::before {
+    background: var(--sw-rose-400);
+  }
+  .diag-warn {
+    color: var(--sw-amber-400);
+  }
+  .diag-warn::before {
+    background: var(--sw-amber-400);
+  }
+  .diag-ok {
+    color: var(--sw-teal-300);
+  }
+  .diag-ok::before {
+    content: '✓';
+    background: transparent;
+    width: auto;
+    height: auto;
+    font-weight: 700;
+  }
 
   /* Editor body — VCS gutter | line numbers | code | minimap */
   .editor {
@@ -755,8 +977,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     width: 100%;
   }
 
-  .vcs-marker.added { background: var(--sw-teal-300); }
-  .vcs-marker.modified { background: var(--sw-sky-400); }
+  .vcs-marker.added {
+    background: var(--sw-teal-300);
+  }
+  .vcs-marker.modified {
+    background: var(--sw-sky-400);
+  }
 
   .gutter {
     color: var(--sw-slate-600);
@@ -765,7 +991,9 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     user-select: none;
   }
 
-  .ln { line-height: 1.55; }
+  .ln {
+    line-height: 1.55;
+  }
 
   .code {
     overflow: hidden;
@@ -810,13 +1038,16 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     border-top: 1px solid #1a1f28;
   }
 
-  .status-left, .status-right {
+  .status-left,
+  .status-right {
     display: inline-flex;
     align-items: center;
     gap: 4px;
   }
 
-  .status-right { gap: 12px; }
+  .status-right {
+    gap: 12px;
+  }
 
   .status-left {
     overflow: hidden;
@@ -849,8 +1080,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     color: var(--sw-slate-900);
   }
 
-  .bc-mini-icon.proj { background: linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400)); }
-  .bc-mini-icon.ts { background: var(--sw-sky-400); }
+  .bc-mini-icon.proj {
+    background: linear-gradient(135deg, var(--sw-teal-300), var(--sw-sky-400));
+  }
+  .bc-mini-icon.ts {
+    background: var(--sw-sky-400);
+  }
   .bc-mini-icon.iface {
     background: transparent;
     border: 1.5px solid var(--sw-teal-300);
@@ -863,7 +1098,9 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     margin-right: 2px;
   }
 
-  .status-left > :last-child.bc-part { color: var(--sw-slate-300); }
+  .status-left > :last-child.bc-part {
+    color: var(--sw-slate-300);
+  }
 
   .status-cell {
     display: inline-flex;
@@ -871,8 +1108,12 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
     gap: 4px;
   }
 
-  .status-cell.muted { color: var(--sw-slate-400); }
-  .status-cell svg { color: var(--sw-slate-400); }
+  .status-cell.muted {
+    color: var(--sw-slate-400);
+  }
+  .status-cell svg {
+    color: var(--sw-slate-400);
+  }
 
   .trial-pill {
     border: 1px solid var(--sw-slate-600);
@@ -884,24 +1125,47 @@ const breadcrumbEntries: BreadcrumbEntry[] = breadcrumbs.map((label, i) => {
 
   /* Responsive */
   @media (max-width: 900px) {
-    .editor { grid-template-columns: 4px 38px minmax(0, 1fr); }
-    .minimap { display: none; }
+    .editor {
+      grid-template-columns: 4px 38px minmax(0, 1fr);
+    }
+    .minimap {
+      display: none;
+    }
   }
 
   @media (max-width: 760px) {
-    .workbench { grid-template-columns: 28px 200px minmax(0, 1fr) 28px; }
-    .run-config { display: none; }
+    .workbench {
+      grid-template-columns: 28px 200px minmax(0, 1fr) 28px;
+    }
+    .run-config {
+      display: none;
+    }
   }
 
   @media (max-width: 540px) {
-    .jb-preview { padding: var(--space-4) var(--space-3); }
-    .workbench { grid-template-columns: 28px minmax(0, 1fr); }
-    .sidebar, .rail-right { display: none; }
-    .branch-chip { display: none; }
-    .title-tools { display: none; }
+    .jb-preview {
+      padding: var(--space-4) var(--space-3);
+    }
+    .workbench {
+      grid-template-columns: 28px minmax(0, 1fr);
+    }
+    .sidebar,
+    .rail-right {
+      display: none;
+    }
+    .branch-chip {
+      display: none;
+    }
+    .title-tools {
+      display: none;
+    }
     .status-left .bc-part:not(:last-child),
     .status-left .bc-icon:not(:last-of-type),
-    .status-left .bc-sep { display: none; }
-    .status-cell:nth-child(n+4) { display: none; }
+    .status-left .bc-sep {
+      display: none;
+    }
+    .status-cell:nth-child(n + 4) {
+      display: none;
+    }
   }
 </style>

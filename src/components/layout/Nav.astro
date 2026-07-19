@@ -54,17 +54,19 @@ const links = [
     <div class="nav-actions">
       <nav aria-label="Primary" class="nav-menu" id="primary-nav">
         <ul>
-          {links.map(({ href, label }) => (
-            <li>
-              <a
-                href={href}
-                class:list={['nav-link', { active: isActive(href) }]}
-                data-simple-event={`nav_header_${label.toLowerCase()}`}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
+          {
+            links.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class:list={['nav-link', { active: isActive(href) }]}
+                  data-simple-event={`nav_header_${label.toLowerCase()}`}
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
           <li>
             <a
               class="nav-link"
@@ -89,10 +91,19 @@ const links = [
         aria-expanded="false"
         data-nav-toggle
       >
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line class="nav-toggle-line nav-toggle-line-top" x1="4" y1="7" x2="20" y2="7"/>
-          <line class="nav-toggle-line nav-toggle-line-mid" x1="4" y1="12" x2="20" y2="12"/>
-          <line class="nav-toggle-line nav-toggle-line-bot" x1="4" y1="17" x2="20" y2="17"/>
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <line class="nav-toggle-line nav-toggle-line-top" x1="4" y1="7" x2="20" y2="7"></line>
+          <line class="nav-toggle-line nav-toggle-line-mid" x1="4" y1="12" x2="20" y2="12"></line>
+          <line class="nav-toggle-line nav-toggle-line-bot" x1="4" y1="17" x2="20" y2="17"></line>
         </svg>
       </button>
     </div>
@@ -143,11 +154,7 @@ const links = [
   }
 
   :global([data-theme='dark']) .site-nav {
-    background: color-mix(
-      in oklab,
-      color-mix(in oklab, var(--bg-base), white 8%) 85%,
-      transparent
-    );
+    background: color-mix(in oklab, color-mix(in oklab, var(--bg-base), white 8%) 85%, transparent);
   }
 
   :global([data-theme='light']) .site-nav {
@@ -278,12 +285,20 @@ const links = [
   }
 
   .nav-toggle-line {
-    transition: transform 180ms ease, opacity 180ms ease;
+    transition:
+      transform 180ms ease,
+      opacity 180ms ease;
   }
 
-  .nav-toggle-line-top { transform-origin: 12px 7px; }
-  .nav-toggle-line-mid { transform-origin: 12px 12px; }
-  .nav-toggle-line-bot { transform-origin: 12px 17px; }
+  .nav-toggle-line-top {
+    transform-origin: 12px 7px;
+  }
+  .nav-toggle-line-mid {
+    transform-origin: 12px 12px;
+  }
+  .nav-toggle-line-bot {
+    transform-origin: 12px 17px;
+  }
 
   .site-nav[data-nav-open='true'] .nav-toggle-line-top {
     transform: translateY(5px) rotate(45deg);
@@ -313,7 +328,10 @@ const links = [
       visibility: hidden;
       opacity: 0;
       transform: translateY(-6px);
-      transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+      transition:
+        opacity 160ms ease,
+        transform 160ms ease,
+        visibility 160ms;
     }
 
     :global([data-theme='dark']) .nav-menu {

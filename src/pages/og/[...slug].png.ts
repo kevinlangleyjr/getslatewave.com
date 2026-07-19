@@ -113,8 +113,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         input: {
           eyebrow: 'Changelog',
           title: 'Every release, everywhere.',
-          description:
-            'A combined feed of releases across every Slatewave theme.',
+          description: 'A combined feed of releases across every Slatewave theme.',
           footer: 'slatewave.dev/changelog',
           accent: '#38bdf8',
         },

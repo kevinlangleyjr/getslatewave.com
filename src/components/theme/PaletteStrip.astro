@@ -19,26 +19,28 @@ interface Swatch {
 
 const swatches: Swatch[] = [
   { name: 'slate-editor', hex: '#282c34', cssVar: '--sw-slate-editor' },
-  { name: 'slate-400',    hex: '#94a3b8', cssVar: '--sw-slate-400' },
-  { name: 'slate-200',    hex: '#e2e8f0', cssVar: '--sw-slate-200' },
-  { name: 'teal-300',     hex: '#5eead4', cssVar: '--sw-teal-300' },
-  { name: 'sky-400',      hex: '#38bdf8', cssVar: '--sw-sky-400' },
-  { name: 'purple',       hex: '#b388ff', cssVar: '--sw-purple' },
-  { name: 'amber-400',    hex: '#fbbf24', cssVar: '--sw-amber-400' },
-  { name: 'rose-400',     hex: '#fb7185', cssVar: '--sw-rose-400' },
+  { name: 'slate-400', hex: '#94a3b8', cssVar: '--sw-slate-400' },
+  { name: 'slate-200', hex: '#e2e8f0', cssVar: '--sw-slate-200' },
+  { name: 'teal-300', hex: '#5eead4', cssVar: '--sw-teal-300' },
+  { name: 'sky-400', hex: '#38bdf8', cssVar: '--sw-sky-400' },
+  { name: 'purple', hex: '#b388ff', cssVar: '--sw-purple' },
+  { name: 'amber-400', hex: '#fbbf24', cssVar: '--sw-amber-400' },
+  { name: 'rose-400', hex: '#fb7185', cssVar: '--sw-rose-400' },
 ];
 ---
 
 <aside class="palette-strip" aria-label="Slatewave palette">
   <p class="palette-eyebrow">Palette</p>
   <ul class="palette-swatches">
-    {swatches.map((s) => (
-      <li class="palette-item">
-        <span class="palette-chip" style={`background: var(${s.cssVar})`} aria-hidden="true"></span>
-        <span class="palette-name">{s.name}</span>
-        <code class="palette-hex">{s.hex}</code>
-      </li>
-    ))}
+    {
+      swatches.map((s) => (
+        <li class="palette-item">
+          <span class="palette-chip" style={`background: var(${s.cssVar})`} aria-hidden="true" />
+          <span class="palette-name">{s.name}</span>
+          <code class="palette-hex">{s.hex}</code>
+        </li>
+      ))
+    }
   </ul>
 </aside>
 

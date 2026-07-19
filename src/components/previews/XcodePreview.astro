@@ -104,18 +104,34 @@ const breadcrumbs = [
       <div class="title-left">
         <TrafficLightDots />
         <button class="ti-btn" type="button" aria-label="Toggle navigator">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7">
-            <line x1="4" y1="6" x2="20" y2="6"/>
-            <line x1="4" y1="12" x2="20" y2="12"/>
-            <line x1="4" y1="18" x2="20" y2="18"/>
-            <circle cx="6" cy="6" r="0.8" fill="currentColor"/>
-            <circle cx="6" cy="12" r="0.8" fill="currentColor"/>
-            <circle cx="6" cy="18" r="0.8" fill="currentColor"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+          >
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+            <circle cx="6" cy="6" r="0.8" fill="currentColor"></circle>
+            <circle cx="6" cy="12" r="0.8" fill="currentColor"></circle>
+            <circle cx="6" cy="18" r="0.8" fill="currentColor"></circle>
           </svg>
         </button>
         <button class="ti-btn ti-spark" type="button" aria-label="Coding intelligence">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path
+              d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"
+            ></path>
           </svg>
         </button>
       </div>
@@ -126,9 +142,16 @@ const breadcrumbs = [
       </div>
       <div class="title-right">
         <button class="ti-btn" type="button" aria-label="Toggle inspector">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="4" width="18" height="16" rx="2"/>
-            <line x1="15" y1="4" x2="15" y2="20"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+          >
+            <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+            <line x1="15" y1="4" x2="15" y2="20"></line>
           </svg>
         </button>
       </div>
@@ -139,39 +162,103 @@ const breadcrumbs = [
         <div class="jump-bar" aria-hidden="true">
           <div class="jump-left">
             <span class="jb-icon" title="Show editor types">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                width="13"
+                height="13"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                ><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect
+                  x="13"
+                  y="3"
+                  width="8"
+                  height="8"
+                  rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect><rect
+                  x="13"
+                  y="13"
+                  width="8"
+                  height="8"
+                  rx="1"></rect></svg
+              >
             </span>
             <span class="jb-arrow">‹</span>
             <span class="jb-arrow">›</span>
           </div>
           <div class="jump-crumbs">
-            {breadcrumbs.map((b, i) => (
-              <>
-                {i > 0 && <span class="jb-sep" aria-hidden="true">›</span>}
-                <span class:list={['jb-crumb', `kind-${b.kind}`, { last: i === breadcrumbs.length - 1 }]}>
-                  {b.kind === 'workspace' && (
-                    <span class="jb-crumb-icon ws"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span>
-                  )}
-                  {b.kind === 'folder' && (
-                    <span class="jb-crumb-icon folder"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2h9A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/></svg></span>
-                  )}
-                  {b.kind === 'swift' && (
-                    <span class="jb-crumb-icon swift" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M19.4 17.5c-2.3 1.4-5.4 1.6-8.6.5 1.4.3 2.8.1 4-.5-2-.4-3.9-1.6-5.6-3.6 1.6 1.1 3.4 1.8 5.2 2-2.4-1.5-4.4-3.7-6-6.4 2.7 2.7 5.7 4.4 8.7 5-.5-1.6-1.7-3.2-3.4-4.5 4.4 2.4 6.2 7.1 5.7 7.5z"/></svg>
+            {
+              breadcrumbs.map((b, i) => (
+                <>
+                  {i > 0 && (
+                    <span class="jb-sep" aria-hidden="true">
+                      ›
                     </span>
                   )}
-                  {b.kind === 'class' && <span class="jb-crumb-icon class">C</span>}
-                  <span class:list={['jb-crumb-name', { none: b.kind === 'none' }]}>{b.name}</span>
-                </span>
-              </>
-            ))}
+                  <span
+                    class:list={[
+                      'jb-crumb',
+                      `kind-${b.kind}`,
+                      { last: i === breadcrumbs.length - 1 },
+                    ]}
+                  >
+                    {b.kind === 'workspace' && (
+                      <span class="jb-crumb-icon ws">
+                        <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
+                          <rect x="3" y="3" width="18" height="18" rx="2" />
+                        </svg>
+                      </span>
+                    )}
+                    {b.kind === 'folder' && (
+                      <span class="jb-crumb-icon folder">
+                        <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
+                          <path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4l2 2h9A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z" />
+                        </svg>
+                      </span>
+                    )}
+                    {b.kind === 'swift' && (
+                      <span class="jb-crumb-icon swift" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
+                          <path d="M19.4 17.5c-2.3 1.4-5.4 1.6-8.6.5 1.4.3 2.8.1 4-.5-2-.4-3.9-1.6-5.6-3.6 1.6 1.1 3.4 1.8 5.2 2-2.4-1.5-4.4-3.7-6-6.4 2.7 2.7 5.7 4.4 8.7 5-.5-1.6-1.7-3.2-3.4-4.5 4.4 2.4 6.2 7.1 5.7 7.5z" />
+                        </svg>
+                      </span>
+                    )}
+                    {b.kind === 'class' && <span class="jb-crumb-icon class">C</span>}
+                    <span class:list={['jb-crumb-name', { none: b.kind === 'none' }]}>
+                      {b.name}
+                    </span>
+                  </span>
+                </>
+              ))
+            }
           </div>
           <div class="jump-right">
             <span class="jb-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7"><polyline points="14 4 20 4 20 10"/><polyline points="10 20 4 20 4 14"/><line x1="20" y1="4" x2="14" y2="10"/><line x1="4" y1="20" x2="10" y2="14"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                width="13"
+                height="13"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                ><polyline points="14 4 20 4 20 10"></polyline><polyline points="10 20 4 20 4 14"
+                ></polyline><line x1="20" y1="4" x2="14" y2="10"></line><line
+                  x1="4"
+                  y1="20"
+                  x2="10"
+                  y2="14"></line></svg
+              >
             </span>
             <span class="jb-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7"><line x1="5" y1="7" x2="19" y2="7"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="17" x2="19" y2="17"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                width="13"
+                height="13"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                ><line x1="5" y1="7" x2="19" y2="7"></line><line x1="5" y1="12" x2="19" y2="12"
+                ></line><line x1="5" y1="17" x2="19" y2="17"></line></svg
+              >
             </span>
             <span class="jb-icon" aria-hidden="true">+</span>
           </div>
@@ -179,9 +266,11 @@ const breadcrumbs = [
 
         <div class="editor">
           <div class="gutter" aria-hidden="true">
-            {lineNumbers.map((n) => (
-              <div class:list={['ln', { active: n === activeLine }]}>{n}</div>
-            ))}
+            {
+              lineNumbers.map((n) => (
+                <div class:list={['ln', { active: n === activeLine }]}>{n}</div>
+              ))
+            }
           </div>
           <div class="code-wrap">
             <div class="code" set:html={html} />
@@ -189,9 +278,7 @@ const breadcrumbs = [
           </div>
           <div class="minimap" aria-hidden="true">
             <div class="minimap-viewport"></div>
-            {minimapStyles.map((s) => (
-              <div class="mini-ln" style={s}></div>
-            ))}
+            {minimapStyles.map((s) => <div class="mini-ln" style={s} />)}
           </div>
         </div>
       </section>
@@ -206,7 +293,19 @@ const breadcrumbs = [
         <span class="status-sep-thin">·</span>
         <span class="status-cell">Col: 1</span>
         <span class="status-cell">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="15" y1="4" x2="15" y2="20"/></svg>
+          <svg
+            viewBox="0 0 24 24"
+            width="11"
+            height="11"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            ><rect x="3" y="4" width="18" height="16" rx="2"></rect><line
+              x1="15"
+              y1="4"
+              x2="15"
+              y2="20"></line></svg
+          >
         </span>
       </div>
     </footer>
@@ -239,7 +338,9 @@ const breadcrumbs = [
   }
 
   @media (max-width: 720px) {
-    .xcode-preview { padding: var(--space-4) var(--space-3); }
+    .xcode-preview {
+      padding: var(--space-4) var(--space-3);
+    }
   }
 
   /* Window — system chrome wraps the whole preview. */
@@ -290,7 +391,9 @@ const breadcrumbs = [
     cursor: default;
   }
 
-  .ti-spark { color: var(--xc-chrome-text-muted); }
+  .ti-spark {
+    color: var(--xc-chrome-text-muted);
+  }
 
   /* Centered "Ready | <timestamp>" pill — recessed, darker than chrome. */
   .title-status {
@@ -309,9 +412,16 @@ const breadcrumbs = [
     box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2);
   }
 
-  .status-headline { color: var(--xc-chrome-text); font-weight: 500; }
-  .status-sep { color: var(--xc-chrome-text-faint); }
-  .status-time { color: var(--xc-chrome-text-muted); }
+  .status-headline {
+    color: var(--xc-chrome-text);
+    font-weight: 500;
+  }
+  .status-sep {
+    color: var(--xc-chrome-text-faint);
+  }
+  .status-time {
+    color: var(--xc-chrome-text-muted);
+  }
 
   .title-right {
     display: inline-flex;
@@ -350,7 +460,8 @@ const breadcrumbs = [
     font-size: 11.5px;
   }
 
-  .jump-left, .jump-right {
+  .jump-left,
+  .jump-right {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -365,7 +476,10 @@ const breadcrumbs = [
     height: 18px;
   }
 
-  .jb-arrow { font-size: 13px; color: var(--xc-chrome-text-muted); }
+  .jb-arrow {
+    font-size: 13px;
+    color: var(--xc-chrome-text-muted);
+  }
 
   .jump-crumbs {
     display: inline-flex;
@@ -376,7 +490,9 @@ const breadcrumbs = [
     color: var(--xc-chrome-text);
   }
 
-  .jb-sep { color: var(--xc-chrome-text-faint); }
+  .jb-sep {
+    color: var(--xc-chrome-text-faint);
+  }
 
   .jb-crumb {
     display: inline-flex;
@@ -385,7 +501,9 @@ const breadcrumbs = [
     flex-shrink: 0;
   }
 
-  .jb-crumb.last .jb-crumb-name { color: #ffffff; }
+  .jb-crumb.last .jb-crumb-name {
+    color: #ffffff;
+  }
 
   .jb-crumb-icon {
     display: inline-flex;
@@ -401,11 +519,20 @@ const breadcrumbs = [
   }
 
   /* Breadcrumb icons mirror the navigator's system colors. */
-  .jb-crumb-icon.ws { color: var(--xc-system-blue); }
-  .jb-crumb-icon.folder { color: var(--xc-system-blue); }
-  .jb-crumb-icon.swift { color: var(--xc-swift-orange); }
+  .jb-crumb-icon.ws {
+    color: var(--xc-system-blue);
+  }
+  .jb-crumb-icon.folder {
+    color: var(--xc-system-blue);
+  }
+  .jb-crumb-icon.swift {
+    color: var(--xc-swift-orange);
+  }
   /* The C class-symbol bubble — Xcode uses system blue here. */
-  .jb-crumb-icon.class { background: var(--xc-system-blue); color: #ffffff; }
+  .jb-crumb-icon.class {
+    background: var(--xc-system-blue);
+    color: #ffffff;
+  }
 
   /* Editor body — gutter | code (with current-line band) | minimap */
   .editor {
@@ -501,7 +628,8 @@ const breadcrumbs = [
 
   .minimap-viewport {
     position: absolute;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     top: 8px;
     height: 35%;
     background: rgba(148, 163, 184, 0.06);
@@ -554,27 +682,51 @@ const breadcrumbs = [
     font-size: 10.5px;
   }
 
-  .status-sep-thin { color: var(--xc-chrome-text-faint); }
+  .status-sep-thin {
+    color: var(--xc-chrome-text-faint);
+  }
 
   /* "No Selection" trailing crumb — subdued, no icon. */
-  .jb-crumb-name.none { color: var(--xc-chrome-text-muted); font-style: italic; }
+  .jb-crumb-name.none {
+    color: var(--xc-chrome-text-muted);
+    font-style: italic;
+  }
 
   /* Responsive */
   @media (max-width: 900px) {
-    .editor { grid-template-columns: 48px minmax(0, 1fr); }
-    .minimap { display: none; }
-    .gutter { padding-left: 4px; }
-    .editor::before { width: 48px; }
+    .editor {
+      grid-template-columns: 48px minmax(0, 1fr);
+    }
+    .minimap {
+      display: none;
+    }
+    .gutter {
+      padding-left: 4px;
+    }
+    .editor::before {
+      width: 48px;
+    }
   }
 
   @media (max-width: 720px) {
-    .title-status { min-width: 200px; padding: 3px 12px; }
+    .title-status {
+      min-width: 200px;
+      padding: 3px 12px;
+    }
   }
 
   @media (max-width: 540px) {
-    .title-status { min-width: 140px; }
-    .status-time { display: none; }
-    .status-sep { display: none; }
-    .jump-right { display: none; }
+    .title-status {
+      min-width: 140px;
+    }
+    .status-time {
+      display: none;
+    }
+    .status-sep {
+      display: none;
+    }
+    .jump-right {
+      display: none;
+    }
   }
 </style>

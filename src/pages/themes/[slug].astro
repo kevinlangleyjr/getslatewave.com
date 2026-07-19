@@ -79,22 +79,24 @@ const accentStyle = data.accent ? `--page-accent: ${data.accent}` : undefined;
 // step). When it does, skip the generic auto-generated one; prepending
 // it on top of the manual entry is what rendered two CLI sections.
 const hasManualCli = (data.install ?? []).some((m) => m.label === 'Slatewave CLI');
-const cliMethod = data.cliSlug && !hasManualCli
-  ? {
-      label: 'Slatewave CLI',
-      description: 'Install with the Slatewave family CLI — one command, every theme.',
-      command: `slatewave install ${data.cliSlug}`,
-    }
-  : null;
+const cliMethod =
+  data.cliSlug && !hasManualCli
+    ? {
+        label: 'Slatewave CLI',
+        description: 'Install with the Slatewave family CLI — one command, every theme.',
+        command: `slatewave install ${data.cliSlug}`,
+      }
+    : null;
 
-const installMethods = [
-  ...(cliMethod ? [cliMethod] : []),
-  ...(data.install ?? []),
-];
+const installMethods = [...(cliMethod ? [cliMethod] : []), ...(data.install ?? [])];
 const primaryInstall = installMethods[0];
 
 const slugifyMethod = (label: string) =>
-  label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+  label
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
 const slugSegment = data.slug.replace(/-/g, '_');
 
 const meta = await fetchRepoMeta(data.repo.owner, data.repo.name);
@@ -106,8 +108,9 @@ const useWidePreview = customPreview?.wide ?? false;
 // Resolve related theme references — drop nulls (broken refs) and any
 // related theme that's still status: planned (no detail page generated).
 const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
-  ? (await Promise.all(data.related.map((ref) => getEntry(ref))))
-      .filter((t): t is CollectionEntry<'themes'> => !!t && t.data.status !== 'planned')
+  ? (await Promise.all(data.related.map((ref) => getEntry(ref)))).filter(
+      (t): t is CollectionEntry<'themes'> => !!t && t.data.status !== 'planned',
+    )
   : [];
 ---
 
@@ -134,17 +137,19 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
           >
             {data.repo.owner}/{data.repo.name} ↗
           </a>
-          {data.links.marketplace && (
-            <a
-              href={data.links.marketplace}
-              rel="noopener"
-              target="_blank"
-              class="repo-link"
-              data-simple-event={`install_${slugSegment}_marketplace`}
-            >
-              Marketplace ↗
-            </a>
-          )}
+          {
+            data.links.marketplace && (
+              <a
+                href={data.links.marketplace}
+                rel="noopener"
+                target="_blank"
+                class="repo-link"
+                data-simple-event={`install_${slugSegment}_marketplace`}
+              >
+                Marketplace ↗
+              </a>
+            )
+          }
         </div>
 
         <div class="hero-actions" aria-label="Theme actions">
@@ -153,66 +158,82 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
             href="#install-heading"
             data-simple-event={`cta_theme_install_jump_${slugSegment}`}
           >
-            <span>{primaryInstall?.command ? `Install with ${primaryInstall.label}` : 'View install steps'}</span>
+            <span
+              >{
+                primaryInstall?.command
+                  ? `Install with ${primaryInstall.label}`
+                  : 'View install steps'
+              }</span
+            >
             <span aria-hidden="true">↓</span>
           </a>
-          <a class="btn btn-ghost" href="/themes/" data-simple-event="cta_theme_browse_all">Browse all themes</a>
+          <a class="btn btn-ghost" href="/themes/" data-simple-event="cta_theme_browse_all"
+            >Browse all themes</a
+          >
         </div>
 
-        {meta && (meta.stars > 0 || meta.latestRelease || meta.pushedAt) && (
-          <dl class="stats" aria-label="Repository activity">
-            {meta.stars > 0 && (
-              <div class="stat">
-                <dt>Stars</dt>
-                <dd>★ {formatStars(meta.stars)}</dd>
-              </div>
-            )}
-            {meta.latestRelease && (
-              <div class="stat">
-                <dt>Latest release</dt>
-                <dd>
-                  <a
-                    href={meta.latestRelease.url}
-                    rel="noopener"
-                    target="_blank"
-                    title={absoluteDate(meta.latestRelease.publishedAt)}
-                  >
-                    {meta.latestRelease.tag}
-                  </a>
-                  <span class="muted"> · {relativeTime(meta.latestRelease.publishedAt)}</span>
-                </dd>
-              </div>
-            )}
-            {meta.pushedAt && (
-              <div class="stat">
-                <dt>Last commit</dt>
-                <dd>{relativeTime(meta.pushedAt)}</dd>
-              </div>
-            )}
-          </dl>
-        )}
+        {
+          meta && (meta.stars > 0 || meta.latestRelease || meta.pushedAt) && (
+            <dl class="stats" aria-label="Repository activity">
+              {meta.stars > 0 && (
+                <div class="stat">
+                  <dt>Stars</dt>
+                  <dd>★ {formatStars(meta.stars)}</dd>
+                </div>
+              )}
+              {meta.latestRelease && (
+                <div class="stat">
+                  <dt>Latest release</dt>
+                  <dd>
+                    <a
+                      href={meta.latestRelease.url}
+                      rel="noopener"
+                      target="_blank"
+                      title={absoluteDate(meta.latestRelease.publishedAt)}
+                    >
+                      {meta.latestRelease.tag}
+                    </a>
+                    <span class="muted"> · {relativeTime(meta.latestRelease.publishedAt)}</span>
+                  </dd>
+                </div>
+              )}
+              {meta.pushedAt && (
+                <div class="stat">
+                  <dt>Last commit</dt>
+                  <dd>{relativeTime(meta.pushedAt)}</dd>
+                </div>
+              )}
+            </dl>
+          )
+        }
       </div>
     </header>
 
     <section class="section">
       <div class:list={['container', { narrow: !useWidePreview }]}>
-        {CustomPreviewComponent ? (
-          <CustomPreviewComponent />
-        ) : (
-          <>
-            {data.preview?.kind === 'code' && (
-              <CodePreview code={data.preview.sample} language={data.preview.language} lineNumbers={data.preview.lineNumbers} />
-            )}
-            {data.preview?.kind === 'terminal' && (
-              <TerminalPreview prompt={data.preview.prompt} lines={data.preview.lines} />
-            )}
-            {data.preview?.kind === 'image' && (
-              <figure class="sw-frame image-preview">
-                <img src={data.preview.image.src} alt={data.preview.alt} loading="eager" />
-              </figure>
-            )}
-          </>
-        )}
+        {
+          CustomPreviewComponent ? (
+            <CustomPreviewComponent />
+          ) : (
+            <>
+              {data.preview?.kind === 'code' && (
+                <CodePreview
+                  code={data.preview.sample}
+                  language={data.preview.language}
+                  lineNumbers={data.preview.lineNumbers}
+                />
+              )}
+              {data.preview?.kind === 'terminal' && (
+                <TerminalPreview prompt={data.preview.prompt} lines={data.preview.lines} />
+              )}
+              {data.preview?.kind === 'image' && (
+                <figure class="sw-frame image-preview">
+                  <img src={data.preview.image.src} alt={data.preview.alt} loading="eager" />
+                </figure>
+              )}
+            </>
+          )
+        }
       </div>
     </section>
 
@@ -233,79 +254,93 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
     <section class="section install-section" id="install" data-theme-slug={data.slug}>
       <div class="container narrow">
         <h2 id="install-heading">Install</h2>
-        {data.cliSlug && (
-          <p class="install-cli-hint muted">
-            Don't have the CLI yet?{' '}
-            <a href="/cli/" data-simple-event={`install_${slugSegment}_cli_landing`}>Install the Slatewave CLI →</a>
-          </p>
-        )}
+        {
+          data.cliSlug && (
+            <p class="install-cli-hint muted">
+              Don't have the CLI yet?{' '}
+              <a href="/cli/" data-simple-event={`install_${slugSegment}_cli_landing`}>
+                Install the Slatewave CLI →
+              </a>
+            </p>
+          )
+        }
         <ul class="install-list">
-          {installMethods.map((method) => (
-            <li class="install-item">
-              <header>
-                <h3>{method.label}</h3>
-                {method.link && (
-                  <a
-                    href={method.link}
-                    rel="noopener"
-                    target="_blank"
-                    data-simple-event={`install_${slugSegment}_external_${slugifyMethod(method.label)}`}
-                  >
-                    Open ↗
-                  </a>
+          {
+            installMethods.map((method) => (
+              <li class="install-item">
+                <header>
+                  <h3>{method.label}</h3>
+                  {method.link && (
+                    <a
+                      href={method.link}
+                      rel="noopener"
+                      target="_blank"
+                      data-simple-event={`install_${slugSegment}_external_${slugifyMethod(method.label)}`}
+                    >
+                      Open ↗
+                    </a>
+                  )}
+                </header>
+                {method.description && <p class="muted">{method.description}</p>}
+                {method.command && (
+                  <div class="install-command">
+                    <pre class="install-cmd">
+                      <code>{method.command}</code>
+                    </pre>
+                    <button
+                      type="button"
+                      class="copy-command"
+                      data-copy-command={method.command}
+                      data-method-id={slugifyMethod(method.label)}
+                      data-method-label={method.label}
+                      aria-label={`Copy ${method.label} install command`}
+                    >
+                      Copy
+                    </button>
+                  </div>
                 )}
-              </header>
-              {method.description && <p class="muted">{method.description}</p>}
-              {method.command && (
-                <div class="install-command">
-                  <pre class="install-cmd"><code>{method.command}</code></pre>
-                  <button
-                    type="button"
-                    class="copy-command"
-                    data-copy-command={method.command}
-                    data-method-id={slugifyMethod(method.label)}
-                    data-method-label={method.label}
-                    aria-label={`Copy ${method.label} install command`}
-                  >
-                    Copy
-                  </button>
-                </div>
-              )}
-              {method.steps && (
-                <ol>
-                  {method.steps.map((step) => <li>{step}</li>)}
-                </ol>
-              )}
-            </li>
-          ))}
+                {method.steps && (
+                  <ol>
+                    {method.steps.map((step) => (
+                      <li>{step}</li>
+                    ))}
+                  </ol>
+                )}
+              </li>
+            ))
+          }
         </ul>
       </div>
     </section>
 
-    {relatedThemes.length > 0 && (
-      <section class="section related-section">
-        <div class="container narrow">
-          <h2>Related themes</h2>
-          <ul class="related-list">
-            {relatedThemes.map((rel) => (
-              <li>
-                <a
-                  href={`/themes/${rel.data.slug}/`}
-                  class="related-card"
-                  data-simple-event={`theme_related_${slugSegment}_to_${rel.data.slug.replace(/-/g, '_')}`}
-                >
-                  <div class="related-meta">
-                    <span class="related-category">{rel.data.category}</span>
-                    <span class="related-name">{rel.data.shortName}</span>
-                  </div>
-                  <p class="related-tagline"><InlineCode text={rel.data.tagline} /></p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    )}
+    {
+      relatedThemes.length > 0 && (
+        <section class="section related-section">
+          <div class="container narrow">
+            <h2>Related themes</h2>
+            <ul class="related-list">
+              {relatedThemes.map((rel) => (
+                <li>
+                  <a
+                    href={`/themes/${rel.data.slug}/`}
+                    class="related-card"
+                    data-simple-event={`theme_related_${slugSegment}_to_${rel.data.slug.replace(/-/g, '_')}`}
+                  >
+                    <div class="related-meta">
+                      <span class="related-category">{rel.data.category}</span>
+                      <span class="related-name">{rel.data.shortName}</span>
+                    </div>
+                    <p class="related-tagline">
+                      <InlineCode text={rel.data.tagline} />
+                    </p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
   </article>
 </Base>
 
@@ -318,9 +353,7 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
   const copyButtons = document.querySelectorAll<HTMLButtonElement>('[data-copy-command]');
 
   const selectCommand = (button: HTMLButtonElement) => {
-    const command = button
-      .closest<HTMLElement>('.install-command')
-      ?.querySelector('code');
+    const command = button.closest<HTMLElement>('.install-command')?.querySelector('code');
     if (!command) return false;
 
     const range = document.createRange();
@@ -387,7 +420,11 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
     content: '';
     position: absolute;
     inset: -20% 40% 0 -10%;
-    background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--page-accent) 20%, transparent), transparent 70%);
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      color-mix(in oklab, var(--page-accent) 20%, transparent),
+      transparent 70%
+    );
     filter: blur(80px);
     pointer-events: none;
   }
@@ -572,7 +609,9 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
     background: var(--bg-raised);
     color: inherit;
     text-decoration: none;
-    transition: border-color 120ms ease, transform 120ms ease;
+    transition:
+      border-color 120ms ease,
+      transform 120ms ease;
   }
 
   .related-card:hover,
@@ -714,7 +753,9 @@ const relatedThemes: CollectionEntry<'themes'>[] = data.related.length
     border: 1px solid color-mix(in oklab, var(--page-accent) 35%, transparent);
     font-size: var(--fs-xs);
     font-weight: 600;
-    transition: background 120ms ease, color 120ms ease;
+    transition:
+      background 120ms ease,
+      color 120ms ease;
   }
 
   .copy-command:hover,

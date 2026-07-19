@@ -155,9 +155,14 @@ export default function Playground() {
     monaco.editor.setTheme(MONACO_THEME_NAME);
   }, []);
 
+  // Reset the editor buffer to the selected sample only when the active tab
+  // changes — depending on active.code would clobber live edits on every
+  // keystroke, so the sync is intentional and the dep list is deliberate.
+  /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
   useEffect(() => {
     setCode(active.code);
   }, [active.id]);
+  /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
   return (
     <div className="pg-root">

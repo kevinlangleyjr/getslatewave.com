@@ -36,7 +36,9 @@ function normalizeColor(value: string | undefined): string | undefined {
   return VALID_HEX.test(value) ? value.toUpperCase() : undefined;
 }
 
-function toRules(tokenColors: RawTokenColor[]): { token: string; foreground?: string; fontStyle?: string; background?: string }[] {
+function toRules(
+  tokenColors: RawTokenColor[],
+): { token: string; foreground?: string; fontStyle?: string; background?: string }[] {
   const out: { token: string; foreground?: string; fontStyle?: string; background?: string }[] = [];
   for (const entry of tokenColors) {
     if (!entry.scope) continue;
@@ -45,9 +47,10 @@ function toRules(tokenColors: RawTokenColor[]): { token: string; foreground?: st
     const bg = normalizeColor(entry.settings.background);
     const fontStyle = entry.settings.fontStyle;
     for (const scope of scopes) {
-      const rule: { token: string; foreground?: string; fontStyle?: string; background?: string } = {
-        token: scope,
-      };
+      const rule: { token: string; foreground?: string; fontStyle?: string; background?: string } =
+        {
+          token: scope,
+        };
       if (fg) rule.foreground = fg.slice(1); // Monaco rule fg: no leading `#`
       if (bg) rule.background = bg.slice(1);
       if (fontStyle) rule.fontStyle = fontStyle;

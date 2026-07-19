@@ -56,28 +56,30 @@ const trackEventName = isPlanned
   </div>
 
   <footer class="card-foot">
-    {meta && (meta.stars > 0 || version || pushedRel) && (
-      <dl class="stats" aria-label="Repository stats">
-        {meta.stars > 0 && (
-          <div class="stat">
-            <dt aria-label="Stars">★</dt>
-            <dd>{formatStars(meta.stars)}</dd>
-          </div>
-        )}
-        {version && (
-          <div class="stat">
-            <dt>Version</dt>
-            <dd class="mono">{version}</dd>
-          </div>
-        )}
-        {pushedRel && (
-          <div class="stat">
-            <dt>Updated</dt>
-            <dd>{pushedRel}</dd>
-          </div>
-        )}
-      </dl>
-    )}
+    {
+      meta && (meta.stars > 0 || version || pushedRel) && (
+        <dl class="stats" aria-label="Repository stats">
+          {meta.stars > 0 && (
+            <div class="stat">
+              <dt aria-label="Stars">★</dt>
+              <dd>{formatStars(meta.stars)}</dd>
+            </div>
+          )}
+          {version && (
+            <div class="stat">
+              <dt>Version</dt>
+              <dd class="mono">{version}</dd>
+            </div>
+          )}
+          {pushedRel && (
+            <div class="stat">
+              <dt>Updated</dt>
+              <dd>{pushedRel}</dd>
+            </div>
+          )}
+        </dl>
+      )
+    }
     <span class="cta">
       {isPlanned ? 'Learn more' : 'Explore theme'}
       <span aria-hidden="true">{isPlanned ? '↗' : '→'}</span>
@@ -98,7 +100,10 @@ const trackEventName = isPlanned
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     color: var(--fg-default);
-    transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+    transition:
+      border-color 160ms ease,
+      transform 160ms ease,
+      background 160ms ease;
     position: relative;
     overflow: hidden;
   }
@@ -107,7 +112,11 @@ const trackEventName = isPlanned
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(120% 100% at 0% 0%, color-mix(in oklab, var(--card-accent) 18%, transparent), transparent 60%);
+    background: radial-gradient(
+      120% 100% at 0% 0%,
+      color-mix(in oklab, var(--card-accent) 18%, transparent),
+      transparent 60%
+    );
     opacity: 0.6;
     pointer-events: none;
     transition: opacity 160ms ease;

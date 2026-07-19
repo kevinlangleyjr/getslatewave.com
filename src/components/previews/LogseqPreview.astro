@@ -50,11 +50,7 @@ const sidebar: SidebarSection[] = [
   {
     label: 'Journals',
     open: true,
-    items: [
-      { name: 'May 2nd, 2026' },
-      { name: 'May 1st, 2026' },
-      { name: 'Apr 30th, 2026' },
-    ],
+    items: [{ name: 'May 2nd, 2026' }, { name: 'May 1st, 2026' }, { name: 'Apr 30th, 2026' }],
   },
   {
     label: 'Pages',
@@ -75,24 +71,28 @@ const sidebar: SidebarSection[] = [
         <span class="sb-search-text">Search or create page</span>
       </div>
 
-      {sidebar.map((section) => (
-        <div class:list={['sb-section', { open: section.open }]}>
-          <div class="sb-section-head">
-            <span class="sb-caret">{section.open ? '▾' : '▸'}</span>
-            <span class="sb-section-label">{section.label}</span>
+      {
+        sidebar.map((section) => (
+          <div class:list={['sb-section', { open: section.open }]}>
+            <div class="sb-section-head">
+              <span class="sb-caret">{section.open ? '▾' : '▸'}</span>
+              <span class="sb-section-label">{section.label}</span>
+            </div>
+            {section.open && section.items.length > 0 && (
+              <ul class="sb-list">
+                {section.items.map((item) => (
+                  <li class:list={['sb-item', { active: item.active }]}>
+                    <span class="sb-page-glyph" aria-hidden="true">
+                      📄
+                    </span>
+                    <span class="sb-name">{item.name}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          {section.open && section.items.length > 0 && (
-            <ul class="sb-list">
-              {section.items.map((item) => (
-                <li class:list={['sb-item', { active: item.active }]}>
-                  <span class="sb-page-glyph" aria-hidden="true">📄</span>
-                  <span class="sb-name">{item.name}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
+        ))
+      }
     </aside>
 
     <!-- Main outliner pane -->
@@ -100,7 +100,11 @@ const sidebar: SidebarSection[] = [
       <header class="page-meta">
         <h1 class="page-title">Slatewave Preview</h1>
         <p class="page-props">
-          <span class="prop"><span class="prop-key">tags::</span> <span class="tag">#slatewave</span> <span class="tag">#preview</span></span>
+          <span class="prop"
+            ><span class="prop-key">tags::</span>
+            <span class="tag">#slatewave</span>
+            <span class="tag">#preview</span></span
+          >
         </p>
       </header>
 
@@ -112,19 +116,27 @@ const sidebar: SidebarSection[] = [
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content"><span class="task task-todo">TODO</span> Ship Slatewave site Phase 5</span>
+          <span class="block-content"
+            ><span class="task task-todo">TODO</span> Ship Slatewave site Phase 5</span
+          >
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content"><span class="task task-doing">DOING</span> Wire the Logseq theme preview</span>
+          <span class="block-content"
+            ><span class="task task-doing">DOING</span> Wire the Logseq theme preview</span
+          >
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content"><span class="task task-done">DONE</span> <s>Publish ghostty-slatewave</s></span>
+          <span class="block-content"
+            ><span class="task task-done">DONE</span> <s>Publish ghostty-slatewave</s></span
+          >
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content"><span class="task task-waiting">WAITING</span> on feedback for iTerm2 cursor-guide</span>
+          <span class="block-content"
+            ><span class="task task-waiting">WAITING</span> on feedback for iTerm2 cursor-guide</span
+          >
         </div>
 
         <!-- Today block -->
@@ -134,7 +146,12 @@ const sidebar: SidebarSection[] = [
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content">Heading cascade — <span class="hcolor h1">H1–H3 teal-300</span>, <span class="hcolor h4">H4 teal-200</span>, <span class="hcolor h5">H5 sky-300</span>, <span class="hcolor h6">H6 purple</span>.</span>
+          <span class="block-content"
+            >Heading cascade — <span class="hcolor h1">H1–H3 teal-300</span>, <span
+              class="hcolor h4">H4 teal-200</span
+            >, <span class="hcolor h5">H5 sky-300</span>, <span class="hcolor h6">H6 purple</span
+            >.</span
+          >
         </div>
         <div class="block indent-1">
           <span class="bullet" aria-hidden="true"></span>
@@ -146,15 +163,25 @@ const sidebar: SidebarSection[] = [
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content">External links sit in <a class="ext-link" href="#">sky <span class="ext-marker">↗</span></a>.</span>
+          <span class="block-content"
+            >External links sit in <a class="ext-link" href="#"
+              >sky <span class="ext-marker">↗</span></a
+            >.</span
+          >
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content">Block refs use <span class="block-ref">((dashed-sky-underline))</span>.</span>
+          <span class="block-content"
+            >Block refs use <span class="block-ref">((dashed-sky-underline))</span>.</span
+          >
         </div>
         <div class="block">
           <span class="bullet" aria-hidden="true"></span>
-          <span class="block-content">Tags travel inline: <span class="tag">#slatewave</span> <span class="tag">#theme</span> <span class="tag">#demo</span>.</span>
+          <span class="block-content"
+            >Tags travel inline: <span class="tag">#slatewave</span>
+            <span class="tag">#theme</span>
+            <span class="tag">#demo</span>.</span
+          >
         </div>
 
         <!-- Code block -->
@@ -356,10 +383,22 @@ const sidebar: SidebarSection[] = [
   }
 
   /* Heading cascade colors used inline in body */
-  .hcolor.h1 { color: var(--sw-teal-300); font-weight: 600; }
-  .hcolor.h4 { color: var(--sw-teal-200); font-weight: 600; }
-  .hcolor.h5 { color: var(--sw-sky-300); font-weight: 600; }
-  .hcolor.h6 { color: var(--sw-purple); font-weight: 600; }
+  .hcolor.h1 {
+    color: var(--sw-teal-300);
+    font-weight: 600;
+  }
+  .hcolor.h4 {
+    color: var(--sw-teal-200);
+    font-weight: 600;
+  }
+  .hcolor.h5 {
+    color: var(--sw-sky-300);
+    font-weight: 600;
+  }
+  .hcolor.h6 {
+    color: var(--sw-purple);
+    font-weight: 600;
+  }
 
   /* Task markers */
   .task {

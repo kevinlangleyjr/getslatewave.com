@@ -2,8 +2,9 @@
 import { getCollection } from 'astro:content';
 import Base from '~/layouts/Base.astro';
 
-const docs = (await getCollection('docs', ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+const docs = (await getCollection('docs', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <Base
@@ -15,21 +16,25 @@ const docs = (await getCollection('docs', ({ data }) => !data.draft))
       <p class="eyebrow">Docs</p>
       <h1>Design the palette, document the rest.</h1>
       <p class="lede">
-        Reference material for the Slatewave color system — the palette itself,
-        its design tenets, and how to contribute a new theme.
+        Reference material for the Slatewave color system — the palette itself, its design tenets,
+        and how to contribute a new theme.
       </p>
     </header>
 
     <ul class="doc-grid">
-      {docs.map((doc) => (
-        <li>
-          <a class="doc-card" href={`/docs/${doc.id}/`}>
-            <h2>{doc.data.title}</h2>
-            <p>{doc.data.description}</p>
-            <span class="cta">Read <span aria-hidden="true">→</span></span>
-          </a>
-        </li>
-      ))}
+      {
+        docs.map((doc) => (
+          <li>
+            <a class="doc-card" href={`/docs/${doc.id}/`}>
+              <h2>{doc.data.title}</h2>
+              <p>{doc.data.description}</p>
+              <span class="cta">
+                Read <span aria-hidden="true">→</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </section>
 </Base>
@@ -80,7 +85,9 @@ const docs = (await getCollection('docs', ({ data }) => !data.draft))
     background: var(--bg-raised);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    transition: border-color 160ms ease, transform 160ms ease;
+    transition:
+      border-color 160ms ease,
+      transform 160ms ease;
   }
 
   .doc-card:hover {

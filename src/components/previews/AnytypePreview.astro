@@ -115,8 +115,8 @@ import TerminalChrome from './TerminalChrome.astro';
       <p class="page-greeting">Hey, welcome!</p>
       <p class="page-body">
         This short walkthrough covers how to <strong>create</strong>,
-        <strong>navigate</strong>, and <strong>collaborate</strong> in
-        Anytype — all on the Slatewave palette.
+        <strong>navigate</strong>, and <strong>collaborate</strong> in Anytype — all on the Slatewave
+        palette.
       </p>
 
       <div class="callout">
@@ -129,11 +129,10 @@ import TerminalChrome from './TerminalChrome.astro';
 
       <h2 class="page-h2">Channels</h2>
       <p class="page-body">
-        Everything in Anytype lives inside a <strong>Channel</strong> —
-        your workspace for notes, projects, and conversations.
-        Internal mentions like <a class="mention" href="#">@Slatewave</a>
-        render in teal; external links in <a class="ext" href="#">sky</a>.
-        Inline <code>code</code> sits on a slate-800 pill.
+        Everything in Anytype lives inside a <strong>Channel</strong> — your workspace for notes, projects,
+        and conversations. Internal mentions like <a class="mention" href="#">@Slatewave</a>
+        render in teal; external links in <a class="ext" href="#">sky</a>. Inline <code>code</code> sits
+        on a slate-800 pill.
       </p>
     </article>
   </div>
@@ -202,7 +201,7 @@ import TerminalChrome from './TerminalChrome.astro';
     width: 14px;
     height: 14px;
     border-radius: 3px;
-    background: rgba(203, 213, 225, 0.10);
+    background: rgba(203, 213, 225, 0.1);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -210,10 +209,12 @@ import TerminalChrome from './TerminalChrome.astro';
     font-size: 10px;
   }
   .rail-icon.plus {
-    background: rgba(94, 234, 212, 0.10);
+    background: rgba(94, 234, 212, 0.1);
     color: var(--teal);
   }
-  .rail-icon.ghost { background: transparent; }
+  .rail-icon.ghost {
+    background: transparent;
+  }
 
   .search-input {
     display: flex;
@@ -226,7 +227,9 @@ import TerminalChrome from './TerminalChrome.astro';
     font-size: 10.5px;
     color: var(--slate-faint);
   }
-  .search-glyph { color: var(--slate-faint); }
+  .search-glyph {
+    color: var(--slate-faint);
+  }
 
   .channel-list {
     list-style: none;
@@ -348,7 +351,7 @@ import TerminalChrome from './TerminalChrome.astro';
     width: 16px;
     height: 16px;
     border-radius: 3px;
-    background: rgba(94, 234, 212, 0.10);
+    background: rgba(94, 234, 212, 0.1);
     color: var(--teal);
     text-align: center;
     line-height: 16px;
@@ -363,7 +366,9 @@ import TerminalChrome from './TerminalChrome.astro';
     font-size: 11.5px;
     z-index: 1;
   }
-  .page-list.types { font-size: 11px; }
+  .page-list.types {
+    font-size: 11px;
+  }
 
   .page-item {
     display: flex;
@@ -387,14 +392,28 @@ import TerminalChrome from './TerminalChrome.astro';
     font-size: 10px;
     border-radius: 2px;
   }
-  .page-glyph.home { color: var(--rose); }
-  .page-glyph.dot { color: var(--slate-faint); }
+  .page-glyph.home {
+    color: var(--rose);
+  }
+  .page-glyph.dot {
+    color: var(--slate-faint);
+  }
 
-  .page-glyph.type-pages       { background: var(--amber); }
-  .page-glyph.type-tasks       { background: var(--emerald); }
-  .page-glyph.type-collections { background: var(--teal); }
-  .page-glyph.type-bookmarks   { background: var(--orange); }
-  .page-glyph.type-images      { background: var(--sky-strong); }
+  .page-glyph.type-pages {
+    background: var(--amber);
+  }
+  .page-glyph.type-tasks {
+    background: var(--emerald);
+  }
+  .page-glyph.type-collections {
+    background: var(--teal);
+  }
+  .page-glyph.type-bookmarks {
+    background: var(--orange);
+  }
+  .page-glyph.type-images {
+    background: var(--sky-strong);
+  }
 
   .section-label {
     font-size: 10.5px;
@@ -406,7 +425,9 @@ import TerminalChrome from './TerminalChrome.astro';
     gap: 4px;
     z-index: 1;
   }
-  .section-label .caret { font-size: 9px; }
+  .section-label .caret {
+    font-size: 9px;
+  }
 
   /* ---------- Canvas ---------- */
   .pane-canvas {
@@ -433,7 +454,7 @@ import TerminalChrome from './TerminalChrome.astro';
     width: 12px;
     height: 12px;
     border-radius: 2px;
-    background: rgba(203, 213, 225, 0.10);
+    background: rgba(203, 213, 225, 0.1);
     display: inline-block;
   }
   .tb-icon.star {
@@ -441,7 +462,9 @@ import TerminalChrome from './TerminalChrome.astro';
     color: var(--slate-faint);
     font-size: 11px;
   }
-  .tb-flex { flex: 1; }
+  .tb-flex {
+    flex: 1;
+  }
   .tb-share {
     font-weight: 600;
     color: var(--slate-fg);
@@ -530,7 +553,10 @@ import TerminalChrome from './TerminalChrome.astro';
     justify-content: center;
     flex-shrink: 0;
   }
-  .callout-body { display: grid; gap: 1px; }
+  .callout-body {
+    display: grid;
+    gap: 1px;
+  }
   .callout-title {
     color: var(--slate-fg);
     font-size: 12px;
@@ -543,7 +569,10 @@ import TerminalChrome from './TerminalChrome.astro';
     margin: 0;
   }
 
-  .mention { color: var(--teal); text-decoration: none; }
+  .mention {
+    color: var(--teal);
+    text-decoration: none;
+  }
   .ext {
     color: var(--sky-strong);
     text-decoration: underline;
@@ -564,6 +593,8 @@ import TerminalChrome from './TerminalChrome.astro';
     .shell {
       grid-template-columns: 132px 1fr;
     }
-    .pane-channels { display: none; }
+    .pane-channels {
+      display: none;
+    }
   }
 </style>

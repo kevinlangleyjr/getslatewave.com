@@ -15,7 +15,9 @@ import { Resvg } from '@resvg/resvg-js';
 const FONT_ROOT = join(process.cwd(), 'src', 'lib', 'fonts');
 const BRAND_ROOT = join(process.cwd(), 'public', 'brand');
 
-let fontsPromise: Promise<{ name: string; data: Buffer; weight: 400 | 600 | 700; style: 'normal' }[]> | null = null;
+let fontsPromise: Promise<
+  { name: string; data: Buffer; weight: 400 | 600 | 700; style: 'normal' }[]
+> | null = null;
 
 function loadFonts() {
   if (!fontsPromise) {
@@ -161,10 +163,7 @@ function template(
 }
 
 function escapeText(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 export async function renderOgPng(input: OgInput): Promise<Buffer> {

@@ -95,14 +95,23 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     </div>
 
     <div class="diff" role="presentation">
-      {renderedRows.map((r) => (
-        <div class:list={['row', r.kind]}>
-          <span class="gutter"
-            ><span class="ln ln-old">{fmtLn(r.old)}</span><span class="sep">┊</span><span class="ln ln-new">{fmtLn(r.new)}</span><span class="sep">│ </span></span
-          >
-          <span class="code"><span class="code-inner" set:html={r.html || '​'} /></span>
-        </div>
-      ))}
+      {
+        renderedRows.map((r) => (
+          <div class:list={['row', r.kind]}>
+            <span class="gutter">
+              <>
+                <span class="ln ln-old">{fmtLn(r.old)}</span>
+                <span class="sep">┊</span>
+                <span class="ln ln-new">{fmtLn(r.new)}</span>
+                <span class="sep">│ </span>
+              </>
+            </span>
+            <span class="code">
+              <span class="code-inner" set:html={r.html || '​'} />
+            </span>
+          </div>
+        ))
+      }
     </div>
   </div>
 </figure>
@@ -129,7 +138,10 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     color: var(--sw-slate-200);
     font-weight: 700;
   }
-  .glyph { color: var(--sw-teal-300); font-weight: 700; }
+  .glyph {
+    color: var(--sw-teal-300);
+    font-weight: 700;
+  }
 
   .file-rule {
     height: 0;
@@ -156,10 +168,14 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     margin-right: 0.6ch;
     font-weight: 400;
   }
-  .hunk-section { color: var(--sw-teal-300); }
+  .hunk-section {
+    color: var(--sw-teal-300);
+  }
 
   /* Diff rows: gutter (no bg) + code (row-tinted, wraps on whitespace). */
-  .diff { display: block; }
+  .diff {
+    display: block;
+  }
 
   .row {
     display: flex;
@@ -181,10 +197,18 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     text-align: right;
   }
 
-  .sep { color: var(--sw-slate-600); }
+  .sep {
+    color: var(--sw-slate-600);
+  }
 
-  .row.minus .ln-old { color: var(--sw-rose-400); font-weight: 700; }
-  .row.plus .ln-new { color: var(--sw-teal-300); font-weight: 700; }
+  .row.minus .ln-old {
+    color: var(--sw-rose-400);
+    font-weight: 700;
+  }
+  .row.plus .ln-new {
+    color: var(--sw-teal-300);
+    font-weight: 700;
+  }
 
   .code {
     flex: 1 1 0;
@@ -194,10 +218,16 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
     word-break: break-word;
   }
 
-  .code-inner { display: inline; }
+  .code-inner {
+    display: inline;
+  }
 
-  .row.minus .code { background: #3b0e1a; }
-  .row.plus .code { background: #0e3a35; }
+  .row.minus .code {
+    background: #3b0e1a;
+  }
+  .row.plus .code {
+    background: #0e3a35;
+  }
 
   /* Word-level emph: brighter wine / teal on the changed bytes */
   .code :global(.emph-minus) {
@@ -210,10 +240,18 @@ const fmtLn = (n: number | null): string => (n === null ? '  ' : n.toString().pa
   }
 
   @media (max-width: 640px) {
-    .body { font-size: var(--fs-xs); }
+    .body {
+      font-size: var(--fs-xs);
+    }
     .file-header,
-    .hunk-wrap { padding: 0 var(--space-3); }
-    .gutter { padding-left: var(--space-2); }
-    .code { padding-right: var(--space-3); }
+    .hunk-wrap {
+      padding: 0 var(--space-3);
+    }
+    .gutter {
+      padding-left: var(--space-2);
+    }
+    .code {
+      padding-right: var(--space-3);
+    }
   }
 </style>

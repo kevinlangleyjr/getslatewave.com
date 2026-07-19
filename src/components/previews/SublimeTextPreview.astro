@@ -133,9 +133,17 @@ const tree: Node[] = [
     <header class="title-bar" aria-hidden="true">
       <TrafficLightDots />
       <div class="title-center">
-        <svg class="title-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.7">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
+        <svg
+          class="title-icon"
+          viewBox="0 0 24 24"
+          width="11"
+          height="11"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
         </svg>
         <span class="title-file">github.ts</span>
         <span class="title-sep">—</span>
@@ -147,28 +155,44 @@ const tree: Node[] = [
       <aside class="sidebar">
         <div class="sidebar-head">FOLDERS</div>
         <div class="tree">
-          {tree.map((n) => (
-            <div class:list={['node', `type-${n.type}`, { active: n.active }]}>
-              <span class="indent" style={`width:${n.indent * 14}px`}></span>
-              {n.type === 'folder' && (
-                <svg class="ficon folder" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                  <path d="M3 6.5a1.5 1.5 0 0 1 1.5-1.5h4l2 2h9a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/>
-                </svg>
-              )}
-              {n.type === 'root' && (
-                <Fragment>
-                  <svg class="ficon folder" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                    <path d="M3 6.5a1.5 1.5 0 0 1 1.5-1.5h4l2 2h9a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/>
+          {
+            tree.map((n) => (
+              <div class:list={['node', `type-${n.type}`, { active: n.active }]}>
+                <span class="indent" style={`width:${n.indent * 14}px`} />
+                {n.type === 'folder' && (
+                  <svg
+                    class="ficon folder"
+                    viewBox="0 0 24 24"
+                    width="12"
+                    height="12"
+                    fill="currentColor"
+                  >
+                    <path d="M3 6.5a1.5 1.5 0 0 1 1.5-1.5h4l2 2h9a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" />
                   </svg>
-                </Fragment>
-              )}
-              {n.type === 'file' && (
-                <span class="file-spacer"></span>
-              )}
-              <span class="node-name">{n.name}</span>
-              {n.type === 'root' && <span class="root-marker" aria-hidden="true">○</span>}
-            </div>
-          ))}
+                )}
+                {n.type === 'root' && (
+                  <Fragment>
+                    <svg
+                      class="ficon folder"
+                      viewBox="0 0 24 24"
+                      width="12"
+                      height="12"
+                      fill="currentColor"
+                    >
+                      <path d="M3 6.5a1.5 1.5 0 0 1 1.5-1.5h4l2 2h9a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" />
+                    </svg>
+                  </Fragment>
+                )}
+                {n.type === 'file' && <span class="file-spacer" />}
+                <span class="node-name">{n.name}</span>
+                {n.type === 'root' && (
+                  <span class="root-marker" aria-hidden="true">
+                    ○
+                  </span>
+                )}
+              </div>
+            ))
+          }
         </div>
       </aside>
 
@@ -192,9 +216,7 @@ const tree: Node[] = [
 
         <div class="editor">
           <div class="gutter" aria-hidden="true">
-            {lineNumbers.map((n) => (
-              <div class:list={['ln', { active: n === 58 }]}>{n}</div>
-            ))}
+            {lineNumbers.map((n) => <div class:list={['ln', { active: n === 58 }]}>{n}</div>)}
           </div>
           <div class="code-wrap">
             <div class="code" set:html={html} />
@@ -202,9 +224,7 @@ const tree: Node[] = [
           </div>
           <div class="minimap" aria-hidden="true">
             <div class="minimap-viewport"></div>
-            {minimapStyles.map((s) => (
-              <div class="mini-ln" style={s}></div>
-            ))}
+            {minimapStyles.map((s) => <div class="mini-ln" style={s} />)}
           </div>
         </div>
       </section>
@@ -212,16 +232,33 @@ const tree: Node[] = [
 
     <footer class="status-bar" aria-hidden="true">
       <div class="status-left">
-        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="9 6 15 12 9 18"/>
+        <svg
+          viewBox="0 0 24 24"
+          width="11"
+          height="11"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9 6 15 12 9 18"></polyline>
         </svg>
         <span class="status-cell">Line 58, Column 14</span>
       </div>
       <div class="status-right">
         <span class="status-cell">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/>
-            <path d="M6 8v8"/><path d="M8 6h6a4 4 0 0 1 4 4v0"/>
+          <svg
+            viewBox="0 0 24 24"
+            width="11"
+            height="11"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="6" cy="6" r="2"></circle><circle cx="6" cy="18" r="2"></circle><circle
+              cx="18"
+              cy="12"
+              r="2"></circle>
+            <path d="M6 8v8"></path><path d="M8 6h6a4 4 0 0 1 4 4v0"></path>
           </svg>
           main
           <span class="git-counter">2</span>
@@ -271,7 +308,6 @@ const tree: Node[] = [
     color: var(--sw-slate-300);
   }
 
-
   .title-center {
     display: inline-flex;
     align-items: center;
@@ -280,10 +316,19 @@ const tree: Node[] = [
     color: var(--sw-slate-300);
   }
 
-  .title-icon { color: var(--sw-slate-400); }
-  .title-file { color: var(--sw-slate-200); font-weight: 500; }
-  .title-sep { color: var(--sw-slate-600); }
-  .title-project { color: var(--sw-slate-400); }
+  .title-icon {
+    color: var(--sw-slate-400);
+  }
+  .title-file {
+    color: var(--sw-slate-200);
+    font-weight: 500;
+  }
+  .title-sep {
+    color: var(--sw-slate-600);
+  }
+  .title-project {
+    color: var(--sw-slate-400);
+  }
 
   .title-right {
     display: inline-flex;
@@ -348,7 +393,10 @@ const tree: Node[] = [
     color: var(--sw-teal-300);
   }
 
-  .indent { display: inline-block; flex-shrink: 0; }
+  .indent {
+    display: inline-block;
+    flex-shrink: 0;
+  }
 
   .ficon {
     flex-shrink: 0;
@@ -434,7 +482,9 @@ const tree: Node[] = [
   .tab.active::before {
     content: '';
     position: absolute;
-    left: 0; right: 0; top: 0;
+    left: 0;
+    right: 0;
+    top: 0;
     height: 1px;
     background: var(--sw-teal-300);
   }
@@ -444,7 +494,9 @@ const tree: Node[] = [
     font-size: 12px;
   }
 
-  .tab.active .tab-close { color: var(--sw-slate-400); }
+  .tab.active .tab-close {
+    color: var(--sw-slate-400);
+  }
 
   .tab-actions {
     display: inline-flex;
@@ -532,10 +584,11 @@ const tree: Node[] = [
 
   .minimap-viewport {
     position: absolute;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     top: 14px;
     height: 26%;
-    background: rgba(94, 234, 212, 0.10);
+    background: rgba(94, 234, 212, 0.1);
     border-top: 1px solid rgba(94, 234, 212, 0.25);
     border-bottom: 1px solid rgba(94, 234, 212, 0.25);
     pointer-events: none;
@@ -560,14 +613,19 @@ const tree: Node[] = [
     border-top: 1px solid #1a1f28;
   }
 
-  .status-left, .status-right {
+  .status-left,
+  .status-right {
     display: inline-flex;
     align-items: center;
     gap: 18px;
   }
 
-  .status-left { gap: 8px; }
-  .status-left svg { color: var(--sw-teal-300); }
+  .status-left {
+    gap: 8px;
+  }
+  .status-left svg {
+    color: var(--sw-teal-300);
+  }
 
   .status-cell {
     display: inline-flex;
@@ -575,7 +633,9 @@ const tree: Node[] = [
     gap: 5px;
   }
 
-  .status-cell.muted { color: var(--sw-slate-400); }
+  .status-cell.muted {
+    color: var(--sw-slate-400);
+  }
 
   .git-counter {
     color: var(--sw-slate-400);
@@ -584,21 +644,41 @@ const tree: Node[] = [
 
   /* Responsive */
   @media (max-width: 900px) {
-    .editor { grid-template-columns: auto minmax(0, 1fr); }
-    .minimap { display: none; }
+    .editor {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .minimap {
+      display: none;
+    }
   }
 
   @media (max-width: 720px) {
-    .workbench { grid-template-columns: 200px minmax(0, 1fr); }
-    .title-project { display: none; }
-    .title-sep { display: none; }
+    .workbench {
+      grid-template-columns: 200px minmax(0, 1fr);
+    }
+    .title-project {
+      display: none;
+    }
+    .title-sep {
+      display: none;
+    }
   }
 
   @media (max-width: 540px) {
-    .st-preview { padding: var(--space-4) var(--space-3); }
-    .workbench { grid-template-columns: minmax(0, 1fr); }
-    .sidebar { display: none; }
-    .unregistered { display: none; }
-    .status-cell:nth-child(n+3) { display: none; }
+    .st-preview {
+      padding: var(--space-4) var(--space-3);
+    }
+    .workbench {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .sidebar {
+      display: none;
+    }
+    .unregistered {
+      display: none;
+    }
+    .status-cell:nth-child(n + 3) {
+      display: none;
+    }
   }
 </style>

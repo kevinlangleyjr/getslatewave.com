@@ -14,16 +14,52 @@ const supportedThemes = (
 const installCommand = `brew tap kevinlangleyjr/slatewave\nbrew install slatewave`;
 
 const commands: { name: string; description: string }[] = [
-  { name: 'slatewave init', description: 'Interactive setup wizard — detect the tools on this machine, multi-select what to install, and run the install through a live dashboard.' },
-  { name: 'slatewave browse', description: 'Interactive TUI list with filter, install, and uninstall — ↑/↓ to navigate, / to filter, i / u to install or uninstall the focused row.' },
-  { name: 'slatewave list', description: 'Every theme in the family, with ● / ○ markers showing which ones are installed.' },
-  { name: 'slatewave install <theme>', description: 'Install and activate one theme. Add --all to install every shipping theme, or --category=editor to install a category.' },
-  { name: 'slatewave install --interactive', description: 'Live progress dashboard instead of streamed steps — useful for --all or --category.' },
-  { name: 'slatewave install <theme> --dry-run', description: 'Preview the install plan without writing anything.' },
-  { name: 'slatewave update <theme>', description: 'Re-fetch curl assets and git pull clones. --all updates every installed theme.' },
-  { name: 'slatewave uninstall <theme>', description: 'Reverse files, restore backups from before the install, and remove appended shell-rc lines.' },
-  { name: 'slatewave status [theme]', description: 'Show the install footprint and paths for one theme — or every installed theme.' },
-  { name: 'slatewave doctor', description: 'Diagnose drift across installed themes (read-only). Add --fix to interactively remediate stale, missing-tool, or orphan rows.' },
+  {
+    name: 'slatewave init',
+    description:
+      'Interactive setup wizard — detect the tools on this machine, multi-select what to install, and run the install through a live dashboard.',
+  },
+  {
+    name: 'slatewave browse',
+    description:
+      'Interactive TUI list with filter, install, and uninstall — ↑/↓ to navigate, / to filter, i / u to install or uninstall the focused row.',
+  },
+  {
+    name: 'slatewave list',
+    description: 'Every theme in the family, with ● / ○ markers showing which ones are installed.',
+  },
+  {
+    name: 'slatewave install <theme>',
+    description:
+      'Install and activate one theme. Add --all to install every shipping theme, or --category=editor to install a category.',
+  },
+  {
+    name: 'slatewave install --interactive',
+    description:
+      'Live progress dashboard instead of streamed steps — useful for --all or --category.',
+  },
+  {
+    name: 'slatewave install <theme> --dry-run',
+    description: 'Preview the install plan without writing anything.',
+  },
+  {
+    name: 'slatewave update <theme>',
+    description: 'Re-fetch curl assets and git pull clones. --all updates every installed theme.',
+  },
+  {
+    name: 'slatewave uninstall <theme>',
+    description:
+      'Reverse files, restore backups from before the install, and remove appended shell-rc lines.',
+  },
+  {
+    name: 'slatewave status [theme]',
+    description: 'Show the install footprint and paths for one theme — or every installed theme.',
+  },
+  {
+    name: 'slatewave doctor',
+    description:
+      'Diagnose drift across installed themes (read-only). Add --fix to interactively remediate stale, missing-tool, or orphan rows.',
+  },
 ];
 
 const designRules: { title: string; body: string }[] = [
@@ -77,11 +113,17 @@ const initDemoLines = [
   { kind: 'output' as const, text: '  ● ghostty        (v1.0.1)' },
   { kind: 'output' as const, text: '  ● vscode         (1.96.0)' },
   { kind: 'output' as const, text: '  ○ logseq         (not detected — skipped)' },
-  { kind: 'info' as const, text: '? Install Slatewave for which tools? (space to toggle, enter to confirm)' },
+  {
+    kind: 'info' as const,
+    text: '? Install Slatewave for which tools? (space to toggle, enter to confirm)',
+  },
   { kind: 'output' as const, text: '  ◆ bat   ◆ btop   ◆ ghostty   ◆ vscode' },
   { kind: 'ok' as const, text: '✓ bat       installed (curl → ~/.config/bat/themes)' },
   { kind: 'ok' as const, text: '✓ btop      installed (curl → ~/.config/btop/themes)' },
-  { kind: 'ok' as const, text: '✓ ghostty   installed (clone → ~/.config/ghostty/themes/slatewave)' },
+  {
+    kind: 'ok' as const,
+    text: '✓ ghostty   installed (clone → ~/.config/ghostty/themes/slatewave)',
+  },
   { kind: 'ok' as const, text: '✓ vscode    installed (code --install-extension)' },
   { kind: 'info' as const, text: '4 themes installed · 0 errors · run `slatewave status` to view' },
 ];
@@ -98,9 +140,8 @@ const initDemoLines = [
         <p class="eyebrow">CLI</p>
         <h1>One command.<br />Every theme.</h1>
         <p class="tagline">
-          The family installer for Slatewave. One CLI to install, activate,
-          update, and uninstall every theme — backed by per-theme manifests,
-          idempotent activates, and clean uninstalls.
+          The family installer for Slatewave. One CLI to install, activate, update, and uninstall
+          every theme — backed by per-theme manifests, idempotent activates, and clean uninstalls.
         </p>
 
         <p class="hero-beta-note">
@@ -110,8 +151,8 @@ const initDemoLines = [
             href="https://github.com/kevinlangleyjr/slatewave-cli/issues"
             rel="noopener"
             target="_blank"
-            data-simple-event="cta_cli_hero_beta_issues"
-          >Open an issue →</a>
+            data-simple-event="cta_cli_hero_beta_issues">Open an issue →</a
+          >
         </p>
 
         <div id="install" class="install-command">
@@ -132,8 +173,8 @@ const initDemoLines = [
             href="https://github.com/kevinlangleyjr/slatewave-cli/releases"
             rel="noopener"
             target="_blank"
-            data-simple-event="cta_cli_hero_releases"
-          >GitHub releases page →</a>
+            data-simple-event="cta_cli_hero_releases">GitHub releases page →</a
+          >
         </p>
 
         <div class="hero-actions">
@@ -157,38 +198,40 @@ const initDemoLines = [
           </a>
         </div>
 
-        {cliRepo && (cliRepo.stars > 0 || cliRepo.latestRelease) && (
-          <dl class="stats" aria-label="CLI repository activity">
-            {cliRepo.stars > 0 && (
-              <div class="stat">
-                <dt>Stars</dt>
-                <dd>★ {formatStars(cliRepo.stars)}</dd>
-              </div>
-            )}
-            {cliRepo.latestRelease && (
-              <div class="stat">
-                <dt>Latest release</dt>
-                <dd>
-                  <a
-                    href={cliRepo.latestRelease.url}
-                    rel="noopener"
-                    target="_blank"
-                    title={absoluteDate(cliRepo.latestRelease.publishedAt)}
-                  >
-                    {cliRepo.latestRelease.tag}
-                  </a>
-                  <span class="muted"> · {relativeTime(cliRepo.latestRelease.publishedAt)}</span>
-                </dd>
-              </div>
-            )}
-            {cliRepo.pushedAt && (
-              <div class="stat">
-                <dt>Last commit</dt>
-                <dd>{relativeTime(cliRepo.pushedAt)}</dd>
-              </div>
-            )}
-          </dl>
-        )}
+        {
+          cliRepo && (cliRepo.stars > 0 || cliRepo.latestRelease) && (
+            <dl class="stats" aria-label="CLI repository activity">
+              {cliRepo.stars > 0 && (
+                <div class="stat">
+                  <dt>Stars</dt>
+                  <dd>★ {formatStars(cliRepo.stars)}</dd>
+                </div>
+              )}
+              {cliRepo.latestRelease && (
+                <div class="stat">
+                  <dt>Latest release</dt>
+                  <dd>
+                    <a
+                      href={cliRepo.latestRelease.url}
+                      rel="noopener"
+                      target="_blank"
+                      title={absoluteDate(cliRepo.latestRelease.publishedAt)}
+                    >
+                      {cliRepo.latestRelease.tag}
+                    </a>
+                    <span class="muted"> · {relativeTime(cliRepo.latestRelease.publishedAt)}</span>
+                  </dd>
+                </div>
+              )}
+              {cliRepo.pushedAt && (
+                <div class="stat">
+                  <dt>Last commit</dt>
+                  <dd>{relativeTime(cliRepo.pushedAt)}</dd>
+                </div>
+              )}
+            </dl>
+          )
+        }
       </div>
     </header>
 
@@ -198,15 +241,16 @@ const initDemoLines = [
           <p class="eyebrow">What it replaces</p>
           <h2>Stop pasting install rituals.</h2>
           <p class="section-lede">
-            Per-theme manifests encode the install paths, activation steps,
-            and post-hooks for every tool — so you stop curating shell snippets.
+            Per-theme manifests encode the install paths, activation steps, and post-hooks for every
+            tool — so you stop curating shell snippets.
           </p>
         </header>
 
         <div class="comparison">
           <div class="comparison-col">
             <p class="comparison-label">Before</p>
-            <pre class="snippet"><code>{`mkdir -p "$(bat --config-dir)/themes" \\
+            <pre
+              class="snippet"><code>{`mkdir -p "$(bat --config-dir)/themes" \\
  && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/bat-slatewave/main/Slatewave.tmTheme \\
       -o "$(bat --config-dir)/themes/Slatewave.tmTheme" \\
  && bat cache --build \\
@@ -226,9 +270,8 @@ const initDemoLines = [
           <p class="eyebrow">First run</p>
           <h2>Detect, pick, install.</h2>
           <p class="section-lede">
-            <code>slatewave init</code> walks you through the family — only the
-            tools already on this machine are surfaced, and only what you check
-            actually gets installed.
+            <code>slatewave init</code> walks you through the family — only the tools already on this
+            machine are surfaced, and only what you check actually gets installed.
           </p>
         </header>
 
@@ -244,19 +287,21 @@ const initDemoLines = [
           <h2>The full surface area.</h2>
           <p class="section-lede">
             Every command is fully completion-aware in <code>zsh</code>,
-            <code>bash</code>, and <code>fish</code> —
-            theme names autocomplete on <code>install</code>, only installed
-            themes autocomplete on <code>uninstall</code>.
+            <code>bash</code>, and <code>fish</code> — theme names autocomplete on <code
+              >install</code
+            >, only installed themes autocomplete on <code>uninstall</code>.
           </p>
         </header>
 
         <ul class="commands-list">
-          {commands.map((cmd) => (
-            <li class="command-item">
-              <code class="command-name">{cmd.name}</code>
-              <p class="command-desc">{cmd.description}</p>
-            </li>
-          ))}
+          {
+            commands.map((cmd) => (
+              <li class="command-item">
+                <code class="command-name">{cmd.name}</code>
+                <p class="command-desc">{cmd.description}</p>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </section>
@@ -267,19 +312,23 @@ const initDemoLines = [
           <p class="eyebrow">Design rules</p>
           <h2>What it will and won't do.</h2>
           <p class="section-lede">
-            The CLI is opinionated about staying in its lane. These are the four
-            rules every manifest is held to.
+            The CLI is opinionated about staying in its lane. These are the four rules every
+            manifest is held to.
           </p>
         </header>
 
         <ol class="rules-grid">
-          {designRules.map((rule, index) => (
-            <li class="rule-item">
-              <span class="rule-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              <h3>{rule.title}</h3>
-              <p>{rule.body}</p>
-            </li>
-          ))}
+          {
+            designRules.map((rule, index) => (
+              <li class="rule-item">
+                <span class="rule-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <h3>{rule.title}</h3>
+                <p>{rule.body}</p>
+              </li>
+            ))
+          }
         </ol>
       </div>
     </section>
@@ -291,9 +340,8 @@ const initDemoLines = [
           <h2>Runs on macOS, Linux, and Windows.</h2>
           <p class="section-lede">
             Every manifest declares which OSes it works on. The CLI filters
-            <code>list</code>, <code>browse</code>, <code>init</code>, and
-            tab-completion to match — so you only see themes you can actually
-            install. An explicit <code>install</code> for an unsupported
+            <code>list</code>, <code>browse</code>, <code>init</code>, and tab-completion to match —
+            so you only see themes you can actually install. An explicit <code>install</code> for an unsupported
             theme errors out before any side-effects.
           </p>
         </header>
@@ -310,8 +358,8 @@ const initDemoLines = [
             <p class="platform-name">Linux</p>
             <p class="platform-detail">
               Every theme except <code>windows-terminal</code>. Native
-              <code>.deb</code>, <code>.rpm</code>, <code>.apk</code>,
-              and Arch packages on each release.
+              <code>.deb</code>, <code>.rpm</code>, <code>.apk</code>, and Arch packages on each
+              release.
             </p>
             <p class="platform-install">
               <code>brew install slatewave</code>
@@ -320,28 +368,32 @@ const initDemoLines = [
                 href="https://github.com/kevinlangleyjr/slatewave-cli/releases"
                 rel="noopener"
                 target="_blank"
-                data-simple-event="cta_cli_platforms_linux_packages"
-              >grab a distro package →</a>
+                data-simple-event="cta_cli_platforms_linux_packages">grab a distro package →</a
+              >
             </p>
           </li>
           <li class="platform-card">
             <p class="platform-name">Windows</p>
             <p class="platform-detail">
               The {windowsThemes.length} cross-platform manifests today —
-              {windowsThemes.map((theme, i) => (
-                <>
-                  {i > 0 ? (i === windowsThemes.length - 1 ? ', and ' : ', ') : ''}
-                  <a href={`/themes/${theme.data.slug}/`} class="platform-link">{theme.data.shortName}</a>
-                </>
-              ))}.
+              {
+                windowsThemes.map((theme, i) => (
+                  <>
+                    {i > 0 ? (i === windowsThemes.length - 1 ? ', and ' : ', ') : ''}
+                    <a href={`/themes/${theme.data.slug}/`} class="platform-link">
+                      {theme.data.shortName}
+                    </a>
+                  </>
+                ))
+              }.
             </p>
             <p class="platform-install">
               <a
                 href="https://github.com/kevinlangleyjr/slatewave-cli/releases"
                 rel="noopener"
                 target="_blank"
-                data-simple-event="cta_cli_platforms_releases"
-              >Download from Releases →</a>
+                data-simple-event="cta_cli_platforms_releases">Download from Releases →</a
+              >
             </p>
           </li>
         </ul>
@@ -354,25 +406,27 @@ const initDemoLines = [
           <p class="eyebrow">Supported</p>
           <h2>{supportedThemes.length} themes installable today.</h2>
           <p class="section-lede">
-            Every theme listed here ships a <code>slatewave.toml</code> manifest
-            embedded in the CLI. Click any theme to see its detail page — or
-            run <code>slatewave list</code> for the live, machine-readable view.
+            Every theme listed here ships a <code>slatewave.toml</code> manifest embedded in the CLI.
+            Click any theme to see its detail page — or run <code>slatewave list</code> for the live,
+            machine-readable view.
           </p>
         </header>
 
         <ul class="themes-grid">
-          {supportedThemes.map((theme) => (
-            <li>
-              <a
-                href={`/themes/${theme.data.slug}/`}
-                class="theme-pill"
-                data-simple-event={`cli_supported_${theme.data.slug.replace(/-/g, '_')}`}
-              >
-                <span class="theme-pill-name">{theme.data.shortName}</span>
-                <span class="theme-pill-cmd">slatewave install {theme.data.cliSlug}</span>
-              </a>
-            </li>
-          ))}
+          {
+            supportedThemes.map((theme) => (
+              <li>
+                <a
+                  href={`/themes/${theme.data.slug}/`}
+                  class="theme-pill"
+                  data-simple-event={`cli_supported_${theme.data.slug.replace(/-/g, '_')}`}
+                >
+                  <span class="theme-pill-name">{theme.data.shortName}</span>
+                  <span class="theme-pill-cmd">slatewave install {theme.data.cliSlug}</span>
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </section>
@@ -381,15 +435,10 @@ const initDemoLines = [
       <div class="container close-card">
         <h2>Get the CLI.</h2>
         <p class="close-lede">
-          Two repos: the Go binary and the Homebrew tap. WTFPL — do whatever you
-          want with it.
+          Two repos: the Go binary and the Homebrew tap. WTFPL — do whatever you want with it.
         </p>
         <div class="close-actions">
-          <a
-            class="btn btn-primary"
-            href="#install"
-            data-simple-event="cta_cli_close_install"
-          >
+          <a class="btn btn-primary" href="#install" data-simple-event="cta_cli_close_install">
             Back to the install command ↑
           </a>
           <a
@@ -419,28 +468,30 @@ const initDemoLines = [
 <script>
   import { trackEvent } from '~/lib/analytics';
 
-  document.querySelectorAll<HTMLButtonElement>('.cli-page [data-copy-command]').forEach((button) => {
-    const original = button.textContent ?? 'Copy';
-    button.addEventListener('click', async () => {
-      const command = button.dataset.copyCommand;
-      if (!command) return;
-      try {
-        await navigator.clipboard.writeText(command);
-        button.textContent = 'Copied';
-        button.dataset.copied = 'true';
-        trackEvent('cli_install_copy_command');
-        window.setTimeout(() => {
-          button.textContent = original;
-          delete button.dataset.copied;
-        }, 1800);
-      } catch {
-        button.textContent = 'Select manually';
-        window.setTimeout(() => {
-          button.textContent = original;
-        }, 1800);
-      }
+  document
+    .querySelectorAll<HTMLButtonElement>('.cli-page [data-copy-command]')
+    .forEach((button) => {
+      const original = button.textContent ?? 'Copy';
+      button.addEventListener('click', async () => {
+        const command = button.dataset.copyCommand;
+        if (!command) return;
+        try {
+          await navigator.clipboard.writeText(command);
+          button.textContent = 'Copied';
+          button.dataset.copied = 'true';
+          trackEvent('cli_install_copy_command');
+          window.setTimeout(() => {
+            button.textContent = original;
+            delete button.dataset.copied;
+          }, 1800);
+        } catch {
+          button.textContent = 'Select manually';
+          window.setTimeout(() => {
+            button.textContent = original;
+          }, 1800);
+        }
+      });
     });
-  });
 </script>
 
 <style>
@@ -458,7 +509,11 @@ const initDemoLines = [
     content: '';
     position: absolute;
     inset: -20% 30% 0 -10%;
-    background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--page-accent) 22%, transparent), transparent 70%);
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      color-mix(in oklab, var(--page-accent) 22%, transparent),
+      transparent 70%
+    );
     filter: blur(80px);
     pointer-events: none;
   }
@@ -527,7 +582,9 @@ const initDemoLines = [
     font-size: var(--fs-xs);
     font-weight: 600;
     cursor: pointer;
-    transition: background 120ms ease, color 120ms ease;
+    transition:
+      background 120ms ease,
+      color 120ms ease;
   }
 
   .copy-command:hover,
@@ -602,7 +659,11 @@ const initDemoLines = [
     font-size: var(--fs-sm);
     font-weight: 600;
     border: 1px solid transparent;
-    transition: background 120ms ease, border-color 120ms ease, color 120ms ease, transform 120ms ease;
+    transition:
+      background 120ms ease,
+      border-color 120ms ease,
+      color 120ms ease,
+      transform 120ms ease;
   }
 
   .btn-primary {
@@ -935,7 +996,9 @@ const initDemoLines = [
     border-radius: var(--radius-md);
     color: inherit;
     text-decoration: none;
-    transition: border-color 120ms ease, transform 120ms ease;
+    transition:
+      border-color 120ms ease,
+      transform 120ms ease;
     width: 100%;
     align-content: start;
   }
@@ -965,7 +1028,11 @@ const initDemoLines = [
   .close-card {
     padding: var(--space-8);
     background:
-      radial-gradient(circle at 0% 0%, color-mix(in oklab, var(--page-accent) 18%, transparent), transparent 34rem),
+      radial-gradient(
+        circle at 0% 0%,
+        color-mix(in oklab, var(--page-accent) 18%, transparent),
+        transparent 34rem
+      ),
       var(--bg-raised);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
