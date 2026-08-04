@@ -44,8 +44,20 @@ See the [colors page](/colors/) for a visual reference with copy-on-click.
 | Sky 400     | `#38bdf8`  | Keywords, control flow, info         |
 | Rose 400    | `#fb7185`  | Constants, numbers, booleans, errors |
 | Purple      | `#b388ff`  | Language built-ins (`this`, `self`)  |
+| Amber 300   | `#fcd34d`  | Terminal ANSI 11 (bright yellow)     |
 | Amber 400   | `#fbbf24`  | Escape chars, warnings               |
+| Amber 500   | `#f59e0b`  | Terminal ANSI 3 (yellow)             |
 | Amber 700   | `#b45309`  | Secondary warning surfaces           |
+
+The amber ramp carries two independent jobs, and they must not be
+collapsed into one another. Amber 400 and Amber 700 are the **semantic**
+warning pair — escape characters, warning diagnostics, deprecated
+markers — and appear in editor and UI themes. Amber 300 and Amber 500 are
+the **terminal ANSI** yellow pair, slots 11 and 3, and appear only in
+terminal palettes. Terminal themes originally reused the semantic pair,
+but Amber 700 rendered as dark orange next to true ANSI colors, so the
+ANSI slots were re-tuned to Amber 500 / Amber 300 to read as
+yellow / pale-yellow. Editor warning colors deliberately did not move.
 
 ## Semantic roles
 
