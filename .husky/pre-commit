@@ -1,1 +1,17 @@
+# lint-staged runs through its bin shim in node_modules/.bin. pnpm caches
+# install state in node_modules/.pnpm-workspace-state-v1.json, and an
+# interrupted dependency change can leave that cache claiming the tree is
+# current while the shim is actually missing. `pnpm install` then reports
+# "Already up to date" and never recreates it, even with --force. Check for
+# the shim up front so the failure names its own fix instead of surfacing as
+# pnpm's opaque "[ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL] Command not found".
+if [ ! -x node_modules/.bin/lint-staged ]; then
+  echo "pre-commit: node_modules/.bin/lint-staged is missing, so lint-staged cannot run." >&2
+  echo "Your node_modules is out of sync with pnpm-lock.yaml. Repair it with:" >&2
+  echo "" >&2
+  echo "  rm -rf node_modules && pnpm install" >&2
+  echo "" >&2
+  exit 1
+fi
+
 pnpm exec lint-staged
