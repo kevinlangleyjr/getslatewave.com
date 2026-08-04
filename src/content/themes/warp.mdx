@@ -47,8 +47,8 @@ preview:
         white: '#e2e8f0'
 install:
   - label: Slatewave CLI
-    description: One command — clones the theme into Warp's themes directory (`~/.warp/themes/slatewave` on macOS, `~/.local/share/warp-terminal/themes/slatewave` on Linux, `%APPDATA%\warp\Warp\data\themes\slatewave` on Windows). Reverses cleanly with `slatewave uninstall warp`.
-    command: brew install kevinlangleyjr/slatewave/slatewave && slatewave install warp
+    description: One command on macOS, Linux, or Windows — clones the theme into Warp's themes directory (`~/.warp/themes/slatewave` on macOS, `~/.local/share/warp-terminal/themes/slatewave` on Linux, `%APPDATA%\warp\Warp\data\themes\slatewave` on Windows). Reverses cleanly with `slatewave uninstall warp`.
+    command: slatewave install warp
   - label: curl (macOS)
     description: Drop the theme file into Warp's macOS themes directory.
     command: mkdir -p ~/.warp/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/warp-slatewave/main/slatewave.yaml -o ~/.warp/themes/slatewave.yaml
@@ -61,9 +61,11 @@ install:
       - New-Item -ItemType Directory -Force -Path "$env:APPDATA\warp\Warp\data\themes"
       - Invoke-WebRequest -Uri https://raw.githubusercontent.com/kevinlangleyjr/warp-slatewave/main/slatewave.yaml -OutFile "$env:APPDATA\warp\Warp\data\themes\slatewave.yaml"
   - label: Clone
-    description: Warp scans its themes directory recursively, so the whole repo can live in a subdirectory — the README and LICENSE alongside the YAML are ignored.
+    description: Warp scans its themes directory recursively, so the whole repo can live in a subdirectory — the README and LICENSE alongside the YAML are ignored. Clone into the themes directory for your platform.
     steps:
-      - git clone https://github.com/kevinlangleyjr/warp-slatewave ~/.warp/themes/slatewave
+      - 'macOS — git clone https://github.com/kevinlangleyjr/warp-slatewave ~/.warp/themes/slatewave'
+      - 'Linux — git clone https://github.com/kevinlangleyjr/warp-slatewave "${XDG_DATA_HOME:-$HOME/.local/share}/warp-terminal/themes/slatewave"'
+      - 'Windows (PowerShell) — git clone https://github.com/kevinlangleyjr/warp-slatewave "$env:APPDATA\warp\Warp\data\themes\slatewave"'
   - label: Activate
     description: Warp watches its themes directory, so a new theme file shows up without a restart.
     steps:
@@ -83,6 +85,8 @@ already-dark background.
 The accent does double duty here: teal-300 `#5eead4` is the cursor, the
 selected-block highlight, the command-search match, and the active tab
 underline. The ANSI block mirrors `terminal.ansi*` from the VSCode
-Slatewave theme, so `ls --color`, `git diff`, and any 256-color TUI read
-identically whether you're in the editor or in Warp. Pairs cleanly with
-the `slatewave-omp` prompt on top.
+Slatewave theme, so `ls --color`, `git diff`, and anything else painting
+with the 16 ANSI colors read identically whether you're in the editor or
+in Warp. Indexes 16–255 aren't part of Warp's theme schema, so
+256-color output stays on Warp's built-in cube. Pairs cleanly with the
+`slatewave-omp` prompt on top.
