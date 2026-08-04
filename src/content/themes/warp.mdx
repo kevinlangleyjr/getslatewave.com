@@ -1,0 +1,88 @@
+---
+name: Slatewave for Warp
+shortName: Warp
+slug: warp
+cliSlug: warp
+category: terminal
+tagline: One YAML file for Warp — background, foreground, accent, cursor, and all 16 ANSI slots.
+summary: >-
+  A single-file Warp theme covering the 16 ANSI colors plus background,
+  foreground, accent, and cursor. Warp derives its own chrome — input
+  box, block borders, tab bar — from the slate background, and the ANSI
+  block mirrors the VSCode Slatewave theme so editor and terminal share
+  one color vocabulary.
+status: beta
+order: 49.5
+accent: '#5eead4'
+repo:
+  owner: kevinlangleyjr
+  name: warp-slatewave
+  url: https://github.com/kevinlangleyjr/warp-slatewave
+  defaultBranch: main
+links:
+  download: https://raw.githubusercontent.com/kevinlangleyjr/warp-slatewave/main/slatewave.yaml
+preview:
+  kind: code
+  language: yaml
+  sample: |
+    # ~/.warp/themes/slatewave.yaml
+    name: Slatewave
+    details: darker
+
+    background: '#282c34'
+    foreground: '#e2e8f0'
+
+    accent: '#5eead4'
+    cursor: '#5eead4'
+
+    terminal_colors:
+      normal:
+        black: '#1e293b'
+        red: '#fb7185'
+        green: '#5eead4'
+        yellow: '#f59e0b'
+        blue: '#38bdf8'
+        magenta: '#b388ff'
+        cyan: '#0e7490'
+        white: '#e2e8f0'
+install:
+  - label: Slatewave CLI
+    description: One command — clones the theme into Warp's themes directory (`~/.warp/themes/slatewave` on macOS, `~/.local/share/warp-terminal/themes/slatewave` on Linux, `%APPDATA%\warp\Warp\data\themes\slatewave` on Windows). Reverses cleanly with `slatewave uninstall warp`.
+    command: brew install kevinlangleyjr/slatewave/slatewave && slatewave install warp
+  - label: curl (macOS)
+    description: Drop the theme file into Warp's macOS themes directory.
+    command: mkdir -p ~/.warp/themes && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/warp-slatewave/main/slatewave.yaml -o ~/.warp/themes/slatewave.yaml
+  - label: curl (Linux)
+    description: Warp follows XDG on Linux, so the themes directory lives under ~/.local/share.
+    command: mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/warp-terminal/themes" && curl -fsSL https://raw.githubusercontent.com/kevinlangleyjr/warp-slatewave/main/slatewave.yaml -o "${XDG_DATA_HOME:-$HOME/.local/share}/warp-terminal/themes/slatewave.yaml"
+  - label: PowerShell (Windows)
+    description: Warp on Windows keeps themes under %APPDATA%.
+    steps:
+      - New-Item -ItemType Directory -Force -Path "$env:APPDATA\warp\Warp\data\themes"
+      - Invoke-WebRequest -Uri https://raw.githubusercontent.com/kevinlangleyjr/warp-slatewave/main/slatewave.yaml -OutFile "$env:APPDATA\warp\Warp\data\themes\slatewave.yaml"
+  - label: Clone
+    description: Warp scans its themes directory recursively, so the whole repo can live in a subdirectory — the README and LICENSE alongside the YAML are ignored.
+    steps:
+      - git clone https://github.com/kevinlangleyjr/warp-slatewave ~/.warp/themes/slatewave
+  - label: Activate
+    description: Warp watches its themes directory, so a new theme file shows up without a restart.
+    steps:
+      - Open Settings → Appearance → Themes, or run "Open Theme Picker" from the command palette
+      - Pick Slatewave
+tags: [terminal, warp]
+related: [ghostty, kitty, alacritty]
+---
+
+Warp's theme schema is deliberately small — a background, a foreground,
+an accent, a cursor, and the 16 ANSI slots — and Warp derives the rest of
+its chrome from those. Slatewave sets `details: darker` so the input box,
+block borders, and tab bar are darkened out of slate `#282c34` rather
+than lightened, which keeps the chrome from washing out against an
+already-dark background.
+
+The accent does double duty here: teal-300 `#5eead4` is the cursor, the
+selected-block highlight, the command-search match, and the active tab
+underline. The ANSI block mirrors `terminal.ansi*` from the VSCode
+Slatewave theme, so `ls --color`, `git diff`, and any 256-color TUI read
+identically whether you're in the editor or in Warp. Pairs cleanly with
+the `slatewave-omp` prompt on top.
