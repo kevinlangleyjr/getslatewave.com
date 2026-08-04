@@ -1,13 +1,39 @@
 name: Refresh GitHub stats
 
+# The changelog, theme cards, and activity panels are built from the GitHub
+# API at build time, so the site only learns about a new release when it
+# rebuilds. Three triggers:
+#
+#   schedule            — daily floor, catches anything the others missed
+#   workflow_dispatch   — manual "rebuild now" button
+#   repository_dispatch — fired by slatewave-cli's release workflow the
+#                         moment a release publishes, so a release doesn't
+#                         sit invisible until the next cron
 on:
   schedule:
     - cron: '0 10 * * *'
   workflow_dispatch:
+  repository_dispatch:
+    types: [release-published]
 
 jobs:
   trigger-rebuild:
     runs-on: ubuntu-latest
     steps:
       - name: POST Netlify build hook
-        run: curl -fsSL -X POST -d {} "${{ secrets.NETLIFY_BUILD_HOOK_URL }}"
+        # Netlify exposes a build hook's POST body to the build as
+        # INCOMING_HOOK_BODY, but only when it arrives as JSON — hence the
+        # explicit Content-Type, which the previous `-d {}` form lacked.
+        # src/lib/github.ts reads that body and bypasses its 30-minute API
+        # cache when reason=release, because a release-triggered rebuild
+        # usually lands inside the TTL of the build that merged the release
+        # PR. Without the bypass it would re-serve the pre-release data it
+        # already had, and look like a successful no-op deploy.
+        env:
+          REASON: ${{ github.event_name == 'repository_dispatch' && 'release' || 'scheduled' }}
+          TAG: ${{ github.event.client_payload.tag }}
+        run: |
+          curl -fsSL -X POST \
+            -H "Content-Type: application/json" \
+            -d "$(jq -nc --arg reason "$REASON" --arg tag "$TAG" '{reason:$reason,tag:$tag}')" \
+            "${{ secrets.NETLIFY_BUILD_HOOK_URL }}"

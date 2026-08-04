@@ -9,6 +9,9 @@
  * 30-minute TTL so dev hot-reloads don't burn API quota. On a rate-limit
  * hit we fall back to whatever's in the cache regardless of age, so a
  * 403/429 stops degrading the page rather than blanking the metadata.
+ *
+ * A release-triggered rebuild bypasses the TTL entirely — see
+ * `skipFreshCache` for why the cache is actively harmful in that case.
  */
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -16,6 +19,38 @@ import { join } from 'node:path';
 
 const CACHE_DIR = join(process.cwd(), 'node_modules', '.cache', 'slatewave-github');
 const TTL_MS = 30 * 60 * 1000;
+
+/**
+ * Whether to skip the fresh-TTL cache read and force a live API fetch.
+ *
+ * The cache lives under `node_modules/`, which Netlify restores between
+ * builds, so a rebuild triggered minutes after the last one reads its own
+ * still-warm cache and reproduces the previous build's data. That is
+ * exactly wrong for a release-triggered rebuild: the release is newer than
+ * the cache entry, so honoring the TTL would republish a changelog that
+ * omits the release we are rebuilding for.
+ *
+ * `INCOMING_HOOK_BODY` is Netlify's passthrough of the build hook's POST
+ * body; `.github/workflows/refresh-stats.yml` sets `reason: "release"` when
+ * slatewave-cli's release workflow fired the dispatch. `SLATEWAVE_GITHUB_CACHE=off`
+ * is the manual escape hatch for local debugging.
+ *
+ * Only the TTL read is bypassed — `readStaleCache` still backstops a
+ * rate-limit, so a forced-fresh build that gets 403'd degrades to stale
+ * data rather than blanking the page.
+ */
+function skipFreshCache(): boolean {
+  if (process.env.SLATEWAVE_GITHUB_CACHE === 'off') return true;
+  const body = process.env.INCOMING_HOOK_BODY;
+  if (!body) return false;
+  try {
+    return (JSON.parse(body) as { reason?: string }).reason === 'release';
+  } catch {
+    // A non-JSON hook body is not an error — scheduled and manual builds
+    // may send anything (or nothing). Fall back to normal caching.
+    return false;
+  }
+}
 
 // Warn once at module load if no token is set — the slatewave site fetches
 // metadata for ~26 repos × 2 endpoints per build, which exceeds the
@@ -51,6 +86,7 @@ function cacheKey(parts: string[]): string {
 }
 
 async function readCache<T>(key: string): Promise<T | null> {
+  if (skipFreshCache()) return null;
   try {
     const raw = await readFile(join(CACHE_DIR, `${key}.json`), 'utf8');
     const parsed = JSON.parse(raw) as { data: T; at: number };
